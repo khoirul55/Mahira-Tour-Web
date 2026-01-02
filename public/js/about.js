@@ -1,0 +1,172 @@
+
+
+
+// Counter Animation
+function animateCounter() {
+    const counters = document.querySelectorAll('.stat-number');
+    
+    counters.forEach(counter => {
+        const target = parseFloat(counter.getAttribute('data-target'));
+        if (!target) return;
+        
+        const increment = target / 100;
+        let current = 0;
+        
+        const updateCounter = () => {
+            if (current < target) {
+                current += increment;
+                counter.textContent = Math.ceil(current) + '+';
+                requestAnimationFrame(updateCounter);
+            } else {
+                counter.textContent = target + '+';
+            }
+        };
+        
+        updateCounter();
+    });
+}
+
+// Intersection Observer for animation trigger
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            animateCounter();
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.5 });
+
+
+
+
+// Transform data untuk koordinat
+const branchesWithCoords = [
+    {id: 1, name: "Sungai Penuh", region: "Jambi", address: "Jl. Muradi, Desa Koto Keras, Kecamatan Pesisir Bukit", phone: "082184515310", coordinates: [-2.0621, 101.3953], isMain: true},
+    {id: 2, name: "Padang", region: "Sumatera Barat", address: "Jl. Raya Taruko 1 / Manunggal 3 No 66 A", coordinates: [-0.9471, 100.4172], isMain: false},
+    {id: 3, name: "Jambi", region: "Jambi", address: "Jl. Sunan Gunung Djati RT.28, Kenali Asam", coordinates: [-1.6101, 103.6131], isMain: false},
+    {id: 4, name: "Jakarta", region: "DKI Jakarta", address: "Jl. Regal Amba No 8, Jakarta Timur", coordinates: [-6.2088, 106.8456], isMain: false},
+    {id: 5, name: "Padang Utara", region: "Sumatera Barat", address: "Jl. Peloponegon, Gang L No. 4", coordinates: [-0.9199, 100.3543], isMain: false},
+    {id: 6, name: "Bengkulu", region: "Bengkulu", address: "Jl. Sentang 4, Tanah Patah", coordinates: [-3.7928, 102.2608], isMain: false},
+    {id: 7, name: "Merangin", region: "Jambi", address: "Muara Panas Rantai, Tanah Hombun", coordinates: [-2.0833, 101.6833], isMain: false}
+];
+
+// Initialize map
+const map = L.map('map').setView([-1.5, 102], 6);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 19
+}).addTo(map);
+
+const markers = {};
+
+function createCustomIcon(isMain) {
+    return L.divIcon({
+        className: 'custom-div-icon',
+        html: `<div class="custom-marker ${isMain ? 'main' : ''}">
+                <i class="bi bi-${isMain ? 'building-fill' : 'geo-alt-fill'}"></i>
+              </div>`,
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+        popupAnchor: [0, -40]
+    });
+}
+
+function createPopupContent(branch) {
+    return `
+        <div class="popup-header ${branch.isMain ? 'featured' : ''}">
+            ${branch.isMain ? '<div class="popup-badge">Kantor Pusat</div>' : ''}
+            <h4>${branch.name}</h4>
+        </div>
+        <div class="popup-body">
+            <div class="popup-info">
+                <i class="bi bi-geo-alt-fill"></i>
+                <span>${branch.address}</span>
+            </div>
+            ${branch.phone ? `
+                <div class="popup-actions">
+                    <a href="tel:${branch.phone}" class="popup-btn primary">
+                        <i class="bi bi-telephone-fill"></i> Hubungi
+                    </a>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=${branch.coordinates[0]},${branch.coordinates[1]}" 
+                       target="_blank" class="popup-btn secondary">
+                        <i class="bi bi-compass"></i> Rute
+                    </a>
+                </div>
+            ` : `
+                <div class="popup-actions">
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=${branch.coordinates[0]},${branch.coordinates[1]}" 
+                       target="_blank" class="popup-btn primary">
+                        <i class="bi bi-compass"></i> Lihat Rute
+                    </a>
+                </div>
+            `}
+        </div>
+    `;
+}
+
+branchesWithCoords.forEach(branch => {
+    const marker = L.marker(branch.coordinates, {
+        icon: createCustomIcon(branch.isMain)
+    }).addTo(map);
+    
+    marker.bindPopup(createPopupContent(branch), {
+        maxWidth: 300,
+        className: 'custom-popup'
+    });
+    
+    markers[branch.id] = marker;
+});
+
+function renderBranchList(filteredBranches = branchesWithCoords) {
+    const listHTML = filteredBranches.map(branch => `
+        <div class="branch-list-item ${branch.isMain ? 'featured' : ''}" 
+             onclick="focusBranch(${branch.id})">
+            ${branch.isMain ? '<div class="branch-badge">Kantor Pusat</div>' : ''}
+            <h4>
+                <i class="bi bi-${branch.isMain ? 'building-fill' : 'geo-alt-fill'}"></i>
+                ${branch.name}
+            </h4>
+            <p>${branch.region}</p>
+        </div>
+    `).join('');
+    
+    document.getElementById('branchList').innerHTML = listHTML;
+}
+
+function focusBranch(branchId) {
+    const branch = branchesWithCoords.find(b => b.id === branchId);
+    map.flyTo(branch.coordinates, 13, {duration: 1.5});
+    
+    setTimeout(() => {
+        markers[branchId].openPopup();
+    }, 1500);
+}
+
+document.getElementById('searchInput').addEventListener('input', (e) => {
+    const keyword = e.target.value.toLowerCase();
+    const filtered = branchesWithCoords.filter(b => 
+        b.name.toLowerCase().includes(keyword) ||
+        b.region.toLowerCase().includes(keyword)
+    );
+    renderBranchList(filtered);
+});
+
+renderBranchList();
+
+setTimeout(() => {
+    focusBranch(1);
+}, 1000);
+// Lazy load background images
+const lazyBackgrounds = document.querySelectorAll('.lazy-bg');
+
+const bgObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('loaded');
+            bgObserver.unobserve(entry.target);
+        }
+    });
+});
+
+lazyBackgrounds.forEach(bg => bgObserver.observe(bg));
