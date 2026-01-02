@@ -45,7 +45,7 @@
     </div>
 </section>
 
-<!-- Schedule Grid with Flyers -->
+<!-- Schedule Grid with Modal Trigger -->
 <section class="py-5" style="padding: 80px 0; background: var(--white);">
     <div class="container">
         <div class="row g-4">
@@ -76,13 +76,11 @@
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ ($loop->index + 1) * 50 }}">
                 <div class="flyer-card" 
                      data-route="{{ $schedule['departure_route'] }}"
-                     data-airline="{{ $schedule['airline'] }}"
-                     data-date="{{ date('d M Y', strtotime($schedule['departure_date'])) }}"
                      data-schedule-id="{{ $schedule['id'] }}">
                     
-                    <!-- Flyer Image (Clickable) -->
+                    <!-- Flyer Image (Clickable to Modal) -->
                     <div class="flyer-image-container" 
-                         onclick="openFlyerModal('{{ asset('storage/flyers/' . $schedule['flyer_image']) }}', '{{ $schedule['package_name'] }}', '{{ date('d M Y', strtotime($schedule['departure_date'])) }} • {{ $schedule['departure_route'] }} • {{ $schedule['airline'] }}')">
+                         onclick="openDetailModal({{ $schedule['id'] }})">
                         <img src="{{ asset('storage/flyers/' . $schedule['flyer_image']) }}" 
                              alt="{{ $schedule['package_name'] }}" 
                              class="flyer-image"
@@ -94,10 +92,10 @@
                             {{ $statusText }}
                         </span>
                         
-                        <!-- Zoom Hint -->
-                        <div class="flyer-zoom-hint">
-                            <i class="bi bi-zoom-in"></i>
-                            Klik untuk perbesar
+                        <!-- Click Hint -->
+                        <div class="flyer-click-hint">
+                            <i class="bi bi-eye"></i>
+                            Lihat Detail
                         </div>
                     </div>
                     
@@ -139,10 +137,10 @@
                             </button>
                             @endif
                             
-                            <button class="btn-view-flyer" 
-                                    onclick="openFlyerModal('{{ asset('storage/flyers/' . $schedule['flyer_image']) }}', '{{ $schedule['package_name'] }}', '{{ date('d M Y', strtotime($schedule['departure_date'])) }} • {{ $schedule['departure_route'] }} • {{ $schedule['airline'] }}')">
-                                <i class="bi bi-eye"></i>
-                                Lihat Detail Flyer
+                            <button class="btn-view-detail" 
+                                    onclick="openDetailModal({{ $schedule['id'] }})">
+                                <i class="bi bi-info-circle"></i>
+                                Lihat Detail Paket
                             </button>
                         </div>
                     </div>
@@ -161,18 +159,115 @@
     </div>
 </section>
 
-<!-- Flyer Modal -->
-<div id="flyerModal" class="flyer-modal">
-    <span class="modal-close" onclick="closeFlyerModal()">&times;</span>
-    <div class="modal-content-wrapper">
-        <img id="flyerModalImg" src="" alt="Flyer Detail" class="modal-flyer-image">
-        <div class="modal-info">
-            <h3 id="flyerModalTitle"></h3>
-            <p id="flyerModalMeta"></p>
+<!-- Detail Modal (FIXED) -->
+<div id="detailModal" class="detail-modal">
+    <div class="modal-overlay" onclick="closeDetailModal()"></div>
+    
+    <div class="modal-drawer">
+        <!-- Header -->
+        <div class="modal-header-custom">
+            <button class="modal-close-btn" onclick="closeDetailModal()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+            <h4 id="modalPackageName">Paket Detail</h4>
+            <a href="{{ route('register') }}" id="modalRegisterBtn" class="btn-modal-register">
+                <i class="bi bi-pencil-square"></i> Daftar
+            </a>
+        </div>
+        
+        <!-- Content -->
+        <div class="modal-body-custom">
+            <!-- Flyer Image -->
+            <div class="modal-flyer-section">
+                <img id="modalFlyerImage" src="" alt="Package Flyer" class="modal-flyer-img">
+            </div>
+            
+            <!-- Package Details -->
+            <div class="modal-details-section">
+                <div class="detail-group">
+                    <div class="detail-icon">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+                    <div class="detail-content">
+                        <small>Keberangkatan</small>
+                        <strong id="modalDepartureDate">-</strong>
+                    </div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-icon">
+                        <i class="bi bi-calendar-x"></i>
+                    </div>
+                    <div class="detail-content">
+                        <small>Kepulangan</small>
+                        <strong id="modalReturnDate">-</strong>
+                    </div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-icon">
+                        <i class="bi bi-geo-alt-fill"></i>
+                    </div>
+                    <div class="detail-content">
+                        <small>Jalur Keberangkatan</small>
+                        <strong id="modalRoute">-</strong>
+                    </div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-icon">
+                        <i class="bi bi-airplane-fill"></i>
+                    </div>
+                    <div class="detail-content">
+                        <small>Maskapai</small>
+                        <strong id="modalAirline">-</strong>
+                    </div>
+                </div>
+                
+                <div class="detail-group price-highlight">
+                    <div class="detail-icon">
+                        <i class="bi bi-tag-fill"></i>
+                    </div>
+                    <div class="detail-content">
+                        <small>Harga Paket</small>
+                        <strong id="modalPrice" class="text-gold">-</strong>
+                    </div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-icon">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <div class="detail-content">
+                        <small>Ketersediaan</small>
+                        <strong id="modalAvailability">-</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Info Note -->
+            <div class="modal-info-note">
+                <i class="bi bi-info-circle-fill"></i>
+                <div>
+                    <strong>Informasi Lengkap</strong>
+                    <p>Untuk detail fasilitas, itinerary, dan syarat ketentuan lengkap, silakan hubungi tim kami atau klik tombol daftar untuk konsultasi.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer CTA -->
+        <div class="modal-footer-custom">
+            <a href="https://wa.me/6282184515310?text=Assalamualaikum%20Mahira%20Tour%2C%20saya%20ingin%20konsultasi%20paket%20umrah"  class="btn-modal-wa" target="_blank">
+                <i class="bi bi-whatsapp"></i>
+                Konsultasi via WA
+            </a>
+            <a href="{{ route('register') }}" id="modalRegisterBtnBottom" class="btn-modal-register-main">
+                <i class="bi bi-pencil-square"></i>
+                Daftar Sekarang
+            </a>
         </div>
     </div>
 </div>
-
 <!-- Info Section -->
 <section class="info-card-section">
     <div class="container">

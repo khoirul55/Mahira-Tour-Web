@@ -5,19 +5,101 @@ AOS.init({
     offset: 100
 });
 
+// ===== SCHEDULE DATA =====
+const schedulesData = {
+    1: {
+        id: 1,
+        package_name: 'Paket Berkah - Special Promo',
+        departure_date: '2026-01-24',
+        return_date: '2026-02-04',
+        departure_route: 'Start Padang',
+        price: 28900000,
+        airline: 'Padang - Kull - Jeddah',
+        flyer_image: 'flyer-umrah-januari-2026.jpg',
+        quota: 45,
+        seats_taken: 12,
+        status: 'available'
+    },
+    2: {
+        id: 2,
+        package_name: 'Paket Mahabbah - Special Promo',
+        departure_date: '2026-01-24',
+        return_date: '2026-02-04',
+        departure_route: 'Start Padang',
+        price: 31500000,
+        airline: 'Padang - Kull - Jeddah',
+        flyer_image: 'flyer-umrah-januari-2026.jpg',
+        quota: 40,
+        seats_taken: 18,
+        status: 'available'
+    },
+    3: {
+        id: 3,
+        package_name: 'Paket Gold - Special Promo',
+        departure_date: '2026-01-24',
+        return_date: '2026-02-04',
+        departure_route: 'Start Padang',
+        price: 35500000,
+        airline: 'Padang - Kull - Jeddah',
+        flyer_image: 'flyer-umrah-januari-2026.jpg',
+        quota: 35,
+        seats_taken: 8,
+        status: 'available'
+    },
+    4: {
+        id: 4,
+        package_name: 'Umrah Awal Ramadhan',
+        departure_date: '2026-02-23',
+        return_date: '2026-03-06',
+        departure_route: 'Start Padang',
+        price: 38900000,
+        airline: 'PDG - JED (Terbang Langsung)',
+        flyer_image: 'flyer-umrah-ramadhan-2026.jpg',
+        quota: 45,
+        seats_taken: 28,
+        status: 'almost_full'
+    },
+    5: {
+        id: 5,
+        package_name: 'Paket Reguler - Keberangkatan Syawal',
+        departure_date: '2026-02-23',
+        return_date: '2026-03-04',
+        departure_route: 'Start Padang',
+        price: 29900000,
+        airline: 'Batik Air',
+        flyer_image: 'flyer-umrah-syawal-2026.jpg',
+        quota: 40,
+        seats_taken: 8,
+        status: 'available'
+    },
+    6: {
+        id: 6,
+        package_name: 'Paket Gold 5⭐ - Keberangkatan Syawal',
+        departure_date: '2026-02-23',
+        return_date: '2026-03-04',
+        departure_route: 'Start Padang',
+        price: 35900000,
+        airline: 'Batik Air',
+        flyer_image: 'flyer-umrah-syawal-2026.jpg',
+        quota: 35,
+        seats_taken: 15,
+        status: 'available'
+    }
+};
+
 // ===== FILTER FUNCTIONALITY =====
 document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', function() {
-        // Update active state
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
         
         const filter = this.dataset.filter;
-        const items = document.querySelectorAll('.package-item');
+        const items = document.querySelectorAll('.flyer-card');
         
         items.forEach(item => {
-            if (filter === 'all' || item.dataset.type === filter) {
-                item.style.display = 'block';
+            const route = item.dataset.route;
+            if (filter === 'all' || route === filter) {
+                item.parentElement.style.display = 'block';
                 setTimeout(() => {
                     item.style.opacity = '1';
                     item.style.transform = 'scale(1)';
@@ -26,59 +108,88 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
                 item.style.opacity = '0';
                 item.style.transform = 'scale(0.9)';
                 setTimeout(() => {
-                    item.style.display = 'none';
+                    item.parentElement.style.display = 'none';
                 }, 300);
             }
         });
     });
 });
 
-// ===== FLYER MODAL SYSTEM =====
-function openFlyerModal(imageSrc, title, meta) {
-    const modal = document.getElementById('flyerModal');
-    const img = document.getElementById('flyerModalImg');
-    const titleEl = document.getElementById('flyerModalTitle');
-    const metaEl = document.getElementById('flyerModalMeta');
-    
-    if (!modal || !img) {
-        console.error('Modal elements not found');
+// ===== DETAIL MODAL SYSTEM =====
+function openDetailModal(scheduleId) {
+    const schedule = schedulesData[scheduleId];
+    if (!schedule) {
+        console.error('Schedule not found:', scheduleId);
         return;
     }
+    
+    const modal = document.getElementById('detailModal');
+    
+    // Populate modal content
+    document.getElementById('modalPackageName').textContent = schedule.package_name;
+    document.getElementById('modalFlyerImage').src = `/storage/flyers/${schedule.flyer_image}`;
+    document.getElementById('modalFlyerImage').alt = schedule.package_name;
+    
+    // Format dates
+    const departureDate = formatDate(schedule.departure_date);
+    const returnDate = formatDate(schedule.return_date);
+    
+    document.getElementById('modalDepartureDate').textContent = departureDate;
+    document.getElementById('modalReturnDate').textContent = returnDate;
+    document.getElementById('modalRoute').textContent = schedule.departure_route;
+    document.getElementById('modalAirline').textContent = schedule.airline;
+    document.getElementById('modalPrice').textContent = formatPrice(schedule.price);
+    
+    // Availability
+    const available = schedule.quota - schedule.seats_taken;
+    const statusText = schedule.status === 'full' 
+        ? '❌ Kuota Penuh' 
+        : `✅ ${available} Kursi Tersedia`;
+    document.getElementById('modalAvailability').textContent = statusText;
+    
+    // Update register buttons
+    const registerUrl = `/register?schedule_id=${scheduleId}`;
+    document.getElementById('modalRegisterBtn').href = registerUrl;
+    document.getElementById('modalRegisterBtnBottom').href = registerUrl;
     
     // Show modal
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
     
-    // Set content
-    img.src = imageSrc;
-    img.alt = title;
-    
-    if (titleEl) titleEl.textContent = title;
-    if (metaEl) metaEl.textContent = meta;
+    // Add click listener to flyer for zoom
+    const flyerImg = document.getElementById('modalFlyerImage');
+    flyerImg.onclick = function() {
+        this.classList.toggle('zoomed');
+    };
 }
 
-function closeFlyerModal() {
-    const modal = document.getElementById('flyerModal');
-    if (!modal) return;
-    
+function closeDetailModal() {
+    const modal = document.getElementById('detailModal');
     modal.classList.remove('active');
     document.body.style.overflow = 'auto';
 }
 
-// Close modal with Escape key
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        const modal = document.getElementById('flyerModal');
-        if (modal && modal.classList.contains('active')) {
-            closeFlyerModal();
-        }
-    }
-});
+// ===== HELPER FUNCTIONS =====
+function formatDate(dateString) {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
+}
 
-// Close when clicking outside
-document.getElementById('flyerModal')?.addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeFlyerModal();
+function formatPrice(price) {
+    return 'Rp ' + price.toLocaleString('id-ID');
+}
+
+// ===== KEYBOARD SHORTCUTS =====
+document.addEventListener('keydown', function(e) {
+    const modal = document.getElementById('detailModal');
+    
+    // ESC to close
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeDetailModal();
     }
 });
 

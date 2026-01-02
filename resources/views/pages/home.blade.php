@@ -209,7 +209,7 @@
                                 <span class="price-label">Mulai dari</span>
                                 <span class="price-value">Rp 28 Juta</span>
                             </div>
-                            <a href="{{ route('package.detail', 1) }}" class="btn-package">Lihat Detail</a>
+                            <a href="{{ route('schedule', 1) }}" class="btn-package">Lihat Detail</a>
                         </div>
                     </div>
                 </div>
@@ -241,7 +241,7 @@
                                 <span class="price-label">Mulai dari</span>
                                 <span class="price-value">Rp 38 Juta</span>
                             </div>
-                            <a href="{{ route('package.detail', 2) }}" class="btn-package">Lihat Detail</a>
+                            <a href="{{ route('schedule', 2) }}" class="btn-package">Lihat Detail</a>
                         </div>
                     </div>
                 </div>
@@ -273,7 +273,7 @@
                                 <span class="price-label">Mulai dari</span>
                                 <span class="price-value">Rp 29 Juta</span>
                             </div>
-                            <a href="{{ route('package.detail', 3) }}" class="btn-package">Lihat Detail</a>
+                            <a href="{{ route('schedule', 3) }}" class="btn-package">Lihat Detail</a>
                         </div>
                     </div>
                 </div>

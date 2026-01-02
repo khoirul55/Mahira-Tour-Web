@@ -3,21 +3,15 @@
 use App\Http\Controllers\AboutController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GalleryController;
-use App\Http\Controllers\PackageDetailController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\TestimonialController;
-use App\Http\Controllers\FAQController;
 use App\Http\Controllers\HomeController;
 
 /**
  * ========================================
  * MAHIRA TOUR - FRONTEND ROUTES
- * ========================================
- * Travel Umrah & Wisata Halal
- * Berdasarkan Company Profile Resmi
- * Menggunakan Closure Route
  * ========================================
  */
 
@@ -25,38 +19,14 @@ use App\Http\Controllers\HomeController;
 // HALAMAN UTAMA (PUBLIC)
 // ============================================
 
-/**
- * Halaman Beranda
- * URL: /
- */
-Route::get('/', [HomeController::class, 'index'])
-    ->name('home');
-/**
- * Halaman Tentang Kami
- * URL: /tentang-kami
- */
-Route::get('/tentang-kami', [AboutController::class, 'index'])
-    ->name('about');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/paket/{id}', [PackageDetailController::class, 'show'])
-    ->name('package.detail');
+Route::get('/tentang-kami', [AboutController::class, 'index'])->name('about');
 
-/**
- * Halaman Jadwal Keberangkatan
- * URL: /jadwal
- */
-Route::get('/jadwal', [ScheduleController::class, 'index'])
-    ->name('schedule');
-/**
- * Halaman Kontak
- * URL: /kontak
- */
-Route::get('/kontak', [ContactController::class, 'index'])
-    ->name('contact');
+Route::get('/jadwal', [ScheduleController::class, 'index'])->name('schedule');
 
-/**
- * Handle Submit Form Kontak
- */
+Route::get('/kontak', [ContactController::class, 'index'])->name('contact');
+
 Route::post('/kontak', function () {
     $validated = request()->validate([
         'name' => 'required|min:3',
@@ -66,20 +36,24 @@ Route::post('/kontak', function () {
         'message' => 'required|min:10'
     ]);
     
-    // TODO: Kirim email atau simpan ke database
-    
     return redirect()->route('contact')
         ->with('success', 'Terima kasih! Pesan Anda telah terkirim. Tim Mahira Tour akan segera menghubungi Anda.');
 })->name('contact.submit');
 
+// ============================================
+// PENDAFTARAN - MENGGUNAKAN CONTROLLER
+// ============================================
+
+Route::get('/pendaftaran', [RegistrationController::class, 'index'])->name('register');
+Route::post('/pendaftaran', [RegistrationController::class, 'store'])->name('register.submit');
+
+// Redirect /register ke /pendaftaran
+Route::get('/register', fn() => redirect()->route('register'));
 
 // ============================================
 // HALAMAN TAMBAHAN
 // ============================================
 
-/**
- * Halaman FAQ
- */
 Route::get('/faq', function () {
     $faqs = [
         [
@@ -127,23 +101,10 @@ Route::get('/faq', function () {
     return view('pages.faq', compact('faqs'));
 })->name('faq');
 
+Route::get('/galeri', [GalleryController::class, 'index'])->name('gallery');
 
-/**
- * Halaman Galeri
- * URL: /galeri
- */
-Route::get('/galeri', [GalleryController::class, 'index'])
-    ->name('gallery');
+Route::get('/testimoni', [TestimonialController::class, 'index'])->name('testimonials');
 
-/**
- * Halaman Testimoni
- */
-Route::get('/testimoni', [TestimonialController::class, 'index'])
-    ->name('testimonials');
-
-/**
- * Halaman Layanan
- */
 Route::get('/layanan', function () {
     $services = [
         [
@@ -230,18 +191,10 @@ Route::get('/layanan', function () {
     return view('pages.services', compact('services'));
 })->name('services');
 
-
-/**
- * Halaman Visi Misi
- */
 Route::get('/visi-misi', function () {
     return redirect()->route('about');
 })->name('vision-mission');
 
-
-/**
- * Halaman Cabang
- */
 Route::get('/cabang', function () {
     $branches = [
         [
@@ -319,10 +272,6 @@ Route::get('/cabang', function () {
     return view('pages.branches', compact('branches'));
 })->name('branches');
 
-
-/**
- * Halaman Syarat & Ketentuan
- */
 Route::get('/syarat-ketentuan', function () {
     $requirements = [
         'umrah' => [
@@ -353,63 +302,6 @@ Route::get('/syarat-ketentuan', function () {
     
     return view('pages.terms', compact('requirements', 'terms'));
 })->name('terms');
-
-/**
- * Halaman Pendaftaran
- * URL: /pendaftaran
- */
-Route::get('/pendaftaran', function () {
-    $packages = [
-        1 => 'Paket Umrah Reguler 9 Hari - Rp 28.000.000',
-        2 => 'Paket Umrah VIP Premium - Rp 45.000.000',
-        3 => 'Paket Umrah Ramadhan - Rp 38.000.000',
-        4 => 'Wisata Halal Internasional - Mulai Rp 35.000.000'
-    ];
-    
-    $departure_routes = [
-        'Start Lampung',
-        'Start Padang',
-        'Start Jambi',
-        'Start Jakarta',
-        'Start Bengkulu'
-    ];
-    
-    $provinces = [
-        'Lampung', 'Sumatera Barat', 'Jambi', 'DKI Jakarta', 'Bengkulu',
-        'Sumatera Utara', 'Sumatera Selatan', 'Riau', 'Kepulauan Riau',
-        'Jawa Barat', 'Jawa Tengah', 'Jawa Timur', 'Banten', 'Yogyakarta'
-    ];
-    
-    $titles = ['Tn.', 'Ny.', 'Sdr.', 'Sdri.', 'H.', 'Hj.'];
-    
-    return view('pages.register', compact('packages', 'departure_routes', 'provinces', 'titles'));
-})->name('register');
-
-Route::get('/register', fn() => redirect()->route('register'));
-
-
-/**
- * Handle Submit Pendaftaran
- */
-Route::post('/pendaftaran', function () {
-    $validated = request()->validate([
-        'title' => 'required',
-        'full_name' => 'required|min:3',
-        'email' => 'required|email',
-        'phone' => 'required|min:10',
-        'package_id' => 'required',
-        'departure_route' => 'required',
-        'departure_date' => 'required|date',
-        'num_people' => 'required|integer|min:1',
-        'message' => 'nullable|string'
-    ]);
-    
-    // TODO: Simpan ke database atau kirim notifikasi
-    
-    return redirect()->route('register')
-        ->with('success', 'Pendaftaran Anda berhasil! Tim Mahira Tour akan segera menghubungi Anda di nomor ' . $validated['phone']);
-})->name('register.submit');
-
 
 // ============================================
 // ROUTE FALLBACK (404 Page)

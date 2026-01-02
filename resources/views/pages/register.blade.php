@@ -4,55 +4,7 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/register.css') }}">
-<style>
-    .selected-schedule-card {
-        background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
-        border-radius: 25px;
-        padding: 2.5rem;
-        margin-bottom: 2.5rem;
-        box-shadow: 0 15px 50px rgba(0, 29, 95, 0.12);
-        border: 2px solid var(--gold);
-    }
-    
-    .schedule-details {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 15px;
-        margin-top: 20px;
-    }
-    
-    .detail-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 12px 16px;
-        background: white;
-        border-radius: 12px;
-        font-size: 0.95rem;
-        box-shadow: 0 4px 15px rgba(0, 29, 95, 0.06);
-        transition: transform 0.3s;
-    }
-    
-    .detail-item:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(0, 29, 95, 0.1);
-    }
-    
-    .detail-item i {
-        font-size: 1.3rem;
-        flex-shrink: 0;
-    }
-    
-    @media (max-width: 768px) {
-        .selected-schedule-card {
-            padding: 1.5rem;
-        }
-        
-        .schedule-details {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
 @endpush
 
 @section('content')
@@ -63,347 +15,517 @@
             <div class="breadcrumb-custom">
                 <a href="{{ route('home') }}"><i class="bi bi-house-door"></i> Beranda</a>
                 <span class="mx-2">/</span>
-                <a href="{{ route('schedule') }}">Jadwal</a>
-                <span class="mx-2">/</span>
                 <span>Pendaftaran</span>
             </div>
-            <h1 class="display-3 fw-bold mb-4" data-aos="fade-up">Pendaftaran Jamaah</h1>
-            <p class="lead" style="max-width: 700px; margin: 0 auto; font-size: 1.25rem;" data-aos="fade-up" data-aos-delay="100">
-                Lengkapi form di bawah ini untuk memulai perjalanan spiritual Anda
+            <h1 class="display-3 fw-bold mb-3" data-aos="fade-up">Pendaftaran Jamaah Umrah</h1>
+            <p class="lead" data-aos="fade-up" data-aos-delay="100">
+                Daftar sekarang, kami akan hubungi Anda dalam 1x24 jam
             </p>
         </div>
     </div>
 </section>
 
-<!-- Registration Form -->
-<section class="py-5" style="padding: 100px 0; background: var(--lighter-navy);">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-9">
-                @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert" style="border-radius: 15px; border-left: 5px solid #10B981;">
-                    <div class="d-flex align-items-center">
-                        <i class="bi bi-check-circle-fill me-3" style="font-size: 1.5rem;"></i>
-                        <div>
-                            <strong>Berhasil!</strong><br>
-                            {{ session('success') }}
-                        </div>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+<!-- Registration Form with Sidebar -->
+<section class="py-5 registration-section">
+    <div class="container-fluid px-lg-5">
+        
+        @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show mb-4 success-alert" role="alert">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-check-circle-fill me-3" style="font-size: 2rem;"></i>
+                <div>
+                    <strong style="font-size: 1.2rem;">Pendaftaran Berhasil!</strong><br>
+                    {{ session('success') }}
                 </div>
-                @endif
-                
-                <!-- Selected Schedule Info (if exists) -->
-                @if(isset($selectedSchedule) && $selectedSchedule)
-                <div class="selected-schedule-card" data-aos="fade-up">
-                    <div class="row align-items-center">
-                        <div class="col-md-4">
-                            <img src="{{ asset('storage/flyers/' . $selectedSchedule['flyer_image']) }}" 
-                                 alt="{{ $selectedSchedule['package_name'] }}" 
-                                 class="img-fluid rounded shadow">
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        @endif
+        
+        <div class="row g-4">
+            
+            <!-- 🎨 SIDEBAR KIRI: Package Info -->
+            <div class="col-lg-4">
+                <div class="sidebar-sticky">
+                    
+                    <!-- Flyer Display -->
+                    <div class="flyer-preview-card" id="flyerPreview">
+                        <div class="flyer-header">
+                            <span class="flyer-badge">Paket Terpilih</span>
                         </div>
-                        <div class="col-md-8">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
+                        
+                        <!-- Flyer with Lightbox -->
+                        <div class="flyer-image-wrapper" id="flyerImageContainer" onclick="openLightbox()">
+                            <img id="flyerImage" 
+                                 src="{{ isset($selectedSchedule) ? asset('storage/flyers/' . $selectedSchedule['flyer_image']) : asset('images/placeholder-flyer.png') }}" 
+                                 alt="Flyer Paket"
+                                 class="flyer-img">
+                            <div class="flyer-overlay" id="flyerOverlay">
+                                <i class="bi bi-box-seam"></i>
+                                <p>Pilih paket untuk melihat detail</p>
+                            </div>
+                            <div class="flyer-zoom-hint">
+                                <i class="bi bi-zoom-in"></i> Klik untuk perbesar
+                            </div>
+                        </div>
+                        
+                        <h4 class="package-name" id="packageNameDisplay">
+                            {{ isset($selectedSchedule) ? $selectedSchedule['package_name'] : 'Belum Dipilih' }}
+                        </h4>
+                        
+                        <!-- Quick Info (Always Visible) -->
+                        <div class="quick-info" id="quickInfo" style="display: none;">
+                            <div class="quick-info-item">
+                                <i class="bi bi-calendar-check"></i>
                                 <div>
-                                    <h4 class="fw-bold mb-2" style="color: var(--primary-navy);">Paket Terpilih</h4>
-                                    <h5 class="fw-bold" style="color: var(--gold);">{{ $selectedSchedule['package_name'] }}</h5>
+                                    <small>Keberangkatan</small>
+                                    <strong id="quickDepart">-</strong>
                                 </div>
-                                <a href="{{ route('schedule') }}" class="btn btn-sm btn-outline-secondary">
-                                    <i class="bi bi-arrow-left"></i> Ganti Paket
-                                </a>
                             </div>
-                            
-                            <div class="schedule-details">
-                                <div class="detail-item">
-                                    <i class="bi bi-calendar-check text-primary"></i>
-                                    <span><strong>Keberangkatan:</strong> {{ date('d F Y', strtotime($selectedSchedule['departure_date'])) }}</span>
+                            <div class="quick-info-item">
+                                <i class="bi bi-airplane-fill"></i>
+                                <div>
+                                    <small>Maskapai</small>
+                                    <strong id="quickAirline">-</strong>
                                 </div>
-                                <div class="detail-item">
-                                    <i class="bi bi-calendar-x text-primary"></i>
-                                    <span><strong>Kepulangan:</strong> {{ date('d F Y', strtotime($selectedSchedule['return_date'])) }}</span>
+                            </div>
+                            <div class="quick-info-item highlight">
+                                <i class="bi bi-tag-fill"></i>
+                                <div>
+                                    <small>Harga Paket</small>
+                                    <strong id="quickPrice" class="text-gold">-</strong>
                                 </div>
-                                <div class="detail-item">
-                                    <i class="bi bi-geo-alt-fill text-danger"></i>
-                                    <span><strong>Jalur:</strong> {{ $selectedSchedule['departure_route'] }}</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="bi bi-airplane-fill text-info"></i>
-                                    <span><strong>Maskapai:</strong> {{ $selectedSchedule['airline'] }}</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="bi bi-clock-fill text-warning"></i>
-                                    <span><strong>Durasi:</strong> {{ $selectedSchedule['duration'] }}</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="bi bi-tag-fill text-success"></i>
-                                    <span><strong>Harga:</strong> Rp {{ number_format($selectedSchedule['price'], 0, ',', '.') }}</span>
+                            </div>
+                            <div class="quick-info-item">
+                                <i class="bi bi-people-fill"></i>
+                                <div>
+                                    <small>Ketersediaan</small>
+                                    <strong id="quickQuota">-</strong>
                                 </div>
                             </div>
                         </div>
+                        
+                        <!-- Accordion Details (Collapsed by default) -->
+                        <div class="accordion accordion-flush" id="packageAccordion" style="display: none;">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#detailFasilitas">
+                                        <i class="bi bi-list-check me-2"></i> Lihat Semua Fasilitas
+                                    </button>
+                                </h2>
+                                <div id="detailFasilitas" class="accordion-collapse collapse" data-bs-parent="#packageAccordion">
+                                    <div class="accordion-body">
+                                        <ul class="facility-list" id="facilityList">
+                                            <li>Pilih paket untuk melihat fasilitas</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Contact CTA -->
+                        <div class="sidebar-cta">
+                            <a href="https://wa.me/6282184515310?text=Assalamualaikum,%20saya%20ingin%20konsultasi%20paket%20umrah" target="_blank" class="btn-wa-sidebar">
+                                <i class="bi bi-whatsapp"></i>
+                                Konsultasi via WhatsApp
+                            </a>
+                        </div>
+                        
                     </div>
+                    
                 </div>
-                @endif
-                
-                <div class="form-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="text-center mb-5">
-                        <div class="form-header-icon">
-                            <i class="bi bi-person-plus-fill"></i>
-                        </div>
-                        <h3 class="fw-bold mb-3" style="color: var(--primary-navy); font-size: 2rem;">Form Pendaftaran Umrah</h3>
-                        <p class="text-muted" style="font-size: 1.05rem;">Isi data dengan lengkap dan benar</p>
-                    </div>
+            </div>
+            
+            <!-- 📝 FORM KANAN -->
+            <div class="col-lg-8">
+                <div class="form-modern-card" data-aos="fade-up">
                     
-                    <div class="info-card">
-                        <div class="d-flex align-items-start">
-                            <i class="bi bi-info-circle-fill me-3"></i>
-                            <div>
-                                <strong style="color: var(--text-dark); font-size: 1.05rem;">Informasi Penting:</strong>
-                                <p class="mb-0 mt-2" style="color: var(--text-gray);">
-                                    Setelah mengisi form, tim Mahira Tour akan menghubungi Anda dalam <strong>1x24 jam</strong> untuk konfirmasi dan informasi pembayaran.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <form action="{{ route('register.submit') }}" method="POST">
+                    <form action="{{ route('register.submit') }}" method="POST" id="registrationForm">
                         @csrf
                         
-                        <!-- Hidden field untuk schedule_id jika ada -->
-                        @if(isset($selectedSchedule) && $selectedSchedule)
-                        <input type="hidden" name="schedule_id" value="{{ $selectedSchedule['id'] }}">
-                        @endif
-                        
-                        <!-- Personal Info -->
-                        <div class="mb-5">
-                            <h5 class="fw-bold mb-4" style="color: var(--primary-navy); font-size: 1.4rem;">
-                                <i class="bi bi-person-circle me-2"></i>Data Pribadi
-                            </h5>
-                            
-                            <div class="row g-4">
-                                <div class="col-md-3">
-                                    <label class="form-label required">Gelar</label>
-                                    <select class="form-select @error('title') is-invalid @enderror" name="title" required>
-                                        <option value="">Pilih</option>
-                                        @foreach($titles as $title)
-                                        <option value="{{ $title }}" {{ old('title') == $title ? 'selected' : '' }}>{{ $title }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('title')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                        <!-- Progress Indicator -->
+                        <div class="progress-steps">
+                            <div class="step-item active completed" data-step="1">
+                                <div class="step-circle">
+                                    <i class="bi bi-check-lg step-check"></i>
+                                    <span class="step-number">1</span>
                                 </div>
-                                
-                                <div class="col-md-9">
-                                    <label class="form-label required">Nama Lengkap</label>
-                                    <input type="text" class="form-control @error('full_name') is-invalid @enderror" 
-                                           name="full_name" placeholder="Sesuai KTP/Paspor" value="{{ old('full_name') }}" required>
-                                    @error('full_name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                                <span>Pilih Paket</span>
                             </div>
-                            
-                            <div class="row g-4 mt-1">
-                                <div class="col-md-6">
-                                    <label class="form-label required">Email</label>
-                                    <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                                           name="email" placeholder="contoh@email.com" value="{{ old('email') }}" required>
-                                    @error('email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                            <div class="step-line"></div>
+                            <div class="step-item" data-step="2">
+                                <div class="step-circle">
+                                    <i class="bi bi-check-lg step-check"></i>
+                                    <span class="step-number">2</span>
                                 </div>
-                                
-                                <div class="col-md-6">
-                                    <label class="form-label required">No. WhatsApp</label>
-                                    <input type="tel" class="form-control @error('phone') is-invalid @enderror" 
-                                           name="phone" placeholder="08xxxxxxxxxx" value="{{ old('phone') }}" required>
-                                    @error('phone')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            
-                            <div class="mt-4">
-                                <label class="form-label">Alamat Lengkap</label>
-                                <textarea class="form-control" name="address" rows="3" placeholder="Alamat sesuai KTP">{{ old('address') }}</textarea>
-                            </div>
-                            
-                            <div class="row g-4 mt-1">
-                                <div class="col-md-6">
-                                    <label class="form-label">Provinsi</label>
-                                    <select class="form-select" name="province">
-                                        <option value="">Pilih Provinsi</option>
-                                        @foreach($provinces as $province)
-                                        <option value="{{ $province }}" {{ old('province') == $province ? 'selected' : '' }}>{{ $province }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <label class="form-label">Kota/Kabupaten</label>
-                                    <input type="text" class="form-control" name="city" placeholder="Nama Kota/Kabupaten" value="{{ old('city') }}">
-                                </div>
+                                <span>Data Pribadi</span>
                             </div>
                         </div>
                         
-                        <div class="section-divider">
-                            <span class="section-divider-text">PILIH PAKET</span>
-                        </div>
-                        
-                        <!-- Package Selection -->
-                        <div class="mb-5">
-                            <h5 class="fw-bold mb-4" style="color: var(--primary-navy); font-size: 1.4rem;">
-                                <i class="bi bi-box-seam me-2"></i>Informasi Paket
-                            </h5>
+                        <!-- STEP 1 -->
+                        <div id="step1" class="form-step active">
                             
-                            <div class="mb-4">
-                                <label class="form-label required">Paket yang Dipilih</label>
-                                <select class="form-select @error('package_id') is-invalid @enderror" name="package_id" required
-                                        @if(isset($selectedSchedule)) disabled @endif>
-                                    <option value="">-- Pilih Paket Umrah --</option>
-                                    @foreach($packages as $id => $package)
-                                    <option value="{{ $id }}" 
-                                        {{ (isset($selectedSchedule) && $selectedSchedule['id'] == $id) || old('package_id') == $id ? 'selected' : '' }}>
-                                        {{ $package }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                                @if(isset($selectedSchedule))
-                                <input type="hidden" name="package_id" value="{{ $selectedSchedule['id'] }}">
-                                @endif
-                                @error('package_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                            <div class="step-header">
+                                <h3><i class="bi bi-box-seam"></i> Pilih Paket Umrah</h3>
+                                <p>Pilih paket yang sesuai dengan kebutuhan spiritual Anda</p>
                             </div>
                             
-                            <div class="row g-4">
-                                <div class="col-md-4">
-                                    <label class="form-label required">Jalur Keberangkatan</label>
-                                    <select class="form-select @error('departure_route') is-invalid @enderror" name="departure_route" required
-                                            @if(isset($selectedSchedule)) disabled @endif>
-                                        <option value="">-- Pilih --</option>
-                                        @foreach($departure_routes as $route)
-                                        <option value="{{ $route }}"
-                                            {{ (isset($selectedSchedule) && $selectedSchedule['departure_route'] == $route) || old('departure_route') == $route ? 'selected' : '' }}>
-                                            {{ $route }}
+                            <div class="form-group-modern">
+                                <label>Paket Umrah <span class="required">*</span></label>
+                                <div class="select-wrapper">
+                                    <select class="form-select-modern" name="package_id" id="packageSelect" required 
+                                            {{ isset($selectedSchedule) ? 'disabled' : '' }}
+                                            onchange="loadPackageDetails(this.value)">
+                                        <option value="">-- Pilih Paket Umrah --</option>
+                                        @foreach($packages as $id => $package)
+                                        <option value="{{ $id }}" 
+                                            {{ (isset($selectedSchedule) && $selectedSchedule['id'] == $id) || old('package_id') == $id ? 'selected' : '' }}>
+                                            {{ $package }}
                                         </option>
                                         @endforeach
                                     </select>
-                                    @if(isset($selectedSchedule))
-                                    <input type="hidden" name="departure_route" value="{{ $selectedSchedule['departure_route'] }}">
-                                    @endif
-                                    @error('departure_route')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <div class="loading-spinner" id="loadingSpinner">
+                                        <div class="spinner"></div>
+                                    </div>
                                 </div>
-                                
-                                <div class="col-md-4">
-                                    <label class="form-label required">Tanggal Keberangkatan</label>
-                                    <input type="date" class="form-control @error('departure_date') is-invalid @enderror" 
-                                           name="departure_date" min="{{ date('Y-m-d') }}" 
-                                           value="{{ isset($selectedSchedule) ? $selectedSchedule['departure_date'] : old('departure_date') }}" 
-                                           required
-                                           @if(isset($selectedSchedule)) readonly @endif>
-                                    @error('departure_date')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                
-                                <div class="col-md-4">
-                                    <label class="form-label required">Jumlah Jamaah</label>
-                                    <input type="number" class="form-control @error('num_people') is-invalid @enderror" 
-                                           name="num_people" min="1" max="10" value="{{ old('num_people', 1) }}" required>
-                                    @error('num_people')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                @if(isset($selectedSchedule))
+                                <input type="hidden" name="package_id" value="{{ $selectedSchedule['id'] }}">
+                                <input type="hidden" name="schedule_id" value="{{ $selectedSchedule['id'] }}">
+                                <input type="hidden" name="departure_route" value="{{ $selectedSchedule['departure_route'] }}">
+                                <input type="hidden" name="departure_date" value="{{ $selectedSchedule['departure_date'] }}">
+                                @endif
+                            </div>
+                            
+                            <!-- Additional Fields -->
+                            <div id="additionalFields" style="{{ isset($selectedSchedule) ? 'display: none;' : '' }}">
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <div class="form-group-modern">
+                                            <label>Jalur Keberangkatan <span class="required">*</span></label>
+                                            <select class="form-select-modern" name="departure_route" {{ isset($selectedSchedule) ? 'disabled' : 'required' }}>
+                                                <option value="">Pilih Jalur</option>
+                                                @foreach($departure_routes as $route)
+                                                <option value="{{ $route }}">{{ $route }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group-modern">
+                                            <label>Tanggal Keberangkatan <span class="required">*</span></label>
+                                            <input type="date" class="form-control-modern" name="departure_date" 
+                                                   min="{{ date('Y-m-d') }}" {{ isset($selectedSchedule) ? 'readonly' : 'required' }}>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group-modern">
+                                            <label>Jumlah Jamaah <span class="required">*</span>
+                                                <span class="tooltip-icon" data-bs-toggle="tooltip" title="Maksimal 10 orang per booking">ⓘ</span>
+                                            </label>
+                                            <input type="number" class="form-control-modern" name="num_people" 
+                                                   min="1" max="10" value="1" required>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             
-                            <div class="mt-4">
-                                <label class="form-label">Catatan Tambahan</label>
-                                <textarea class="form-control" name="message" rows="4" 
-                                          placeholder="Pertanyaan atau permintaan khusus (opsional)">{{ old('message') }}</textarea>
-                            </div>
-                        </div>
-                        
-                        <div class="form-check mb-4 p-4" style="background: var(--lighter-navy); border-radius: 15px;">
-                            <input class="form-check-input" type="checkbox" id="terms" required style="width: 20px; height: 20px; margin-top: 2px;">
-                            <label class="form-check-label ms-2" for="terms" style="color: var(--text-dark);">
-                                Saya menyetujui <a href="{{ route('terms') }}" target="_blank" class="fw-bold" style="color: var(--primary-navy);">syarat dan ketentuan</a> yang berlaku
-                            </label>
-                        </div>
-                        
-                        <div class="row g-3">
-                            <div class="col-md-8">
-                                <button type="submit" class="btn-submit w-100">
-                                    <i class="bi bi-send me-2"></i>Kirim Pendaftaran
+                            <div class="form-actions">
+                                <button type="button" class="btn-next-modern" id="btnNext" onclick="nextStep()" disabled>
+                                    Lanjut ke Data Pribadi <i class="bi bi-arrow-right"></i>
                                 </button>
                             </div>
-                            <div class="col-md-4">
-                                <a href="{{ route('schedule') }}" class="btn-back w-100">
-                                    <i class="bi bi-arrow-left me-2"></i>Kembali
-                                </a>
-                            </div>
+                            
                         </div>
+                        
+                        <!-- STEP 2 -->
+                        <div id="step2" class="form-step">
+                            
+                            <div class="step-header">
+                                <h3><i class="bi bi-person-circle"></i> Data Pribadi</h3>
+                                <p>Isi data dengan lengkap dan benar sesuai identitas</p>
+                            </div>
+                            
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <div class="form-group-modern">
+                                        <label>Gelar <span class="required">*</span></label>
+                                        <select class="form-select-modern" name="title" required>
+                                            <option value="">Pilih</option>
+                                            @foreach($titles as $title)
+                                            <option value="{{ $title }}">{{ $title }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group-modern">
+                                        <label>Nama Lengkap <span class="required">*</span></label>
+                                        <input type="text" class="form-control-modern" name="full_name" 
+                                               placeholder="Sesuai KTP/Paspor" required>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-group-modern">
+                                        <label>Email <span class="required">*</span></label>
+                                        <div class="input-with-icon">
+                                            <input type="email" class="form-control-modern" name="email" id="emailInput"
+                                                   placeholder="contoh@email.com" required>
+                                            <span class="input-icon" id="emailIcon"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group-modern">
+                                        <label>No. WhatsApp <span class="required">*</span></label>
+                                        <div class="input-with-icon">
+                                            <input type="tel" class="form-control-modern" name="phone" id="phoneInput"
+                                                   placeholder="08xxxxxxxxxx" required>
+                                            <span class="input-icon" id="phoneIcon"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group-modern">
+                                <label>Alamat Lengkap</label>
+                                <textarea class="form-control-modern" name="address" rows="3" 
+                                          placeholder="Alamat sesuai KTP"></textarea>
+                            </div>
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-group-modern">
+                                        <label>Provinsi</label>
+                                        <select class="form-select-modern" name="province">
+                                            <option value="">Pilih Provinsi</option>
+                                            @foreach($provinces as $province)
+                                            <option value="{{ $province }}">{{ $province }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group-modern">
+                                        <label>Kota/Kabupaten</label>
+                                        <input type="text" class="form-control-modern" name="city" 
+                                               placeholder="Nama Kota/Kabupaten">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group-modern">
+                                <label>Catatan Tambahan</label>
+                                <textarea class="form-control-modern" name="message" rows="3" 
+                                          placeholder="Pertanyaan atau permintaan khusus (opsional)"></textarea>
+                            </div>
+                            
+                            <div class="terms-box">
+                                <input type="checkbox" id="terms" required>
+                                <label for="terms">
+                                    Saya menyetujui <a href="{{ route('terms') }}" target="_blank">syarat dan ketentuan</a> yang berlaku
+                                </label>
+                            </div>
+                            
+                            <div class="form-actions-step2">
+                                <button type="button" class="btn-back-modern" onclick="prevStep()">
+                                    <i class="bi bi-arrow-left"></i> Kembali
+                                </button>
+                                <button type="submit" class="btn-submit-modern" id="btnSubmit">
+                                    <span class="btn-text">
+                                        <i class="bi bi-send"></i> Kirim Pendaftaran
+                                    </span>
+                                    <span class="btn-loading" style="display: none;">
+                                        <span class="spinner-border spinner-border-sm"></span> Mengirim...
+                                    </span>
+                                </button>
+                            </div>
+                            
+                        </div>
+                        
                     </form>
+                    
                 </div>
             </div>
+            
         </div>
     </div>
 </section>
 
-<!-- Next Steps -->
-<section class="py-5" style="padding: 100px 0; background: var(--white);">
-    <div class="container">
-        <div class="text-center mb-5" data-aos="fade-up">
-            <div class="section-subtitle" style="color: var(--gold); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: inline-block; padding: 8px 20px; background: rgba(212, 175, 55, 0.1); border-radius: 50px;">
-                PROSES SELANJUTNYA
-            </div>
-            <h2 class="fw-bold" style="font-size: 2.5rem; color: var(--primary-navy);">Langkah Setelah Pendaftaran</h2>
-        </div>
-        
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                <div class="step-card">
-                    <div class="step-number">
-                        <span>1</span>
-                    </div>
-                    <h5 class="step-title">Konfirmasi Tim</h5>
-                    <p class="step-text">Tim Mahira Tour akan menghubungi Anda untuk konfirmasi data dan informasi lebih lanjut</p>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                <div class="step-card">
-                    <div class="step-number">
-                        <span>2</span>
-                    </div>
-                    <h5 class="step-title">Pembayaran DP</h5>
-                    <p class="step-text">Lakukan pembayaran DP minimal 30% dari total harga paket yang dipilih</p>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                <div class="step-card">
-                    <div class="step-number">
-                        <span>3</span>
-                    </div>
-                    <h5 class="step-title">Persiapan Dokumen</h5>
-                    <p class="step-text">Lengkapi dokumen persyaratan dan ikuti manasik persiapan keberangkatan</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<!-- Lightbox Modal -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img class="lightbox-content" id="lightboxImage">
+</div>
+
+<!-- Floating WhatsApp Button -->
+<a href="https://wa.me/6282184515310?text=Assalamualaikum,%20saya%20ingin%20konsultasi%20paket%20umrah" 
+   class="floating-wa" target="_blank">
+    <i class="bi bi-whatsapp"></i>
+</a>
+
 @endsection
 
 @push('scripts')
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-    AOS.init({
-        duration: 1000,
-        once: true,
-        offset: 100
-    });
+AOS.init({ duration: 800, once: true });
+
+// Bootstrap tooltips
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+const allSchedules = @json($allSchedules);
+
+@if(isset($selectedSchedule))
+window.addEventListener('DOMContentLoaded', () => {
+    loadPackageDetails({{ $selectedSchedule['id'] }});
+});
+@endif
+
+function loadPackageDetails(packageId) {
+    if (!packageId || !allSchedules[packageId]) {
+        resetSidebar();
+        document.getElementById('btnNext').disabled = true;
+        return;
+    }
+    
+    // Show loading
+    document.getElementById('loadingSpinner').style.display = 'flex';
+    
+    setTimeout(() => {
+        const pkg = allSchedules[packageId];
+        
+        // Update Flyer
+        document.getElementById('flyerImage').src = `/storage/flyers/${pkg.flyer_image}`;
+        document.getElementById('flyerOverlay').style.display = 'none';
+        
+        // Update Package Name
+        document.getElementById('packageNameDisplay').textContent = pkg.package_name;
+        
+        // Update Quick Info
+        document.getElementById('quickDepart').textContent = formatDate(pkg.departure_date);
+        document.getElementById('quickAirline').textContent = pkg.airline;
+        document.getElementById('quickPrice').textContent = formatPrice(pkg.price);
+        const available = pkg.quota - pkg.seats_taken;
+        document.getElementById('quickQuota').textContent = `${available} kursi tersedia`;
+        
+        // Update Facilities
+        const facilityList = document.getElementById('facilityList');
+        facilityList.innerHTML = pkg.facilities.map(f => `<li><i class="bi bi-check-circle-fill"></i> ${f}</li>`).join('');
+        
+        // Show content
+        document.getElementById('quickInfo').style.display = 'block';
+        document.getElementById('packageAccordion').style.display = 'block';
+        document.getElementById('flyerPreview').classList.add('active');
+        document.getElementById('loadingSpinner').style.display = 'none';
+        
+        // Enable next button
+        document.getElementById('btnNext').disabled = false;
+    }, 500);
+}
+
+function resetSidebar() {
+    document.getElementById('flyerOverlay').style.display = 'flex';
+    document.getElementById('packageNameDisplay').textContent = 'Belum Dipilih';
+    document.getElementById('quickInfo').style.display = 'none';
+    document.getElementById('packageAccordion').style.display = 'none';
+    document.getElementById('flyerPreview').classList.remove('active');
+}
+
+function nextStep() {
+    const packageId = document.getElementById('packageSelect').value;
+    if (!packageId) {
+        alert('Silakan pilih paket terlebih dahulu');
+        return;
+    }
+    
+    document.getElementById('step1').classList.remove('active');
+    document.getElementById('step2').classList.add('active');
+    
+    document.querySelector('[data-step="1"]').classList.add('completed');
+    document.querySelector('[data-step="2"]').classList.add('active');
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function prevStep() {
+    document.getElementById('step2').classList.remove('active');
+    document.getElementById('step1').classList.add('active');
+    
+    document.querySelector('[data-step="2"]').classList.remove('active');
+    document.querySelector('[data-step="1"]').classList.remove('completed');
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Inline validation
+document.getElementById('emailInput')?.addEventListener('input', function(e) {
+    const icon = document.getElementById('emailIcon');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (emailRegex.test(e.target.value)) {
+        icon.innerHTML = '<i class="bi bi-check-circle-fill text-success"></i>';
+    } else if (e.target.value.length > 0) {
+        icon.innerHTML = '<i class="bi bi-x-circle-fill text-danger"></i>';
+    } else {
+        icon.innerHTML = '';
+    }
+});
+
+document.getElementById('phoneInput')?.addEventListener('input', function(e) {
+    const icon = document.getElementById('phoneIcon');
+    let value = e.target.value.replace(/\D/g, '');
+    
+    // Auto-format: 0821 8451 5310
+    if (value.length > 4) {
+        value = value.slice(0, 4) + ' ' + value.slice(4);
+    }
+    if (value.length > 9) {
+        value = value.slice(0, 9) + ' ' + value.slice(9, 13);
+    }
+    e.target.value = value;
+    
+    if (value.replace(/\s/g, '').length >= 10) {
+        icon.innerHTML = '<i class="bi bi-check-circle-fill text-success"></i>';
+    } else if (value.length > 0) {
+        icon.innerHTML = '<i class="bi bi-x-circle-fill text-danger"></i>';
+    } else {
+        icon.innerHTML = '';
+    }
+});
+
+// Submit loading state
+document.getElementById('registrationForm').addEventListener('submit', function() {
+    const btn = document.getElementById('btnSubmit');
+    btn.querySelector('.btn-text').style.display = 'none';
+    btn.querySelector('.btn-loading').style.display = 'inline-block';
+    btn.disabled = true;
+});
+
+// Lightbox functions
+function openLightbox() {
+    const imgSrc = document.getElementById('flyerImage').src;
+    if (!imgSrc.includes('placeholder')) {
+        document.getElementById('lightboxImage').src = imgSrc;
+        document.getElementById('lightbox').style.display = 'flex';
+    }
+}
+
+function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
+}
+
+function formatDate(dateStr) {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+    const d = new Date(dateStr);
+    return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function formatPrice(price) {
+    return 'Rp ' + price.toLocaleString('id-ID');
+}
 </script>
 @endpush
