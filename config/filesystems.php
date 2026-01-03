@@ -59,6 +59,19 @@ return [
             'throw' => false,
             'report' => false,
         ],
+         'documents' => [
+        'driver' => 'local',
+        'root' => storage_path('app/public/documents'),
+        'url' => env('APP_URL').'/storage/documents',
+        'visibility' => 'public',
+    ],
+    
+    'payments' => [
+        'driver' => 'local',
+        'root' => storage_path('app/public/payments'),
+        'url' => env('APP_URL').'/storage/payments',
+        'visibility' => 'private', // Hanya admin yang bisa akses
+    ],
 
     ],
 
