@@ -304,13 +304,18 @@
             <div class="col-lg-4 col-md-6">
                 <div class="testimonial-card">
                     <div class="testimonial-video">
-                        <video controls poster="{{ asset('images/testimonial-1.jpg') }}">
-                            <source src="{{ asset('videos/testimonial-1.mp4') }}" type="video/mp4">
-                        </video>
+                        <iframe 
+                            src="https://www.youtube.com/embed/B-JQ7BGS5i8" 
+                            title="Testimoni Jamaah Mahira Tour"
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            style="width: 100%; height: 100%; border-radius: 12px;">
+                        </iframe>
                     </div>
                     <div class="testimonial-content">
                         <h4 class="testimonial-title">Pengalaman Umrah Luar Biasa</h4>
-                        <p class="testimonial-name">Ibu Siti - Jakarta</p>
+                        <p class="testimonial-name">Jamaah Mahira Tour</p>
                     </div>
                 </div>
             </div>
@@ -318,27 +323,36 @@
             <div class="col-lg-4 col-md-6">
                 <div class="testimonial-card">
                     <div class="testimonial-video">
-                        <video controls poster="{{ asset('images/testimonial-2.jpg') }}">
-                            <source src="{{ asset('videos/testimonial-2.mp4') }}" type="video/mp4">
-                        </video>
+                        <iframe 
+                            src="https://www.youtube.com/embed/lSbViwp5fCA" 
+                            title="Testimoni Jamaah Mahira Tour"
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            style="width: 100%; height: 100%; border-radius: 12px;">
+                        </iframe>
                     </div>
                     <div class="testimonial-content">
                         <h4 class="testimonial-title">Pelayanan Sangat Memuaskan</h4>
-                        <p class="testimonial-name">Bapak Ahmad - Bandung</p>
+                        <p class="testimonial-name">Jamaah Mahira Tour</p>
                     </div>
                 </div>
             </div>
-            
             <div class="col-lg-4 col-md-6">
                 <div class="testimonial-card">
                     <div class="testimonial-video">
-                        <video controls poster="{{ asset('images/testimonial-3.jpg') }}">
-                            <source src="{{ asset('videos/testimonial-3.mp4') }}" type="video/mp4">
-                        </video>
+                        <iframe 
+                            src="https://www.youtube.com/embed/JgQmegExd5A" 
+                            title="Testimoni Jamaah Mahira Tour"
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            style="width: 100%; height: 100%; border-radius: 12px;">
+                        </iframe>
                     </div>
                     <div class="testimonial-content">
-                        <h4 class="testimonial-title">Terima Kasih Mahira Tour</h4>
-                        <p class="testimonial-name">Ibu Fatimah - Surabaya</p>
+                        <h4 class="testimonial-title">Pengalaman Umrah Luar Biasa</h4>
+                        <p class="testimonial-name">Jamaah Mahira Tour</p>
                     </div>
                 </div>
             </div>

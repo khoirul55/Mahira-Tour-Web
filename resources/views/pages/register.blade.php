@@ -43,8 +43,8 @@
         
         <div class="row g-4">
             
-            <!-- Sidebar -->
-            <div class="col-lg-4">
+            <!-- DESKTOP: Sidebar -->
+            <div class="col-lg-4 d-none d-lg-block">
                 <div class="sidebar-sticky">
                     <div class="flyer-preview-card" id="flyerPreview">
                         <div class="flyer-header">
@@ -89,6 +89,26 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            
+            <!-- MOBILE: Sticky Mini Card -->
+            <div class="col-12 d-lg-none">
+                <div class="flyer-sticky-mini" id="stickyMini" style="{{ isset($selectedSchedule) ? '' : 'display:none;' }}">
+                    <div class="mini-thumb">
+                        <img id="miniThumb" src="{{ isset($selectedSchedule) ? asset('storage/flyers/' . $selectedSchedule['flyer_image']) : '' }}" alt="Package">
+                    </div>
+                    <div class="mini-content">
+                        <span class="mini-package-name" id="miniPackageName">
+                            {{ isset($selectedSchedule) ? $selectedSchedule['package_name'] : '' }}
+                        </span>
+                        <strong class="mini-price" id="miniPrice">
+                            {{ isset($selectedSchedule) ? 'Rp ' . number_format($selectedSchedule['price'], 0, ',', '.') : '' }}
+                        </strong>
+                    </div>
+                    <button class="btn-expand" data-bs-toggle="offcanvas" data-bs-target="#flyerOffcanvas" type="button">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
                 </div>
             </div>
             
@@ -288,11 +308,96 @@
     </div>
 </section>
 
-<!-- Floating WA -->
-<a href="https://wa.me/6282184515310?text=Assalamualaikum,%20saya%20ingin%20konsultasi" 
-   class="floating-wa" target="_blank">
-    <i class="bi bi-whatsapp"></i>
-</a>
+<!-- MOBILE: Offcanvas Detail Panel -->
+<div class="offcanvas offcanvas-end offcanvas-flyer" tabindex="-1" id="flyerOffcanvas">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title">
+            <i class="bi bi-card-checklist"></i> Detail Paket
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    
+    <div class="offcanvas-body">
+        <!-- Flyer Image -->
+        <div class="offcanvas-flyer-img">
+            <img id="offcanvasFlyerImg" src="{{ isset($selectedSchedule) ? asset('storage/flyers/' . $selectedSchedule['flyer_image']) : '' }}" alt="Flyer">
+        </div>
+        
+        <!-- Package Name -->
+        <h4 class="offcanvas-package-name" id="offcanvasPackageName">
+            {{ isset($selectedSchedule) ? $selectedSchedule['package_name'] : 'Belum Dipilih' }}
+        </h4>
+        
+        <!-- Details Grid -->
+        <div class="offcanvas-details">
+            <div class="detail-item">
+                <div class="detail-icon">
+                    <i class="bi bi-calendar-check"></i>
+                </div>
+                <div class="detail-content">
+                    <small>Keberangkatan</small>
+                    <strong id="offcanvasDepartDate">{{ isset($selectedSchedule) ? date('d M Y', strtotime($selectedSchedule['departure_date'])) : '-' }}</strong>
+                </div>
+            </div>
+            
+            <div class="detail-item">
+                <div class="detail-icon">
+                    <i class="bi bi-calendar-x"></i>
+                </div>
+                <div class="detail-content">
+                    <small>Kepulangan</small>
+                    <strong id="offcanvasReturnDate">{{ isset($selectedSchedule) ? date('d M Y', strtotime($selectedSchedule['return_date'])) : '-' }}</strong>
+                </div>
+            </div>
+            
+            <div class="detail-item">
+                <div class="detail-icon">
+                    <i class="bi bi-geo-alt-fill"></i>
+                </div>
+                <div class="detail-content">
+                    <small>Jalur</small>
+                    <strong id="offcanvasRoute">{{ isset($selectedSchedule) ? $selectedSchedule['departure_route'] : '-' }}</strong>
+                </div>
+            </div>
+            
+            <div class="detail-item">
+                <div class="detail-icon">
+                    <i class="bi bi-airplane-fill"></i>
+                </div>
+                <div class="detail-content">
+                    <small>Maskapai</small>
+                    <strong id="offcanvasAirline">{{ isset($selectedSchedule) ? $selectedSchedule['airline'] : '-' }}</strong>
+                </div>
+            </div>
+            
+            <div class="detail-item highlight">
+                <div class="detail-icon">
+                    <i class="bi bi-tag-fill"></i>
+                </div>
+                <div class="detail-content">
+                    <small>Harga Paket</small>
+                    <strong class="price-highlight" id="offcanvasPrice">{{ isset($selectedSchedule) ? 'Rp ' . number_format($selectedSchedule['price'], 0, ',', '.') : '-' }}</strong>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Info Note -->
+        <div class="offcanvas-info-note">
+            <i class="bi bi-info-circle-fill"></i>
+            <div>
+                <strong>Informasi</strong>
+                <p>Detail lengkap fasilitas dan itinerary akan dijelaskan setelah pendaftaran.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- MOBILE: Floating FAB Button (appears on scroll) -->
+<button class="fab-flyer d-lg-none" id="fabFlyer" data-bs-toggle="offcanvas" data-bs-target="#flyerOffcanvas" type="button">
+    <i class="bi bi-card-image"></i>
+    <span class="fab-badge">Info</span>
+</button>
 
 @endsection
 

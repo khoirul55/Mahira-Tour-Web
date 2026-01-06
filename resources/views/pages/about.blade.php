@@ -90,7 +90,7 @@
     <div class="container">
         <!-- Hero Image -->
         <div class="profile-hero-image">
-            <img src="{{ asset('storage/gallery/jamaah2.jpeg') }}" 
+            <img src="{{ asset('storage/gallery/gallery-6.webp') }}" 
                  alt="Mahira Tour Office" 
                  loading="lazy">
             <div class="hero-overlay1"></div>

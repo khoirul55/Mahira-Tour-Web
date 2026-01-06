@@ -1,14 +1,14 @@
 // Initialize AOS
 AOS.init({ duration: 800, once: true });
 
-// Global variables - akan diisi dari blade
+// Global variables
 let allSchedules = {};
 let titles = [];
 let provinces = [];
 let currentStep = 1;
 let selectedScheduleId = null;
 
-// Initialize function untuk dipanggil dari blade
+// Initialize function
 function initializeRegisterForm(schedulesData, titlesData, provincesData, preSelectedScheduleId = null) {
     allSchedules = schedulesData;
     titles = titlesData;
@@ -20,31 +20,160 @@ function initializeRegisterForm(schedulesData, titlesData, provincesData, preSel
         loadPackageDetails(preSelectedScheduleId);
         updateJamaahForms();
     }
+    
+    // Initialize mobile features
+    initializeMobileFeatures();
 }
 
-// Load package details
+// ========== MOBILE FEATURES ==========
+
+function initializeMobileFeatures() {
+    // FAB scroll behavior
+    let lastScroll = 0;
+    const fab = document.getElementById('fabFlyer');
+    const stickyMini = document.getElementById('stickyMini');
+    
+    if (!fab || !stickyMini) return;
+    
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        
+        // Show FAB when scrolled down and package is selected
+        if (selectedScheduleId && currentScroll > 300) {
+            fab.classList.add('show');
+        } else {
+            fab.classList.remove('show');
+        }
+        
+        lastScroll = currentScroll;
+    });
+    
+    // Update offcanvas content when opened
+    const offcanvasElement = document.getElementById('flyerOffcanvas');
+    if (offcanvasElement) {
+        offcanvasElement.addEventListener('show.bs.offcanvas', function () {
+            updateOffcanvasContent();
+        });
+    }
+}
+
+function updateOffcanvasContent() {
+    if (!selectedScheduleId || !allSchedules[selectedScheduleId]) return;
+    
+    const pkg = allSchedules[selectedScheduleId];
+    
+    // Update offcanvas content
+    const elements = {
+        offcanvasFlyerImg: document.getElementById('offcanvasFlyerImg'),
+        offcanvasPackageName: document.getElementById('offcanvasPackageName'),
+        offcanvasDepartDate: document.getElementById('offcanvasDepartDate'),
+        offcanvasReturnDate: document.getElementById('offcanvasReturnDate'),
+        offcanvasRoute: document.getElementById('offcanvasRoute'),
+        offcanvasAirline: document.getElementById('offcanvasAirline'),
+        offcanvasPrice: document.getElementById('offcanvasPrice')
+    };
+    
+    if (elements.offcanvasFlyerImg) elements.offcanvasFlyerImg.src = `/storage/flyers/${pkg.flyer_image}`;
+    if (elements.offcanvasPackageName) elements.offcanvasPackageName.textContent = pkg.package_name;
+    if (elements.offcanvasDepartDate) elements.offcanvasDepartDate.textContent = formatDate(pkg.departure_date);
+    if (elements.offcanvasReturnDate) elements.offcanvasReturnDate.textContent = formatDate(pkg.return_date);
+    if (elements.offcanvasRoute) elements.offcanvasRoute.textContent = pkg.departure_route;
+    if (elements.offcanvasAirline) elements.offcanvasAirline.textContent = pkg.airline;
+    if (elements.offcanvasPrice) elements.offcanvasPrice.textContent = formatPrice(pkg.price);
+}
+
+// ========== PACKAGE LOADING (FIXED) ==========
+
 function loadPackageDetails(packageId) {
     if (!packageId || !allSchedules[packageId]) {
-        document.getElementById('flyerOverlay').style.display = 'flex';
-        document.getElementById('quickInfo').style.display = 'none';
-        document.getElementById('btnStep1').disabled = true;
+        // Hide all preview elements
+        const flyerOverlay = document.getElementById('flyerOverlay');
+        const quickInfo = document.getElementById('quickInfo');
+        const btnStep1 = document.getElementById('btnStep1');
+        const stickyMini = document.getElementById('stickyMini');
+        
+        if (flyerOverlay) flyerOverlay.style.display = 'flex';
+        if (quickInfo) quickInfo.style.display = 'none';
+        if (btnStep1) btnStep1.disabled = true;
+        if (stickyMini) {
+            stickyMini.style.display = 'none';
+            stickyMini.style.visibility = 'hidden';
+            stickyMini.style.opacity = '0';
+        }
+        
         return;
     }
     
     const pkg = allSchedules[packageId];
+    selectedScheduleId = packageId;
     
-    document.getElementById('flyerImage').src = `/storage/flyers/${pkg.flyer_image}`;
-    document.getElementById('flyerOverlay').style.display = 'none';
-    document.getElementById('packageNameDisplay').textContent = pkg.package_name;
-    document.getElementById('quickDepart').textContent = formatDate(pkg.departure_date);
-    document.getElementById('quickAirline').textContent = pkg.airline;
-    document.getElementById('quickPrice').textContent = formatPrice(pkg.price);
-    document.getElementById('quickInfo').style.display = 'block';
-    document.getElementById('btnStep1').disabled = false;
+    // Update desktop sidebar (dengan null check)
+    const desktopElements = {
+        flyerImage: document.getElementById('flyerImage'),
+        flyerOverlay: document.getElementById('flyerOverlay'),
+        packageNameDisplay: document.getElementById('packageNameDisplay'),
+        quickDepart: document.getElementById('quickDepart'),
+        quickAirline: document.getElementById('quickAirline'),
+        quickPrice: document.getElementById('quickPrice'),
+        quickInfo: document.getElementById('quickInfo'),
+        btnStep1: document.getElementById('btnStep1')
+    };
+    
+    if (desktopElements.flyerImage) desktopElements.flyerImage.src = `/storage/flyers/${pkg.flyer_image}`;
+    if (desktopElements.flyerOverlay) desktopElements.flyerOverlay.style.display = 'none';
+    if (desktopElements.packageNameDisplay) desktopElements.packageNameDisplay.textContent = pkg.package_name;
+    if (desktopElements.quickDepart) desktopElements.quickDepart.textContent = formatDate(pkg.departure_date);
+    if (desktopElements.quickAirline) desktopElements.quickAirline.textContent = pkg.airline;
+    if (desktopElements.quickPrice) desktopElements.quickPrice.textContent = formatPrice(pkg.price);
+    if (desktopElements.quickInfo) desktopElements.quickInfo.style.display = 'block';
+    if (desktopElements.btnStep1) desktopElements.btnStep1.disabled = false;
+    
+    // ✅ FIX: Update mobile sticky mini (FORCE SHOW)
+    const stickyMini = document.getElementById('stickyMini');
+    const miniThumb = document.getElementById('miniThumb');
+    const miniPackageName = document.getElementById('miniPackageName');
+    const miniPrice = document.getElementById('miniPrice');
+    
+    if (stickyMini && window.innerWidth < 992) {
+        // Force display with all styles
+        stickyMini.style.display = 'flex';
+        stickyMini.style.visibility = 'visible';
+        stickyMini.style.opacity = '1';
+        
+        // Add animation class
+        stickyMini.classList.add('show-animated');
+        
+        // Update content
+        if (miniThumb) miniThumb.src = `/storage/flyers/${pkg.flyer_image}`;
+        if (miniPackageName) miniPackageName.textContent = pkg.package_name;
+        if (miniPrice) miniPrice.textContent = formatPrice(pkg.price);
+        
+        console.log('✅ Sticky mini card shown for mobile'); // Debug log
+    }
+    
+    // Update offcanvas
+    updateOffcanvasContent();
 }
 
-// Navigation functions
+// ========== NAVIGATION ==========
+
 function nextStep(step) {
+    // Validation before moving to next step
+    if (step === 1) {
+        const packageSelect = document.getElementById('packageSelect');
+        const numPeople = document.getElementById('numPeople');
+        
+        if (!packageSelect.value) {
+            alert('Silakan pilih paket umrah terlebih dahulu');
+            return;
+        }
+        
+        if (!numPeople.value || numPeople.value < 1) {
+            alert('Silakan masukkan jumlah jamaah');
+            return;
+        }
+    }
+    
     document.getElementById(`step${step}`).classList.remove('active');
     document.getElementById(`step${step + 1}`).classList.add('active');
     document.querySelector(`[data-step="${step}"]`).classList.add('completed');
@@ -62,7 +191,8 @@ function prevStep(step) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Update jamaah forms based on number of people
+// ========== JAMAAH FORMS ==========
+
 function updateJamaahForms() {
     const numPeople = parseInt(document.getElementById('numPeople').value) || 1;
     const container = document.getElementById('jamaahFormsContainer');
@@ -73,7 +203,6 @@ function updateJamaahForms() {
     }
 }
 
-// Generate jamaah form HTML
 function generateJamaahForm(index) {
     return `
         <div class="jamaah-form-card" data-jamaah="${index}">
@@ -202,27 +331,32 @@ function generateJamaahForm(index) {
     `;
 }
 
-// Format date helper
+// ========== HELPERS ==========
+
 function formatDate(dateStr) {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
     const d = new Date(dateStr);
     return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
 }
 
-// Format price helper
 function formatPrice(price) {
     return 'Rp ' + price.toLocaleString('id-ID');
 }
 
-// Form submit handler
+// ========== FORM SUBMIT ==========
+
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('registrationForm');
     if (form) {
         form.addEventListener('submit', function() {
             const btn = document.getElementById('btnSubmit');
-            btn.querySelector('.btn-text').style.display = 'none';
-            btn.querySelector('.btn-loading').style.display = 'inline-block';
-            btn.disabled = true;
+            if (btn) {
+                const btnText = btn.querySelector('.btn-text');
+                const btnLoading = btn.querySelector('.btn-loading');
+                if (btnText) btnText.style.display = 'none';
+                if (btnLoading) btnLoading.style.display = 'inline-block';
+                btn.disabled = true;
+            }
         });
     }
 });
