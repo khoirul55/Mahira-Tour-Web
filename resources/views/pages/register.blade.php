@@ -153,22 +153,18 @@
                                 <p>Pilih paket yang sesuai dengan kebutuhan Anda</p>
                             </div>
                             
-                            <div class="form-group-modern">
-                                <label>Paket Umrah <span class="required">*</span></label>
+                                <div class="form-group-modern">
+                                    <label>Paket Umrah <span class="required">*</span></label>
                                 <select class="form-select-modern" name="schedule_id" id="packageSelect" required 
-                                        {{ isset($selectedSchedule) ? 'disabled' : '' }}
                                         onchange="loadPackageDetails(this.value)">
-                                    <option value="">-- Pilih Paket --</option>
-                                    @foreach($packages as $id => $name)
-                                    <option value="{{ $id }}" {{ (isset($selectedSchedule) && $selectedSchedule['id'] == $id) ? 'selected' : '' }}>
-                                        {{ $name }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                                @if(isset($selectedSchedule))
-                                <input type="hidden" name="schedule_id" value="{{ $selectedSchedule['id'] }}">
-                                @endif
-                            </div>
+                                        <option value="">-- Pilih Paket --</option>
+                                        @foreach($packages as $id => $name)
+                                        <option value="{{ $id }}" {{ (isset($selectedSchedule) && $selectedSchedule['id'] == $id) ? 'selected' : '' }}>
+                                            {{ $name }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             
                             <div class="form-group-modern">
                                 <label>Jumlah Jamaah <span class="required">*</span></label>

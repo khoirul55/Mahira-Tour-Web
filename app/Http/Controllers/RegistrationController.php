@@ -2,34 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Schedule;
-use App\Models\Registration;
-use App\Models\Jamaah;
-use App\Models\Document;
+use App\Models\{Schedule, Registration, Jamaah, Payment, Document};
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\{DB, Storage};
+
 
 class RegistrationController extends Controller
 {
     public function index(Request $request)
     {
-        // Get active schedules for dropdown
         $schedules = Schedule::where('status', 'active')
             ->where('departure_date', '>=', now())
             ->get();
         
-        $packages = $schedules->mapWithKeys(function($schedule) {
-            return [$schedule->id => $schedule->package_name . ' - Rp ' . number_format($schedule->price, 0, ',', '.')];
-        });
+        $packages = $schedules->mapWithKeys(fn($s) => [
+            $s->id => $s->package_name . ' - Rp ' . number_format($s->price, 0, ',', '.')
+        ]);
         
-        $departure_routes = Schedule::distinct()->pluck('departure_route')->toArray();
-        $provinces = $this->getProvinces();
-        $titles = ['Tn.', 'Ny.', 'Sdr.', 'Sdri.', 'H.', 'Hj.'];
-        
-        // Get selected schedule if from schedule page
         $selectedSchedule = null;
-        if ($request->has('schedule_id')) {
+        if ($request->schedule_id) {
             $schedule = Schedule::find($request->schedule_id);
             if ($schedule) {
                 $selectedSchedule = [
@@ -40,147 +31,149 @@ class RegistrationController extends Controller
                     'departure_route' => $schedule->departure_route,
                     'price' => $schedule->price,
                     'airline' => $schedule->airline,
-                    'duration' => $schedule->duration,
                     'flyer_image' => basename($schedule->flyer_image)
                 ];
             }
         }
         
-        // Get all schedules for JS
-        $allSchedules = $schedules->mapWithKeys(function($schedule) {
-            return [$schedule->id => [
-                'id' => $schedule->id,
-                'package_name' => $schedule->package_name,
-                'departure_date' => $schedule->departure_date->format('Y-m-d'),
-                'return_date' => $schedule->return_date->format('Y-m-d'),
-                'departure_route' => $schedule->departure_route,
-                'price' => $schedule->price,
-                'airline' => $schedule->airline,
-                'duration' => $schedule->duration,
-                'flyer_image' => basename($schedule->flyer_image),
-                'quota' => $schedule->quota,
-                'seats_taken' => $schedule->seats_taken,
-                'facilities' => $this->getFacilities($schedule->id)
-            ]];
-        });
+        $allSchedules = $schedules->mapWithKeys(fn($s) => [
+            $s->id => [
+                'id' => $s->id,
+                'package_name' => $s->package_name,
+                'departure_date' => $s->departure_date->format('Y-m-d'),
+                'return_date' => $s->return_date->format('Y-m-d'),
+                'departure_route' => $s->departure_route,
+                'price' => $s->price,
+                'airline' => $s->airline,
+                'flyer_image' => basename($s->flyer_image),
+                'quota' => $s->quota,
+                'seats_taken' => $s->seats_taken
+            ]
+        ]);
         
-        return view('pages.register', compact(
-            'packages',
-            'departure_routes',
-            'provinces',
-            'titles',
-            'selectedSchedule',
-            'allSchedules'
-        ));
+        return view('pages.register', compact('packages', 'selectedSchedule', 'allSchedules'));
     }
     
     public function store(Request $request)
     {
-        // Validate Step 1 & 2
         $validated = $request->validate([
-            // PIC Data
-            'pic_title' => 'required|string',
-            'pic_full_name' => 'required|string|min:3|max:255',
-            'pic_email' => 'required|email|max:255',
-            'pic_phone' => 'required|string|min:10|max:20',
-            'pic_address' => 'nullable|string|max:500',
-            'pic_province' => 'nullable|string|max:100',
-            'pic_city' => 'nullable|string|max:100',
-            
-            // Booking Info
             'schedule_id' => 'required|exists:schedules,id',
-            'num_people' => 'required|integer|min:1|max:10',
+            'num_people' => 'required|integer|between:1,10',
+            'full_name' => 'required|string|min:3|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|regex:/^08[0-9]{9,11}$/',
             'notes' => 'nullable|string|max:1000',
-            
-            // Jamaah Data (Array)
-            'jamaah' => 'required|array|min:1',
-            'jamaah.*.title' => 'required|string',
-            'jamaah.*.full_name' => 'required|string|max:255',
-            'jamaah.*.nik' => 'required|string|size:16',
-            'jamaah.*.birth_place' => 'required|string|max:100',
-            'jamaah.*.birth_date' => 'required|date|before:today',
-            'jamaah.*.gender' => 'required|in:L,P',
-            'jamaah.*.marital_status' => 'required|in:single,married,divorced,widowed',
-            'jamaah.*.father_name' => 'required|string|max:255',
-            'jamaah.*.occupation' => 'required|string|max:100',
-            'jamaah.*.blood_type' => 'nullable|in:A,B,AB,O',
-            'jamaah.*.address' => 'required|string',
-            'jamaah.*.province' => 'nullable|string|max:100',
-            'jamaah.*.city' => 'nullable|string|max:100',
-            'jamaah.*.emergency_name' => 'required|string|max:255',
-            'jamaah.*.emergency_relation' => 'required|string|max:50',
-            'jamaah.*.emergency_phone' => 'required|string|max:20',
         ]);
         
         DB::beginTransaction();
         
         try {
-            // Get schedule
             $schedule = Schedule::findOrFail($validated['schedule_id']);
             
-            // Check availability
             if ($schedule->available_seats < $validated['num_people']) {
-                return back()->withErrors(['error' => 'Kursi tidak mencukupi. Tersisa ' . $schedule->available_seats . ' kursi.'])->withInput();
+                throw new \Exception('Kursi tidak mencukupi.');
             }
             
-            // Calculate prices
             $totalPrice = $schedule->price * $validated['num_people'];
             $dpAmount = $totalPrice * 0.30;
             
-            // Create Registration
             $registration = Registration::create([
                 'registration_number' => Registration::generateRegistrationNumber(),
                 'schedule_id' => $schedule->id,
-                'pic_title' => $validated['pic_title'],
-                'pic_full_name' => $validated['pic_full_name'],
-                'pic_email' => $validated['pic_email'],
-                'pic_phone' => $validated['pic_phone'],
-                'pic_address' => $validated['pic_address'],
-                'pic_province' => $validated['pic_province'],
-                'pic_city' => $validated['pic_city'],
+                'full_name' => $validated['full_name'],
+                'email' => $validated['email'],
+                'phone' => $validated['phone'],
                 'num_people' => $validated['num_people'],
-                'departure_date' => $schedule->departure_date,
-                'departure_route' => $schedule->departure_route,
                 'notes' => $validated['notes'],
                 'total_price' => $totalPrice,
-                'dp_amount' => $dpAmount,
                 'status' => 'pending'
             ]);
             
-            // Create Jamaah records
-            foreach ($validated['jamaah'] as $jamaahData) {
-                Jamaah::create(array_merge(
-                    ['registration_id' => $registration->id],
-                    $jamaahData
-                ));
-            }
+            // Create DP payment record (pending)
+            Payment::create([
+                'registration_id' => $registration->id,
+                'payment_type' => 'dp',
+                'amount' => $dpAmount,
+                'payment_method' => 'transfer',
+                'status' => 'pending'
+            ]);
             
-            // Update schedule seats
             $schedule->increment('seats_taken', $validated['num_people']);
-            $schedule->updateStatus();
             
             DB::commit();
             
-            // Store registration ID in session for document upload
             session(['pending_registration_id' => $registration->id]);
             
-            // Redirect to document upload
-            return redirect()->route('register.documents', $registration->id)
-                ->with('success', 'Pendaftaran berhasil! Nomor registrasi: ' . $registration->registration_number);
+            return redirect()->route('register.payment', $registration->id)
+                ->with('success', 'Nomor registrasi: ' . $registration->registration_number);
             
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()])->withInput();
+            return back()->withErrors(['error' => $e->getMessage()])->withInput();
+        }
+    }
+    
+    public function payment($registrationId)
+    {
+        $registration = Registration::with('schedule', 'payments')->findOrFail($registrationId);
+        
+        if (session('pending_registration_id') != $registrationId) {
+            abort(403, 'Akses ditolak.');
+        }
+        
+        $dpPayment = $registration->payments()->where('payment_type', 'dp')->first();
+        
+        return view('pages.register-payment', compact('registration', 'dpPayment'));
+    }
+    
+    public function submitPayment(Request $request, $registrationId)
+    {
+        if (session('pending_registration_id') != $registrationId) {
+            abort(403);
+        }
+        
+        $validated = $request->validate([
+            'payment_proof' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'payment_method' => 'required|in:transfer,cash'
+        ]);
+        
+        DB::beginTransaction();
+        
+        try {
+            $registration = Registration::findOrFail($registrationId);
+            $dpPayment = $registration->payments()->where('payment_type', 'dp')->firstOrFail();
+            
+            $file = $request->file('payment_proof');
+            $filename = 'dp_' . $registration->registration_number . '_' . time() . '.' . $file->extension();
+            $path = $file->storeAs('payments', $filename, 'public');
+            
+            $dpPayment->update([
+                'proof_path' => $path,
+                'payment_method' => $validated['payment_method'],
+                'status' => 'pending' // Admin will verify
+            ]);
+            
+            DB::commit();
+            
+            session()->forget('pending_registration_id');
+            
+            return redirect()->route('register.success', $registration->id)
+                ->with('success', 'Bukti DP berhasil diupload. Menunggu verifikasi admin.');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => $e->getMessage()]);
         }
     }
     
     public function documents($registrationId)
     {
-        $registration = Registration::with('jamaah')->findOrFail($registrationId);
+        $registration = Registration::with('jamaah.documents')->findOrFail($registrationId);
         
-        // Check if user owns this registration (simple check via session)
-        if (session('pending_registration_id') != $registrationId) {
-            abort(403, 'Unauthorized access');
+        // Only allow if DP is verified
+        if (!$registration->hasDPVerified()) {
+            return redirect()->route('register.success', $registration->id)
+                ->with('error', 'Upload dokumen bisa dilakukan setelah DP diverifikasi admin.');
         }
         
         return view('pages.register-documents', compact('registration'));
@@ -188,75 +181,27 @@ class RegistrationController extends Controller
     
     public function uploadDocuments(Request $request, $registrationId)
     {
-        $registration = Registration::findOrFail($registrationId);
-        
         $validated = $request->validate([
             'jamaah_id' => 'required|exists:jamaah,id',
-            'document_type' => 'required|in:ktp,kk,photo,buku_nikah,akta_lahir',
+            'document_type' => 'required|in:ktp,kk,photo,buku_nikah',
             'document' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048'
         ]);
         
         try {
+            $jamaah = Jamaah::where('id', $validated['jamaah_id'])
+                ->where('registration_id', $registrationId)
+                ->firstOrFail();
+            
             $file = $request->file('document');
-            $jamaahId = $validated['jamaah_id'];
-            $docType = $validated['document_type'];
+            $filename = $validated['jamaah_id'] . '_' . $validated['document_type'] . '_' . time() . '.' . $file->extension();
+            $path = $file->storeAs('documents/' . $validated['document_type'], $filename, 'public');
             
-            // Generate unique filename
-            $filename = $jamaahId . '_' . $docType . '_' . time() . '.' . $file->extension();
+            Document::updateOrCreate(
+                ['jamaah_id' => $validated['jamaah_id'], 'document_type' => $validated['document_type']],
+                ['file_path' => $path, 'file_name' => $file->getClientOriginalName()]
+            );
             
-            // Store file
-            $path = $file->storeAs('documents/' . $docType, $filename, 'public');
-            
-            // Save to database
-            Document::create([
-                'jamaah_id' => $jamaahId,
-                'document_type' => $docType,
-                'file_path' => $path,
-                'file_name' => $file->getClientOriginalName()
-            ]);
-            
-            return response()->json(['success' => true, 'message' => 'Dokumen berhasil diupload']);
-            
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
-        }
-    }
-    
-    public function payment($registrationId)
-    {
-        $registration = Registration::with('schedule')->findOrFail($registrationId);
-        
-        if (session('pending_registration_id') != $registrationId) {
-            abort(403);
-        }
-        
-        return view('pages.register-payment', compact('registration'));
-    }
-    
-    public function submitPayment(Request $request, $registrationId)
-    {
-        $registration = Registration::findOrFail($registrationId);
-        
-        $validated = $request->validate([
-            'payment_proof' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
-            'payment_method' => 'required|in:transfer,cash'
-        ]);
-        
-        try {
-            $file = $request->file('payment_proof');
-            $filename = 'dp_' . $registration->registration_number . '_' . time() . '.' . $file->extension();
-            $path = $file->storeAs('payments', $filename, 'public');
-            
-            $registration->update([
-                'dp_status' => 'paid',
-                'dp_paid_at' => now()
-            ]);
-            
-            // Clear session
-            session()->forget('pending_registration_id');
-            
-            return redirect()->route('register.success', $registration->id)
-                ->with('success', 'Bukti pembayaran berhasil diupload. Tim kami akan segera memverifikasi.');
+            return back()->with('success', 'Dokumen berhasil diupload');
             
         } catch (\Exception $e) {
             return back()->withErrors(['error' => $e->getMessage()]);
@@ -265,30 +210,7 @@ class RegistrationController extends Controller
     
     public function success($registrationId)
     {
-        $registration = Registration::with('schedule', 'jamaah')->findOrFail($registrationId);
+        $registration = Registration::with('schedule', 'payments')->findOrFail($registrationId);
         return view('pages.register-success', compact('registration'));
-    }
-    
-    // Helper methods
-    private function getProvinces()
-    {
-        return [
-            'Lampung', 'Sumatera Barat', 'Jambi', 'DKI Jakarta', 'Bengkulu',
-            'Sumatera Utara', 'Sumatera Selatan', 'Riau', 'Kepulauan Riau',
-            'Jawa Barat', 'Jawa Tengah', 'Jawa Timur', 'Banten', 'Yogyakarta'
-        ];
-    }
-    
-    private function getFacilities($scheduleId)
-    {
-        // Default facilities (could be from database in future)
-        return [
-            'Hotel Bintang 5',
-            'Makan 3x Sehari',
-            'Tour Ziarah Lengkap',
-            'Perlengkapan Umrah',
-            'Manasik Persiapan',
-            'Bus AC Exclusive'
-        ];
     }
 }

@@ -47,17 +47,15 @@ Route::post('/kontak', function () {
 Route::get('/pendaftaran', [RegistrationController::class, 'index'])->name('register');
 Route::post('/pendaftaran', [RegistrationController::class, 'store'])->name('register.submit');
 
-// Redirect /register ke /pendaftaran
 Route::get('/register', fn() => redirect()->route('register'));
-// Add these routes
+
 Route::get('/register/documents/{registration}', [RegistrationController::class, 'documents'])->name('register.documents');
 Route::post('/register/documents/{registration}', [RegistrationController::class, 'uploadDocuments'])->name('register.documents.upload');
 Route::get('/register/payment/{registration}', [RegistrationController::class, 'payment'])->name('register.payment');
 Route::post('/register/payment/{registration}', [RegistrationController::class, 'submitPayment'])->name('register.payment.submit');
 Route::get('/register/success/{registration}', [RegistrationController::class, 'success'])->name('register.success');
-// ============================================
-// HALAMAN TAMBAHAN
-// ============================================
+
+// ✅ Lanjut ke halaman tambahan...
 
 Route::get('/faq', function () {
     $faqs = [

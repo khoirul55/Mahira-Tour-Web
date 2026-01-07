@@ -180,7 +180,7 @@
         transition: all 0.3s ease;
     }
     
-    @media (max-width: 991px) {
+  @media (max-width: 991px) {
         .navbar-mahira .navbar-collapse {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.98) 100%);
             margin-top: 1rem;
@@ -188,7 +188,18 @@
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0, 29, 95, 0.15);
             border: 1px solid rgba(0, 29, 95, 0.1);
-            animation: slideDown 0.3s ease;
+            /* Hapus backdrop-filter di mobile untuk performa */
+            will-change: transform, opacity;
+        }
+        
+        /* Animasi yang lebih smooth - hanya opacity */
+        .navbar-mahira .navbar-collapse.collapsing {
+            transition: height 0.25s ease, opacity 0.25s ease;
+            opacity: 0;
+        }
+        
+        .navbar-mahira .navbar-collapse.show {
+            opacity: 1;
         }
         
         @keyframes slideDown {
