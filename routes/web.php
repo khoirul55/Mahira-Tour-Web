@@ -40,6 +40,15 @@ Route::post('/kontak', function () {
         ->with('success', 'Terima kasih! Pesan Anda telah terkirim. Tim Mahira Tour akan segera menghubungi Anda.');
 })->name('contact.submit');
 
+
+
+// ============================================
+// QUICK BOOKING - DASHBOARD
+// ============================================
+
+Route::get('/dashboard/{reg}', [RegistrationController::class, 'dashboard'])
+    ->name('registration.dashboard');
+
 // ============================================
 // PENDAFTARAN - MENGGUNAKAN CONTROLLER
 // ============================================
