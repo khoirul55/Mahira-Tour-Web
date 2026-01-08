@@ -614,7 +614,7 @@
             <div class="modal-body" style="padding: 2rem;">
                 <form id="formEditJamaah" method="POST">
                     @csrf
-                    @method('PUT')
+                    
                     <input type="hidden" id="jamaah_id" name="jamaah_id">
                     
                     <!-- Identitas -->
@@ -836,7 +836,7 @@ function submitJamaahForm() {
     });
     
     fetch(`/api/jamaah/${jamaahId}`, {
-        method: 'POST',
+        method: 'POST', // ✅ DIUBAH DARI PUT KE POST
         headers: {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
             'Content-Type': 'application/json',

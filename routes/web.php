@@ -53,9 +53,6 @@ Route::post('/register', [RegistrationController::class, 'store'])->name('regist
 // ✅ Dashboard (All-in-One)
 Route::get('/dashboard/{reg}', [RegistrationController::class, 'dashboard'])->name('registration.dashboard');
 
-// ✅ API Jamaah
-Route::get('/api/jamaah/{id}', [RegistrationController::class, 'getJamaahData'])->name('api.jamaah.get');
-Route::post('/api/jamaah/{id}', [RegistrationController::class, 'updateJamaahData'])->name('api.jamaah.update');
 
 // ✅ Upload DP (dari Dashboard)
 Route::post('/register/{id}/payment', [RegistrationController::class, 'submitPayment'])
@@ -310,6 +307,10 @@ Route::get('/syarat-ketentuan', function () {
     
     return view('pages.terms', compact('requirements', 'terms'));
 })->name('terms');
+
+// ✅ API Jamaah
+Route::get('/api/jamaah/{id}', [RegistrationController::class, 'getJamaahData'])->name('api.jamaah.get');
+Route::post('/api/jamaah/{id}', [RegistrationController::class, 'updateJamaahData'])->name('api.jamaah.update');
 
 
 
