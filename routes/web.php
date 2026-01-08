@@ -46,25 +46,20 @@ Route::post('/kontak', function () {
 // QUICK BOOKING - DASHBOARD
 // ============================================
 
-Route::get('/dashboard/{reg}', [RegistrationController::class, 'dashboard'])
-    ->name('registration.dashboard');
+// ✅ Quick Booking
+Route::get('/register', [RegistrationController::class, 'index']);
+Route::post('/register', [RegistrationController::class, 'store']);
 
+// ✅ Dashboard (All-in-One)
+Route::get('/dashboard/{reg}', [RegistrationController::class, 'dashboard']);
+
+// ✅ API Jamaah
+Route::get('/api/jamaah/{id}', [RegistrationController::class, 'getJamaahData']);
+Route::post('/api/jamaah/{id}', [RegistrationController::class, 'updateJamaahData']);
+
+// ✅ Upload DP (dari Dashboard)
+Route::post('/register/{id}/payment', [RegistrationController::class, 'submitPayment']);
 // ============================================
-// PENDAFTARAN - MENGGUNAKAN CONTROLLER
-// ============================================
-
-Route::get('/pendaftaran', [RegistrationController::class, 'index'])->name('register');
-Route::post('/pendaftaran', [RegistrationController::class, 'store'])->name('register.submit');
-
-Route::get('/register', fn() => redirect()->route('register'));
-
-Route::get('/register/documents/{registration}', [RegistrationController::class, 'documents'])->name('register.documents');
-Route::post('/register/documents/{registration}', [RegistrationController::class, 'uploadDocuments'])->name('register.documents.upload');
-Route::get('/register/payment/{registration}', [RegistrationController::class, 'payment'])->name('register.payment');
-Route::post('/register/payment/{registration}', [RegistrationController::class, 'submitPayment'])->name('register.payment.submit');
-Route::get('/register/success/{registration}', [RegistrationController::class, 'success'])->name('register.success');
-
-// ✅ Lanjut ke halaman tambahan...
 
 Route::get('/faq', function () {
     $faqs = [
@@ -316,19 +311,7 @@ Route::get('/syarat-ketentuan', function () {
 })->name('terms');
 
 
-// ============================================
-// API ENDPOINTS FOR DASHBOARD
-// ============================================
 
-// Di bagian bawah file routes/web.php
-
-// API Routes untuk Jamaah (gunakan POST, bukan PUT)
-Route::get('/api/jamaah/{id}', [RegistrationController::class, 'getJamaahData']);
-Route::post('/api/jamaah/{id}', [RegistrationController::class, 'updateJamaahData']);
-
-// Hapus route PUT ini (jika ada):
-// Route::put('/api/jamaah/{id}', [...]);
-// ============================================
 // ROUTE FALLBACK (404 Page)
 // ============================================
 
