@@ -53,13 +53,16 @@ class RegistrationController extends Controller
         
         DB::beginTransaction();
         
-        try {
-            $schedule = Schedule::findOrFail($validated['schedule_id']);
-            
-            // Check availability
-            if ($schedule->available_seats < $validated['num_people']) {
-                throw new \Exception('Maaf, kursi tidak mencukupi. Tersisa ' . $schedule->available_seats . ' kursi.');
-            }
+            try {
+                // TAMBAHKAN LOCKING DI SINI
+                $schedule = Schedule::lockForUpdate()->findOrFail($validated['schedule_id']);
+                
+                // Hitung ulang available seats dengan locking
+                $availableSeats = $schedule->quota - $schedule->seats_taken;
+                
+                if ($availableSeats < $validated['num_people']) {
+                    throw new \Exception('Maaf, kursi tidak mencukupi. Tersisa ' . $availableSeats . ' kursi.');
+                }
             
             $totalPrice = $schedule->price * $validated['num_people'];
             $dpAmount = $totalPrice * 0.30;
@@ -194,9 +197,13 @@ class RegistrationController extends Controller
             $registration = Registration::findOrFail($registrationId);
             $dpPayment = $registration->payments()->where('payment_type', 'dp')->firstOrFail();
             
-            // Upload file
+                    // Upload file
             $file = $request->file('payment_proof');
-            $filename = 'dp_' . $registration->registration_number . '_' . time() . '.' . $file->extension();
+            $filename = 'dp_' . 
+                $registration->registration_number . '_' . 
+                uniqid() . '_' . 
+                time() . '.' . 
+                $file->extension();
             $path = $file->storeAs('payments', $filename, 'public');
             
             // Update payment record
@@ -262,7 +269,11 @@ class RegistrationController extends Controller
             
             // Upload file
             $file = $request->file('document');
-            $filename = $validated['jamaah_id'] . '_' . $validated['document_type'] . '_' . time() . '.' . $file->extension();
+            $filename = $validated['jamaah_id'] . '_' . 
+                $validated['document_type'] . '_' . 
+                uniqid() . '_' . 
+                time() . '.' . 
+                $file->extension();
             $path = $file->storeAs('documents/' . $validated['document_type'], $filename, 'public');
             
             // Create or update document

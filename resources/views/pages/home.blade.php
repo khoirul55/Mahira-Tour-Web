@@ -519,7 +519,7 @@
                     <i class="bi bi-whatsapp"></i>
                     Konsultasi via WhatsApp
                 </a>
-                <a href="{{ route('register') }}" class="btn-cta-secondary">
+                <a href="{{ route('register-quick') }}" class="btn-cta-secondary">
                     <i class="bi bi-person-plus"></i>
                     Daftar Sekarang
                 </a>

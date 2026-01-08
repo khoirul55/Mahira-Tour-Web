@@ -60,25 +60,6 @@ class Registration extends Model
 
     // ========== HELPER METHODS ==========
     
-    /**
-     * Generate secure access token untuk dashboard
-     */
-    public function generateAccessToken(): string
-    {
-        return hash_hmac(
-            'sha256', 
-            $this->registration_number . $this->email . $this->created_at->timestamp, 
-            config('app.key')
-        );
-    }
-
-    /**
-     * Validate access token
-     */
-    public function validateAccessToken(string $token): bool
-    {
-        return hash_equals($this->generateAccessToken(), $token);
-    }
 
     /**
      * Get dashboard URL dengan token
@@ -223,4 +204,42 @@ class Registration extends Model
             default => 'Unknown'
         };
     }
+
+    
+    /**
+ * Generate secure access token
+ */
+public function generateAccessToken()
+{
+    // Generate token yang secure
+    $token = hash('sha256', 
+        $this->registration_number . 
+        config('app.key') . 
+        $this->created_at->timestamp
+    );
+    
+    // Simpan ke cache dengan expiry 30 hari
+    cache()->put(
+        "reg_token:{$this->registration_number}", 
+        $token, 
+        now()->addDays(30)
+    );
+    
+    return $token;
+}
+
+/**
+ * Validate access token
+ */
+public function validateAccessToken($token)
+{
+    $cachedToken = cache()->get("reg_token:{$this->registration_number}");
+    
+    // Jika tidak ada di cache, generate ulang
+    if (!$cachedToken) {
+        $cachedToken = $this->generateAccessToken();
+    }
+    
+    return hash_equals($cachedToken, $token);
+}
 }
