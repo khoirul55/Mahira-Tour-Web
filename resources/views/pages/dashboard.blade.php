@@ -528,7 +528,7 @@
                         </button>
                     </div>
                     
-                    <form action="{{ route('register.payment.submit', $registration->id) }}" 
+                   <form action="{{ route('register.payment', $registration->id) }}" 
                           method="POST" 
                           enctype="multipart/form-data" 
                           class="upload-form">
@@ -818,7 +818,6 @@ function openEditJamaah(jamaahId, jamaahNumber) {
         });
 }
 
-// Submit form
 function submitJamaahForm() {
     const form = document.getElementById('formEditJamaah');
     const formData = new FormData(form);
@@ -826,17 +825,24 @@ function submitJamaahForm() {
     
     // Show loading
     const btn = event.target;
+    const originalHTML = btn.innerHTML;
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Menyimpan...';
     
-    // ✅ FIX: Gunakan POST (bukan PUT)
+    // Convert FormData to JSON
+    const data = {};
+    formData.forEach((value, key) => {
+        data[key] = value;
+    });
+    
     fetch(`/api/jamaah/${jamaahId}`, {
-        method: 'POST',  // ← Ubah dari PUT ke POST
+        method: 'POST',
         headers: {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Content-Type': 'application/json',
             'Accept': 'application/json'
         },
-        body: formData
+        body: JSON.stringify(data)
     })
     .then(response => response.json())
     .then(data => {
@@ -846,14 +852,14 @@ function submitJamaahForm() {
         } else {
             alert('❌ ' + (data.message || 'Gagal menyimpan data'));
             btn.disabled = false;
-            btn.innerHTML = '<i class="bi bi-save"></i> Simpan Data';
+            btn.innerHTML = originalHTML;
         }
     })
     .catch(error => {
         console.error('Error:', error);
         alert('❌ Terjadi kesalahan saat menyimpan data');
         btn.disabled = false;
-        btn.innerHTML = '<i class="bi bi-save"></i> Simpan Data';
+        btn.innerHTML = originalHTML;
     });
 }
 </script>

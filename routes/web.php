@@ -46,19 +46,20 @@ Route::post('/kontak', function () {
 // QUICK BOOKING - DASHBOARD
 // ============================================
 
-// ✅ Quick Booking
-Route::get('/register', [RegistrationController::class, 'index']);
-Route::post('/register', [RegistrationController::class, 'store']);
+// ✅ Quick Booking - FIXED: Tambahkan ->name('register')
+Route::get('/register', [RegistrationController::class, 'index'])->name('register');
+Route::post('/register', [RegistrationController::class, 'store'])->name('register.submit');
 
 // ✅ Dashboard (All-in-One)
-Route::get('/dashboard/{reg}', [RegistrationController::class, 'dashboard']);
+Route::get('/dashboard/{reg}', [RegistrationController::class, 'dashboard'])->name('registration.dashboard');
 
 // ✅ API Jamaah
-Route::get('/api/jamaah/{id}', [RegistrationController::class, 'getJamaahData']);
-Route::post('/api/jamaah/{id}', [RegistrationController::class, 'updateJamaahData']);
+Route::get('/api/jamaah/{id}', [RegistrationController::class, 'getJamaahData'])->name('api.jamaah.get');
+Route::post('/api/jamaah/{id}', [RegistrationController::class, 'updateJamaahData'])->name('api.jamaah.update');
 
 // ✅ Upload DP (dari Dashboard)
-Route::post('/register/{id}/payment', [RegistrationController::class, 'submitPayment']);
+Route::post('/register/{id}/payment', [RegistrationController::class, 'submitPayment'])
+    ->name('register.payment');
 // ============================================
 
 Route::get('/faq', function () {
