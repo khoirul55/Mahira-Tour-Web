@@ -302,6 +302,11 @@
                         <span>Daftar Sekarang</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                     <a class="nav-link" href="{{ route('check.registration.form') }}">
+                             <i class="bi bi-search"></i> Cek Status
+                      </a>
+                 </li>
             </ul>
         </div>
     </div>

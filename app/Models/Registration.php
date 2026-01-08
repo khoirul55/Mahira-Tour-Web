@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Registration extends Model
 {
     protected $fillable = [
-        'registration_number', 'schedule_id', 'full_name', 'email', 'phone',
+        'registration_number',  'access_token','schedule_id', 'full_name', 'email', 'phone',
         'num_people', 'notes', 'total_price', 'dp_amount', 'payment_deadline',
         'document_deadline', 'status', 'completion_percentage', 'last_activity_at'
     ];
@@ -24,18 +24,30 @@ class Registration extends Model
         return 'MHR-' . date('Ymd') . '-' . strtoupper(substr(md5(uniqid()), 0, 4));
     }
     
-    // ✅ Generate Access Token
-    public function generateAccessToken()
-    {
-        return hash('sha256', $this->registration_number . $this->email . config('app.key'));
+public function generateAccessToken()
+{
+    // Jika sudah ada, pakai yang lama
+    if ($this->access_token) {
+        return $this->access_token;
     }
     
-    // ✅ Validate Access Token
-    public function validateAccessToken($token)
-    {
-        return $token === $this->generateAccessToken();
+    // Generate token baru (hanya sekali)
+    $token = hash('sha256', $this->registration_number . uniqid() . config('app.key') . time());
+    
+    // Simpan ke database
+    $this->update(['access_token' => $token]);
+    
+    return $token;
+}
+    
+public function validateAccessToken($token)
+{
+    if (!$token || !$this->access_token) {
+        return false;
     }
     
+    return hash_equals($this->access_token, $token);
+}
     // ✅ Calculate Completion Percentage
     public function calculateCompletion()
     {

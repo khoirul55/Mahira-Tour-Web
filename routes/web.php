@@ -319,6 +319,40 @@ Route::get('/register/{id}/documents', [RegistrationController::class, 'document
 Route::post('/register/{id}/documents', [RegistrationController::class, 'uploadDocuments'])
     ->name('register.documents.upload');
 
+
+    // ============================================
+// CHECK REGISTRATION STATUS
+// ============================================
+
+Route::get('/cek-pendaftaran', function() {
+    return view('pages.check-registration');
+})->name('check.registration.form');
+
+Route::post('/cek-pendaftaran', function() {
+    $validated = request()->validate([
+        'registration_number' => 'required|string',
+        'email' => 'required|email'
+    ]);
+    
+    $registration = \App\Models\Registration::where('registration_number', $validated['registration_number'])
+        ->where('email', $validated['email'])
+        ->first();
+    
+    if (!$registration) {
+        return back()
+            ->withErrors(['error' => 'Nomor registrasi atau email tidak ditemukan. Pastikan data yang Anda masukkan benar.'])
+            ->withInput();
+    }
+    
+    // Generate/get token
+    $token = $registration->generateAccessToken();
+    
+    // Redirect to dashboard
+    return redirect()->route('registration.dashboard', [
+        'reg' => $registration->registration_number,
+        'token' => $token
+    ]);
+})->name('check.registration.submit');
 // ROUTE FALLBACK (404 Page)
 // ============================================
 

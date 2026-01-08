@@ -141,30 +141,39 @@ class RegistrationController extends Controller
      * DASHBOARD: Central hub untuk manage pendaftaran
      */
     public function dashboard($registrationNumber, Request $request)
-    {
-        // Find registration
-        $registration = Registration::with(['schedule', 'jamaah.documents', 'payments'])
-            ->where('registration_number', $registrationNumber)
-            ->firstOrFail();
-        
-        // Validate access token
-        $token = $request->query('token');
-        if (!$token || !$registration->validateAccessToken($token)) {
-            abort(403, 'Akses tidak valid. Silakan gunakan link yang dikirim via WhatsApp/Email.');
-        }
-        
-        // Update last activity
-        $registration->update(['last_activity_at' => now()]);
-        
-        // Calculate completion
-        $completion = $registration->calculateCompletion();
-        $registration->update(['completion_percentage' => $completion]);
-        
-        // Get DP payment
-        $dpPayment = $registration->dpPayment();
-        
-        return view('pages.dashboard', compact('registration', 'completion', 'dpPayment'));
+{
+    // Find registration
+    $registration = Registration::with(['schedule', 'jamaah.documents', 'payments'])
+        ->where('registration_number', $registrationNumber)
+        ->firstOrFail();
+    
+    // Validate access token
+    $token = $request->query('token');
+    
+    // Jika tidak ada token di URL, cek cookie
+    if (!$token) {
+        $token = $request->cookie('mahira_dashboard_token');
     }
+    
+    if (!$token || !$registration->validateAccessToken($token)) {
+        abort(403, 'Akses tidak valid. Silakan login melalui halaman Cek Pendaftaran.');
+    }
+    
+    // Set cookie untuk next visit (30 hari)
+    cookie()->queue('mahira_dashboard_token', $token, 60 * 24 * 30);
+    
+    // Update last activity
+    $registration->update(['last_activity_at' => now()]);
+    
+    // Calculate completion
+    $completion = $registration->calculateCompletion();
+    $registration->update(['completion_percentage' => $completion]);
+    
+    // Get DP payment
+    $dpPayment = $registration->dpPayment();
+    
+    return view('pages.dashboard', compact('registration', 'completion', 'dpPayment'));
+}
     
     // ========================================
     // OLD METHODS (KEPT FOR COMPATIBILITY)
