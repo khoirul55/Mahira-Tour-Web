@@ -315,6 +315,13 @@ Route::get('/syarat-ketentuan', function () {
     return view('pages.terms', compact('requirements', 'terms'));
 })->name('terms');
 
+
+// ============================================
+// API ENDPOINTS FOR DASHBOARD
+// ============================================
+
+Route::get('/api/jamaah/{id}', [RegistrationController::class, 'getJamaahData'])->name('api.jamaah.get');
+Route::put('/api/jamaah/{id}', [RegistrationController::class, 'updateJamaahData']);
 // ============================================
 // ROUTE FALLBACK (404 Page)
 // ============================================

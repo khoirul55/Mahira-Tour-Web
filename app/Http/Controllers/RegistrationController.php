@@ -121,10 +121,12 @@ class RegistrationController extends Controller
             // $dashboardUrl = $registration->dashboard_url;
             // SendWhatsAppNotification::dispatch($registration, $dashboardUrl);
             
-            // Redirect to dashboard with success message
             return redirect()
-                ->route('registration.dashboard', ['reg' => $registration->registration_number])
-                ->with('success', 'Booking berhasil! Nomor registrasi Anda: ' . $registration->registration_number);
+                ->route('registration.dashboard', [
+                    'reg' => $registration->registration_number,
+                    'token' => $registration->generateAccessToken()
+                ])
+            ->with('success', 'Booking berhasil! Nomor registrasi Anda: ' . $registration->registration_number);
             
         } catch (\Exception $e) {
             DB::rollBack();
@@ -302,4 +304,76 @@ class RegistrationController extends Controller
                 'token' => $registration->generateAccessToken()
             ]);
     }
+
+    /**
+ * API: Get Jamaah Data
+ */
+public function getJamaahData($id)
+{
+    $jamaah = Jamaah::findOrFail($id);
+    
+    return response()->json([
+        'id' => $jamaah->id,
+        'title' => $jamaah->title,
+        'full_name' => $jamaah->full_name,
+        'nik' => $jamaah->nik,
+        'birth_place' => $jamaah->birth_place,
+        'birth_date' => $jamaah->birth_date ? $jamaah->birth_date->format('Y-m-d') : null,
+        'gender' => $jamaah->gender,
+        'marital_status' => $jamaah->marital_status,
+        'father_name' => $jamaah->father_name,
+        'occupation' => $jamaah->occupation,
+        'blood_type' => $jamaah->blood_type,
+        'address' => $jamaah->address,
+        'province' => $jamaah->province,
+        'city' => $jamaah->city,
+        'emergency_name' => $jamaah->emergency_name,
+        'emergency_relation' => $jamaah->emergency_relation,
+        'emergency_phone' => $jamaah->emergency_phone
+    ]);
+}
+
+/**
+ * API: Update Jamaah Data
+ */
+public function updateJamaahData(Request $request, $id)
+{
+    $validated = $request->validate([
+        'title' => 'required|string',
+        'full_name' => 'required|string|min:3',
+        'nik' => 'required|string|size:16',
+        'birth_place' => 'required|string',
+        'birth_date' => 'required|date',
+        'gender' => 'required|in:L,P',
+        'marital_status' => 'required|in:single,married,divorced,widowed',
+        'father_name' => 'required|string',
+        'occupation' => 'required|string',
+        'blood_type' => 'nullable|in:A,B,AB,O',
+        'address' => 'required|string',
+        'province' => 'nullable|string',
+        'city' => 'nullable|string',
+        'emergency_name' => 'required|string',
+        'emergency_relation' => 'required|string',
+        'emergency_phone' => 'required|string'
+    ]);
+    
+    try {
+        $jamaah = Jamaah::findOrFail($id);
+        $jamaah->update($validated);
+        
+        // Update completion status
+        $jamaah->updateCompletionStatus();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Data jamaah berhasil disimpan'
+        ]);
+        
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage()
+        ], 500);
+    }
+}
 }

@@ -462,10 +462,10 @@
                             @endif
                         </small>
                     </div>
-                    <button class="btn-jamaah {{ $jamaah->completion_status === 'complete' ? 'complete' : '' }}" 
-                            onclick="alert('Fitur edit jamaah akan tersedia di update selanjutnya')">
-                        {{ $jamaah->completion_status === 'complete' ? 'Lihat' : 'Lengkapi' }}
-                    </button>
+                        <button class="btn-jamaah {{ $jamaah->completion_status === 'complete' ? 'complete' : '' }}" 
+                                onclick="openEditJamaah({{ $jamaah->id }}, {{ $index + 1 }})">
+                            {{ $jamaah->completion_status === 'complete' ? 'Edit' : 'Lengkapi' }}
+                        </button>
                 </div>
                 @endforeach
                 
@@ -599,6 +599,263 @@
         <span>Butuh Bantuan?</span>
     </a>
 </div>
+<!-- Modal Edit Jamaah -->
+<div class="modal fade" id="editJamaahModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content" style="border-radius: 20px; border: none;">
+            <div class="modal-header" style="background: linear-gradient(135deg, #001D5F 0%, #002B8F 100%); color: white; border-radius: 20px 20px 0 0;">
+                <h5 class="modal-title">
+                    <i class="bi bi-person-fill-gear"></i> 
+                    Lengkapi Data Jamaah <span id="modalJamaahNumber"></span>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            
+            <div class="modal-body" style="padding: 2rem;">
+                <form id="formEditJamaah" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" id="jamaah_id" name="jamaah_id">
+                    
+                    <!-- Identitas -->
+                    <h6 style="color: #001D5F; font-weight: 700; margin-bottom: 1rem;">
+                        <i class="bi bi-person-badge"></i> Identitas
+                    </h6>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold">Gelar <span class="text-danger">*</span></label>
+                            <select name="title" id="title" class="form-control-dash" required>
+                                <option value="">Pilih</option>
+                                <option value="Tn.">Tn.</option>
+                                <option value="Ny.">Ny.</option>
+                                <option value="Nn.">Nn.</option>
+                            </select>
+                        </div>
+                        <div class="col-md-9">
+                            <label class="form-label fw-bold">Nama Lengkap (Sesuai KTP) <span class="text-danger">*</span></label>
+                            <input type="text" name="full_name" id="full_name" class="form-control-dash" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3 mt-2">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">NIK <span class="text-danger">*</span></label>
+                            <input type="text" name="nik" id="nik" class="form-control-dash" maxlength="16" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold">Jenis Kelamin <span class="text-danger">*</span></label>
+                            <select name="gender" id="gender" class="form-control-dash" required>
+                                <option value="">Pilih</option>
+                                <option value="L">Laki-laki</option>
+                                <option value="P">Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold">Gol. Darah</label>
+                            <select name="blood_type" id="blood_type" class="form-control-dash">
+                                <option value="">-</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="AB">AB</option>
+                                <option value="O">O</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3 mt-2">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Tempat Lahir <span class="text-danger">*</span></label>
+                            <input type="text" name="birth_place" id="birth_place" class="form-control-dash" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Tanggal Lahir <span class="text-danger">*</span></label>
+                            <input type="date" name="birth_date" id="birth_date" class="form-control-dash" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3 mt-2">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Status Pernikahan <span class="text-danger">*</span></label>
+                            <select name="marital_status" id="marital_status" class="form-control-dash" required>
+                                <option value="">Pilih</option>
+                                <option value="single">Belum Menikah</option>
+                                <option value="married">Menikah</option>
+                                <option value="divorced">Cerai</option>
+                                <option value="widowed">Duda/Janda</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Nama Ayah Kandung <span class="text-danger">*</span></label>
+                            <input type="text" name="father_name" id="father_name" class="form-control-dash" required>
+                            <small class="text-muted">Untuk keperluan passport</small>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3 mt-2">
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Pekerjaan <span class="text-danger">*</span></label>
+                            <input type="text" name="occupation" id="occupation" class="form-control-dash" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Alamat -->
+                    <h6 style="color: #001D5F; font-weight: 700; margin: 2rem 0 1rem;">
+                        <i class="bi bi-geo-alt-fill"></i> Alamat
+                    </h6>
+                    
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Alamat Lengkap <span class="text-danger">*</span></label>
+                            <textarea name="address" id="address" class="form-control-dash" rows="2" required></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3 mt-2">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Provinsi</label>
+                            <input type="text" name="province" id="province" class="form-control-dash">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Kota/Kabupaten</label>
+                            <input type="text" name="city" id="city" class="form-control-dash">
+                        </div>
+                    </div>
+                    
+                    <!-- Kontak Darurat -->
+                    <h6 style="color: #001D5F; font-weight: 700; margin: 2rem 0 1rem;">
+                        <i class="bi bi-telephone-fill"></i> Kontak Darurat
+                    </h6>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Nama <span class="text-danger">*</span></label>
+                            <input type="text" name="emergency_name" id="emergency_name" class="form-control-dash" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Hubungan <span class="text-danger">*</span></label>
+                            <select name="emergency_relation" id="emergency_relation" class="form-control-dash" required>
+                                <option value="">Pilih</option>
+                                <option value="ayah">Ayah</option>
+                                <option value="ibu">Ibu</option>
+                                <option value="suami">Suami</option>
+                                <option value="istri">Istri</option>
+                                <option value="anak">Anak</option>
+                                <option value="saudara">Saudara</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">No. Telepon <span class="text-danger">*</span></label>
+                            <input type="tel" name="emergency_phone" id="emergency_phone" class="form-control-dash" required>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+            
+            <div class="modal-footer" style="border-top: 2px solid #E8EBF3; padding: 1.5rem;">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 50px; padding: 10px 25px;">
+                    Batal
+                </button>
+                <button type="button" class="btn btn-primary" onclick="submitJamaahForm()" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); border: none; border-radius: 50px; padding: 10px 30px; font-weight: 700;">
+                    <i class="bi bi-save"></i> Simpan Data
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.modal-backdrop {
+    background-color: rgba(0, 29, 95, 0.5);
+}
+
+.form-control-dash {
+    font-size: 0.95rem;
+}
+
+.form-label {
+    font-size: 0.9rem;
+    color: #001D5F;
+}
+</style>
+
+<script>
+// Open modal dengan data jamaah
+function openEditJamaah(jamaahId, jamaahNumber) {
+    // Set modal title
+    document.getElementById('modalJamaahNumber').textContent = jamaahNumber;
+    document.getElementById('jamaah_id').value = jamaahId;
+    
+    // Get jamaah data via AJAX
+    fetch(`/api/jamaah/${jamaahId}`)
+        .then(response => response.json())
+        .then(data => {
+            // Populate form
+            document.getElementById('title').value = data.title || '';
+            document.getElementById('full_name').value = data.full_name || '';
+            document.getElementById('nik').value = data.nik !== 'PENDING' ? data.nik : '';
+            document.getElementById('gender').value = data.gender || '';
+            document.getElementById('blood_type').value = data.blood_type || '';
+            document.getElementById('birth_place').value = data.birth_place !== '-' ? data.birth_place : '';
+            document.getElementById('birth_date').value = data.birth_date || '';
+            document.getElementById('marital_status').value = data.marital_status || '';
+            document.getElementById('father_name').value = data.father_name !== '-' ? data.father_name : '';
+            document.getElementById('occupation').value = data.occupation !== '-' ? data.occupation : '';
+            document.getElementById('address').value = data.address !== '-' ? data.address : '';
+            document.getElementById('province').value = data.province || '';
+            document.getElementById('city').value = data.city || '';
+            document.getElementById('emergency_name').value = data.emergency_name !== '-' ? data.emergency_name : '';
+            document.getElementById('emergency_relation').value = data.emergency_relation !== '-' ? data.emergency_relation : '';
+            document.getElementById('emergency_phone').value = data.emergency_phone !== '-' ? data.emergency_phone : '';
+            
+            // Show modal
+            new bootstrap.Modal(document.getElementById('editJamaahModal')).show();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Gagal memuat data jamaah');
+        });
+}
+
+// Submit form
+function submitJamaahForm() {
+    const form = document.getElementById('formEditJamaah');
+    const formData = new FormData(form);
+    const jamaahId = document.getElementById('jamaah_id').value;
+    
+    // Show loading
+    const btn = event.target;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Menyimpan...';
+    
+        fetch(`/api/jamaah/${jamaahId}`, {
+          method: 'PUT',  // ← Changed
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('✅ Data jamaah berhasil disimpan!');
+            location.reload();
+        } else {
+            alert('❌ ' + (data.message || 'Gagal menyimpan data'));
+            btn.disabled = false;
+            btn.innerHTML = '<i class="bi bi-save"></i> Simpan Data';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('❌ Terjadi kesalahan saat menyimpan data');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-save"></i> Simpan Data';
+    });
+}
+</script>
 @endsection
 
 @push('scripts')
