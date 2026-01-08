@@ -829,8 +829,9 @@ function submitJamaahForm() {
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Menyimpan...';
     
-        fetch(`/api/jamaah/${jamaahId}`, {
-          method: 'PUT',  // ← Changed
+    // ✅ FIX: Gunakan POST (bukan PUT)
+    fetch(`/api/jamaah/${jamaahId}`, {
+        method: 'POST',  // ← Ubah dari PUT ke POST
         headers: {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
             'Accept': 'application/json'

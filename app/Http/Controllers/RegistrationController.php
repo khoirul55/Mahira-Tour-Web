@@ -336,6 +336,9 @@ public function getJamaahData($id)
 /**
  * API: Update Jamaah Data
  */
+/**
+ * API: Update Jamaah Data
+ */
 public function updateJamaahData(Request $request, $id)
 {
     $validated = $request->validate([
@@ -360,15 +363,12 @@ public function updateJamaahData(Request $request, $id)
     try {
         $jamaah = Jamaah::findOrFail($id);
         $jamaah->update($validated);
-        
-        // Update completion status
         $jamaah->updateCompletionStatus();
         
         return response()->json([
             'success' => true,
             'message' => 'Data jamaah berhasil disimpan'
         ]);
-        
     } catch (\Exception $e) {
         return response()->json([
             'success' => false,

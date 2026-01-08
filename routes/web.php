@@ -320,8 +320,14 @@ Route::get('/syarat-ketentuan', function () {
 // API ENDPOINTS FOR DASHBOARD
 // ============================================
 
-Route::get('/api/jamaah/{id}', [RegistrationController::class, 'getJamaahData'])->name('api.jamaah.get');
-Route::put('/api/jamaah/{id}', [RegistrationController::class, 'updateJamaahData']);
+// Di bagian bawah file routes/web.php
+
+// API Routes untuk Jamaah (gunakan POST, bukan PUT)
+Route::get('/api/jamaah/{id}', [RegistrationController::class, 'getJamaahData']);
+Route::post('/api/jamaah/{id}', [RegistrationController::class, 'updateJamaahData']);
+
+// Hapus route PUT ini (jika ada):
+// Route::put('/api/jamaah/{id}', [...]);
 // ============================================
 // ROUTE FALLBACK (404 Page)
 // ============================================
