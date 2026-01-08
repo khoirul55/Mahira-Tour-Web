@@ -312,7 +312,12 @@ Route::get('/syarat-ketentuan', function () {
 Route::get('/api/jamaah/{id}', [RegistrationController::class, 'getJamaahData'])->name('api.jamaah.get');
 Route::post('/api/jamaah/{id}', [RegistrationController::class, 'updateJamaahData'])->name('api.jamaah.update');
 
-
+// Upload Documents
+Route::get('/register/{id}/documents', [RegistrationController::class, 'documents'])
+    ->name('register.documents');
+    
+Route::post('/register/{id}/documents', [RegistrationController::class, 'uploadDocuments'])
+    ->name('register.documents.upload');
 
 // ROUTE FALLBACK (404 Page)
 // ============================================
