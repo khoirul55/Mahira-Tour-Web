@@ -13,6 +13,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 20px;
         }
         .login-card {
             background: white;
@@ -49,6 +50,7 @@
             color: white;
             font-weight: 700;
             margin-top: 1rem;
+            transition: all 0.3s;
         }
         .btn-login:hover {
             transform: translateY(-2px);
@@ -65,14 +67,23 @@
         </div>
         
         @if($errors->any())
-        <div class="alert alert-danger">
-            {{ $errors->first() }}
+        <div class="alert alert-danger alert-dismissible fade show">
+            <i class="bi bi-exclamation-triangle"></i> {{ $errors->first() }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
         @endif
         
         @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
+        <div class="alert alert-danger alert-dismissible fade show">
+            <i class="bi bi-exclamation-triangle"></i> {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        @endif
+        
+        @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show">
+            <i class="bi bi-check-circle"></i> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
         @endif
         
@@ -80,25 +91,44 @@
             @csrf
             
             <div class="mb-3">
-                <label class="form-label fw-bold">Email Admin</label>
-                <input type="email" name="email" class="form-control" placeholder="admin@mahiratour.com" required>
+                <label class="form-label fw-bold">
+                    <i class="bi bi-envelope"></i> Email Admin
+                </label>
+                <input 
+                    type="email" 
+                    name="email" 
+                    class="form-control @error('email') is-invalid @enderror" 
+                    placeholder="mahiratourindonesia@gmail.com"
+                    value="{{ old('email') }}"
+                    required
+                >
             </div>
             
             <div class="mb-3">
-                <label class="form-label fw-bold">Password</label>
-                <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                <label class="form-label fw-bold">
+                    <i class="bi bi-lock"></i> Password
+                </label>
+                <input 
+                    type="password" 
+                    name="password" 
+                    class="form-control @error('password') is-invalid @enderror" 
+                    placeholder="••••••••" 
+                    required
+                >
             </div>
             
             <button type="submit" class="btn btn-login">
-                <i class="bi bi-box-arrow-in-right"></i> Login
+                <i class="bi bi-box-arrow-in-right"></i> Login ke Dashboard
             </button>
         </form>
         
         <div class="text-center mt-4">
-            <a href="{{ route('home') }}" class="text-muted">
+            <a href="{{ route('home') }}" class="text-muted" style="text-decoration: none;">
                 <i class="bi bi-arrow-left"></i> Kembali ke Home
             </a>
         </div>
     </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

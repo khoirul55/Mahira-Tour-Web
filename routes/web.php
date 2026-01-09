@@ -8,6 +8,9 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\HomeController;
+use App\Models\Admin;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 /**
  * ========================================
@@ -358,30 +361,41 @@ Route::post('/cek-pendaftaran', function() {
 // ADMIN PANEL
 // ============================================
 
-// Login
-Route::get('/admin/login', function() {
+// Admin Login Form
+Route::get('/admin/login', function () {
     return view('admin.login');
 })->name('admin.login');
 
-Route::post('/admin/login', function() {
-    $validated = request()->validate([
+// Admin Login Submit
+Route::post('/admin/login', function (Request $request) {
+    $validated = $request->validate([
         'email' => 'required|email',
         'password' => 'required'
     ]);
     
-    // Simple auth (hardcoded - ganti nanti dengan database)
-    if ($validated['email'] === 'admin@mahiratour.com' && $validated['password'] === 'mahira2026') {
-        session(['admin_logged_in' => true, 'admin_email' => $validated['email']]);
-        return redirect()->route('admin.dashboard');
+    // Cari admin berdasarkan email
+    $admin = Admin::where('email', $validated['email'])->first();
+    
+    // Validasi password
+    if ($admin && Hash::check($validated['password'], $admin->password)) {
+        session([
+            'admin_logged_in' => true,
+            'admin_id' => $admin->id,
+            'admin_name' => $admin->name,        // ← PENTING!
+            'admin_email' => $admin->email
+        ]);
+        
+        return redirect()->route('admin.dashboard')
+            ->with('success', 'Login berhasil! Selamat datang, ' . $admin->name);
     }
     
-    return back()->withErrors(['error' => 'Email atau password salah'])->withInput();
+    return back()->withErrors(['email' => 'Email atau password salah'])->withInput();
 })->name('admin.login.submit');
 
-// Logout
-Route::get('/admin/logout', function() {
-    session()->forget(['admin_logged_in', 'admin_email']);
-    return redirect()->route('admin.login')->with('success', 'Berhasil logout');
+// Admin Logout
+Route::get('/admin/logout', function () {
+    session()->flush();
+    return redirect()->route('admin.login')->with('success', 'Logout berhasil');
 })->name('admin.logout');
 
 // Protected Routes
