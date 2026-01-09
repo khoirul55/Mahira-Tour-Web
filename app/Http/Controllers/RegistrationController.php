@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\{Schedule, Registration, Jamaah, Payment, Document};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{DB, Storage};
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class RegistrationController extends Controller
 {
@@ -229,17 +231,51 @@ class RegistrationController extends Controller
             ]);
             $registration->updateCompletion();
             
-            DB::commit();
-            
-            return redirect()
-                ->route('registration.dashboard', ['reg' => $registration->registration_number, 'token' => $registration->generateAccessToken()])
-                ->with('success', 'Bukti DP berhasil diupload! Menunggu verifikasi admin (1x24 jam).');
-            
+        DB::commit();
+
+        // =============================
+        // SETELAH DB::commit()
+        // =============================
+
+        // Generate token akses dashboard
+        $token = $registration->generateAccessToken();
+
+        // URL dashboard
+        $dashboardUrl = route('registration.dashboard', [
+            'reg'   => $registration->registration_number,
+            'token' => $token
+        ]);
+
+        // Kirim email
+        try {
+            Mail::to($registration->email)
+                ->send(new \App\Mail\RegistrationCreated($registration, $dashboardUrl));
         } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->withErrors(['error' => $e->getMessage()]);
+            Log::error('Email failed', [
+                'registration_id' => $registration->id,
+                'error' => $e->getMessage()
+            ]);
+            // Tidak menggagalkan proses
         }
+
+        return redirect()->route('registration.dashboard', [
+            'reg'   => $registration->registration_number,
+            'token' => $token
+        ])->with(
+            'success',
+            'Booking berhasil! Link dashboard telah dikirim ke email Anda: ' . $registration->email
+        );
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+
+        Log::error('Registration failed', [
+            'error' => $e->getMessage()
+        ]);
+
+        return back()->withErrors('Terjadi kesalahan, silakan coba lagi.');
     }
+}
     
     /**
      * Documents upload page
