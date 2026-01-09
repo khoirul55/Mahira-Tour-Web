@@ -67,13 +67,26 @@
     <hr style="border-color: rgba(255,255,255,0.3);">
     
     <nav>
-        <a href="{{ route('admin.dashboard') }}" class="text-white d-block mb-3">
-            <i class="bi bi-house"></i> Dashboard
-        </a>
-        <a href="{{ route('admin.logout') }}" class="text-white d-block">
-            <i class="bi bi-box-arrow-right"></i> Logout
-        </a>
-    </nav>
+    <a href="{{ route('admin.dashboard') }}" class="text-white d-block mb-3">
+        <i class="bi bi-house"></i> Dashboard
+    </a>
+    <!-- TAMBAH INI -->
+    <a href="{{ route('admin.galleries.index') }}" class="text-white d-block mb-3">
+        <i class="bi bi-images"></i> Kelola Galeri
+    </a>
+    <a href="{{ route('admin.logout') }}" class="text-white d-block">
+        <i class="bi bi-box-arrow-right"></i> Logout
+    </a>
+</nav>
+```
+
+---
+
+## 🧪 **TESTING**
+
+1. **Akses halaman gallery:**
+```
+   http://127.0.0.1:8000/admin/galleries
 </div>
     
 <div class="main-content">

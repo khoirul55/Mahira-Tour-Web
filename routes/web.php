@@ -399,12 +399,24 @@ Route::get('/admin/logout', function () {
 })->name('admin.logout');
 
 // Protected Routes
-Route::middleware('admin.auth')->prefix('admin')->group(function() {
+// Gallery Management (tambahkan di dalam group admin)
+Route::middleware(['admin.auth'])->prefix('admin')->group(function() {
     Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'dashboard'])
         ->name('admin.dashboard');
     
     Route::post('/verify-payment/{id}', [App\Http\Controllers\AdminController::class, 'verifyPayment'])
         ->name('admin.verify-payment');
+    
+    // TAMBAH INI - Gallery Routes
+    Route::prefix('galleries')->name('admin.galleries.')->group(function() {
+        Route::get('/', [App\Http\Controllers\Admin\GalleryController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\Admin\GalleryController::class, 'create'])->name('create');
+        Route::post('/', [App\Http\Controllers\Admin\GalleryController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [App\Http\Controllers\Admin\GalleryController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [App\Http\Controllers\Admin\GalleryController::class, 'update'])->name('update');
+        Route::delete('/{id}', [App\Http\Controllers\Admin\GalleryController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/toggle', [App\Http\Controllers\Admin\GalleryController::class, 'toggleStatus'])->name('toggle');
+    });
 });
 // ROUTE FALLBACK (404 Page)
 // ============================================

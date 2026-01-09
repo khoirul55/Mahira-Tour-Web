@@ -12,7 +12,7 @@ class AdminSeeder extends Seeder
     {
         // Gunakan updateOrCreate agar tidak error duplicate
         Admin::updateOrCreate(
-            ['email' => 'mahiratourindonesia@gmail.com'],
+            ['email' => 'mahiratourindonesiaofficial@gmail.com'],
             [
                 'name' => 'Susi Sasmita',
                 'password' => Hash::make('@Berkah01')
