@@ -353,6 +353,45 @@ Route::post('/cek-pendaftaran', function() {
         'token' => $token
     ]);
 })->name('check.registration.submit');
+
+// ============================================
+// ADMIN PANEL
+// ============================================
+
+// Login
+Route::get('/admin/login', function() {
+    return view('admin.login');
+})->name('admin.login');
+
+Route::post('/admin/login', function() {
+    $validated = request()->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
+    
+    // Simple auth (hardcoded - ganti nanti dengan database)
+    if ($validated['email'] === 'admin@mahiratour.com' && $validated['password'] === 'mahira2026') {
+        session(['admin_logged_in' => true, 'admin_email' => $validated['email']]);
+        return redirect()->route('admin.dashboard');
+    }
+    
+    return back()->withErrors(['error' => 'Email atau password salah'])->withInput();
+})->name('admin.login.submit');
+
+// Logout
+Route::get('/admin/logout', function() {
+    session()->forget(['admin_logged_in', 'admin_email']);
+    return redirect()->route('admin.login')->with('success', 'Berhasil logout');
+})->name('admin.logout');
+
+// Protected Routes
+Route::middleware('admin.auth')->prefix('admin')->group(function() {
+    Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'dashboard'])
+        ->name('admin.dashboard');
+    
+    Route::post('/verify-payment/{id}', [App\Http\Controllers\AdminController::class, 'verifyPayment'])
+        ->name('admin.verify-payment');
+});
 // ROUTE FALLBACK (404 Page)
 // ============================================
 
