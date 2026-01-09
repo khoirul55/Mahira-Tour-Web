@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\{Schedule, Registration, Jamaah, Payment, Document};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{DB, Storage};
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
+
+
 
 class RegistrationController extends Controller
 {
@@ -122,17 +124,34 @@ class RegistrationController extends Controller
             
             DB::commit();
             
+            // ========== TAMBAHKAN DI SINI ==========
+// Generate token
+$token = $registration->generateAccessToken();
+
+// Dashboard URL
+$dashboardUrl = route('registration.dashboard', [
+    'reg' => $registration->registration_number,
+    'token' => $token
+]);
+
+// Kirim email
+try {
+    Mail::to($registration->email)
+         ->send(new \App\Mail\RegistrationCreated($registration, $dashboardUrl));
+} catch (\Exception $e) {
+    Log::error('Email failed', ['error' => $e->getMessage()]);
+}
+// =======================================
             // TODO: Send WhatsApp notification with dashboard link
             // $dashboardUrl = $registration->dashboard_url;
             // SendWhatsAppNotification::dispatch($registration, $dashboardUrl);
             
-            return redirect()
-                ->route('registration.dashboard', [
-                    'reg' => $registration->registration_number,
-                    'token' => $registration->generateAccessToken()
-                ])
-            ->with('success', 'Booking berhasil! Nomor registrasi Anda: ' . $registration->registration_number);
-            
+    return redirect()
+    ->route('registration.dashboard', [
+        'reg' => $registration->registration_number,
+        'token' => $token // ← Pakai variable $token yang sudah dibuat
+    ])
+    ->with('success', 'Booking berhasil! Link dashboard telah dikirim ke: ' . $registration->email);
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->withErrors(['error' => $e->getMessage()])->withInput();
@@ -233,48 +252,12 @@ class RegistrationController extends Controller
             
         DB::commit();
 
-        // =============================
-        // SETELAH DB::commit()
-        // =============================
-
-        // Generate token akses dashboard
-        $token = $registration->generateAccessToken();
-
-        // URL dashboard
-        $dashboardUrl = route('registration.dashboard', [
-            'reg'   => $registration->registration_number,
-            'token' => $token
-        ]);
-
-        // Kirim email
-        try {
-            Mail::to($registration->email)
-                ->send(new \App\Mail\RegistrationCreated($registration, $dashboardUrl));
+        return back()->with('success', 'Bukti pembayaran berhasil diunggah. Menunggu verifikasi dari admin.');
+        
         } catch (\Exception $e) {
-            Log::error('Email failed', [
-                'registration_id' => $registration->id,
-                'error' => $e->getMessage()
-            ]);
-            // Tidak menggagalkan proses
+            DB::rollBack();
+            return back()->withErrors(['error' => $e->getMessage()]);
         }
-
-        return redirect()->route('registration.dashboard', [
-            'reg'   => $registration->registration_number,
-            'token' => $token
-        ])->with(
-            'success',
-            'Booking berhasil! Link dashboard telah dikirim ke email Anda: ' . $registration->email
-        );
-
-    } catch (\Exception $e) {
-        DB::rollBack();
-
-        Log::error('Registration failed', [
-            'error' => $e->getMessage()
-        ]);
-
-        return back()->withErrors('Terjadi kesalahan, silakan coba lagi.');
-    }
 }
     
     /**

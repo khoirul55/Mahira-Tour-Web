@@ -29,4 +29,8 @@ class Kernel extends ConsoleKernel
 
         require base_path('routes/console.php');
     }
+    protected $middlewareAliases = [
+    // ... yang lain
+    'admin.auth' => \App\Http\Middleware\AdminAuth::class,
+];
 }
