@@ -66,17 +66,21 @@
     
     <hr style="border-color: rgba(255,255,255,0.3);">
     
-    <nav>
-        <a href="{{ route('admin.dashboard') }}" class="text-white d-block mb-3">
-            <i class="bi bi-house"></i> Dashboard
-        </a>
-        <a href="{{ route('admin.galleries.index') }}" class="text-white d-block mb-3">
+<nav>
+    <a href="{{ route('admin.dashboard') }}" class="text-white d-block mb-3">
+        <i class="bi bi-house"></i> Dashboard
+    </a>
+    <a href="{{ route('admin.galleries.index') }}" class="text-white d-block mb-3">
         <i class="bi bi-images"></i> Kelola Galeri
-        </a>
-        <a href="{{ route('admin.logout') }}" class="text-white d-block">
-            <i class="bi bi-box-arrow-right"></i> Logout
-        </a>
-    </nav>
+    </a>
+    <!-- TAMBAH INI -->
+    <a href="{{ route('admin.schedules.index') }}" class="text-white d-block mb-3">
+        <i class="bi bi-calendar-event"></i> Kelola Jadwal
+    </a>
+    <a href="{{ route('admin.logout') }}" class="text-white d-block">
+        <i class="bi bi-box-arrow-right"></i> Logout
+    </a>
+</nav>
 </div>
     
 <div class="main-content">

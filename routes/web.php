@@ -351,8 +351,6 @@ Route::get('/admin/logout', function () {
     return redirect()->route('admin.login')->with('success', 'Logout berhasil');
 })->name('admin.logout');
 
-// Protected Routes
-// Gallery Management (tambahkan di dalam group admin)
 Route::middleware(['admin.auth'])->prefix('admin')->group(function() {
     Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'dashboard'])
         ->name('admin.dashboard');
@@ -360,7 +358,7 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function() {
     Route::post('/verify-payment/{id}', [App\Http\Controllers\AdminController::class, 'verifyPayment'])
         ->name('admin.verify-payment');
     
-    // TAMBAH INI - Gallery Routes
+    // Gallery Routes
     Route::prefix('galleries')->name('admin.galleries.')->group(function() {
         Route::get('/', [App\Http\Controllers\Admin\GalleryController::class, 'index'])->name('index');
         Route::get('/create', [App\Http\Controllers\Admin\GalleryController::class, 'create'])->name('create');
@@ -369,6 +367,18 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function() {
         Route::put('/{id}', [App\Http\Controllers\Admin\GalleryController::class, 'update'])->name('update');
         Route::delete('/{id}', [App\Http\Controllers\Admin\GalleryController::class, 'destroy'])->name('destroy');
         Route::post('/{id}/toggle', [App\Http\Controllers\Admin\GalleryController::class, 'toggleStatus'])->name('toggle');
+    });
+    
+    // TAMBAH INI - Schedule Routes
+    Route::prefix('schedules')->name('admin.schedules.')->group(function() {
+        Route::get('/', [App\Http\Controllers\Admin\ScheduleController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\Admin\ScheduleController::class, 'create'])->name('create');
+        Route::post('/', [App\Http\Controllers\Admin\ScheduleController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [App\Http\Controllers\Admin\ScheduleController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [App\Http\Controllers\Admin\ScheduleController::class, 'update'])->name('update');
+        Route::delete('/{id}', [App\Http\Controllers\Admin\ScheduleController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/toggle', [App\Http\Controllers\Admin\ScheduleController::class, 'toggleStatus'])->name('toggle');
+        Route::post('/{id}/quota', [App\Http\Controllers\Admin\ScheduleController::class, 'updateQuota'])->name('quota');
     });
 });
 // ROUTE FALLBACK (404 Page)
