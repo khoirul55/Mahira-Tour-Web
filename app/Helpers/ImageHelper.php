@@ -2,7 +2,8 @@
 
 namespace App\Helpers;
 
-use Intervention\Image\Laravel\Facades\Image;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 use Illuminate\Http\UploadedFile;
 
 class ImageHelper
@@ -34,11 +35,13 @@ class ImageHelper
             mkdir($dir, 0755, true);
         }
         
+        // Create ImageManager instance with GD driver
+        $manager = new ImageManager(new Driver());
+        
         // Optimize & save
-        Image::read($file)
-            ->cover($width, $height)
-            ->toWebp($quality)
-            ->save($fullPath);
+        $image = $manager->read($file->getRealPath());
+        $image->cover($width, $height);
+        $image->toWebp($quality)->save($fullPath);
         
         return "{$folder}/{$filename}";
     }
@@ -77,10 +80,12 @@ class ImageHelper
             mkdir($dir, 0755, true);
         }
         
-        Image::read($file)
-            ->cover($size, $size) // Square thumbnail
-            ->toWebp(80)
-            ->save($fullPath);
+        // Create ImageManager instance
+        $manager = new ImageManager(new Driver());
+        
+        $image = $manager->read($file->getRealPath());
+        $image->cover($size, $size); // Square thumbnail
+        $image->toWebp(80)->save($fullPath);
         
         return "{$folder}/{$filename}";
     }
