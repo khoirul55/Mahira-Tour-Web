@@ -674,12 +674,6 @@
                                 Galeri
                             </a>
                         </li>
-                        <li>
-                            <a href="{{ route('faq') }}">
-                                <i class="fa-solid fa-angle-right"></i>
-                                FAQ
-                            </a>
-                        </li>
                     </ul>
                 </div>
                 

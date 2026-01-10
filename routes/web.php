@@ -62,53 +62,6 @@ Route::post('/register/{id}/payment', [RegistrationController::class, 'submitPay
     ->name('register.payment');
 // ============================================
 
-Route::get('/faq', function () {
-    $faqs = [
-        [
-            'category' => 'Persyaratan',
-            'question' => 'Apa saja persyaratan untuk mendaftar umrah?',
-            'answer' => 'Persyaratan umrah: Mengisi Formulir Pendaftaran, Membayar DP, Pas Foto 4x6 (2 lembar), Paspor minimal berlaku 7 bulan, dan Materai 10.000 (4 lembar).'
-        ],
-        [
-            'category' => 'Persyaratan',
-            'question' => 'Bagaimana cara membuat paspor?',
-            'answer' => 'Syarat pembuatan paspor: KTP Asli + Fotocopy 2 lembar, KK Asli + Fotocopy 2 lembar, Akte Kelahiran/Ijazah SD/SMP/SMA, dan Buku Nikah (Asli + Fotocopy) 2 lembar.'
-        ],
-        [
-            'category' => 'Fasilitas',
-            'question' => 'Apa saja fasilitas yang didapat?',
-            'answer' => 'Fasilitas lengkap: Tiket Pesawat PP, Visa, Asuransi, Hotel Bintang 5, Makan 3x, Manasik, Bus Eksklusif, Muthawwif & TL, Wisata Islami, Foto Dokumentasi, Sertifikat, dan Air Zam-zam 5L.'
-        ],
-        [
-            'category' => 'Hotel',
-            'question' => 'Hotel apa yang digunakan?',
-            'answer' => 'Kami menggunakan hotel bintang 5 seperti Al Safwah, Rayyana, atau Grand Al Massa di Makkah, serta hotel berkualitas di Madinah.'
-        ],
-        [
-            'category' => 'Keberangkatan',
-            'question' => 'Dari mana saja jalur keberangkatan?',
-            'answer' => 'Mahira Tour melayani keberangkatan dari: Lampung, Padang, Jambi, Jakarta, dan Bengkulu. Kami memiliki 6 cabang di Indonesia untuk kemudahan Anda.'
-        ],
-        [
-            'category' => 'Pembayaran',
-            'question' => 'Bagaimana sistem pembayaran?',
-            'answer' => 'Anda dapat membayar DP terlebih dahulu, kemudian melunasi sebelum keberangkatan. Detail pembayaran akan dijelaskan saat pendaftaran.'
-        ],
-        [
-            'category' => 'Maskapai',
-            'question' => 'Maskapai apa yang bekerja sama dengan Mahira Tour?',
-            'answer' => 'Kami bekerja sama dengan 5 maskapai: Garuda Indonesia, Saudi Airlines, Batik Air, Lion Air, dan Super Air Jet.'
-        ],
-        [
-            'category' => 'Bimbingan',
-            'question' => 'Apakah ada bimbingan sebelum keberangkatan?',
-            'answer' => 'Ya, kami menyediakan Manasik Umrah (bimbingan ibadah) sebelum keberangkatan agar jamaah siap secara fisik dan spiritual.'
-        ]
-    ];
-    
-    return view('pages.faq', compact('faqs'));
-})->name('faq');
-
 Route::get('/galeri', [GalleryController::class, 'index'])->name('gallery');
 
 Route::get('/testimoni', [TestimonialController::class, 'index'])->name('testimonials');
