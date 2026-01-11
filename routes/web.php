@@ -380,7 +380,66 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function() {
         Route::post('/{id}/toggle', [App\Http\Controllers\Admin\ScheduleController::class, 'toggleStatus'])->name('toggle');
         Route::post('/{id}/quota', [App\Http\Controllers\Admin\ScheduleController::class, 'updateQuota'])->name('quota');
     });
+
+    // ============================================
+// REGISTRATIONS ROUTES
+// ============================================
+Route::get('/registrations', [App\Http\Controllers\AdminController::class, 'registrations'])
+    ->name('admin.registrations.index');
+
+Route::get('/registrations/{id}', [App\Http\Controllers\AdminController::class, 'showRegistration'])
+    ->name('admin.registrations.show');
+
+// ============================================
+// DOCUMENTS ROUTES
+// ============================================
+Route::prefix('documents')->name('admin.documents.')->group(function() {
+    // Index - List all documents
+    Route::get('/', [App\Http\Controllers\AdminController::class, 'documentsIndex'])
+        ->name('index');
+    
+    // Verify document
+    Route::post('/{id}/verify', [App\Http\Controllers\AdminController::class, 'verifyDocument'])
+        ->name('verify');
+    
+    // Download single document
+    Route::get('/{id}/download', [App\Http\Controllers\AdminController::class, 'downloadDocument'])
+        ->name('download');
+    
+    // Download all documents for a registration (ZIP)
+    Route::get('/download-all/{registrationId}', [App\Http\Controllers\AdminController::class, 'downloadAllDocuments'])
+        ->name('download-all');
+    
+    // Preview document
+    Route::get('/{id}/preview', [App\Http\Controllers\AdminController::class, 'previewDocument'])
+        ->name('preview');
 });
+
+// ============================================
+// PASSPORT ROUTES
+// ============================================
+Route::post('/passport/{jamaahId}/process', [App\Http\Controllers\AdminController::class, 'processPassport'])
+    ->name('admin.passport.process');
+});
+
+// ============================================
+// API ROUTES (untuk user dashboard)
+// ============================================
+// Tambahkan di luar middleware admin
+
+Route::post('/api/jamaah/{id}/passport-request', function(Request $request, $id) {
+    $jamaah = \App\Models\Jamaah::findOrFail($id);
+    
+    $jamaah->update([
+        'need_passport' => $request->need_passport ?? true,
+        'passport_request_at' => now()
+    ]);
+    
+    return response()->json([
+        'success' => true,
+        'message' => 'Request passport berhasil disimpan'
+    ]);
+})->name('api.jamaah.passport-request');
 // ROUTE FALLBACK (404 Page)
 // ============================================
 

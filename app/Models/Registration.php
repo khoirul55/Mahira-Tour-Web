@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Registration extends Model
 {
     protected $fillable = [
-        'registration_number',  'access_token','schedule_id', 'full_name', 'email', 'phone',
+        'registration_number', 'access_token', 'schedule_id', 'full_name', 'email', 'phone',
         'num_people', 'notes', 'total_price', 'dp_amount', 'payment_deadline',
         'document_deadline', 'status', 'completion_percentage', 'last_activity_at'
     ];
@@ -18,37 +18,52 @@ class Registration extends Model
         'last_activity_at' => 'datetime'
     ];
     
-    // ✅ Generate Registration Number
+    // ================================
+    // GENERATE METHODS
+    // ================================
+    
+    /**
+     * Generate Registration Number
+     */
     public static function generateRegistrationNumber()
     {
         return 'MHR-' . date('Ymd') . '-' . strtoupper(substr(md5(uniqid()), 0, 4));
     }
     
-public function generateAccessToken()
-{
-    // Jika sudah ada, pakai yang lama
-    if ($this->access_token) {
-        return $this->access_token;
+    /**
+     * Generate Access Token
+     */
+    public function generateAccessToken()
+    {
+        if ($this->access_token) {
+            return $this->access_token;
+        }
+        
+        $token = hash('sha256', $this->registration_number . uniqid() . config('app.key') . time());
+        $this->update(['access_token' => $token]);
+        
+        return $token;
     }
     
-    // Generate token baru (hanya sekali)
-    $token = hash('sha256', $this->registration_number . uniqid() . config('app.key') . time());
-    
-    // Simpan ke database
-    $this->update(['access_token' => $token]);
-    
-    return $token;
-}
-    
-public function validateAccessToken($token)
-{
-    if (!$token || !$this->access_token) {
-        return false;
+    /**
+     * Validate Access Token
+     */
+    public function validateAccessToken($token)
+    {
+        if (!$token || !$this->access_token) {
+            return false;
+        }
+        
+        return hash_equals($this->access_token, $token);
     }
     
-    return hash_equals($this->access_token, $token);
-}
-    // ✅ Calculate Completion Percentage
+    // ================================
+    // COMPLETION METHODS
+    // ================================
+    
+    /**
+     * Calculate Completion Percentage
+     */
     public function calculateCompletion()
     {
         $percentage = 5; // Base: booking created
@@ -71,14 +86,22 @@ public function validateAccessToken($token)
         return min(100, round($percentage));
     }
     
-    // ✅ Update Completion
+    /**
+     * Update Completion
+     */
     public function updateCompletion()
     {
         $this->completion_percentage = $this->calculateCompletion();
         $this->save();
     }
     
-    // ✅ Check if DP Verified
+    // ================================
+    // PAYMENT METHODS
+    // ================================
+    
+    /**
+     * Check if DP Verified
+     */
     public function hasDPVerified()
     {
         return $this->payments()
@@ -87,7 +110,9 @@ public function validateAccessToken($token)
             ->exists();
     }
     
-    // ✅ Get DP Payment
+    /**
+     * Get DP Payment
+     */
     public function dpPayment()
     {
         return $this->payments()
@@ -95,7 +120,59 @@ public function validateAccessToken($token)
             ->first();
     }
     
-    // Relations
+    // ================================
+    // DOCUMENT METHODS
+    // ================================
+    
+    /**
+     * Check if all documents are verified for all jamaah
+     */
+    public function allDocsVerified()
+    {
+        foreach ($this->jamaah as $jamaah) {
+            if (!$jamaah->allDocsVerified()) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Get total uploaded documents count
+     */
+    public function getTotalDocumentsCount()
+    {
+        return Document::whereIn('jamaah_id', $this->jamaah->pluck('id'))->count();
+    }
+    
+    /**
+     * Get total required documents count
+     */
+    public function getRequiredDocumentsCount()
+    {
+        return $this->num_people * 3; // KTP, KK, Photo
+    }
+    
+    /**
+     * Check if any jamaah needs passport
+     */
+    public function hasPassportRequests()
+    {
+        return $this->jamaah()->where('need_passport', true)->exists();
+    }
+    
+    /**
+     * Get jamaah who need passport
+     */
+    public function passportRequests()
+    {
+        return $this->jamaah()->where('need_passport', true)->get();
+    }
+    
+    // ================================
+    // RELATIONSHIPS
+    // ================================
+    
     public function schedule()
     {
         return $this->belongsTo(Schedule::class);

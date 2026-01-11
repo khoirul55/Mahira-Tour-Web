@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\{DB, Storage};
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 
-
-
 class RegistrationController extends Controller
 {
     /**
@@ -57,17 +55,17 @@ class RegistrationController extends Controller
         
         DB::beginTransaction();
         
-            try {
-                // TAMBAHKAN LOCKING DI SINI
-                $schedule = Schedule::lockForUpdate()->findOrFail($validated['schedule_id']);
-                
-                // Hitung ulang available seats dengan locking
-                $availableSeats = $schedule->quota - $schedule->seats_taken;
-                
-                if ($availableSeats < $validated['num_people']) {
-                    throw new \Exception('Maaf, kursi tidak mencukupi. Tersisa ' . $availableSeats . ' kursi.');
-                }
+        try {
+            // TAMBAHKAN LOCKING DI SINI
+            $schedule = Schedule::lockForUpdate()->findOrFail($validated['schedule_id']);
             
+            // Hitung ulang available seats dengan locking
+            $availableSeats = $schedule->quota - $schedule->seats_taken;
+            
+            if ($availableSeats < $validated['num_people']) {
+                throw new \Exception('Maaf, kursi tidak mencukupi. Tersisa ' . $availableSeats . ' kursi.');
+            }
+        
             $totalPrice = $schedule->price * $validated['num_people'];
             $dpAmount = $totalPrice * 0.30;
             
@@ -83,21 +81,21 @@ class RegistrationController extends Controller
                 'total_price' => $totalPrice,
                 'dp_amount' => $dpAmount,
                 'status' => 'draft',
-                'completion_percentage' => 5, // 5% (booking created)
+                'completion_percentage' => 5,
                 'payment_deadline' => now()->addDays(3),
                 'document_deadline' => now()->addDays(7),
                 'last_activity_at' => now()
             ]);
             
-            // ✅ Create placeholder jamaah records
+            // ✅ FIX: Create placeholder jamaah records dengan NIK UNIQUE
             for ($i = 0; $i < $validated['num_people']; $i++) {
                 Jamaah::create([
                     'registration_id' => $registration->id,
                     'title' => 'Tn.',
                     'full_name' => 'Jamaah ' . ($i + 1) . ' - Belum Dilengkapi',
-                    'nik' => 'PENDING',
+                    'nik' => 'TEMP-' . $registration->id . '-' . ($i + 1) . '-' . uniqid(), // ✅ NIK UNIQUE per jamaah
                     'birth_place' => '-',
-                    'birth_date' => now()->subYears(30), // Default 30 tahun
+                    'birth_date' => now()->subYears(30),
                     'gender' => 'L',
                     'marital_status' => 'single',
                     'father_name' => '-',
@@ -124,34 +122,30 @@ class RegistrationController extends Controller
             
             DB::commit();
             
-            // ========== TAMBAHKAN DI SINI ==========
-// Generate token
-$token = $registration->generateAccessToken();
+            // Generate token
+            $token = $registration->generateAccessToken();
 
-// Dashboard URL
-$dashboardUrl = route('registration.dashboard', [
-    'reg' => $registration->registration_number,
-    'token' => $token
-]);
+            // Dashboard URL
+            $dashboardUrl = route('registration.dashboard', [
+                'reg' => $registration->registration_number,
+                'token' => $token
+            ]);
 
-// Kirim email
-try {
-    Mail::to($registration->email)
-         ->send(new \App\Mail\RegistrationCreated($registration, $dashboardUrl));
-} catch (\Exception $e) {
-    Log::error('Email failed', ['error' => $e->getMessage()]);
-}
-// =======================================
-            // TODO: Send WhatsApp notification with dashboard link
-            // $dashboardUrl = $registration->dashboard_url;
-            // SendWhatsAppNotification::dispatch($registration, $dashboardUrl);
-            
-    return redirect()
-    ->route('registration.dashboard', [
-        'reg' => $registration->registration_number,
-        'token' => $token // ← Pakai variable $token yang sudah dibuat
-    ])
-    ->with('success', 'Booking berhasil! Link dashboard telah dikirim ke: ' . $registration->email);
+            // Kirim email
+            try {
+                Mail::to($registration->email)
+                     ->send(new \App\Mail\RegistrationCreated($registration, $dashboardUrl));
+            } catch (\Exception $e) {
+                Log::error('Email failed', ['error' => $e->getMessage()]);
+            }
+
+            return redirect()
+                ->route('registration.dashboard', [
+                    'reg' => $registration->registration_number,
+                    'token' => $token
+                ])
+                ->with('success', 'Booking berhasil! Link dashboard telah dikirim ke: ' . $registration->email);
+                
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->withErrors(['error' => $e->getMessage()])->withInput();
@@ -162,43 +156,39 @@ try {
      * DASHBOARD: Central hub untuk manage pendaftaran
      */
     public function dashboard($registrationNumber, Request $request)
-{
-    // Find registration
-    $registration = Registration::with(['schedule', 'jamaah.documents', 'payments'])
-        ->where('registration_number', $registrationNumber)
-        ->firstOrFail();
-    
-    // Validate access token
-    $token = $request->query('token');
-    
-    // Jika tidak ada token di URL, cek cookie
-    if (!$token) {
-        $token = $request->cookie('mahira_dashboard_token');
+    {
+        // Find registration
+        $registration = Registration::with(['schedule', 'jamaah.documents', 'payments'])
+            ->where('registration_number', $registrationNumber)
+            ->firstOrFail();
+        
+        // Validate access token
+        $token = $request->query('token');
+        
+        // Jika tidak ada token di URL, cek cookie
+        if (!$token) {
+            $token = $request->cookie('mahira_dashboard_token');
+        }
+        
+        if (!$token || !$registration->validateAccessToken($token)) {
+            abort(403, 'Akses tidak valid. Silakan login melalui halaman Cek Pendaftaran.');
+        }
+        
+        // Set cookie untuk next visit (30 hari)
+        cookie()->queue('mahira_dashboard_token', $token, 60 * 24 * 30);
+        
+        // Update last activity
+        $registration->update(['last_activity_at' => now()]);
+        
+        // Calculate completion
+        $completion = $registration->calculateCompletion();
+        $registration->update(['completion_percentage' => $completion]);
+        
+        // Get DP payment
+        $dpPayment = $registration->dpPayment();
+        
+        return view('pages.dashboard', compact('registration', 'completion', 'dpPayment'));
     }
-    
-    if (!$token || !$registration->validateAccessToken($token)) {
-        abort(403, 'Akses tidak valid. Silakan login melalui halaman Cek Pendaftaran.');
-    }
-    
-    // Set cookie untuk next visit (30 hari)
-    cookie()->queue('mahira_dashboard_token', $token, 60 * 24 * 30);
-    
-    // Update last activity
-    $registration->update(['last_activity_at' => now()]);
-    
-    // Calculate completion
-    $completion = $registration->calculateCompletion();
-    $registration->update(['completion_percentage' => $completion]);
-    
-    // Get DP payment
-    $dpPayment = $registration->dpPayment();
-    
-    return view('pages.dashboard', compact('registration', 'completion', 'dpPayment'));
-}
-    
-    // ========================================
-    // OLD METHODS (KEPT FOR COMPATIBILITY)
-    // ========================================
     
     /**
      * Payment page
@@ -227,7 +217,7 @@ try {
             $registration = Registration::findOrFail($registrationId);
             $dpPayment = $registration->payments()->where('payment_type', 'dp')->firstOrFail();
             
-                    // Upload file
+            // Upload file
             $file = $request->file('payment_proof');
             $filename = 'dp_' . 
                 $registration->registration_number . '_' . 
@@ -240,7 +230,7 @@ try {
             $dpPayment->update([
                 'proof_path' => $path,
                 'payment_method' => $validated['payment_method'],
-                'status' => 'pending' // Admin will verify
+                'status' => 'pending'
             ]);
             
             // Update registration
@@ -250,15 +240,15 @@ try {
             ]);
             $registration->updateCompletion();
             
-        DB::commit();
+            DB::commit();
 
-        return back()->with('success', 'Bukti pembayaran berhasil diunggah. Menunggu verifikasi dari admin.');
+            return back()->with('success', 'Bukti pembayaran berhasil diunggah. Menunggu verifikasi dari admin.');
         
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->withErrors(['error' => $e->getMessage()]);
         }
-}
+    }
     
     /**
      * Documents upload page
@@ -345,74 +335,71 @@ try {
     }
 
     /**
- * API: Get Jamaah Data
- */
-public function getJamaahData($id)
-{
-    $jamaah = Jamaah::findOrFail($id);
-    
-    return response()->json([
-        'id' => $jamaah->id,
-        'title' => $jamaah->title,
-        'full_name' => $jamaah->full_name,
-        'nik' => $jamaah->nik,
-        'birth_place' => $jamaah->birth_place,
-        'birth_date' => $jamaah->birth_date ? $jamaah->birth_date->format('Y-m-d') : null,
-        'gender' => $jamaah->gender,
-        'marital_status' => $jamaah->marital_status,
-        'father_name' => $jamaah->father_name,
-        'occupation' => $jamaah->occupation,
-        'blood_type' => $jamaah->blood_type,
-        'address' => $jamaah->address,
-        'province' => $jamaah->province,
-        'city' => $jamaah->city,
-        'emergency_name' => $jamaah->emergency_name,
-        'emergency_relation' => $jamaah->emergency_relation,
-        'emergency_phone' => $jamaah->emergency_phone
-    ]);
-}
-
-/**
- * API: Update Jamaah Data
- */
-/**
- * API: Update Jamaah Data
- */
-public function updateJamaahData(Request $request, $id)
-{
-    $validated = $request->validate([
-        'title' => 'required|string',
-        'full_name' => 'required|string|min:3',
-        'nik' => 'required|string|size:16',
-        'birth_place' => 'required|string',
-        'birth_date' => 'required|date',
-        'gender' => 'required|in:L,P',
-        'marital_status' => 'required|in:single,married,divorced,widowed',
-        'father_name' => 'required|string',
-        'occupation' => 'required|string',
-        'blood_type' => 'nullable|in:A,B,AB,O',
-        'address' => 'required|string',
-        'province' => 'nullable|string',
-        'city' => 'nullable|string',
-        'emergency_name' => 'required|string',
-        'emergency_relation' => 'required|string',
-        'emergency_phone' => 'required|string'
-    ]);
-    
-    try {
+     * API: Get Jamaah Data
+     */
+    public function getJamaahData($id)
+    {
         $jamaah = Jamaah::findOrFail($id);
-        $jamaah->update($validated);
-        $jamaah->updateCompletionStatus();
         
         return response()->json([
-            'success' => true,
-            'message' => 'Data jamaah berhasil disimpan'
+            'id' => $jamaah->id,
+            'title' => $jamaah->title,
+            'full_name' => $jamaah->full_name,
+            'nik' => $jamaah->nik,
+            'birth_place' => $jamaah->birth_place,
+            'birth_date' => $jamaah->birth_date ? $jamaah->birth_date->format('Y-m-d') : null,
+            'gender' => $jamaah->gender,
+            'marital_status' => $jamaah->marital_status,
+            'father_name' => $jamaah->father_name,
+            'occupation' => $jamaah->occupation,
+            'blood_type' => $jamaah->blood_type,
+            'address' => $jamaah->address,
+            'province' => $jamaah->province,
+            'city' => $jamaah->city,
+            'emergency_name' => $jamaah->emergency_name,
+            'emergency_relation' => $jamaah->emergency_relation,
+            'emergency_phone' => $jamaah->emergency_phone
         ]);
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => $e->getMessage()
-        ], 500);
     }
-}
+
+    /**
+     * API: Update Jamaah Data
+     */
+    public function updateJamaahData(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string',
+            'full_name' => 'required|string|min:3',
+            'nik' => 'required|string|size:16',
+            'birth_place' => 'required|string',
+            'birth_date' => 'required|date',
+            'gender' => 'required|in:L,P',
+            'marital_status' => 'required|in:single,married,divorced,widowed',
+            'father_name' => 'required|string',
+            'occupation' => 'required|string',
+            'blood_type' => 'nullable|in:A,B,AB,O',
+            'address' => 'required|string',
+            'province' => 'nullable|string',
+            'city' => 'nullable|string',
+            'emergency_name' => 'required|string',
+            'emergency_relation' => 'required|string',
+            'emergency_phone' => 'required|string'
+        ]);
+        
+        try {
+            $jamaah = Jamaah::findOrFail($id);
+            $jamaah->update($validated);
+            $jamaah->updateCompletionStatus();
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Data jamaah berhasil disimpan'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

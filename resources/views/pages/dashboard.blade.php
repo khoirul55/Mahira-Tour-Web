@@ -3,6 +3,9 @@
 @section('title', 'Dashboard Pendaftaran - Mahira Tour')
 
 @push('styles')
+<!-- Alpine.js -->
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 <style>
 /* Dashboard Styles */
 .dashboard-section {
@@ -359,6 +362,319 @@
     font-size: 1.5rem;
 }
 
+/* Alpine.js Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 29, 95, 0.6);
+    backdrop-filter: blur(5px);
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.modal-container {
+    background: white;
+    border-radius: 24px;
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.modal-header-custom {
+    background: linear-gradient(135deg, #001D5F 0%, #002B8F 100%);
+    color: white;
+    padding: 1.5rem 2rem;
+    border-radius: 24px 24px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header-custom h3 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.modal-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.modal-body-custom {
+    padding: 2rem;
+}
+
+/* Document Upload Card */
+.doc-upload-card {
+    background: #F8F9FF;
+    border: 2px dashed #E8EBF3;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s;
+}
+
+.doc-upload-card:hover {
+    border-color: #001D5F;
+}
+
+.doc-upload-card.uploaded {
+    background: #D1FAE5;
+    border-color: #10B981;
+    border-style: solid;
+}
+
+.doc-upload-card .doc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.doc-upload-card .doc-title {
+    font-weight: 700;
+    color: #001D5F;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.doc-upload-card .doc-title i {
+    color: #D4AF37;
+}
+
+.doc-upload-card .doc-status {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+}
+
+.doc-upload-card .doc-status.pending {
+    background: #FEF3C7;
+    color: #F59E0B;
+}
+
+.doc-upload-card .doc-status.uploaded {
+    background: #D1FAE5;
+    color: #059669;
+}
+
+.doc-upload-input {
+    display: none;
+}
+
+.doc-upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    cursor: pointer;
+    border: 2px dashed #CBD5E1;
+    border-radius: 12px;
+    transition: all 0.3s;
+    background: white;
+}
+
+.doc-upload-label:hover {
+    border-color: #001D5F;
+    background: #F8F9FF;
+}
+
+.doc-upload-label i {
+    font-size: 2.5rem;
+    color: #CBD5E1;
+    margin-bottom: 0.5rem;
+}
+
+.doc-upload-label span {
+    color: #6B7280;
+    font-size: 0.9rem;
+}
+
+.doc-preview {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 12px;
+}
+
+.doc-preview img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.doc-preview .doc-info {
+    flex: 1;
+}
+
+.doc-preview .doc-name {
+    font-weight: 600;
+    color: #001D5F;
+    font-size: 0.9rem;
+}
+
+.doc-preview .doc-size {
+    color: #6B7280;
+    font-size: 0.8rem;
+}
+
+.doc-preview .btn-remove {
+    background: #FEE2E2;
+    color: #EF4444;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.doc-preview .btn-remove:hover {
+    background: #EF4444;
+    color: white;
+}
+
+/* Passport Option */
+.passport-option {
+    background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+    border: 2px solid #F59E0B;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.passport-option h4 {
+    color: #001D5F;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.passport-option p {
+    color: #6B7280;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.passport-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+}
+
+.passport-checkbox input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    accent-color: #001D5F;
+}
+
+.passport-checkbox span {
+    font-weight: 600;
+    color: #001D5F;
+}
+
+/* Modal Footer */
+.modal-footer-custom {
+    padding: 1.5rem 2rem;
+    border-top: 2px solid #E8EBF3;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.btn-cancel {
+    padding: 0.75rem 1.5rem;
+    background: #E8EBF3;
+    color: #6B7280;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-cancel:hover {
+    background: #CBD5E1;
+}
+
+.btn-submit {
+    padding: 0.75rem 2rem;
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+}
+
+.btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Document List in Card */
+.doc-list-mini {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.doc-mini-item {
+    background: #F8F9FF;
+    padding: 0.75rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.doc-mini-item i {
+    color: #10B981;
+}
+
+.doc-mini-item.pending i {
+    color: #F59E0B;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .action-grid {
@@ -376,12 +692,16 @@
     .dashboard-header .reg-number {
         font-size: 1.2rem;
     }
+    
+    .doc-list-mini {
+        grid-template-columns: 1fr;
+    }
 }
 </style>
 @endpush
 
 @section('content')
-<section class="dashboard-section">
+<section class="dashboard-section" x-data="dashboardApp()">
     <div class="container dashboard-container">
         
         <!-- Success Message -->
@@ -462,10 +782,10 @@
                             @endif
                         </small>
                     </div>
-                        <button class="btn-jamaah {{ $jamaah->completion_status === 'complete' ? 'complete' : '' }}" 
-                                onclick="openEditJamaah({{ $jamaah->id }}, {{ $index + 1 }})">
-                            {{ $jamaah->completion_status === 'complete' ? 'Edit' : 'Lengkapi' }}
-                        </button>
+                    <button class="btn-jamaah {{ $jamaah->completion_status === 'complete' ? 'complete' : '' }}" 
+                            @click="openEditJamaah({{ $jamaah->id }}, {{ $index + 1 }})">
+                        {{ $jamaah->completion_status === 'complete' ? 'Edit' : 'Lengkapi' }}
+                    </button>
                 </div>
                 @endforeach
                 
@@ -523,12 +843,12 @@
                         <p style="margin: 0; opacity: 0.9;">Bank BNI</p>
                         <div class="bank-account">1234 5678 9012</div>
                         <p style="margin: 0;">a.n. <strong>PT Mahira Tour & Travel</strong></p>
-                        <button class="btn-copy" onclick="copyAccount('123456789012')">
+                        <button class="btn-copy" @click="copyAccount('123456789012')">
                             <i class="bi bi-clipboard"></i> Copy Nomor Rekening
                         </button>
                     </div>
                     
-                   <form action="{{ route('register.payment', $registration->id) }}" 
+                    <form action="{{ route('register.payment', $registration->id) }}" 
                           method="POST" 
                           enctype="multipart/form-data" 
                           class="upload-form">
@@ -563,20 +883,34 @@
             <div class="action-card">
                 <div class="action-card-header">
                     <h3><i class="bi bi-file-earmark-check-fill"></i> Upload Dokumen</h3>
-                    <span class="badge-status badge-pending">0 / {{ $registration->num_people }} Lengkap</span>
+                    @php
+                        $totalDocs = $registration->jamaah->sum(fn($j) => $j->documents->count());
+                        $requiredDocs = $registration->num_people * 3; // KTP, KK, Foto per jamaah
+                    @endphp
+                    <span class="badge-status {{ $totalDocs >= $requiredDocs ? 'badge-complete' : 'badge-pending' }}">
+                        {{ $totalDocs }} / {{ $requiredDocs }} Dokumen
+                    </span>
                 </div>
                 
                 @if($registration->hasDPVerified())
-                    <div class="status-message info">
+                    <div class="status-message info" style="margin-bottom: 1rem;">
                         <i class="bi bi-info-circle-fill"></i>
-                        <small>Upload dokumen KTP, KK, Foto untuk setiap jamaah</small>
+                        <small>Upload dokumen KTP, KK, Foto, dan Buku Nikah (jika menikah) untuk setiap jamaah</small>
                     </div>
                     
-                    <a href="{{ route('register.documents', $registration->id) }}" 
-                       class="btn-upload" 
-                       style="display: block; text-align: center; text-decoration: none;">
-                        <i class="bi bi-cloud-upload-fill"></i> Upload Dokumen
-                    </a>
+                    @foreach($registration->jamaah as $index => $jamaah)
+                    <div class="jamaah-item">
+                        <div class="jamaah-info">
+                            <h4>{{ $jamaah->isPlaceholder() ? 'Jamaah ' . ($index + 1) : $jamaah->display_name }}</h4>
+                            <small>
+                                <i class="bi bi-file-earmark"></i> {{ $jamaah->documents->count() }} dokumen diupload
+                            </small>
+                        </div>
+                        <button class="btn-jamaah" @click="openDocumentModal({{ $jamaah->id }}, '{{ $jamaah->isPlaceholder() ? 'Jamaah ' . ($index + 1) : $jamaah->display_name }}', {{ $index + 1 }})">
+                            <i class="bi bi-cloud-upload"></i> Upload
+                        </button>
+                    </div>
+                    @endforeach
                 @else
                     <div class="status-message warning">
                         <i class="bi bi-lock-fill"></i>
@@ -588,34 +922,31 @@
         </div>
         
     </div>
-</section>
-
-<!-- Contact CS Sticky -->
-<div class="contact-cs-sticky">
-    <a href="https://wa.me/6282184515310?text=Halo%20Mahira%20Tour,%20saya%20butuh%20bantuan.%20Nomor%20Registrasi:%20{{ $registration->registration_number }}" 
-       class="btn-wa" 
-       target="_blank">
-        <i class="bi bi-whatsapp"></i>
-        <span>Butuh Bantuan?</span>
-    </a>
-</div>
-<!-- Modal Edit Jamaah -->
-<div class="modal fade" id="editJamaahModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-        <div class="modal-content" style="border-radius: 20px; border: none;">
-            <div class="modal-header" style="background: linear-gradient(135deg, #001D5F 0%, #002B8F 100%); color: white; border-radius: 20px 20px 0 0;">
-                <h5 class="modal-title">
-                    <i class="bi bi-person-fill-gear"></i> 
-                    Lengkapi Data Jamaah <span id="modalJamaahNumber"></span>
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+    
+    <!-- ========================================== -->
+    <!-- MODAL: Edit Data Jamaah (Alpine.js) -->
+    <!-- ========================================== -->
+    <div x-show="showJamaahModal" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="modal-overlay"
+         @click.self="showJamaahModal = false"
+         style="display: none;">
+        <div class="modal-container" @click.stop>
+            <div class="modal-header-custom">
+                <h3><i class="bi bi-person-fill-gear"></i> Lengkapi Data Jamaah <span x-text="jamaahNumber"></span></h3>
+                <button class="modal-close" @click="showJamaahModal = false">
+                    <i class="bi bi-x-lg"></i>
+                </button>
             </div>
             
-            <div class="modal-body" style="padding: 2rem;">
-                <form id="formEditJamaah" method="POST">
-                    @csrf
-                    
-                    <input type="hidden" id="jamaah_id" name="jamaah_id">
+            <div class="modal-body-custom">
+                <form id="formEditJamaah" @submit.prevent="submitJamaahForm">
+                    <input type="hidden" x-model="jamaahId">
                     
                     <!-- Identitas -->
                     <h6 style="color: #001D5F; font-weight: 700; margin-bottom: 1rem;">
@@ -625,7 +956,7 @@
                     <div class="row g-3">
                         <div class="col-md-3">
                             <label class="form-label fw-bold">Gelar <span class="text-danger">*</span></label>
-                            <select name="title" id="title" class="form-control-dash" required>
+                            <select x-model="jamaahData.title" class="form-control-dash" required>
                                 <option value="">Pilih</option>
                                 <option value="Tn.">Tn.</option>
                                 <option value="Ny.">Ny.</option>
@@ -634,18 +965,18 @@
                         </div>
                         <div class="col-md-9">
                             <label class="form-label fw-bold">Nama Lengkap (Sesuai KTP) <span class="text-danger">*</span></label>
-                            <input type="text" name="full_name" id="full_name" class="form-control-dash" required>
+                            <input type="text" x-model="jamaahData.full_name" class="form-control-dash" required>
                         </div>
                     </div>
                     
                     <div class="row g-3 mt-2">
                         <div class="col-md-6">
                             <label class="form-label fw-bold">NIK <span class="text-danger">*</span></label>
-                            <input type="text" name="nik" id="nik" class="form-control-dash" maxlength="16" required>
+                            <input type="text" x-model="jamaahData.nik" class="form-control-dash" maxlength="16" required>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-bold">Jenis Kelamin <span class="text-danger">*</span></label>
-                            <select name="gender" id="gender" class="form-control-dash" required>
+                            <select x-model="jamaahData.gender" class="form-control-dash" required>
                                 <option value="">Pilih</option>
                                 <option value="L">Laki-laki</option>
                                 <option value="P">Perempuan</option>
@@ -653,7 +984,7 @@
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-bold">Gol. Darah</label>
-                            <select name="blood_type" id="blood_type" class="form-control-dash">
+                            <select x-model="jamaahData.blood_type" class="form-control-dash">
                                 <option value="">-</option>
                                 <option value="A">A</option>
                                 <option value="B">B</option>
@@ -666,18 +997,18 @@
                     <div class="row g-3 mt-2">
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Tempat Lahir <span class="text-danger">*</span></label>
-                            <input type="text" name="birth_place" id="birth_place" class="form-control-dash" required>
+                            <input type="text" x-model="jamaahData.birth_place" class="form-control-dash" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Tanggal Lahir <span class="text-danger">*</span></label>
-                            <input type="date" name="birth_date" id="birth_date" class="form-control-dash" required>
+                            <input type="date" x-model="jamaahData.birth_date" class="form-control-dash" required>
                         </div>
                     </div>
                     
                     <div class="row g-3 mt-2">
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Status Pernikahan <span class="text-danger">*</span></label>
-                            <select name="marital_status" id="marital_status" class="form-control-dash" required>
+                            <select x-model="jamaahData.marital_status" class="form-control-dash" required>
                                 <option value="">Pilih</option>
                                 <option value="single">Belum Menikah</option>
                                 <option value="married">Menikah</option>
@@ -687,7 +1018,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Nama Ayah Kandung <span class="text-danger">*</span></label>
-                            <input type="text" name="father_name" id="father_name" class="form-control-dash" required>
+                            <input type="text" x-model="jamaahData.father_name" class="form-control-dash" required>
                             <small class="text-muted">Untuk keperluan passport</small>
                         </div>
                     </div>
@@ -695,7 +1026,7 @@
                     <div class="row g-3 mt-2">
                         <div class="col-12">
                             <label class="form-label fw-bold">Pekerjaan <span class="text-danger">*</span></label>
-                            <input type="text" name="occupation" id="occupation" class="form-control-dash" required>
+                            <input type="text" x-model="jamaahData.occupation" class="form-control-dash" required>
                         </div>
                     </div>
                     
@@ -707,18 +1038,18 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label fw-bold">Alamat Lengkap <span class="text-danger">*</span></label>
-                            <textarea name="address" id="address" class="form-control-dash" rows="2" required></textarea>
+                            <textarea x-model="jamaahData.address" class="form-control-dash" rows="2" required></textarea>
                         </div>
                     </div>
                     
                     <div class="row g-3 mt-2">
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Provinsi</label>
-                            <input type="text" name="province" id="province" class="form-control-dash">
+                            <input type="text" x-model="jamaahData.province" class="form-control-dash">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Kota/Kabupaten</label>
-                            <input type="text" name="city" id="city" class="form-control-dash">
+                            <input type="text" x-model="jamaahData.city" class="form-control-dash">
                         </div>
                     </div>
                     
@@ -730,11 +1061,11 @@
                     <div class="row g-3">
                         <div class="col-md-4">
                             <label class="form-label fw-bold">Nama <span class="text-danger">*</span></label>
-                            <input type="text" name="emergency_name" id="emergency_name" class="form-control-dash" required>
+                            <input type="text" x-model="jamaahData.emergency_name" class="form-control-dash" required>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label fw-bold">Hubungan <span class="text-danger">*</span></label>
-                            <select name="emergency_relation" id="emergency_relation" class="form-control-dash" required>
+                            <select x-model="jamaahData.emergency_relation" class="form-control-dash" required>
                                 <option value="">Pilih</option>
                                 <option value="ayah">Ayah</option>
                                 <option value="ibu">Ibu</option>
@@ -746,136 +1077,493 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label fw-bold">No. Telepon <span class="text-danger">*</span></label>
-                            <input type="tel" name="emergency_phone" id="emergency_phone" class="form-control-dash" required>
+                            <input type="tel" x-model="jamaahData.emergency_phone" class="form-control-dash" required>
                         </div>
                     </div>
-                    
                 </form>
             </div>
             
-            <div class="modal-footer" style="border-top: 2px solid #E8EBF3; padding: 1.5rem;">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 50px; padding: 10px 25px;">
-                    Batal
-                </button>
-                <button type="button" class="btn btn-primary" onclick="submitJamaahForm()" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); border: none; border-radius: 50px; padding: 10px 30px; font-weight: 700;">
-                    <i class="bi bi-save"></i> Simpan Data
+            <div class="modal-footer-custom">
+                <button type="button" class="btn-cancel" @click="showJamaahModal = false">Batal</button>
+                <button type="button" class="btn-submit" @click="submitJamaahForm" :disabled="isSubmitting">
+                    <span x-show="!isSubmitting"><i class="bi bi-save"></i> Simpan Data</span>
+                    <span x-show="isSubmitting"><i class="bi bi-hourglass-split"></i> Menyimpan...</span>
                 </button>
             </div>
         </div>
     </div>
-</div>
-
-<style>
-.modal-backdrop {
-    background-color: rgba(0, 29, 95, 0.5);
-}
-
-.form-control-dash {
-    font-size: 0.95rem;
-}
-
-.form-label {
-    font-size: 0.9rem;
-    color: #001D5F;
-}
-</style>
-
-<script>
-// Open modal dengan data jamaah
-function openEditJamaah(jamaahId, jamaahNumber) {
-    // Set modal title
-    document.getElementById('modalJamaahNumber').textContent = jamaahNumber;
-    document.getElementById('jamaah_id').value = jamaahId;
     
-    // Get jamaah data via AJAX
-    fetch(`/api/jamaah/${jamaahId}`)
-        .then(response => response.json())
-        .then(data => {
-            // Populate form
-            document.getElementById('title').value = data.title || '';
-            document.getElementById('full_name').value = data.full_name || '';
-            document.getElementById('nik').value = data.nik !== 'PENDING' ? data.nik : '';
-            document.getElementById('gender').value = data.gender || '';
-            document.getElementById('blood_type').value = data.blood_type || '';
-            document.getElementById('birth_place').value = data.birth_place !== '-' ? data.birth_place : '';
-            document.getElementById('birth_date').value = data.birth_date || '';
-            document.getElementById('marital_status').value = data.marital_status || '';
-            document.getElementById('father_name').value = data.father_name !== '-' ? data.father_name : '';
-            document.getElementById('occupation').value = data.occupation !== '-' ? data.occupation : '';
-            document.getElementById('address').value = data.address !== '-' ? data.address : '';
-            document.getElementById('province').value = data.province || '';
-            document.getElementById('city').value = data.city || '';
-            document.getElementById('emergency_name').value = data.emergency_name !== '-' ? data.emergency_name : '';
-            document.getElementById('emergency_relation').value = data.emergency_relation !== '-' ? data.emergency_relation : '';
-            document.getElementById('emergency_phone').value = data.emergency_phone !== '-' ? data.emergency_phone : '';
+    <!-- ========================================== -->
+    <!-- MODAL: Upload Dokumen (Alpine.js) -->
+    <!-- ========================================== -->
+    <div x-show="showDocModal" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="modal-overlay"
+         @click.self="showDocModal = false"
+         style="display: none;">
+        <div class="modal-container" @click.stop>
+            <div class="modal-header-custom">
+                <h3><i class="bi bi-file-earmark-arrow-up"></i> Upload Dokumen - <span x-text="docJamaahName"></span></h3>
+                <button class="modal-close" @click="showDocModal = false">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
             
-            // Show modal
-            new bootstrap.Modal(document.getElementById('editJamaahModal')).show();
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Gagal memuat data jamaah');
-        });
-}
+            <div class="modal-body-custom">
+                <form id="formUploadDoc" @submit.prevent="submitDocuments">
+                    <input type="hidden" x-model="docJamaahId">
+                    
+                    <!-- KTP -->
+                    <div class="doc-upload-card" :class="{ 'uploaded': documents.ktp.file }">
+                        <div class="doc-header">
+                            <div class="doc-title">
+                                <i class="bi bi-card-heading"></i>
+                                KTP <span class="text-danger">*</span>
+                            </div>
+                            <span class="doc-status" :class="documents.ktp.file ? 'uploaded' : 'pending'">
+                                <span x-text="documents.ktp.file ? 'Siap Upload' : 'Belum Upload'"></span>
+                            </span>
+                        </div>
+                        
+                        <template x-if="!documents.ktp.file">
+                            <label class="doc-upload-label">
+                                <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'ktp')">
+                                <i class="bi bi-cloud-upload"></i>
+                                <span>Klik untuk upload KTP</span>
+                                <small style="color: #9CA3AF; font-size: 0.8rem;">JPG, PNG, PDF (Max 2MB)</small>
+                            </label>
+                        </template>
+                        
+                        <template x-if="documents.ktp.file">
+                            <div class="doc-preview">
+                                <img :src="documents.ktp.preview || '/images/doc-icon.png'" alt="KTP Preview">
+                                <div class="doc-info">
+                                    <div class="doc-name" x-text="documents.ktp.file.name"></div>
+                                    <div class="doc-size" x-text="formatFileSize(documents.ktp.file.size)"></div>
+                                </div>
+                                <button type="button" class="btn-remove" @click="removeFile('ktp')">
+                                    <i class="bi bi-trash"></i> Hapus
+                                </button>
+                            </div>
+                        </template>
+                    </div>
+                    
+                    <!-- Kartu Keluarga -->
+                    <div class="doc-upload-card" :class="{ 'uploaded': documents.kk.file }">
+                        <div class="doc-header">
+                            <div class="doc-title">
+                                <i class="bi bi-people"></i>
+                                Kartu Keluarga (KK) <span class="text-danger">*</span>
+                            </div>
+                            <span class="doc-status" :class="documents.kk.file ? 'uploaded' : 'pending'">
+                                <span x-text="documents.kk.file ? 'Siap Upload' : 'Belum Upload'"></span>
+                            </span>
+                        </div>
+                        
+                        <template x-if="!documents.kk.file">
+                            <label class="doc-upload-label">
+                                <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'kk')">
+                                <i class="bi bi-cloud-upload"></i>
+                                <span>Klik untuk upload Kartu Keluarga</span>
+                                <small style="color: #9CA3AF; font-size: 0.8rem;">JPG, PNG, PDF (Max 2MB)</small>
+                            </label>
+                        </template>
+                        
+                        <template x-if="documents.kk.file">
+                            <div class="doc-preview">
+                                <img :src="documents.kk.preview || '/images/doc-icon.png'" alt="KK Preview">
+                                <div class="doc-info">
+                                    <div class="doc-name" x-text="documents.kk.file.name"></div>
+                                    <div class="doc-size" x-text="formatFileSize(documents.kk.file.size)"></div>
+                                </div>
+                                <button type="button" class="btn-remove" @click="removeFile('kk')">
+                                    <i class="bi bi-trash"></i> Hapus
+                                </button>
+                            </div>
+                        </template>
+                    </div>
+                    
+                    <!-- Foto -->
+                    <div class="doc-upload-card" :class="{ 'uploaded': documents.photo.file }">
+                        <div class="doc-header">
+                            <div class="doc-title">
+                                <i class="bi bi-camera"></i>
+                                Pas Foto 4x6 <span class="text-danger">*</span>
+                            </div>
+                            <span class="doc-status" :class="documents.photo.file ? 'uploaded' : 'pending'">
+                                <span x-text="documents.photo.file ? 'Siap Upload' : 'Belum Upload'"></span>
+                            </span>
+                        </div>
+                        
+                        <template x-if="!documents.photo.file">
+                            <label class="doc-upload-label">
+                                <input type="file" class="doc-upload-input" accept="image/*" @change="handleFileSelect($event, 'photo')">
+                                <i class="bi bi-cloud-upload"></i>
+                                <span>Klik untuk upload Pas Foto</span>
+                                <small style="color: #9CA3AF; font-size: 0.8rem;">JPG, PNG (Max 2MB) - Background putih</small>
+                            </label>
+                        </template>
+                        
+                        <template x-if="documents.photo.file">
+                            <div class="doc-preview">
+                                <img :src="documents.photo.preview || '/images/doc-icon.png'" alt="Photo Preview">
+                                <div class="doc-info">
+                                    <div class="doc-name" x-text="documents.photo.file.name"></div>
+                                    <div class="doc-size" x-text="formatFileSize(documents.photo.file.size)"></div>
+                                </div>
+                                <button type="button" class="btn-remove" @click="removeFile('photo')">
+                                    <i class="bi bi-trash"></i> Hapus
+                                </button>
+                            </div>
+                        </template>
+                    </div>
+                    
+                    <!-- Buku Nikah (Opsional) -->
+                    <div class="doc-upload-card" :class="{ 'uploaded': documents.buku_nikah.file }">
+                        <div class="doc-header">
+                            <div class="doc-title">
+                                <i class="bi bi-heart"></i>
+                                Buku Nikah <small class="text-muted">(Jika sudah menikah)</small>
+                            </div>
+                            <span class="doc-status" :class="documents.buku_nikah.file ? 'uploaded' : 'pending'">
+                                <span x-text="documents.buku_nikah.file ? 'Siap Upload' : 'Opsional'"></span>
+                            </span>
+                        </div>
+                        
+                        <template x-if="!documents.buku_nikah.file">
+                            <label class="doc-upload-label">
+                                <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'buku_nikah')">
+                                <i class="bi bi-cloud-upload"></i>
+                                <span>Klik untuk upload Buku Nikah</span>
+                                <small style="color: #9CA3AF; font-size: 0.8rem;">JPG, PNG, PDF (Max 2MB)</small>
+                            </label>
+                        </template>
+                        
+                        <template x-if="documents.buku_nikah.file">
+                            <div class="doc-preview">
+                                <img :src="documents.buku_nikah.preview || '/images/doc-icon.png'" alt="Buku Nikah Preview">
+                                <div class="doc-info">
+                                    <div class="doc-name" x-text="documents.buku_nikah.file.name"></div>
+                                    <div class="doc-size" x-text="formatFileSize(documents.buku_nikah.file.size)"></div>
+                                </div>
+                                <button type="button" class="btn-remove" @click="removeFile('buku_nikah')">
+                                    <i class="bi bi-trash"></i> Hapus
+                                </button>
+                            </div>
+                        </template>
+                    </div>
+                    
+                    <!-- Passport Option -->
+                    <div class="passport-option">
+                        <h4><i class="bi bi-passport"></i> Passport</h4>
+                        <p>Jika Anda belum memiliki passport, tim Mahira Tour dapat membantu pembuatan passport Anda.</p>
+                        
+                        <div class="doc-upload-card" :class="{ 'uploaded': documents.passport.file }" x-show="!noPassport" style="margin-bottom: 1rem;">
+                            <div class="doc-header">
+                                <div class="doc-title">
+                                    <i class="bi bi-passport-fill"></i>
+                                    Upload Passport
+                                </div>
+                                <span class="doc-status" :class="documents.passport.file ? 'uploaded' : 'pending'">
+                                    <span x-text="documents.passport.file ? 'Siap Upload' : 'Belum Upload'"></span>
+                                </span>
+                            </div>
+                            
+                            <template x-if="!documents.passport.file">
+                                <label class="doc-upload-label">
+                                    <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'passport')">
+                                    <i class="bi bi-cloud-upload"></i>
+                                    <span>Klik untuk upload Passport</span>
+                                    <small style="color: #9CA3AF; font-size: 0.8rem;">JPG, PNG, PDF (Max 2MB)</small>
+                                </label>
+                            </template>
+                            
+                            <template x-if="documents.passport.file">
+                                <div class="doc-preview">
+                                    <img :src="documents.passport.preview || '/images/doc-icon.png'" alt="Passport Preview">
+                                    <div class="doc-info">
+                                        <div class="doc-name" x-text="documents.passport.file.name"></div>
+                                        <div class="doc-size" x-text="formatFileSize(documents.passport.file.size)"></div>
+                                    </div>
+                                    <button type="button" class="btn-remove" @click="removeFile('passport')">
+                                        <i class="bi bi-trash"></i> Hapus
+                                    </button>
+                                </div>
+                            </template>
+                        </div>
+                        
+                        <label class="passport-checkbox">
+                            <input type="checkbox" x-model="noPassport" @change="if(noPassport) removeFile('passport')">
+                            <span>Saya belum punya passport, mohon dibuatkan oleh tim Mahira Tour</span>
+                        </label>
+                        
+                        <div x-show="noPassport" class="status-message info" style="margin-top: 1rem;">
+                            <i class="bi bi-info-circle-fill"></i>
+                            <small>Tim kami akan menghubungi Anda untuk proses pembuatan passport. Pastikan dokumen KTP & KK sudah di-upload.</small>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer-custom">
+                <button type="button" class="btn-cancel" @click="showDocModal = false">Batal</button>
+                <button type="button" class="btn-submit" @click="submitDocuments" :disabled="isUploading || !canSubmitDocs">
+                    <span x-show="!isUploading"><i class="bi bi-cloud-upload"></i> Upload Dokumen</span>
+                    <span x-show="isUploading"><i class="bi bi-hourglass-split"></i> Mengupload...</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
 
-function submitJamaahForm() {
-    const form = document.getElementById('formEditJamaah');
-    const formData = new FormData(form);
-    const jamaahId = document.getElementById('jamaah_id').value;
-    
-    // Show loading
-    const btn = event.target;
-    const originalHTML = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Menyimpan...';
-    
-    // Convert FormData to JSON
-    const data = {};
-    formData.forEach((value, key) => {
-        data[key] = value;
-    });
-    
-    fetch(`/api/jamaah/${jamaahId}`, {
-        method: 'POST', // ✅ DIUBAH DARI PUT KE POST
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('✅ Data jamaah berhasil disimpan!');
-            location.reload();
-        } else {
-            alert('❌ ' + (data.message || 'Gagal menyimpan data'));
-            btn.disabled = false;
-            btn.innerHTML = originalHTML;
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('❌ Terjadi kesalahan saat menyimpan data');
-        btn.disabled = false;
-        btn.innerHTML = originalHTML;
-    });
-}
-</script>
+<!-- Contact CS Sticky -->
+<div class="contact-cs-sticky">
+    <a href="https://wa.me/6282184515310?text=Halo%20Mahira%20Tour,%20saya%20butuh%20bantuan.%20Nomor%20Registrasi:%20{{ $registration->registration_number }}" 
+       class="btn-wa" 
+       target="_blank">
+        <i class="bi bi-whatsapp"></i>
+        <span>Butuh Bantuan?</span>
+    </a>
+</div>
 @endsection
 
 @push('scripts')
 <script>
-// Copy account number
-function copyAccount(text) {
-    navigator.clipboard.writeText(text);
-    alert('✅ Nomor rekening berhasil dicopy!');
+function dashboardApp() {
+    return {
+        // Modal States
+        showJamaahModal: false,
+        showDocModal: false,
+        
+        // Jamaah Data
+        jamaahId: null,
+        jamaahNumber: '',
+        jamaahData: {
+            title: '',
+            full_name: '',
+            nik: '',
+            gender: '',
+            blood_type: '',
+            birth_place: '',
+            birth_date: '',
+            marital_status: '',
+            father_name: '',
+            occupation: '',
+            address: '',
+            province: '',
+            city: '',
+            emergency_name: '',
+            emergency_relation: '',
+            emergency_phone: ''
+        },
+        
+        // Document Data
+        docJamaahId: null,
+        docJamaahName: '',
+        documents: {
+            ktp: { file: null, preview: null },
+            kk: { file: null, preview: null },
+            photo: { file: null, preview: null },
+            buku_nikah: { file: null, preview: null },
+            passport: { file: null, preview: null }
+        },
+        noPassport: false,
+        
+        // Loading States
+        isSubmitting: false,
+        isUploading: false,
+        
+        // Computed
+        get canSubmitDocs() {
+            return this.documents.ktp.file && this.documents.kk.file && this.documents.photo.file;
+        },
+        
+        // Methods
+        copyAccount(text) {
+            navigator.clipboard.writeText(text);
+            alert('✅ Nomor rekening berhasil dicopy!');
+        },
+        
+        async openEditJamaah(id, number) {
+            this.jamaahId = id;
+            this.jamaahNumber = number;
+            
+            try {
+                const response = await fetch(`/api/jamaah/${id}`);
+                const data = await response.json();
+                
+                this.jamaahData = {
+                    title: data.title || '',
+                    full_name: data.full_name && !data.full_name.includes('Belum Dilengkapi') ? data.full_name : '',
+                    nik: data.nik !== 'PENDING' ? data.nik : '',
+                    gender: data.gender || '',
+                    blood_type: data.blood_type || '',
+                    birth_place: data.birth_place !== '-' ? data.birth_place : '',
+                    birth_date: data.birth_date || '',
+                    marital_status: data.marital_status || '',
+                    father_name: data.father_name !== '-' ? data.father_name : '',
+                    occupation: data.occupation !== '-' ? data.occupation : '',
+                    address: data.address !== '-' ? data.address : '',
+                    province: data.province || '',
+                    city: data.city || '',
+                    emergency_name: data.emergency_name !== '-' ? data.emergency_name : '',
+                    emergency_relation: data.emergency_relation !== '-' ? data.emergency_relation : '',
+                    emergency_phone: data.emergency_phone !== '-' ? data.emergency_phone : ''
+                };
+                
+                this.showJamaahModal = true;
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal memuat data jamaah');
+            }
+        },
+        
+        async submitJamaahForm() {
+            this.isSubmitting = true;
+            
+            try {
+                const response = await fetch(`/api/jamaah/${this.jamaahId}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(this.jamaahData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('✅ Data jamaah berhasil disimpan!');
+                    location.reload();
+                } else {
+                    alert('❌ ' + (data.message || 'Gagal menyimpan data'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Terjadi kesalahan saat menyimpan data');
+            } finally {
+                this.isSubmitting = false;
+            }
+        },
+        
+        openDocumentModal(jamaahId, jamaahName, index) {
+            this.docJamaahId = jamaahId;
+            this.docJamaahName = jamaahName;
+            
+            // Reset documents
+            this.documents = {
+                ktp: { file: null, preview: null },
+                kk: { file: null, preview: null },
+                photo: { file: null, preview: null },
+                buku_nikah: { file: null, preview: null },
+                passport: { file: null, preview: null }
+            };
+            this.noPassport = false;
+            
+            this.showDocModal = true;
+        },
+        
+        handleFileSelect(event, docType) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Validate file size (max 2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                alert('❌ Ukuran file maksimal 2MB');
+                event.target.value = '';
+                return;
+            }
+            
+            this.documents[docType].file = file;
+            
+            // Create preview for images
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.documents[docType].preview = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                this.documents[docType].preview = null;
+            }
+        },
+        
+        removeFile(docType) {
+            this.documents[docType] = { file: null, preview: null };
+        },
+        
+        formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        },
+        
+        async submitDocuments() {
+            if (!this.canSubmitDocs) {
+                alert('❌ Mohon upload dokumen wajib: KTP, KK, dan Pas Foto');
+                return;
+            }
+            
+            this.isUploading = true;
+            
+            try {
+                const docTypes = ['ktp', 'kk', 'photo', 'buku_nikah', 'passport'];
+                
+                for (const docType of docTypes) {
+                    if (this.documents[docType].file) {
+                        const formData = new FormData();
+                        formData.append('jamaah_id', this.docJamaahId);
+                        formData.append('document_type', docType);
+                        formData.append('document', this.documents[docType].file);
+                        
+                        const response = await fetch(`/register/{{ $registration->id }}/documents`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                                'Accept': 'application/json'
+                            },
+                            body: formData
+                        });
+                        
+                        if (!response.ok) {
+                            throw new Error(`Gagal upload ${docType}`);
+                        }
+                    }
+                }
+                
+                // Save no passport preference
+                if (this.noPassport) {
+                    await fetch(`/api/jamaah/${this.docJamaahId}/passport-request`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({ need_passport: true })
+                    });
+                }
+                
+                alert('✅ Dokumen berhasil diupload!');
+                location.reload();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ ' + error.message);
+            } finally {
+                this.isUploading = false;
+            }
+        }
+    }
 }
-
-// Auto-refresh completion every 30s (optional)
-// setInterval(() => {
-//     location.reload();
-// }, 30000);
 </script>
 @endpush
