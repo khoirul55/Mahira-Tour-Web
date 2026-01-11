@@ -93,7 +93,7 @@ class RegistrationController extends Controller
                     'registration_id' => $registration->id,
                     'title' => 'Tn.',
                     'full_name' => 'Jamaah ' . ($i + 1) . ' - Belum Dilengkapi',
-                    'nik' => 'TEMP-' . $registration->id . '-' . ($i + 1) . '-' . uniqid(), // ✅ NIK UNIQUE per jamaah
+                    'nik' => 'T' . str_pad($registration->id, 3, '0', STR_PAD_LEFT) . str_pad(($i + 1), 2, '0', STR_PAD_LEFT) . substr(uniqid(), -9), // ✅ NIK UNIQUE (max 16 char)
                     'birth_place' => '-',
                     'birth_date' => now()->subYears(30),
                     'gender' => 'L',
