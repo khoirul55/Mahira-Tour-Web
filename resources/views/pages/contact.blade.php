@@ -216,77 +216,83 @@
             <p class="section-subtitle">Temukan jawaban atas pertanyaan umum seputar layanan kami</p>
         </div>
 
-        <div class="faq-accordion">
-            <div class="faq-item" data-aos="fade-up">
-                <div class="faq-question">
+      <!-- TAMBAHKAN x-data di wrapper -->
+        <div class="faq-accordion" x-data="{ activeIndex: null }">
+            
+            <!-- FAQ Item 1 -->
+            <div class="faq-item" :class="{ 'active': activeIndex === 0 }">
+                <div class="faq-question" @click="activeIndex = activeIndex === 0 ? null : 0">
                     <span>Bagaimana cara mendaftar paket umrah?</span>
                     <i class="bi bi-chevron-down"></i>
                 </div>
-                <div class="faq-answer">
+                <div class="faq-answer" x-show="activeIndex === 0" x-transition>
                     <div class="faq-answer-content">
-                        Anda bisa mendaftar melalui kantor kami, WhatsApp, atau mengisi formulir di website. Tim kami akan membantu proses pendaftaran dari awal hingga keberangkatan.
+                        Anda bisa mendaftar melalui kantor kami, WhatsApp, atau website...
                     </div>
                 </div>
             </div>
-
-            <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
-                <div class="faq-question">
+            
+            <!-- FAQ Item 2 -->
+            <div class="faq-item" :class="{ 'active': activeIndex === 1 }">
+                <div class="faq-question" @click="activeIndex = activeIndex === 1 ? null : 1">
                     <span>Apakah tersedia sistem cicilan?</span>
                     <i class="bi bi-chevron-down"></i>
                 </div>
-                <div class="faq-answer">
+                <div class="faq-answer" x-show="activeIndex === 1" x-transition>
                     <div class="faq-answer-content">
-                        Ya, kami menyediakan program cicilan dengan DP 30% dan pelunasan H-30 sebelum keberangkatan. Hubungi tim kami untuk informasi lebih detail.
+                        Ya, kami menyediakan program cicilan...
                     </div>
                 </div>
             </div>
 
-            <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
-                <div class="faq-question">
+            <!-- FAQ Item 3 -->
+            <div class="faq-item" :class="{ 'active': activeIndex === 2 }">
+                <div class="faq-question" @click="activeIndex = activeIndex === 2 ? null : 2">
                     <span>Dokumen apa saja yang diperlukan?</span>
                     <i class="bi bi-chevron-down"></i>
                 </div>
-                <div class="faq-answer">
+                <div class="faq-answer" x-show="activeIndex === 2" x-transition>
                     <div class="faq-answer-content">
-                        Dokumen yang diperlukan: KTP asli, Kartu Keluarga, Paspor (minimal berlaku 7 bulan), pas foto 4x6 berlatar putih, dan buku nikah (untuk yang sudah menikah).
+                        Ya, kami menyediakan program cicilan...
                     </div>
                 </div>
             </div>
 
-            <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
-                <div class="faq-question">
+            <!-- FAQ Item 4 -->
+            <div class="faq-item" :class="{ 'active': activeIndex === 3 }">
+                <div class="faq-question" @click="activeIndex = activeIndex === 3 ? null : 3">
                     <span>Berapa lama proses pengurusan visa umrah?</span>
                     <i class="bi bi-chevron-down"></i>
                 </div>
-                <div class="faq-answer">
+                <div class="faq-answer" x-show="activeIndex === 3" x-transition>
                     <div class="faq-answer-content">
                         Proses pengurusan visa umrah membutuhkan waktu sekitar 14-21 hari kerja. Kami akan menginformasikan perkembangan proses visa Anda secara berkala.
                     </div>
                 </div>
             </div>
-
-            <div class="faq-item" data-aos="fade-up" data-aos-delay="400">
-                <div class="faq-question">
+            <!-- FAQ Item 5 -->
+            <div class="faq-item" :class="{ 'active': activeIndex === 5 }">
+                <div class="faq-question" @click="activeIndex = activeIndex === 5 ? null : 5">
                     <span>Apakah harga sudah termasuk manasik?</span>
                     <i class="bi bi-chevron-down"></i>
                 </div>
-                <div class="faq-answer">
+                <div class="faq-answer" x-show="activeIndex === 5" x-transition>
                     <div class="faq-answer-content">
                         Ya, harga paket sudah termasuk bimbingan manasik, perlengkapan umrah, dan pendampingan oleh pembimbing berpengalaman selama di tanah suci.
                     </div>
-                </div>
+                </div>  
             </div>
-
-            <div class="faq-item" data-aos="fade-up" data-aos-delay="500">
-                <div class="faq-question">
+            <!-- FAQ Item 6 -->
+            <div class="faq-item" :class="{ 'active': activeIndex === 6 }">
+                <div class="faq-question" @click="activeIndex = activeIndex === 6 ? null : 6">
                     <span>Bagaimana jika ada perubahan jadwal keberangkatan?</span>
                     <i class="bi bi-chevron-down"></i>
                 </div>
-                <div class="faq-answer">
+                <div class="faq-answer" x-show="activeIndex === 6" x-transition>
                     <div class="faq-answer-content">
                         Kami akan menginformasikan setiap perubahan jadwal kepada jamaah. Jika terjadi perubahan, kami akan membantu proses reschedule atau refund sesuai kebijakan yang berlaku.
                     </div>
-                </div>
+                </div>  
             </div>
         </div>
     </div>
