@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\{Registration, Payment, Document, Jamaah, Schedule};
+use App\Exports\{RegistrationsExport, SingleRegistrationExport};
+use App\Mail\{DPVerified, DPRejected};
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\{DB, Storage};
+use Illuminate\Support\Facades\{DB, Storage, Mail, Log};
+use Maatwebsite\Excel\Facades\Excel;
 use ZipArchive;
 
 class AdminController extends Controller
@@ -14,7 +17,6 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
-        // Stats
         $stats = [
             'pending' => Payment::where('status', 'pending')
                 ->whereNotNull('proof_path')
@@ -24,20 +26,17 @@ class AdminController extends Controller
             'total_revenue' => Payment::where('status', 'verified')->sum('amount')
         ];
         
-        // Pending Payments
         $pendingPayments = Payment::with('registration')
             ->where('status', 'pending')
             ->whereNotNull('proof_path')
             ->latest()
             ->get();
         
-        // Registrations with Documents
         $registrationsWithDocs = Registration::with(['jamaah.documents', 'payments'])
             ->whereHas('jamaah.documents')
             ->latest()
             ->get();
         
-        // Passport Requests
         $passportRequests = Jamaah::with('registration')
             ->where('need_passport', true)
             ->where('passport_processed', false)
@@ -52,11 +51,11 @@ class AdminController extends Controller
     }
     
     /**
-     * Verify Payment (Approve/Reject)
+     * Verify Payment - FIXED
      */
     public function verifyPayment(Request $request, $id)
     {
-        $payment = Payment::findOrFail($id);
+        $payment = Payment::with('registration')->findOrFail($id);
         $action = $request->input('action');
         
         DB::beginTransaction();
@@ -65,25 +64,34 @@ class AdminController extends Controller
             if ($action === 'approve') {
                 $payment->update([
                     'status' => 'verified',
-                    'verified_by' => session('admin_id'),
                     'verified_at' => now()
                 ]);
                 
-                // Update registration status
                 $payment->registration->update(['status' => 'confirmed']);
                 
-                // TODO: Send WhatsApp/Email notification to user
+                // Send email notification
+                try {
+                    Mail::to($payment->registration->email)
+                        ->send(new DPVerified($payment->registration));
+                } catch (\Exception $e) {
+                    Log::error('Email DPVerified failed: ' . $e->getMessage());
+                }
                 
                 $message = 'Pembayaran berhasil diverifikasi!';
             } else {
                 $payment->update([
                     'status' => 'rejected',
                     'rejection_notes' => $request->input('notes'),
-                    'verified_by' => session('admin_id'),
                     'verified_at' => now()
                 ]);
                 
-                // TODO: Send rejection notification to user
+                // Send rejection email
+                try {
+                    Mail::to($payment->registration->email)
+                        ->send(new DPRejected($payment->registration, $request->input('notes')));
+                } catch (\Exception $e) {
+                    Log::error('Email DPRejected failed: ' . $e->getMessage());
+                }
                 
                 $message = 'Pembayaran ditolak.';
             }
@@ -109,19 +117,48 @@ class AdminController extends Controller
             $query->where('status', $request->status);
         }
         
+        // Filter by schedule
+        if ($request->schedule_id) {
+            $query->where('schedule_id', $request->schedule_id);
+        }
+        
         // Search
         if ($request->search) {
-            $query->where(function($q) use ($request) {
-                $q->where('registration_number', 'like', '%' . $request->search . '%')
-                  ->orWhere('full_name', 'like', '%' . $request->search . '%')
-                  ->orWhere('email', 'like', '%' . $request->search . '%')
-                  ->orWhere('phone', 'like', '%' . $request->search . '%');
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('registration_number', 'like', "%{$search}%")
+                  ->orWhere('full_name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%");
             });
         }
         
-        $registrations = $query->latest()->paginate(20);
+        // Sort
+        switch ($request->sort) {
+            case 'oldest':
+                $query->oldest();
+                break;
+            case 'name':
+                $query->orderBy('full_name');
+                break;
+            default:
+                $query->latest();
+        }
         
-        return view('admin.registrations.index', compact('registrations'));
+        $registrations = $query->paginate(20);
+        
+        // Stats
+        $stats = [
+            'total' => Registration::count(),
+            'draft' => Registration::where('status', 'draft')->count(),
+            'pending' => Registration::where('status', 'pending')->count(),
+            'confirmed' => Registration::where('status', 'confirmed')->count(),
+        ];
+        
+        // Get schedules for filter
+        $schedules = Schedule::orderBy('departure_date', 'desc')->get();
+        
+        return view('admin.registrations.index', compact('registrations', 'stats', 'schedules'));
     }
     
     /**
@@ -139,31 +176,25 @@ class AdminController extends Controller
     }
     
     /**
-     * Documents Index
+     * Export All Registrations to Excel
      */
-    public function documentsIndex(Request $request)
+    public function exportRegistrations(Request $request)
     {
-        $query = Document::with(['jamaah.registration']);
+        $filters = $request->only(['status', 'schedule_id', 'search']);
+        $filename = 'registrations_' . date('Y-m-d_His') . '.xlsx';
         
-        // Filter by verification status
-        if ($request->has('verified')) {
-            $query->where('is_verified', $request->verified === 'true');
-        }
+        return Excel::download(new RegistrationsExport($filters), $filename);
+    }
+    
+    /**
+     * Export Single Registration to Excel
+     */
+    public function exportSingleRegistration($id)
+    {
+        $registration = Registration::with(['schedule', 'jamaah.documents', 'payments'])->findOrFail($id);
+        $filename = 'jamaah_' . $registration->registration_number . '_' . date('Ymd') . '.xlsx';
         
-        // Filter by document type
-        if ($request->type) {
-            $query->where('document_type', $request->type);
-        }
-        
-        $documents = $query->latest()->paginate(30);
-        
-        // Group by registration
-        $registrationsWithDocs = Registration::with(['jamaah.documents'])
-            ->whereHas('jamaah.documents')
-            ->latest()
-            ->paginate(10);
-        
-        return view('admin.documents.index', compact('documents', 'registrationsWithDocs'));
+        return Excel::download(new SingleRegistrationExport($registration), $filename);
     }
     
     /**
@@ -175,19 +206,17 @@ class AdminController extends Controller
         
         $document->update([
             'is_verified' => true,
-            'verified_by' => session('admin_id'),
             'verified_at' => now(),
             'verification_notes' => $request->notes
         ]);
         
-        // Update jamaah completion status
         $document->jamaah->updateCompletionStatus();
         
         return back()->with('success', 'Dokumen berhasil diverifikasi!');
     }
     
     /**
-     * Download All Documents for a Registration (ZIP)
+     * Download All Documents (ZIP)
      */
     public function downloadAllDocuments($registrationId)
     {
@@ -196,7 +225,6 @@ class AdminController extends Controller
         $zipFileName = 'dokumen_' . $registration->registration_number . '_' . date('Ymd') . '.zip';
         $zipPath = storage_path('app/temp/' . $zipFileName);
         
-        // Ensure temp directory exists
         if (!file_exists(storage_path('app/temp'))) {
             mkdir(storage_path('app/temp'), 0755, true);
         }
@@ -208,7 +236,6 @@ class AdminController extends Controller
         }
         
         foreach ($registration->jamaah as $jamaah) {
-            // Create folder for each jamaah
             $folderName = str_replace(' ', '_', $jamaah->full_name);
             
             foreach ($jamaah->documents as $doc) {
@@ -228,26 +255,6 @@ class AdminController extends Controller
     }
     
     /**
-     * Download Single Document
-     */
-    public function downloadDocument($id)
-    {
-        $document = Document::with('jamaah')->findOrFail($id);
-        
-        $filePath = Storage::disk('public')->path($document->file_path);
-        
-        if (!file_exists($filePath)) {
-            return back()->with('error', 'File tidak ditemukan');
-        }
-        
-        $extension = pathinfo($document->file_path, PATHINFO_EXTENSION);
-        $fileName = str_replace(' ', '_', $document->jamaah->full_name) . '_' . 
-                    strtoupper($document->document_type) . '.' . $extension;
-        
-        return response()->download($filePath, $fileName);
-    }
-    
-    /**
      * Process Passport Request
      */
     public function processPassport(Request $request, $jamaahId)
@@ -257,32 +264,9 @@ class AdminController extends Controller
         $jamaah->update([
             'passport_processed' => true,
             'passport_processed_at' => now(),
-            'passport_processed_by' => session('admin_id'),
             'passport_notes' => $request->notes
         ]);
         
-        // TODO: Send notification to user that passport is being processed
-        
         return back()->with('success', 'Request passport untuk ' . $jamaah->full_name . ' sedang diproses!');
-    }
-    
-    /**
-     * View Document Preview
-     */
-    public function previewDocument($id)
-    {
-        $document = Document::findOrFail($id);
-        
-        $filePath = Storage::disk('public')->path($document->file_path);
-        
-        if (!file_exists($filePath)) {
-            abort(404, 'File tidak ditemukan');
-        }
-        
-        $mimeType = mime_content_type($filePath);
-        
-        return response()->file($filePath, [
-            'Content-Type' => $mimeType
-        ]);
     }
 }

@@ -381,46 +381,41 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function() {
         Route::post('/{id}/quota', [App\Http\Controllers\Admin\ScheduleController::class, 'updateQuota'])->name('quota');
     });
 
-    // ============================================
+// ============================================
 // REGISTRATIONS ROUTES
 // ============================================
 Route::get('/registrations', [App\Http\Controllers\AdminController::class, 'registrations'])
     ->name('admin.registrations.index');
 
+Route::get('/registrations/export', [App\Http\Controllers\AdminController::class, 'exportRegistrations'])
+    ->name('admin.registrations.export');
+
 Route::get('/registrations/{id}', [App\Http\Controllers\AdminController::class, 'showRegistration'])
     ->name('admin.registrations.show');
+
+Route::get('/registrations/{id}/export', [App\Http\Controllers\AdminController::class, 'exportSingleRegistration'])
+    ->name('admin.registrations.export-single');
 
 // ============================================
 // DOCUMENTS ROUTES
 // ============================================
-Route::prefix('documents')->name('admin.documents.')->group(function() {
-    // Index - List all documents
-    Route::get('/', [App\Http\Controllers\AdminController::class, 'documentsIndex'])
-        ->name('index');
-    
-    // Verify document
-    Route::post('/{id}/verify', [App\Http\Controllers\AdminController::class, 'verifyDocument'])
-        ->name('verify');
-    
-    // Download single document
-    Route::get('/{id}/download', [App\Http\Controllers\AdminController::class, 'downloadDocument'])
-        ->name('download');
-    
-    // Download all documents for a registration (ZIP)
-    Route::get('/download-all/{registrationId}', [App\Http\Controllers\AdminController::class, 'downloadAllDocuments'])
-        ->name('download-all');
-    
-    // Preview document
-    Route::get('/{id}/preview', [App\Http\Controllers\AdminController::class, 'previewDocument'])
-        ->name('preview');
-});
+Route::post('/documents/{id}/verify', [App\Http\Controllers\AdminController::class, 'verifyDocument'])
+    ->name('admin.documents.verify');
+
+Route::get('/documents/download-all/{registrationId}', [App\Http\Controllers\AdminController::class, 'downloadAllDocuments'])
+    ->name('admin.documents.download-all');
 
 // ============================================
 // PASSPORT ROUTES
 // ============================================
 Route::post('/passport/{jamaahId}/process', [App\Http\Controllers\AdminController::class, 'processPassport'])
     ->name('admin.passport.process');
-});
+
+
+/** * ============================================
+ * END OF ADMIN PANEL ROUTES
+ * ============================================
+ */});
 
 // ============================================
 // API ROUTES (untuk user dashboard)
