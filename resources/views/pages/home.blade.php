@@ -366,38 +366,47 @@
         </div>
     </div>
 </section>
-<section class="gallery-section" x-data="{
-    galleries: @js(array_map(fn($item) => [
-        'src' => asset('images/' . $item['src']),
-        'alt' => $item['alt']
-    ], [
-        ['src' => 'gallery/gallery-1.webp', 'alt' => 'Jamaah Mahira Tour'],
-        ['src' => 'gallery/gallery-2.webp', 'alt' => 'Jamaah Mahira Tour'],
-        ['src' => 'gallery/gallery-3.webp', 'alt' => 'Jamaah Mahira Tour'],
-        ['src' => 'gallery/gallery-4.webp', 'alt' => 'Jamaah Mahira Tour'],
-        ['src' => 'gallery/gallery-5.webp', 'alt' => 'Jamaah Mahira Tour'],
-        ['src' => 'gallery/gallery-6.webp', 'alt' => 'Jamaah Mahira Tour'],
-        ['src' => 'gallery/gallery-7.webp', 'alt' => 'Jamaah Mahira Tour'],
-        ['src' => 'gallery/gallery-8.webp', 'alt' => 'Jamaah Mahira Tour'],
-        ['src' => 'gallery/gallery-9.webp', 'alt' => 'Jamaah Mahira Tour'],
-        ['src' => 'gallery/gallery-10.webp', 'alt' => 'Jamaah Mahira Tour'],
-        ['src' => 'gallery/gallery-11.webp', 'alt' => 'Jamaah Mahira Tour'],
-        ['src' => 'gallery/gallery-12.webp', 'alt' => 'Jamaah Mahira Tour'],
-        ['src' => 'gallery/gallery-13.webp', 'alt' => 'Jamaah Mahira Tour'],
-        ['src' => 'gallery/gallery-14.webp', 'alt' => 'Jamaah Mahira Tour']
-    ])),
-    currentIndex: 0,
-    modalOpen: false,
-    
-    openModal(index) {
-        this.currentIndex = index;
-        this.modalOpen = true;
-    },
-    
-    changeGallery(direction) {
-        this.currentIndex = (this.currentIndex + direction + this.galleries.length) % this.galleries.length;
-    }
-}" @keydown.escape.window="modalOpen = false" @keydown.arrow-left.window="modalOpen && changeGallery(-1)" @keydown.arrow-right.window="modalOpen && changeGallery(1)">
+{{-- REPLACE GALLERY SECTION (line 389-470) dengan ini --}}
+
+<section class="gallery-section" 
+    x-data="{
+        galleries: [
+            { src: '{{ asset('images/gallery/gallery-1.webp') }}', alt: 'Jamaah Mahira Tour' },
+            { src: '{{ asset('images/gallery/gallery-2.webp') }}', alt: 'Jamaah Mahira Tour' },
+            { src: '{{ asset('images/gallery/gallery-3.webp') }}', alt: 'Jamaah Mahira Tour' },
+            { src: '{{ asset('images/gallery/gallery-4.webp') }}', alt: 'Jamaah Mahira Tour' },
+            { src: '{{ asset('images/gallery/gallery-5.webp') }}', alt: 'Jamaah Mahira Tour' },
+            { src: '{{ asset('images/gallery/gallery-6.webp') }}', alt: 'Jamaah Mahira Tour' },
+            { src: '{{ asset('images/gallery/gallery-7.webp') }}', alt: 'Jamaah Mahira Tour' },
+            { src: '{{ asset('images/gallery/gallery-8.webp') }}', alt: 'Jamaah Mahira Tour' },
+            { src: '{{ asset('images/gallery/gallery-9.webp') }}', alt: 'Jamaah Mahira Tour' },
+            { src: '{{ asset('images/gallery/gallery-10.webp') }}', alt: 'Jamaah Mahira Tour' },
+            { src: '{{ asset('images/gallery/gallery-11.webp') }}', alt: 'Jamaah Mahira Tour' },
+            { src: '{{ asset('images/gallery/gallery-12.webp') }}', alt: 'Jamaah Mahira Tour' },
+            { src: '{{ asset('images/gallery/gallery-13.webp') }}', alt: 'Jamaah Mahira Tour' },
+            { src: '{{ asset('images/gallery/gallery-14.webp') }}', alt: 'Jamaah Mahira Tour' }
+        ],
+        currentIndex: 0,
+        modalOpen: false,
+        
+        openModal(index) {
+            this.currentIndex = index;
+            this.modalOpen = true;
+            document.body.style.overflow = 'hidden';
+        },
+        
+        closeModal() {
+            this.modalOpen = false;
+            document.body.style.overflow = '';
+        },
+        
+        changeGallery(direction) {
+            this.currentIndex = (this.currentIndex + direction + this.galleries.length) % this.galleries.length;
+        }
+    }" 
+    @keydown.escape.window="if(modalOpen) closeModal()" 
+    @keydown.arrow-left.window="if(modalOpen) changeGallery(-1)" 
+    @keydown.arrow-right.window="if(modalOpen) changeGallery(1)">
 
     <div class="container">
         <div class="section-header-center">
@@ -405,10 +414,11 @@
             <h2 class="section-title">Dokumentasi Perjalanan Ibadah</h2>
         </div>
         
+        <!-- Grid Gallery -->
         <div class="gallery-grid">
             <template x-for="(item, index) in galleries" :key="index">
                 <div class="gallery-item" @click="openModal(index)">
-                    <img :src="item.src" :alt="item.alt">
+                    <img :src="item.src" :alt="item.alt" loading="lazy">
                     <div class="gallery-overlay">
                         <i class="bi bi-zoom-in"></i>
                     </div>
@@ -423,42 +433,38 @@
         </div>
     </div>
     
-    <!-- Modal -->
-    <div x-show="modalOpen" x-transition @click.self="modalOpen = false" class="gallery-modal">
-        <span class="gallery-close" @click="modalOpen = false">&times;</span>
+    <!-- Alpine Modal - FIX: x-cloak + proper display control -->
+    <div x-show="modalOpen" 
+         x-cloak
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         @click.self="closeModal()" 
+         class="gallery-modal-alpine">
+        
+        <span class="gallery-close" @click="closeModal()">&times;</span>
         <div class="gallery-counter" x-text="`${currentIndex + 1} / ${galleries.length}`"></div>
         
-        <button class="gallery-nav prev" @click="changeGallery(-1)">
+        <button class="gallery-nav prev" @click="changeGallery(-1)" type="button">
             <i class="bi bi-chevron-left"></i>
         </button>
         
-        <div class="gallery-modal-content">
-            <img :src="galleries[currentIndex].src" :alt="galleries[currentIndex].alt" id="galleryModalImg">
+        <div class="gallery-modal-content" @click.stop>
+            <img :src="galleries[currentIndex].src" 
+                 :alt="galleries[currentIndex].alt"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100">
         </div>
         
-        <button class="gallery-nav next" @click="changeGallery(1)">
+        <button class="gallery-nav next" @click="changeGallery(1)" type="button">
             <i class="bi bi-chevron-right"></i>
         </button>
     </div>
 </section>
-
-<!-- Gallery Modal -->
-<div id="galleryModal" class="gallery-modal">
-    <span class="gallery-close" onclick="closeGalleryModal()">&times;</span>
-    <div class="gallery-counter" id="galleryCounter"></div>
-    
-    <button class="gallery-nav prev" onclick="changeGallery(-1)">
-        <i class="bi bi-chevron-left"></i>
-    </button>
-    
-    <div class="gallery-modal-content">
-        <img id="galleryModalImg" src="" alt="">
-    </div>
-    
-    <button class="gallery-nav next" onclick="changeGallery(1)">
-        <i class="bi bi-chevron-right"></i>
-    </button>
-</div>
 
 <!-- ==================== LOCATION SECTION ==================== -->
 <section class="location-section">

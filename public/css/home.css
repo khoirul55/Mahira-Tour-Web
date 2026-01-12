@@ -2152,4 +2152,194 @@ textarea:focus:not(:focus-visible) {
     background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
 }
 
+
+/* === ALPINE GALLERY MODAL - ADD TO END OF home.css === */
+
+/* Alpine x-cloak: Hide before Alpine loads */
+[x-cloak] { 
+    display: none !important; 
+}
+
+/* Alpine Modal Overlay */
+.gallery-modal-alpine {
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+/* Modal Content Container */
+.gallery-modal-alpine .gallery-modal-content {
+    max-width: 90vw;
+    max-height: 90vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Modal Image */
+.gallery-modal-alpine .gallery-modal-content img {
+    max-width: 90vw;
+    max-height: 85vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+/* Close Button */
+.gallery-modal-alpine .gallery-close {
+    position: absolute;
+    top: 30px;
+    right: 50px;
+    font-size: 50px;
+    color: white;
+    cursor: pointer;
+    z-index: 10001;
+    transition: all 0.3s ease;
+    background: rgba(0, 0, 0, 0.5);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    user-select: none;
+}
+
+.gallery-modal-alpine .gallery-close:hover {
+    transform: rotate(90deg) scale(1.1);
+    background: rgba(212, 175, 55, 0.9);
+}
+
+/* Counter */
+.gallery-modal-alpine .gallery-counter {
+    position: absolute;
+    top: 30px;
+    left: 50px;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    z-index: 10001;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 12px 24px;
+    border-radius: 50px;
+    user-select: none;
+}
+
+/* Navigation Buttons */
+.gallery-modal-alpine .gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    padding: 0;
+    font-size: 30px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+}
+
+.gallery-modal-alpine .gallery-nav:hover {
+    background: white;
+    color: var(--primary);
+    transform: translateY(-50%) scale(1.15);
+    border-color: white;
+}
+
+.gallery-modal-alpine .gallery-nav.prev {
+    left: 30px;
+}
+
+.gallery-modal-alpine .gallery-nav.next {
+    right: 30px;
+}
+
+/* Responsive Mobile */
+@media (max-width: 768px) {
+    .gallery-modal-alpine .gallery-close {
+        top: 20px;
+        right: 20px;
+        font-size: 35px;
+        width: 50px;
+        height: 50px;
+    }
+    
+    .gallery-modal-alpine .gallery-counter {
+        top: 20px;
+        left: 20px;
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+    
+    .gallery-modal-alpine .gallery-nav {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+    
+    .gallery-modal-alpine .gallery-nav.prev {
+        left: 15px;
+    }
+    
+    .gallery-modal-alpine .gallery-nav.next {
+        right: 15px;
+    }
+    
+    .gallery-modal-alpine .gallery-modal-content img {
+        max-width: 95vw;
+        max-height: 75vh;
+    }
+}
+
+@media (max-width: 576px) {
+    .gallery-modal-alpine .gallery-close {
+        width: 45px;
+        height: 45px;
+        font-size: 30px;
+        top: 15px;
+        right: 15px;
+    }
+    
+    .gallery-modal-alpine .gallery-counter {
+        font-size: 14px;
+        padding: 8px 16px;
+        top: 15px;
+        left: 15px;
+    }
+    
+    .gallery-modal-alpine .gallery-nav {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+    
+    .gallery-modal-alpine .gallery-nav.prev {
+        left: 10px;
+    }
+    
+    .gallery-modal-alpine .gallery-nav.next {
+        right: 10px;
+    }
+}
+
 /* === END OF home.css === */
