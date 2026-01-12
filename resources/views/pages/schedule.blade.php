@@ -33,13 +33,26 @@
     </div>
 </section>
 
-<!-- Filter Section -->
 <section class="filter-section">
     <div class="container">
-        <div class="d-flex gap-2 justify-content-center flex-wrap">
-            <button class="filter-btn active" data-filter="all">Semua Jadwal</button>
+        <div x-data="{ activeFilter: 'all' }" class="d-flex gap-2 justify-content-center flex-wrap">
+            <button @click="activeFilter = 'all'; 
+                    document.querySelectorAll('.col-lg-4').forEach(el => el.style.display = 'block')"
+                    :class="{ 'active': activeFilter === 'all' }"
+                    class="filter-btn">
+                Semua Jadwal
+            </button>
+            
             @foreach($departure_routes as $route)
-            <button class="filter-btn" data-filter="{{ $route }}">{{ $route }}</button>
+            <button @click="activeFilter = '{{ $route }}';
+                    document.querySelectorAll('.col-lg-4').forEach(el => {
+                        const card = el.querySelector('[data-route]');
+                        el.style.display = card?.dataset.route === '{{ $route }}' ? 'block' : 'none';
+                    })"
+                    :class="{ 'active': activeFilter === '{{ $route }}' }"
+                    class="filter-btn">
+                {{ $route }}
+            </button>
             @endforeach
         </div>
     </div>

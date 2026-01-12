@@ -87,33 +87,6 @@ const schedulesData = {
     }
 };
 
-// ===== FILTER FUNCTIONALITY =====
-document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        
-        const filter = this.dataset.filter;
-        const items = document.querySelectorAll('.flyer-card');
-        
-        items.forEach(item => {
-            const route = item.dataset.route;
-            if (filter === 'all' || route === filter) {
-                item.parentElement.style.display = 'block';
-                setTimeout(() => {
-                    item.style.opacity = '1';
-                    item.style.transform = 'scale(1)';
-                }, 10);
-            } else {
-                item.style.opacity = '0';
-                item.style.transform = 'scale(0.9)';
-                setTimeout(() => {
-                    item.parentElement.style.display = 'none';
-                }, 300);
-            }
-        });
-    });
-});
 
 // ===== DETAIL MODAL SYSTEM =====
 function openDetailModal(scheduleId) {

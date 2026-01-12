@@ -8,7 +8,27 @@
 <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
 @endpush
 
-
+<div x-data="{
+    activeFilter: 'all',
+    galleries: @js($galleries),
+    currentIndex: 0,
+    modalOpen: false,
+    
+    get filteredGalleries() {
+        return this.activeFilter === 'all' 
+            ? this.galleries 
+            : this.galleries.filter(g => g.category === this.activeFilter);
+    },
+    
+    openModal(index) {
+        this.currentIndex = index;
+        this.modalOpen = true;
+    },
+    
+    changeGallery(direction) {
+        this.currentIndex = (this.currentIndex + direction + this.galleries.length) % this.galleries.length;
+    }
+}" @keydown.escape.window="modalOpen = false" @keydown.arrow-left.window="modalOpen && changeGallery(-1)" @keydown.arrow-right.window="modalOpen && changeGallery(1)">
 <!-- Hero Section -->
 <section class="hero">
     <div class="hero-background">
@@ -35,46 +55,63 @@
     </div>
 </section>
 
-<!-- Filter Section -->
-<div class="filter-container">
+<section class="py-5 bg-light" x-data="{
+    activeFilter: 'all',
+    galleries: @js($galleries),
+    
+    get filteredGalleries() {
+        return this.activeFilter === 'all' 
+            ? this.galleries 
+            : this.galleries.filter(g => g.category === this.activeFilter);
+    }
+}">
     <div class="container">
-        <div class="filter-scroll">
-            @foreach($categories as $key => $category)
-            <button 
-                class="filter-btn {{ $key === 'all' ? 'active' : '' }}"
-                onclick="filterGallery('{{ $key }}')"
-                data-filter="{{ $key }}">
-                <i class="bi bi-{{ $key === 'all' ? 'grid-fill' : ($key === 'Makkah' ? 'building' : ($key === 'Madinah' ? 'building-fill' : ($key === 'Wisata Islami' ? 'compass' : ($key === 'Akomodasi' ? 'house-door' : ($key === 'Dokumentasi' ? 'camera' : ($key === 'Fasilitas' ? 'gear' : 'airplane')))))) }}"></i>
-                {{ $category }}
-            </button>
-            @endforeach
-        </div>
-    </div>
-</div>
-
-<!-- Main Content -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <!-- Gallery Grid -->
-        <div class="gallery-grid" id="galleryGrid">
-            @foreach($galleries as $index => $gallery)
-            <div class="gallery-card" data-category="{{ $gallery['category'] }}" onclick="openModal({{ $index }})">
-                <div class="gallery-image-wrapper">
-                    <img src="{{ $gallery['image'] }}" alt="{{ $gallery['title'] }}" class="gallery-image" loading="lazy">
-                    <div class="zoom-icon">
-                        <i class="bi bi-zoom-in"></i>
-                    </div>
-                    <div class="gallery-overlay">
-                        <div class="gallery-title">{{ $gallery['title'] }}</div>
-                        <span class="gallery-category">{{ $gallery['category'] }}</span>
-                    </div>
+        
+        <!-- Filter Section -->
+        <div class="filter-container">
+            <div class="container">
+                <div class="filter-scroll">
+                    <button 
+                        @click="activeFilter = 'all'"
+                        :class="{ 'active': activeFilter === 'all' }"
+                        class="filter-btn">
+                        <i class="bi bi-grid-fill"></i> Semua
+                    </button>
+                    
+                    @foreach($categories as $key => $category)
+                    @if($key !== 'all')
+                    <button 
+                        @click="activeFilter = '{{ $key }}'"
+                        :class="{ 'active': activeFilter === '{{ $key }}' }"
+                        class="filter-btn">
+                        <i class="bi bi-{{ $key === 'Makkah' ? 'building' : 'camera' }}"></i>
+                        {{ $category }}
+                    </button>
+                    @endif
+                    @endforeach
                 </div>
             </div>
-            @endforeach
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="gallery-grid">
+        <!-- Gallery Grid - update onclick -->
+            <template x-for="(gallery, index) in filteredGalleries" :key="index">
+                <div class="gallery-card" @click="openModal(index)">
+                    <div class="gallery-image-wrapper">
+                        <img :src="gallery.image" :alt="gallery.title" class="gallery-image">
+                        <div class="zoom-icon"><i class="bi bi-zoom-in"></i></div>
+                        <div class="gallery-overlay">
+                            <div class="gallery-title" x-text="gallery.title"></div>
+                            <span class="gallery-category" x-text="gallery.category"></span>
+                        </div>
+                    </div>
+                </div>
+            </template>
         </div>
 
         <!-- No Results -->
-        <div class="no-results" id="noResults" style="display: none;">
+        <div x-show="filteredGalleries.length === 0" class="no-results">
             <i class="bi bi-images"></i>
             <h4>Tidak ada foto dalam kategori ini</h4>
             <p>Coba pilih kategori lain</p>
@@ -83,30 +120,37 @@
 </section>
 
 <!-- Modal -->
-<div class="gallery-modal" id="galleryModal">
-    <span class="gallery-close" onclick="closeGalleryModal()">&times;</span>
-    <div class="gallery-counter" id="galleryCounter">1 / 5</div>
-    <div class="gallery-nav prev" onclick="changeGallery(-1)">
-        <i class="bi bi-chevron-left"></i>
-    </div>
-    <div class="gallery-nav next" onclick="changeGallery(1)">
-        <i class="bi bi-chevron-right"></i>
-    </div>
-    <div class="gallery-modal-content">
-        <img id="galleryModalImg" src="" alt="">
-        <div class="modal-info">
-            <div class="modal-title" id="modalTitle"></div>
-            <span class="modal-category" id="modalCategory"></span>
+<div x-show="modalOpen" 
+         x-transition
+         @click.self="modalOpen = false"
+         class="gallery-modal">
+        
+        <span class="gallery-close" @click="modalOpen = false">&times;</span>
+        
+        <div class="gallery-counter" x-text="`${currentIndex + 1} / ${galleries.length}`"></div>
+        
+        <button class="gallery-nav prev" @click="changeGallery(-1)">
+            <i class="bi bi-chevron-left"></i>
+        </button>
+        
+        <div class="gallery-modal-content">
+            <img :src="galleries[currentIndex].image" :alt="galleries[currentIndex].title" id="galleryModalImg">
+            <div class="modal-info">
+                <div class="modal-title" x-text="galleries[currentIndex].title"></div>
+                <span class="modal-category" x-text="galleries[currentIndex].category"></span>
+            </div>
         </div>
+        
+        <button class="gallery-nav next" @click="changeGallery(1)">
+            <i class="bi bi-chevron-right"></i>
+        </button>
     </div>
-</div>
 
 @push('scripts')
 <script>
     // Pass data galleries dari PHP ke JavaScript
     const galleries = @json($galleries);
 </script>
-<script src="{{ asset('js/gallery.js') }}"></script>
 @endpush
 
 @endsection

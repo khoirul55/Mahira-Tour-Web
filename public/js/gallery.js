@@ -2,38 +2,6 @@
     let currentGalleryIndex = 0;
     let filteredGalleries = [...galleries];
 
-    // Filter Gallery
-    function filterGallery(category) {
-        const items = document.querySelectorAll('.gallery-card');
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const noResults = document.getElementById('noResults');
-        let visibleCount = 0;
-
-        // Update button styles
-        filterBtns.forEach(btn => {
-            if (btn.dataset.filter === category) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
-        });
-
-        // Filter items and update filteredGalleries
-        filteredGalleries = [];
-        items.forEach((item, index) => {
-            if (category === 'all' || item.dataset.category === category) {
-                item.style.display = 'block';
-                filteredGalleries.push(galleries[index]);
-                visibleCount++;
-            } else {
-                item.style.display = 'none';
-            }
-        });
-
-        // Show/hide no results
-        noResults.style.display = visibleCount === 0 ? 'block' : 'none';
-    }
-
     // Open Modal
     function openModal(index) {
         currentGalleryIndex = index;

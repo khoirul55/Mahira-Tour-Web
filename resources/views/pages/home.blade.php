@@ -366,9 +366,39 @@
         </div>
     </div>
 </section>
+<section class="gallery-section" x-data="{
+    galleries: @js(array_map(fn($item) => [
+        'src' => asset('images/' . $item['src']),
+        'alt' => $item['alt']
+    ], [
+        ['src' => 'gallery/gallery-1.webp', 'alt' => 'Jamaah Mahira Tour'],
+        ['src' => 'gallery/gallery-2.webp', 'alt' => 'Jamaah Mahira Tour'],
+        ['src' => 'gallery/gallery-3.webp', 'alt' => 'Jamaah Mahira Tour'],
+        ['src' => 'gallery/gallery-4.webp', 'alt' => 'Jamaah Mahira Tour'],
+        ['src' => 'gallery/gallery-5.webp', 'alt' => 'Jamaah Mahira Tour'],
+        ['src' => 'gallery/gallery-6.webp', 'alt' => 'Jamaah Mahira Tour'],
+        ['src' => 'gallery/gallery-7.webp', 'alt' => 'Jamaah Mahira Tour'],
+        ['src' => 'gallery/gallery-8.webp', 'alt' => 'Jamaah Mahira Tour'],
+        ['src' => 'gallery/gallery-9.webp', 'alt' => 'Jamaah Mahira Tour'],
+        ['src' => 'gallery/gallery-10.webp', 'alt' => 'Jamaah Mahira Tour'],
+        ['src' => 'gallery/gallery-11.webp', 'alt' => 'Jamaah Mahira Tour'],
+        ['src' => 'gallery/gallery-12.webp', 'alt' => 'Jamaah Mahira Tour'],
+        ['src' => 'gallery/gallery-13.webp', 'alt' => 'Jamaah Mahira Tour'],
+        ['src' => 'gallery/gallery-14.webp', 'alt' => 'Jamaah Mahira Tour']
+    ])),
+    currentIndex: 0,
+    modalOpen: false,
+    
+    openModal(index) {
+        this.currentIndex = index;
+        this.modalOpen = true;
+    },
+    
+    changeGallery(direction) {
+        this.currentIndex = (this.currentIndex + direction + this.galleries.length) % this.galleries.length;
+    }
+}" @keydown.escape.window="modalOpen = false" @keydown.arrow-left.window="modalOpen && changeGallery(-1)" @keydown.arrow-right.window="modalOpen && changeGallery(1)">
 
-<!-- ==================== GALLERY SECTION ==================== -->
-<section class="gallery-section">
     <div class="container">
         <div class="section-header-center">
             <span class="section-badge">Galeri</span>
@@ -376,43 +406,39 @@
         </div>
         
         <div class="gallery-grid">
-            @php
-            $galleries = [
-                ['src' => 'gallery/gallery-1.webp', 'alt' => 'Jamaah Mahira Tour'],
-                ['src' => 'gallery/gallery-2.webp', 'alt' => 'Jamaah Mahira Tour'],
-                ['src' => 'gallery/gallery-3.webp', 'alt' => 'Jamaah Mahira Tour'],
-                ['src' => 'gallery/gallery-4.webp', 'alt' => 'Jamaah Mahira Tour'],
-                ['src' => 'gallery/gallery-5.webp', 'alt' => 'Jamaah Mahira Tour'],
-                ['src' => 'gallery/gallery-6.webp', 'alt' => 'Jamaah Mahira Tour'],
-                ['src' => 'gallery/gallery-7.webp', 'alt' => 'Jamaah Mahira Tour'],
-                ['src' => 'gallery/gallery-8.webp', 'alt' => 'Jamaah Mahira Tour'],
-                ['src' => 'gallery/gallery-9.webp', 'alt' => 'Jamaah Mahira Tour'],
-                ['src' => 'gallery/gallery-10.webp', 'alt' => 'Jamaah Mahira Tour'],
-                ['src' => 'gallery/gallery-11.webp', 'alt' => 'Jamaah Mahira Tour'],
-                ['src' => 'gallery/gallery-12.webp', 'alt' => 'Jamaah Mahira Tour'],
-                ['src' => 'gallery/gallery-13.webp', 'alt' => 'Jamaah Mahira Tour'],
-                ['src' => 'gallery/gallery-14.webp', 'alt' => 'Jamaah Mahira Tour'],
-
-
-            ];
-            @endphp
-            
-            @foreach($galleries as $index => $item)
-            <div class="gallery-item" onclick="openGalleryModal({{ $index }})">
-                <img src="{{ asset('images/' . $item['src']) }}" alt="{{ $item['alt'] }}">
-                <div class="gallery-overlay">
-                    <i class="bi bi-zoom-in"></i>
+            <template x-for="(item, index) in galleries" :key="index">
+                <div class="gallery-item" @click="openModal(index)">
+                    <img :src="item.src" :alt="item.alt">
+                    <div class="gallery-overlay">
+                        <i class="bi bi-zoom-in"></i>
+                    </div>
                 </div>
-            </div>
-            @endforeach
+            </template>
         </div>
         
         <div class="text-center mt-4">
             <a href="{{ route('gallery') }}" class="btn-outline-primary">
-                Lihat Galeri Lengkap
-                <i class="bi bi-arrow-right"></i>
+                Lihat Galeri Lengkap <i class="bi bi-arrow-right"></i>
             </a>
         </div>
+    </div>
+    
+    <!-- Modal -->
+    <div x-show="modalOpen" x-transition @click.self="modalOpen = false" class="gallery-modal">
+        <span class="gallery-close" @click="modalOpen = false">&times;</span>
+        <div class="gallery-counter" x-text="`${currentIndex + 1} / ${galleries.length}`"></div>
+        
+        <button class="gallery-nav prev" @click="changeGallery(-1)">
+            <i class="bi bi-chevron-left"></i>
+        </button>
+        
+        <div class="gallery-modal-content">
+            <img :src="galleries[currentIndex].src" :alt="galleries[currentIndex].alt" id="galleryModalImg">
+        </div>
+        
+        <button class="gallery-nav next" @click="changeGallery(1)">
+            <i class="bi bi-chevron-right"></i>
+        </button>
     </div>
 </section>
 
