@@ -66,27 +66,31 @@ class RegistrationController extends Controller
                 throw new \Exception('Maaf, kursi tidak mencukupi. Tersisa ' . $availableSeats . ' kursi.');
             }
         
-            $totalPrice = $schedule->price * $validated['num_people'];
-            $dpAmount = $totalPrice * 0.30;
-            
-            // Create registration
-            $registration = Registration::create([
-                'registration_number' => Registration::generateRegistrationNumber(),
-                'schedule_id' => $schedule->id,
-                'full_name' => $validated['full_name'],
-                'email' => $validated['email'],
-                'phone' => $validated['phone'],
-                'num_people' => $validated['num_people'],
-                'notes' => $validated['notes'],
-                'total_price' => $totalPrice,
-                'dp_amount' => $dpAmount,
-                'status' => 'draft',
-                'completion_percentage' => 5,
-                'payment_deadline' => now()->addDays(3),
-                'document_deadline' => now()->addDays(7),
-                'last_activity_at' => now()
-            ]);
-            
+//ganti dp 5juta
+$totalPrice = $schedule->price * $validated['num_people'];
+$dpAmount = 5000000; // ✅ FIXED 5 JUTA
+$pelunasanAmount = $totalPrice - $dpAmount;
+$pelunasanDeadline = $schedule->departure_date->copy()->subDays(30);
+
+// Create registration
+$registration = Registration::create([
+    'registration_number' => Registration::generateRegistrationNumber(),
+    'schedule_id' => $schedule->id,
+    'full_name' => $validated['full_name'],
+    'email' => $validated['email'],
+    'phone' => $validated['phone'],
+    'num_people' => $validated['num_people'],
+    'notes' => $validated['notes'],
+    'total_price' => $totalPrice,
+    'dp_amount' => $dpAmount,
+    'pelunasan_amount' => $pelunasanAmount, // ✅ BARU
+    'pelunasan_deadline' => $pelunasanDeadline, // ✅ BARU
+    'status' => 'draft',
+    'completion_percentage' => 5,
+    'payment_deadline' => now()->addDays(3),
+    'document_deadline' => now()->addDays(7),
+    'last_activity_at' => now()
+]);
             // ✅ FIX: Create placeholder jamaah records dengan NIK UNIQUE
             for ($i = 0; $i < $validated['num_people']; $i++) {
                 Jamaah::create([
@@ -249,6 +253,67 @@ class RegistrationController extends Controller
             return back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
+/**
+ * Submit Bukti Pelunasan
+ */
+public function submitPelunasan(Request $request, $registrationId)
+{
+    $validated = $request->validate([
+        'payment_proof' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+        'payment_method' => 'required|in:transfer,cash'
+    ]);
+    
+    DB::beginTransaction();
+    
+    try {
+        $registration = Registration::findOrFail($registrationId);
+        
+        // Cek apakah perlu pelunasan
+        if (!$registration->needsPelunasan()) {
+            throw new \Exception('Pendaftaran ini tidak perlu pelunasan');
+        }
+        
+        // Upload file
+        $file = $request->file('payment_proof');
+        $filename = 'pelunasan_' . 
+            $registration->registration_number . '_' . 
+            uniqid() . '_' . 
+            time() . '.' . 
+            $file->extension();
+        $path = $file->storeAs('payments', $filename, 'public');
+        
+        // Cek apakah sudah ada payment pelunasan
+        $pelunasan = $registration->pelunasanPayment();
+        
+        if ($pelunasan) {
+            // Update existing
+            $pelunasan->update([
+                'proof_path' => $path,
+                'payment_method' => $validated['payment_method'],
+                'status' => 'pending'
+            ]);
+        } else {
+            // Create new
+            Payment::create([
+                'registration_id' => $registration->id,
+                'payment_type' => 'pelunasan',
+                'amount' => $registration->sisaPelunasan(),
+                'payment_method' => $validated['payment_method'],
+                'proof_path' => $path,
+                'status' => 'pending'
+            ]);
+        }
+        
+        DB::commit();
+        
+        return back()->with('success', 'Bukti pelunasan berhasil diupload. Menunggu verifikasi admin.');
+        
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->withErrors(['error' => $e->getMessage()]);
+    }
+}
     
     /**
      * Documents upload page

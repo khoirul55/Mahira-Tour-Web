@@ -351,14 +351,73 @@ Route::get('/admin/logout', function () {
     return redirect()->route('admin.login')->with('success', 'Logout berhasil');
 })->name('admin.logout');
 
+
+/**
+ * ============================================
+ * ROUTES ADMIN LENGKAP - COPY KE web.php
+ * ============================================
+ * 
+ * Ganti semua admin routes yang ada dengan ini
+ */
+
 Route::middleware(['admin.auth'])->prefix('admin')->group(function() {
+    
+    // Dashboard
     Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'dashboard'])
         ->name('admin.dashboard');
     
+    // Verify Payment
     Route::post('/verify-payment/{id}', [App\Http\Controllers\AdminController::class, 'verifyPayment'])
         ->name('admin.verify-payment');
+    // Tab Perlu Pelunasan
+    Route::get('/pelunasan', [App\Http\Controllers\AdminController::class, 'pelunasan'])
+        ->name('admin.pelunasan.index');
     
-    // Gallery Routes
+    // Kirim Tagihan Manual
+    Route::post('/pelunasan/{id}/send-tagihan', [App\Http\Controllers\AdminController::class, 'sendTagihan'])
+        ->name('admin.pelunasan.send-tagihan');
+    
+    // Verifikasi Pelunasan
+    Route::post('/pelunasan/{id}/verify', [App\Http\Controllers\AdminController::class, 'verifyPelunasan'])
+        ->name('admin.pelunasan.verify');
+
+
+// ========== USER ROUTES - PELUNASAN ==========
+Route::post('/registration/{id}/submit-pelunasan', [RegistrationController::class, 'submitPelunasan'])
+    ->name('registration.submit-pelunasan');
+    // ============================================
+    // REGISTRATIONS
+    // ============================================
+    Route::get('/registrations', [App\Http\Controllers\AdminController::class, 'registrations'])
+        ->name('admin.registrations.index');
+    
+    Route::get('/registrations/export', [App\Http\Controllers\AdminController::class, 'exportRegistrations'])
+        ->name('admin.registrations.export');
+    
+    Route::get('/registrations/{id}', [App\Http\Controllers\AdminController::class, 'showRegistration'])
+        ->name('admin.registrations.show');
+    
+    Route::get('/registrations/{id}/export', [App\Http\Controllers\AdminController::class, 'exportSingleRegistration'])
+        ->name('admin.registrations.export-single');
+    
+    // ============================================
+    // DOCUMENTS
+    // ============================================
+    Route::post('/documents/{id}/verify', [App\Http\Controllers\AdminController::class, 'verifyDocument'])
+        ->name('admin.documents.verify');
+    
+    Route::get('/documents/download-all/{registrationId}', [App\Http\Controllers\AdminController::class, 'downloadAllDocuments'])
+        ->name('admin.documents.download-all');
+    
+    // ============================================
+    // PASSPORT
+    // ============================================
+    Route::post('/passport/{jamaahId}/process', [App\Http\Controllers\AdminController::class, 'processPassport'])
+        ->name('admin.passport.process');
+    
+    // ============================================
+    // GALLERIES
+    // ============================================
     Route::prefix('galleries')->name('admin.galleries.')->group(function() {
         Route::get('/', [App\Http\Controllers\Admin\GalleryController::class, 'index'])->name('index');
         Route::get('/create', [App\Http\Controllers\Admin\GalleryController::class, 'create'])->name('create');
@@ -369,7 +428,9 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function() {
         Route::post('/{id}/toggle', [App\Http\Controllers\Admin\GalleryController::class, 'toggleStatus'])->name('toggle');
     });
     
-    // TAMBAH INI - Schedule Routes
+    // ============================================
+    // SCHEDULES
+    // ============================================
     Route::prefix('schedules')->name('admin.schedules.')->group(function() {
         Route::get('/', [App\Http\Controllers\Admin\ScheduleController::class, 'index'])->name('index');
         Route::get('/create', [App\Http\Controllers\Admin\ScheduleController::class, 'create'])->name('create');
@@ -380,42 +441,7 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function() {
         Route::post('/{id}/toggle', [App\Http\Controllers\Admin\ScheduleController::class, 'toggleStatus'])->name('toggle');
         Route::post('/{id}/quota', [App\Http\Controllers\Admin\ScheduleController::class, 'updateQuota'])->name('quota');
     });
-
-// ============================================
-// REGISTRATIONS ROUTES
-// ============================================
-Route::get('/registrations', [App\Http\Controllers\AdminController::class, 'registrations'])
-    ->name('admin.registrations.index');
-
-Route::get('/registrations/export', [App\Http\Controllers\AdminController::class, 'exportRegistrations'])
-    ->name('admin.registrations.export');
-
-Route::get('/registrations/{id}', [App\Http\Controllers\AdminController::class, 'showRegistration'])
-    ->name('admin.registrations.show');
-
-Route::get('/registrations/{id}/export', [App\Http\Controllers\AdminController::class, 'exportSingleRegistration'])
-    ->name('admin.registrations.export-single');
-
-// ============================================
-// DOCUMENTS ROUTES
-// ============================================
-Route::post('/documents/{id}/verify', [App\Http\Controllers\AdminController::class, 'verifyDocument'])
-    ->name('admin.documents.verify');
-
-Route::get('/documents/download-all/{registrationId}', [App\Http\Controllers\AdminController::class, 'downloadAllDocuments'])
-    ->name('admin.documents.download-all');
-
-// ============================================
-// PASSPORT ROUTES
-// ============================================
-Route::post('/passport/{jamaahId}/process', [App\Http\Controllers\AdminController::class, 'processPassport'])
-    ->name('admin.passport.process');
-
-
-/** * ============================================
- * END OF ADMIN PANEL ROUTES
- * ============================================
- */});
+});
 
 // ============================================
 // API ROUTES (untuk user dashboard)

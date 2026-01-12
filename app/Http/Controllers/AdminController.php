@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\{DB, Storage, Mail, Log};
 use Maatwebsite\Excel\Facades\Excel;
 use ZipArchive;
 
+
 class AdminController extends Controller
 {
     /**
@@ -269,4 +270,87 @@ class AdminController extends Controller
         
         return back()->with('success', 'Request passport untuk ' . $jamaah->full_name . ' sedang diproses!');
     }
+    //baru
+// Tambahkan di AdminController
+
+/**
+ * Tab Perlu Pelunasan
+ */
+public function pelunasan()
+{
+    $registrations = Registration::with(['schedule', 'jamaah', 'payments'])
+        ->where('status', 'confirmed')
+        ->where('is_lunas', false)
+        ->whereHas('payments', function($q) {
+            $q->where('payment_type', 'dp')
+              ->where('status', 'verified');
+        })
+        ->latest()
+        ->get();
+    
+    return view('admin.pelunasan.index', compact('registrations'));
+}
+
+/**
+ * Kirim Tagihan Pelunasan (Manual)
+ */
+public function sendTagihan($registrationId)
+{
+    $registration = Registration::with('schedule')->findOrFail($registrationId);
+    
+    if (!$registration->needsPelunasan()) {
+        return back()->with('error', 'Registrasi ini tidak perlu pelunasan');
+    }
+    
+    try {
+        // Kirim email
+        Mail::to($registration->email)
+            ->send(new \App\Mail\PelunasanTagihan($registration));
+        
+        return back()->with('success', 'Tagihan pelunasan berhasil dikirim ke ' . $registration->email);
+    } catch (\Exception $e) {
+        return back()->with('error', 'Gagal kirim email: ' . $e->getMessage());
+    }
+}
+
+/**
+ * Verifikasi Pelunasan
+ */
+public function verifyPelunasan(Request $request, $paymentId)
+{
+    $payment = Payment::with('registration')->findOrFail($paymentId);
+    
+    DB::beginTransaction();
+    try {
+        if ($request->action === 'approve') {
+            $payment->update([
+                'status' => 'verified',
+                'verified_at' => now()
+            ]);
+            
+            // Update registration jadi LUNAS
+            $payment->registration->update(['is_lunas' => true]);
+            
+            // Email konfirmasi
+            Mail::to($payment->registration->email)
+                ->send(new \App\Mail\PelunasanVerified($payment->registration));
+            
+            $message = 'Pelunasan berhasil diverifikasi!';
+        } else {
+            $payment->update([
+                'status' => 'rejected',
+                'rejection_notes' => $request->notes,
+                'verified_at' => now()
+            ]);
+            
+            $message = 'Pelunasan ditolak';
+        }
+        
+        DB::commit();
+        return back()->with('success', $message);
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->with('error', $e->getMessage());
+    }
+}
 }

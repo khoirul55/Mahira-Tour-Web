@@ -879,6 +879,102 @@
                 @endif
             </div>
             
+            </div>
+            
+            <!-- ✅ TAMBAHKAN KODE PELUNASAN DI SINI -->
+            @php
+                $pelunasan = $registration->pelunasanPayment();
+                $needsPelunasan = $registration->needsPelunasan();
+            @endphp
+
+            @if($registration->is_lunas)
+                <!-- STATUS LUNAS -->
+                <div class="action-card">
+                    <div class="action-card-header">
+                        <h3><i class="bi bi-check-circle-fill"></i> Status Pembayaran</h3>
+                        <span class="badge-status badge-complete">LUNAS</span>
+                    </div>
+                    <div class="status-message success">
+                        <i class="bi bi-check-circle-fill"></i>
+                        <div>
+                            <strong>Pembayaran Lengkap! ✅</strong><br>
+                            <small>Semua pembayaran telah lunas.</small>
+                        </div>
+                    </div>
+                </div>
+
+            @elseif($needsPelunasan)
+                <!-- CARD PELUNASAN -->
+                <div class="action-card">
+                    <div class="action-card-header">
+                        <h3><i class="bi bi-wallet"></i> Pelunasan</h3>
+                        <span class="badge-status {{ $pelunasan && $pelunasan->status === 'pending' ? 'badge-waiting' : 'badge-pending' }}">
+                            @if($pelunasan && $pelunasan->status === 'pending')
+                                Menunggu Verifikasi
+                            @else
+                                Belum Bayar
+                            @endif
+                        </span>
+                    </div>
+                    
+                    <div class="payment-instructions">
+                        <h4>Sisa Pelunasan</h4>
+                        <p style="margin: 0; color: #6B7280;">
+                            <strong style="font-size: 1.8rem; color: #DC2626;">Rp {{ number_format($registration->sisaPelunasan(), 0, ',', '.') }}</strong>
+                        </p>
+                        <small>Deadline: <strong class="text-danger">{{ $registration->pelunasan_deadline?->format('d M Y') }}</strong></small>
+                    </div>
+                    
+                    @if($pelunasan && $pelunasan->status === 'pending')
+                        <div class="status-message info">
+                            <i class="bi bi-clock-fill"></i>
+                            <div>
+                                <strong>Bukti pelunasan sudah diupload</strong><br>
+                                <small>Menunggu verifikasi admin (1x24 jam)</small>
+                            </div>
+                        </div>
+                    @elseif($pelunasan && $pelunasan->status === 'rejected')
+                        <div class="status-message warning">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                            <div>
+                                <strong>Bukti ditolak!</strong><br>
+                                <small>{{ $pelunasan->rejection_notes }}</small>
+                            </div>
+                        </div>
+                    @else
+                        <div class="bank-info">
+                            <p style="margin: 0; opacity: 0.9;">Bank BCA</p>
+                            <div class="bank-account">1234 5678 9012</div>
+                            <p style="margin: 0;">a.n. <strong>PT Mahira Tour</strong></p>
+                        </div>
+                        
+                        <form action="{{ route('registration.submit-pelunasan', $registration->id) }}" 
+                              method="POST" 
+                              enctype="multipart/form-data" 
+                              class="upload-form">
+                            @csrf
+                            <div class="form-group-dash">
+                                <label>Metode Pembayaran</label>
+                                <select name="payment_method" class="form-control-dash" required>
+                                    <option value="transfer">Transfer Bank</option>
+                                    <option value="cash">Cash</option>
+                                </select>
+                            </div>
+                            <div class="form-group-dash">
+                                <label>Upload Bukti Pelunasan</label>
+                                <input type="file" name="payment_proof" class="form-control-dash" accept="image/*,.pdf" required>
+                            </div>
+                            <button type="submit" class="btn-upload">
+                                <i class="bi bi-cloud-upload-fill"></i> Upload Bukti Pelunasan
+                            </button>
+                        </form>
+                    @endif
+                </div>
+            @endif
+            <!-- ✅ AKHIR KODE PELUNASAN -->
+            
+            <!-- Card 3: Upload Dokumen -->
+
             <!-- Card 3: Upload Dokumen -->
             <div class="action-card">
                 <div class="action-card-header">
