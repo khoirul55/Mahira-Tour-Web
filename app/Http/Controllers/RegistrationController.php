@@ -42,55 +42,54 @@ class RegistrationController extends Controller
     /**
      * STEP 2: Process Quick Booking
      */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'schedule_id' => 'required|exists:schedules,id',
-            'full_name' => 'required|string|min:3|max:255',
-            'phone' => 'required|string|regex:/^08[0-9]{9,11}$/',
-            'email' => 'required|email|max:255',
-            'num_people' => 'required|integer|between:1,10',
-            'notes' => 'nullable|string|max:1000',
-        ]);
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'schedule_id' => 'required|exists:schedules,id',
+        'full_name' => 'required|string|min:3|max:255',
+        'phone' => 'required|string|regex:/^08[0-9]{9,11}$/',
+        'email' => 'required|email|max:255',
+        'num_people' => 'required|integer|between:1,10',
+        'notes' => 'nullable|string|max:1000',
+    ]);
+    
+    DB::beginTransaction();
+    
+    try {
+        $schedule = Schedule::lockForUpdate()->findOrFail($validated['schedule_id']);
         
-        DB::beginTransaction();
+        $availableSeats = $schedule->quota - $schedule->seats_taken;
         
-        try {
-            // TAMBAHKAN LOCKING DI SINI
-            $schedule = Schedule::lockForUpdate()->findOrFail($validated['schedule_id']);
-            
-            // Hitung ulang available seats dengan locking
-            $availableSeats = $schedule->quota - $schedule->seats_taken;
-            
-            if ($availableSeats < $validated['num_people']) {
-                throw new \Exception('Maaf, kursi tidak mencukupi. Tersisa ' . $availableSeats . ' kursi.');
-            }
+        if ($availableSeats < $validated['num_people']) {
+            throw new \Exception('Maaf, kursi tidak mencukupi. Tersisa ' . $availableSeats . ' kursi.');
+        }
+    
+        $totalPrice = $schedule->price * $validated['num_people'];
+        $dpAmount = 5000000;
+        $pelunasanAmount = $totalPrice - $dpAmount;
         
-//ganti dp 5juta
-$totalPrice = $schedule->price * $validated['num_people'];
-$dpAmount = 5000000; // ✅ FIXED 5 JUTA
-$pelunasanAmount = $totalPrice - $dpAmount;
-$pelunasanDeadline = $schedule->departure_date->copy()->subDays(30);
+        // ✅ FIX: Pastikan pelunasan_deadline SELALU terisi
+        $pelunasanDeadline = $schedule->departure_date->copy()->subDays(30);
 
-// Create registration
-$registration = Registration::create([
-    'registration_number' => Registration::generateRegistrationNumber(),
-    'schedule_id' => $schedule->id,
-    'full_name' => $validated['full_name'],
-    'email' => $validated['email'],
-    'phone' => $validated['phone'],
-    'num_people' => $validated['num_people'],
-    'notes' => $validated['notes'],
-    'total_price' => $totalPrice,
-    'dp_amount' => $dpAmount,
-    'pelunasan_amount' => $pelunasanAmount, // ✅ BARU
-    'pelunasan_deadline' => $pelunasanDeadline, // ✅ BARU
-    'status' => 'draft',
-    'completion_percentage' => 5,
-    'payment_deadline' => now()->addDays(3),
-    'document_deadline' => now()->addDays(7),
-    'last_activity_at' => now()
-]);
+        // Create registration
+        $registration = Registration::create([
+            'registration_number' => Registration::generateRegistrationNumber(),
+            'schedule_id' => $schedule->id,
+            'full_name' => $validated['full_name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'num_people' => $validated['num_people'],
+            'notes' => $validated['notes'],
+            'total_price' => $totalPrice,
+            'dp_amount' => $dpAmount,
+            'pelunasan_amount' => $pelunasanAmount,
+            'pelunasan_deadline' => $pelunasanDeadline, // ✅ PENTING!
+            'status' => 'draft',
+            'completion_percentage' => 5,
+            'payment_deadline' => now()->addDays(3),
+            'document_deadline' => now()->addDays(7),
+            'last_activity_at' => now()
+        ]);
             // ✅ FIX: Create placeholder jamaah records dengan NIK UNIQUE
             for ($i = 0; $i < $validated['num_people']; $i++) {
                 Jamaah::create([

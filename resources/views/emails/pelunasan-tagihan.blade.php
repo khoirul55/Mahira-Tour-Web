@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,9 +39,17 @@
             a.n. <strong>PT Mahira Tour Indonesia</strong>
         </div>
         
-        <p><strong>⏰ Deadline Pelunasan:</strong><br>
-        <span style="color: #DC2626; font-size: 1.2em;">{{ $registration->pelunasan_deadline->format('d F Y') }}</span><br>
-        <small>(H-30 dari keberangkatan)</small></p>
+        @if($registration->pelunasan_deadline)
+            <p><strong>⏰ Deadline Pelunasan:</strong><br>
+            <span style="color: #DC2626; font-size: 1.2em;">{{ $registration->pelunasan_deadline->format('d F Y') }}</span><br>
+            <small>(H-30 dari keberangkatan)</small></p>
+        @else
+            <p><strong>⏰ Deadline Pelunasan:</strong><br>
+            <span style="color: #DC2626; font-size: 1.2em;">
+                {{ $registration->schedule->departure_date->copy()->subDays(30)->format('d F Y') }}
+            </span><br>
+            <small>(H-30 dari keberangkatan: {{ $registration->schedule->departure_date->format('d F Y') }})</small></p>
+        @endif
         
         <center>
             <a href="{{ $dashboardUrl }}" class="btn">

@@ -10,7 +10,7 @@ class Registration extends Model
         'registration_number', 'access_token', 'schedule_id', 'full_name', 'email', 'phone',
         'num_people', 'notes', 'total_price', 'dp_amount', 'payment_deadline',
         'document_deadline', 'status', 'completion_percentage', 'last_activity_at',
-        'pelunasan_amount', 'pelunasan_deadline', 'is_lunas'
+        'pelunasan_amount', 'pelunasan_deadline', 'is_lunas', 'last_pelunasan_reminder_at' // ✅ TAMBAHKAN
     ];
     
     protected $casts = [
@@ -18,6 +18,7 @@ class Registration extends Model
         'document_deadline' => 'date',
         'pelunasan_deadline' => 'date',
         'last_activity_at' => 'datetime',
+        'last_pelunasan_reminder_at' => 'datetime', // ✅ TAMBAHKAN
         'is_lunas' => 'boolean'
     ];
     
@@ -57,20 +58,17 @@ class Registration extends Model
     
     public function calculateCompletion()
     {
-        $percentage = 5; // Base: booking created
+        $percentage = 5;
         
-        // +30%: All jamaah data complete
         $totalJamaah = $this->num_people;
         $completeJamaah = $this->jamaah()->where('completion_status', 'complete')->count();
         $percentage += ($completeJamaah / $totalJamaah) * 30;
         
-        // +30%: DP verified
         if ($this->hasDPVerified()) {
             $percentage += 30;
         }
         
-        // +35%: All documents uploaded & verified
-        $totalDocs = $totalJamaah * 3; // KTP, KK, Photo per jamaah
+        $totalDocs = $totalJamaah * 3;
         $uploadedDocs = Document::whereIn('jamaah_id', $this->jamaah->pluck('id'))->count();
         $percentage += ($uploadedDocs / $totalDocs) * 35;
         
@@ -102,7 +100,7 @@ class Registration extends Model
             ->first();
     }
     
-    // ✅ PELUNASAN METHODS (BARU)
+    // ✅ PELUNASAN METHODS
     
     public function needsPelunasan()
     {
@@ -156,7 +154,7 @@ class Registration extends Model
     
     public function getRequiredDocumentsCount()
     {
-        return $this->num_people * 3; // KTP, KK, Photo
+        return $this->num_people * 3;
     }
     
     public function hasPassportRequests()

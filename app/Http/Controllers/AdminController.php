@@ -273,55 +273,46 @@ class AdminController extends Controller
     //baru
 // Tambahkan di AdminController
 
-/**
- * Tab Perlu Pelunasan
- */
+// FILE: app/Http/Controllers/AdminController.php
+// TAMBAHKAN method ini:
+
 public function pelunasan()
 {
-    $registrations = Registration::with(['schedule', 'jamaah', 'payments'])
+    $registrations = Registration::with('schedule', 'payments')
         ->where('status', 'confirmed')
         ->where('is_lunas', false)
         ->whereHas('payments', function($q) {
-            $q->where('payment_type', 'dp')
-              ->where('status', 'verified');
+            $q->where('payment_type', 'dp')->where('status', 'verified');
         })
-        ->latest()
         ->get();
     
     return view('admin.pelunasan.index', compact('registrations'));
 }
 
-/**
- * Kirim Tagihan Pelunasan (Manual)
- */
 public function sendTagihan($registrationId)
 {
-    $registration = Registration::with('schedule')->findOrFail($registrationId);
-    
-    if (!$registration->needsPelunasan()) {
-        return back()->with('error', 'Registrasi ini tidak perlu pelunasan');
-    }
-    
     try {
-        // Kirim email
-        Mail::to($registration->email)
-            ->send(new \App\Mail\PelunasanTagihan($registration));
+        $registration = Registration::with('schedule')->findOrFail($registrationId);
         
-        return back()->with('success', 'Tagihan pelunasan berhasil dikirim ke ' . $registration->email);
+        if (!$registration->needsPelunasan()) {
+            return back()->with('error', 'Registrasi ini tidak perlu pelunasan');
+        }
+        
+        Mail::to($registration->email)->send(new \App\Mail\PelunasanTagihan($registration));
+        
+        $registration->update(['last_pelunasan_reminder_at' => now()]);
+        
+        return back()->with('success', '✅ Tagihan pelunasan berhasil dikirim ke ' . $registration->email);
+        
     } catch (\Exception $e) {
-        return back()->with('error', 'Gagal kirim email: ' . $e->getMessage());
+        return back()->withErrors(['error' => $e->getMessage()]);
     }
 }
-
-/**
- * Verifikasi Pelunasan
- */
-// FILE: app/Http/Controllers/AdminController.php (tambahkan method ini)
 
 public function verifyPelunasan(Request $request, $paymentId)
 {
     $validated = $request->validate([
-        'action' => 'required|in:verify,reject',
+        'action' => 'required|in:approve,reject',
         'rejection_reason' => 'required_if:action,reject|nullable|string'
     ]);
     
@@ -333,7 +324,7 @@ public function verifyPelunasan(Request $request, $paymentId)
             throw new \Exception('Bukan payment pelunasan');
         }
         
-        if ($validated['action'] === 'verify') {
+        if ($validated['action'] === 'approve') {
             $payment->update([
                 'status' => 'verified',
                 'verified_by' => session('admin_id'),
@@ -346,7 +337,7 @@ public function verifyPelunasan(Request $request, $paymentId)
                 ->send(new \App\Mail\PelunasanVerified($payment->registration));
             
             DB::commit();
-            return back()->with('success', '✅ Pelunasan verified! Status: LUNAS');
+            return back()->with('success', '✅ Pelunasan verified! User dapat email LUNAS');
         } else {
             $payment->update([
                 'status' => 'rejected',
@@ -362,11 +353,13 @@ public function verifyPelunasan(Request $request, $paymentId)
                 ));
             
             DB::commit();
-            return back()->with('success', '⚠️ Pelunasan ditolak');
+            return back()->with('success', '⚠️ Pelunasan ditolak, email notifikasi terkirim');
         }
     } catch (\Exception $e) {
         DB::rollBack();
         return back()->withErrors(['error' => $e->getMessage()]);
     }
 }
+
+
 }
