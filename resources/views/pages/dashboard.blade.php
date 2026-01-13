@@ -947,7 +947,19 @@
                             <div class="bank-account">1234 5678 9012</div>
                             <p style="margin: 0;">a.n. <strong>PT Mahira Tour</strong></p>
                         </div>
-                        
+                    <!-- Tambahkan di section pelunasan sebelum form upload -->
+                        @if($needsPelunasan && !$pelunasan)
+                        <div style="margin-bottom: 1.5rem;">
+                            <a href="https://wa.me/6282184515310?text=Halo%20Admin%20Mahira%20Tour,%0A%0ASaya%20ingin%20melakukan%20pelunasan:%0ANo.%20Registrasi:%20{{ $registration->registration_number }}%0ANama:%20{{ $registration->full_name }}%0ASisa%20Pelunasan:%20Rp%20{{ number_format($registration->sisaPelunasan(), 0, ',', '.') }}%0A%0AMohon%20info%20rekening.%20Terima%20kasih!" 
+                            target="_blank"
+                            class="btn-wa"
+                            style="display: inline-flex; width: 100%; justify-content: center; align-items: center; gap: 0.5rem; padding: 1rem; background: #25D366; color: white; border-radius: 50px; text-decoration: none; font-weight: 600; margin-bottom: 1rem;">
+                                <i class="bi bi-whatsapp" style="font-size: 1.5rem;"></i>
+                                Bayar via WhatsApp Admin
+                            </a>
+                            <p style="text-align: center; font-size: 0.85rem; color: #6B7280;">Atau upload bukti transfer di bawah:</p>
+                        </div>
+                        @endif    
                         <form action="{{ route('registration.submit-pelunasan', $registration->id) }}" 
                               method="POST" 
                               enctype="multipart/form-data" 

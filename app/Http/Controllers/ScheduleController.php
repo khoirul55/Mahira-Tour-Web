@@ -8,7 +8,6 @@ class ScheduleController extends Controller
 {
     public function index()
     {
-        // ✅ Ambil data REAL dari database
         $schedules = Schedule::where('status', 'active')
             ->where('departure_date', '>=', now())
             ->orderBy('departure_date', 'asc')
@@ -24,7 +23,7 @@ class ScheduleController extends Controller
                     $status = 'available';
                 }
             
-                // ✅ Return semua data dari database (bukan hardcode)
+                // ✅ PENTING: Gunakan flyer_image langsung dari database
                 return [
                     'id' => $schedule->id,
                     'package_name' => $schedule->package_name,
@@ -38,12 +37,10 @@ class ScheduleController extends Controller
                     'price' => $schedule->price,
                     'airline' => $schedule->airline,
                     'duration' => $schedule->duration,
-                    'flyer_image' => basename($schedule->flyer_image), // ✅ Ambil nama file dari path
-                    'flyer_path' => $schedule->flyer_image // ✅ Tambahkan full path juga
+                    'flyer_image' => $schedule->flyer_image // ✅ schedules/flyers/xxx.webp
                 ];
             });
     
-        // ✅ Ambil daftar rute untuk filter
         $departure_routes = Schedule::where('status', 'active')
             ->where('departure_date', '>=', now())
             ->distinct()

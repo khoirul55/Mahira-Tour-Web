@@ -1,3 +1,4 @@
+<!-- FILE: resources/views/emails/pelunasan-rejected.blade.php -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,11 +9,11 @@
 </head>
 <body>
     <div class="header">
-        <h1>⚠️ DP Ditolak</h1>
+        <h1>⚠️ Bukti Pelunasan Ditolak</h1>
     </div>
-    <div class="content" style="padding: 30px;">
+    <div style="padding: 30px;">
         <p>Assalamualaikum <strong>{{ $registration->full_name }}</strong>,</p>
-        <p>Bukti DP Anda ditolak.</p>
+        <p>Bukti pelunasan Anda ditolak oleh admin.</p>
         <p><strong>Alasan:</strong> {{ $reason ?? 'Bukti tidak valid' }}</p>
         <p>Silakan upload ulang bukti pembayaran yang benar.</p>
         <a href="{{ $dashboardUrl }}" style="display:inline-block;padding:15px 30px;background:#EF4444;color:white;text-decoration:none;border-radius:50px;">Upload Ulang</a>

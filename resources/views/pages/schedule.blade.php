@@ -89,30 +89,36 @@
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ ($loop->index + 1) * 50 }}">
                 <div class="flyer-card" 
                      data-route="{{ $schedule['departure_route'] }}"
-                     data-schedule-id="{{ $schedule['id'] }}">
+                     data-schedule-id="{{ $schedule['id'] }}"
+                     data-departure-date="{{ $schedule['departure_date'] }}"
+                     data-return-date="{{ $schedule['return_date'] }}"
+                     data-airline="{{ $schedule['airline'] }}"
+                     data-price="{{ $schedule['price'] }}"
+                     data-duration="{{ $schedule['duration'] }}"
+                     data-status="{{ $schedule['status'] }}"
+                     data-quota="{{ $schedule['quota'] }}"
+                     data-seats-taken="{{ $schedule['seats_taken'] }}">
                     
-                    <!-- Flyer Image (Clickable to Modal) -->
+                    {{-- ✅ Flyer Image - GUNAKAN Storage::url() --}}
                     <div class="flyer-image-container" 
                          onclick="openDetailModal({{ $schedule['id'] }})">
-                        <img src="{{ asset('storage/flyers/' . $schedule['flyer_image']) }}" 
+                        <img src="{{ Storage::url($schedule['flyer_image']) }}" 
                              alt="{{ $schedule['package_name'] }}" 
                              class="flyer-image"
                              loading="lazy">
                         
-                        <!-- Status Badge -->
                         <span class="flyer-badge {{ $badgeClass }}">
                             <i class="bi bi-{{ $schedule['status'] === 'full' ? 'x-circle-fill' : 'check-circle-fill' }}"></i>
                             {{ $statusText }}
                         </span>
                         
-                        <!-- Click Hint -->
                         <div class="flyer-click-hint">
                             <i class="bi bi-eye"></i>
                             Lihat Detail
                         </div>
                     </div>
                     
-                    <!-- Card Info -->
+                    {{-- Card Info --}}
                     <div class="flyer-info">
                         <h3 class="flyer-title">{{ $schedule['package_name'] }}</h3>
                         
@@ -135,7 +141,7 @@
                             </div>
                         </div>
                         
-                        <!-- Action Buttons -->
+                        {{-- Action Buttons --}}
                         <div class="flyer-actions">
                             @if($schedule['status'] !== 'full')
                             <a href="{{ route('register', ['schedule_id' => $schedule['id']]) }}" 
@@ -270,7 +276,8 @@
         
         <!-- Footer CTA -->
         <div class="modal-footer-custom">
-            <a href="https://wa.me/6282184515310?text=Assalamualaikum%20Mahira%20Tour%2C%20saya%20ingin%20konsultasi%20paket%20umrah"  class="btn-modal-wa" target="_blank">
+            <a href="https://wa.me/6282184515310?text=Assalamualaikum%20Mahira%20Tour%2C%20saya%20ingin%20konsultasi%20paket%20umrah" 
+               class="btn-modal-wa" target="_blank">
                 <i class="bi bi-whatsapp"></i>
                 Konsultasi via WA
             </a>
@@ -281,6 +288,7 @@
         </div>
     </div>
 </div>
+
 <!-- Info Section -->
 <section class="info-card-section">
     <div class="container">

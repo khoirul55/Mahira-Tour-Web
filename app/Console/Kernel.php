@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
                  ->runInBackground();
         // =======================================
     }
+    
 
     /**
      * Register the commands for the application.
@@ -32,5 +33,7 @@ class Kernel extends ConsoleKernel
     protected $middlewareAliases = [
     // ... yang lain
     'admin.auth' => \App\Http\Middleware\AdminAuth::class,
+
+    
 ];
 }

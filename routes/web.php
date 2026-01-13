@@ -250,16 +250,6 @@ Route::get('/syarat-ketentuan', function () {
         ]
     ];
     
-    $terms = [
-        'Pembayaran DP minimal 30% dari total biaya paket',
-        'Pelunasan dilakukan maksimal H-30 sebelum keberangkatan',
-        'Pembatalan oleh jamaah dikenakan biaya sesuai ketentuan yang berlaku',
-        'Dokumen yang sudah diserahkan tidak dapat dikembalikan',
-        'Harga paket dapat berubah sewaktu-waktu mengikuti kebijakan pemerintah',
-        'Jamaah wajib mengikuti manasik umrah yang diselenggarakan',
-        'Mahira Tour berhak membatalkan keberangkatan jika kuota minimal tidak terpenuhi',
-        'Force majeure (bencana alam, wabah, perang, dll) menjadi tanggung jawab bersama'
-    ];
     
     return view('pages.terms', compact('requirements', 'terms'));
 })->name('terms');

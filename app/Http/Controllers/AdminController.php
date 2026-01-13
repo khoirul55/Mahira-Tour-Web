@@ -316,41 +316,57 @@ public function sendTagihan($registrationId)
 /**
  * Verifikasi Pelunasan
  */
+// FILE: app/Http/Controllers/AdminController.php (tambahkan method ini)
+
 public function verifyPelunasan(Request $request, $paymentId)
 {
-    $payment = Payment::with('registration')->findOrFail($paymentId);
+    $validated = $request->validate([
+        'action' => 'required|in:verify,reject',
+        'rejection_reason' => 'required_if:action,reject|nullable|string'
+    ]);
     
     DB::beginTransaction();
     try {
-        if ($request->action === 'approve') {
+        $payment = Payment::with('registration.schedule')->findOrFail($paymentId);
+        
+        if ($payment->payment_type !== 'pelunasan') {
+            throw new \Exception('Bukan payment pelunasan');
+        }
+        
+        if ($validated['action'] === 'verify') {
             $payment->update([
                 'status' => 'verified',
+                'verified_by' => session('admin_id'),
                 'verified_at' => now()
             ]);
             
-            // Update registration jadi LUNAS
             $payment->registration->update(['is_lunas' => true]);
             
-            // Email konfirmasi
             Mail::to($payment->registration->email)
                 ->send(new \App\Mail\PelunasanVerified($payment->registration));
             
-            $message = 'Pelunasan berhasil diverifikasi!';
+            DB::commit();
+            return back()->with('success', '✅ Pelunasan verified! Status: LUNAS');
         } else {
             $payment->update([
                 'status' => 'rejected',
-                'rejection_notes' => $request->notes,
+                'rejection_reason' => $validated['rejection_reason'],
+                'verified_by' => session('admin_id'),
                 'verified_at' => now()
             ]);
             
-            $message = 'Pelunasan ditolak';
+            Mail::to($payment->registration->email)
+                ->send(new \App\Mail\PelunasanRejected(
+                    $payment->registration, 
+                    $validated['rejection_reason']
+                ));
+            
+            DB::commit();
+            return back()->with('success', '⚠️ Pelunasan ditolak');
         }
-        
-        DB::commit();
-        return back()->with('success', $message);
     } catch (\Exception $e) {
         DB::rollBack();
-        return back()->with('error', $e->getMessage());
+        return back()->withErrors(['error' => $e->getMessage()]);
     }
 }
 }
