@@ -4,34 +4,65 @@
     <title>Tambah Paket Baru - Mahira Tour Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
-        body { background: #f8f9fa; }
+        body { 
+            background: #f8f9fa;
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+        }
         .sidebar {
             position: fixed;
             top: 0;
             left: 0;
             height: 100vh;
-            width: 250px;
-            background: #001D5F;
+            width: 260px;
+            background: linear-gradient(135deg, #001D5F 0%, #003087 100%);
             color: white;
-            padding: 20px;
+            padding: 30px 20px;
             overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
         }
         .main-content {
-            margin-left: 250px;
+            margin-left: 260px;
             padding: 30px;
         }
+        .sidebar h4 {
+            font-weight: 700;
+            margin-bottom: 30px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .admin-info {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
         .sidebar nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            color: rgba(255,255,255,0.8);
             text-decoration: none;
-            transition: all 0.3s;
-            padding: 8px 12px;
             border-radius: 8px;
-            display: block;
-            color: white;
             margin-bottom: 5px;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
         .sidebar nav a:hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.15);
+            color: white;
+            transform: translateX(5px);
+        }
+        .sidebar nav a.active {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
         }
         .preview-container {
             border: 2px dashed #dee2e6;
@@ -56,24 +87,37 @@
             content: " *";
             color: red;
         }
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+        .card-header {
+            border-radius: 12px 12px 0 0 !important;
+        }
+        .alert {
+            border: none;
+            border-radius: 10px;
+            padding: 15px 20px;
+        }
     </style>
 </head>
-<body>
+<body x-data="createScheduleApp()">
 
 <!-- Sidebar -->
 <div class="sidebar">
-    <h3><i class="bi bi-shield-check"></i> Admin Panel</h3>
+    <h4>
+        <i class="bi bi-shield-check"></i> Admin Panel
+    </h4>
     
-    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin: 15px 0;">
-        <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 5px;">
+    <div class="admin-info">
+        <div style="font-weight: 600;">
             <i class="bi bi-person-circle"></i> {{ session('admin_name', 'Admin') }}
         </div>
-        <div style="font-size: 0.85rem; opacity: 0.8;">
-            {{ session('admin_email') }}
-        </div>
+        <small style="opacity: 0.8;">{{ session('admin_email') }}</small>
     </div>
     
-    <hr style="border-color: rgba(255,255,255,0.3);">
+    <hr style="border-color: rgba(255,255,255,0.2);">
     
     <nav>
         <a href="{{ route('admin.dashboard') }}">
@@ -102,13 +146,14 @@
     <h1 class="mb-4">Tambah Paket Umrah Baru</h1>
 
     @if($errors->any())
-    <div class="alert alert-danger">
+    <div class="alert alert-danger" x-data="{ show: true }" x-show="show">
         <i class="bi bi-exclamation-circle"></i> Ada kesalahan:
         <ul class="mb-0 mt-2">
             @foreach($errors->all() as $error)
             <li>{{ $error }}</li>
             @endforeach
         </ul>
+        <button type="button" class="btn-close" @click="show = false"></button>
     </div>
     @endif
 
@@ -176,16 +221,26 @@
                         <!-- Departure Date -->
                         <div class="mb-3">
                             <label class="form-label required">Tanggal Keberangkatan</label>
-                            <input type="date" name="departure_date" class="form-control" 
+                            <input type="date" 
+                                   name="departure_date" 
+                                   class="form-control" 
+                                   x-model="departureDate"
+                                   @change="updateReturnDate"
                                    value="{{ old('departure_date') }}" 
-                                   min="{{ date('Y-m-d', strtotime('+1 day')) }}" required>
+                                   min="{{ date('Y-m-d', strtotime('+1 day')) }}" 
+                                   required>
                         </div>
 
                         <!-- Return Date -->
                         <div class="mb-3">
                             <label class="form-label required">Tanggal Kepulangan</label>
-                            <input type="date" name="return_date" class="form-control" 
-                                   value="{{ old('return_date') }}" required>
+                            <input type="date" 
+                                   name="return_date" 
+                                   class="form-control" 
+                                   x-model="returnDate"
+                                   :min="departureDate"
+                                   value="{{ old('return_date') }}" 
+                                   required>
                         </div>
 
                         <!-- Price -->
@@ -231,17 +286,26 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label required">Flyer / Poster Paket</label>
-                            <input type="file" name="flyer_image" class="form-control" 
+                            <input type="file" 
+                                   name="flyer_image" 
+                                   class="form-control" 
                                    accept="image/jpeg,image/jpg,image/png,image/webp" 
-                                   onchange="previewImage(event)" required>
+                                   @change="previewImage($event)" 
+                                   required>
                             <small class="text-muted">Format: JPG, PNG, WEBP. Max 10MB. Rekomendasi ukuran: 1200x1600px (portrait)</small>
                         </div>
 
-                        <div class="preview-container" id="preview-container">
-                            <div class="text-muted">
+                        <div class="preview-container">
+                            <div x-show="!imagePreview" class="text-muted">
                                 <i class="bi bi-file-image" style="font-size: 4rem;"></i>
                                 <p class="mt-3">Belum ada flyer dipilih</p>
                                 <small>Flyer akan ditampilkan di halaman jadwal</small>
+                            </div>
+                            <div x-show="imagePreview" x-cloak>
+                                <img :src="imagePreview" class="preview-image" alt="Preview Flyer">
+                                <p class="mt-3 text-success">
+                                    <i class="bi bi-check-circle"></i> Flyer siap diupload
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -261,39 +325,35 @@
     </form>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-function previewImage(event) {
-    const file = event.target.files[0];
-    const container = document.getElementById('preview-container');
-    
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            container.innerHTML = `
-                <div>
-                    <img src="${e.target.result}" class="preview-image" alt="Preview Flyer">
-                    <p class="mt-3 text-success"><i class="bi bi-check-circle"></i> Flyer siap diupload</p>
-                </div>
-            `;
-        };
-        reader.readAsDataURL(file);
+function createScheduleApp() {
+    return {
+        imagePreview: null,
+        departureDate: '{{ old("departure_date") }}',
+        returnDate: '{{ old("return_date") }}',
+        
+        previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.imagePreview = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        },
+        
+        updateReturnDate() {
+            if (this.departureDate && !this.returnDate) {
+                const departure = new Date(this.departureDate);
+                const returnDate = new Date(departure);
+                returnDate.setDate(returnDate.getDate() + 12); // Default 12 hari
+                this.returnDate = returnDate.toISOString().split('T')[0];
+            }
+        }
     }
 }
-
-// Auto calculate return date (optional helper)
-document.querySelector('[name="departure_date"]').addEventListener('change', function() {
-    const departureDate = new Date(this.value);
-    const returnDate = new Date(departureDate);
-    returnDate.setDate(returnDate.getDate() + 12); // Default 12 hari
-    
-    const returnInput = document.querySelector('[name="return_date"]');
-    returnInput.min = this.value;
-    
-    if (!returnInput.value) {
-        returnInput.value = returnDate.toISOString().split('T')[0];
-    }
-});
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

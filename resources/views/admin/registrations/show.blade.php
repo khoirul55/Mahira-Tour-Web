@@ -220,6 +220,61 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
+        
+        /* New styles for payment alerts */
+        .payment-alert {
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+            border-left: 4px solid #F59E0B;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .payment-alert.danger {
+            background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+            border-left-color: #DC2626;
+        }
+        
+        .payment-alert.success {
+            background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+            border-left-color: #10B981;
+        }
+        
+        .payment-breakdown {
+            background: #F8F9FA;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+        
+        .payment-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #E5E7EB;
+        }
+        
+        .payment-item:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            color: #001D5F;
+            font-size: 1.1rem;
+        }
+        
+        .wa-template-box {
+            background: #F0FDF4;
+            border: 2px dashed #10B981;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        
+        .copy-btn {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+        }
     </style>
 </head>
 <body>
@@ -421,46 +476,111 @@
         
         <!-- Right Column -->
         <div class="col-lg-4">
-            <!-- Pembayaran -->
+            <!-- Pembayaran dengan Status Pelunasan -->
             <div class="detail-card">
                 <h5><i class="bi bi-credit-card"></i> Pembayaran</h5>
-                <div class="info-row">
-                    <div class="info-label">Total</div>
-                    <div class="info-value">Rp {{ number_format($registration->total_price, 0, ',', '.') }}</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">DP</div>
-                    <div class="info-value">Rp {{ number_format($registration->dp_amount, 0, ',', '.') }}</div>
+                
+                @php
+                    $dpPayment = $registration->payments->where('payment_type', 'dp')->first();
+                    $pelunasanPayment = $registration->payments->where('payment_type', 'pelunasan')->first();
+                    $totalPaid = $registration->payments->where('status', 'verified')->sum('amount');
+                    $remaining = $registration->total_price - $totalPaid;
+                    $isLunas = $registration->is_lunas;
+                @endphp
+                
+                <!-- Status Pelunasan Alert -->
+                @if(!$isLunas && $dpPayment && $dpPayment->status === 'verified')
+                    <div class="payment-alert danger">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <i class="bi bi-exclamation-triangle-fill" style="font-size: 1.5rem; color: #DC2626;"></i>
+                            <strong style="color: #DC2626;">Belum Lunas</strong>
+                        </div>
+                        <small style="color: #991B1B;">Menunggu pembayaran pelunasan sebesar <strong>Rp {{ number_format($remaining, 0, ',', '.') }}</strong></small>
+                    </div>
+                @elseif($isLunas)
+                    <div class="payment-alert success">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-check-circle-fill" style="font-size: 1.5rem; color: #059669;"></i>
+                            <strong style="color: #059669;">Sudah Lunas ✓</strong>
+                        </div>
+                    </div>
+                @elseif(!$dpPayment || $dpPayment->status !== 'verified')
+                    <div class="payment-alert">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-clock-fill" style="font-size: 1.5rem; color: #D97706;"></i>
+                            <strong style="color: #D97706;">Menunggu DP</strong>
+                        </div>
+                    </div>
+                @endif
+                
+                <!-- Payment Breakdown -->
+                <div class="payment-breakdown">
+                    <div class="payment-item">
+                        <span class="text-muted">Total Biaya</span>
+                        <strong>Rp {{ number_format($registration->total_price, 0, ',', '.') }}</strong>
+                    </div>
+                    <div class="payment-item">
+                        <span class="text-muted">DP ({{ round(($registration->dp_amount / $registration->total_price) * 100) }}%)</span>
+                        <span>Rp {{ number_format($registration->dp_amount, 0, ',', '.') }}</span>
+                    </div>
+                    <div class="payment-item">
+                        <span class="text-muted">Sudah Dibayar</span>
+                        <strong style="color: #10B981;">Rp {{ number_format($totalPaid, 0, ',', '.') }}</strong>
+                    </div>
+                    <div class="payment-item">
+                        <span>Sisa Pembayaran</span>
+                        <strong style="color: {{ $remaining > 0 ? '#DC2626' : '#10B981' }};">
+                            Rp {{ number_format($remaining, 0, ',', '.') }}
+                        </strong>
+                    </div>
                 </div>
                 
                 <hr>
                 
+                <!-- Detail Pembayaran -->
                 @foreach($registration->payments as $payment)
-                <div class="mb-3">
-                    <div class="d-flex justify-content-between">
-                        <strong>{{ strtoupper($payment->payment_type) }}</strong>
-                        <span class="badge-status badge-{{ $payment->status }}">{{ ucfirst($payment->status) }}</span>
+                <div class="mb-3 pb-3" style="border-bottom: 1px dashed #E5E7EB;">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div>
+                            <strong style="text-transform: uppercase;">
+                                {{ $payment->payment_type === 'dp' ? 'Down Payment (DP)' : 'Pelunasan' }}
+                            </strong>
+                            <div class="text-muted small">Rp {{ number_format($payment->amount, 0, ',', '.') }}</div>
+                        </div>
+                        <span class="badge-status badge-{{ $payment->status }}">
+                            {{ ucfirst($payment->status) }}
+                        </span>
                     </div>
-                    <small class="text-muted">Rp {{ number_format($payment->amount, 0, ',', '.') }}</small>
                     
                     @if($payment->proof_path)
-                    <div class="mt-2">
+                    <div class="d-flex gap-2 mt-2">
                         <a href="{{ Storage::url($payment->proof_path) }}" target="_blank" class="btn btn-sm btn-outline-primary">
-                            <i class="bi bi-eye"></i> Lihat
+                            <i class="bi bi-eye"></i> Lihat Bukti
                         </a>
                         <a href="{{ Storage::url($payment->proof_path) }}" download class="btn btn-sm btn-outline-success">
                             <i class="bi bi-download"></i> Download
                         </a>
                     </div>
+                    @else
+                    <small class="text-muted d-block mt-2">
+                        <i class="bi bi-info-circle"></i> Belum upload bukti pembayaran
+                    </small>
                     @endif
                     
                     @if($payment->verified_at)
-                    <small class="text-muted d-block mt-1">
-                        Verified: {{ $payment->verified_at->format('d M Y H:i') }}
+                    <small class="text-success d-block mt-2">
+                        <i class="bi bi-check-circle-fill"></i> Diverifikasi: {{ $payment->verified_at->format('d M Y H:i') }}
                     </small>
                     @endif
                 </div>
                 @endforeach
+                
+                @if($registration->payments->isEmpty())
+                <div class="text-center text-muted py-3">
+                    <i class="bi bi-inbox" style="font-size: 2rem; opacity: 0.3;"></i>
+                    <p class="mb-0 small">Belum ada pembayaran</p>
+                </div>
+                @endif
             </div>
             
             <!-- Timeline -->
@@ -471,8 +591,6 @@
                         <strong>Pendaftaran Dibuat</strong>
                         <small class="text-muted d-block">{{ $registration->created_at->format('d M Y H:i') }}</small>
                     </div>
-                    
-                    @php $dpPayment = $registration->payments->where('payment_type', 'dp')->first(); @endphp
                     
                     @if($dpPayment && $dpPayment->proof_path)
                     <div class="timeline-item {{ $dpPayment->status !== 'verified' ? 'pending' : '' }}">
@@ -487,19 +605,199 @@
                         <small class="text-muted d-block">{{ $dpPayment->verified_at->format('d M Y H:i') }}</small>
                     </div>
                     @endif
+                    
+                    @if($pelunasanPayment && $pelunasanPayment->proof_path)
+                    <div class="timeline-item {{ $pelunasanPayment->status !== 'verified' ? 'pending' : '' }}">
+                        <strong>Bukti Pelunasan Diupload</strong>
+                        <small class="text-muted d-block">{{ $pelunasanPayment->updated_at->format('d M Y H:i') }}</small>
+                    </div>
+                    @endif
+                    
+                    @if($isLunas)
+                    <div class="timeline-item">
+                        <strong>Pembayaran Lunas ✓</strong>
+                        <small class="text-muted d-block">{{ $pelunasanPayment?->verified_at?->format('d M Y H:i') }}</small>
+                    </div>
+                    @endif
                 </div>
             </div>
             
-            <!-- Quick Actions -->
-            <div class="detail-card">
-                <h5><i class="bi bi-lightning"></i> Quick Actions</h5>
+<!-- Quick Actions dengan Template -->
+<div class="detail-card">
+    <h5><i class="bi bi-lightning"></i> Quick Actions</h5>
+    
+    @php
+        $waNumber = preg_replace('/^0/', '62', $registration->phone);
+        
+        // Template WhatsApp berdasarkan status
+        if (!$isLunas && $dpPayment && $dpPayment->status === 'verified') {
+            $waMessage = "Assalamualaikum Bapak/Ibu *{$registration->full_name}*,\n\n";
+            $waMessage .= "Terima kasih atas pembayaran DP untuk paket *{$registration->schedule->package_name}*.\n\n";
+            $waMessage .= "📋 *Detail Pembayaran:*\n";
+            $waMessage .= "- Total: Rp " . number_format($registration->total_price, 0, ',', '.') . "\n";
+            $waMessage .= "- DP: Rp " . number_format($registration->dp_amount, 0, ',', '.') . " ✅\n";
+            $waMessage .= "- Sisa: Rp " . number_format($remaining, 0, ',', '.') . "\n\n";
+            $waMessage .= "Mohon segera melakukan pelunasan agar proses pendaftaran dapat dilanjutkan.\n\n";
+            $waMessage .= "Terima kasih 🙏\n*Mahira Tour*";
+        } elseif (!$dpPayment || $dpPayment->status !== 'verified') {
+            $waMessage = "Assalamualaikum Bapak/Ibu *{$registration->full_name}*,\n\n";
+            $waMessage .= "Terima kasih telah mendaftar paket *{$registration->schedule->package_name}*.\n\n";
+            $waMessage .= "📋 *No. Registrasi:* {$registration->registration_number}\n";
+            $waMessage .= "💰 *DP yang harus dibayar:* Rp " . number_format($registration->dp_amount, 0, ',', '.') . "\n\n";
+            $waMessage .= "Silakan upload bukti pembayaran melalui dashboard Anda.\n\n";
+            $waMessage .= "Terima kasih 🙏\n*Mahira Tour*";
+        } else {
+            $waMessage = "Assalamualaikum Bapak/Ibu *{$registration->full_name}*,\n\n";
+            $waMessage .= "Alhamdulillah, pembayaran Anda untuk paket *{$registration->schedule->package_name}* telah LUNAS! ✅\n\n";
+            $waMessage .= "📋 *No. Registrasi:* {$registration->registration_number}\n";
+            $waMessage .= "✈️ *Keberangkatan:* " . ($registration->schedule?->departure_date?->format('d F Y') ?? '-') . "\n\n";
+            $waMessage .= "Silakan lengkapi data jamaah dan dokumen melalui dashboard Anda.\n\n";
+            $waMessage .= "Terima kasih 🙏\n*Mahira Tour*";
+        }
+        
+        // Template Email
+        if (!$isLunas && $dpPayment && $dpPayment->status === 'verified') {
+            $emailSubject = "Reminder Pelunasan - {$registration->registration_number}";
+            $emailBody = "Yth. Bapak/Ibu {$registration->full_name},\n\n";
+            $emailBody .= "Terima kasih atas pembayaran DP untuk paket {$registration->schedule->package_name}.\n\n";
+            $emailBody .= "DETAIL PEMBAYARAN:\n";
+            $emailBody .= "- Total Biaya: Rp " . number_format($registration->total_price, 0, ',', '.') . "\n";
+            $emailBody .= "- DP (Sudah Dibayar): Rp " . number_format($registration->dp_amount, 0, ',', '.') . "\n";
+            $emailBody .= "- Sisa Pelunasan: Rp " . number_format($remaining, 0, ',', '.') . "\n\n";
+            $emailBody .= "Mohon segera melakukan pelunasan agar proses pendaftaran dapat dilanjutkan.\n\n";
+            $emailBody .= "Silakan login ke dashboard Anda untuk upload bukti pembayaran.\n\n";
+            $emailBody .= "Terima kasih,\nMahira Tour";
+        } elseif (!$dpPayment || $dpPayment->status !== 'verified') {
+            $emailSubject = "Reminder Pembayaran DP - {$registration->registration_number}";
+            $emailBody = "Yth. Bapak/Ibu {$registration->full_name},\n\n";
+            $emailBody .= "Terima kasih telah mendaftar paket {$registration->schedule->package_name}.\n\n";
+            $emailBody .= "DETAIL PEMBAYARAN:\n";
+            $emailBody .= "- No. Registrasi: {$registration->registration_number}\n";
+            $emailBody .= "- DP yang harus dibayar: Rp " . number_format($registration->dp_amount, 0, ',', '.') . "\n\n";
+            $emailBody .= "Silakan segera melakukan pembayaran dan upload bukti melalui dashboard Anda.\n\n";
+            $emailBody .= "Terima kasih,\nMahira Tour";
+        } else {
+            $emailSubject = "Konfirmasi Pembayaran Lunas - {$registration->registration_number}";
+            $emailBody = "Yth. Bapak/Ibu {$registration->full_name},\n\n";
+            $emailBody .= "Alhamdulillah, pembayaran Anda untuk paket {$registration->schedule->package_name} telah LUNAS!\n\n";
+            $emailBody .= "DETAIL:\n";
+            $emailBody .= "- No. Registrasi: {$registration->registration_number}\n";
+            $emailBody .= "- Tanggal Keberangkatan: " . ($registration->schedule?->departure_date?->format('d F Y') ?? '-') . "\n";
+            $emailBody .= "- Total Pembayaran: Rp " . number_format($registration->total_price, 0, ',', '.') . "\n\n";
+            $emailBody .= "Silakan lengkapi data jamaah dan dokumen melalui dashboard Anda.\n\n";
+            $emailBody .= "Terima kasih,\nMahira Tour";
+        }
+    @endphp
+    
+    <!-- WhatsApp Button - TANPA PREVIEW -->
+    <div class="mb-3">
+        <a href="https://wa.me/{{ $waNumber }}?text={{ urlencode($waMessage) }}" 
+           target="_blank" 
+           class="btn btn-success btn-action w-100">
+            <i class="bi bi-whatsapp"></i> Hubungi via WhatsApp
+        </a>
+    </div>
+    
+    <!-- Email Button - TANPA PREVIEW -->
+    <div class="mb-3">
+        <button class="btn btn-outline-primary btn-action w-100" 
+                data-bs-toggle="modal" 
+                data-bs-target="#emailModal">
+            <i class="bi bi-envelope"></i> Template Email
+        </button>
+    </div>
+    
+    <!-- Additional Actions -->
+    <div class="d-grid gap-2">
+        <a href="{{ route('registration.dashboard', ['reg' => $registration->registration_number, 'token' => $registration->access_token]) }}" 
+           target="_blank" 
+           class="btn btn-outline-secondary btn-action">
+            <i class="bi bi-box-arrow-up-right"></i> Buka Dashboard User
+        </a>
+        
+        @if(!$isLunas && $remaining > 0)
+        <button class="btn btn-outline-warning btn-action" onclick="copyToClipboard('paymentInfo')">
+            <i class="bi bi-clipboard-check"></i> Copy Info Pembayaran
+        </button>
+        <div id="paymentInfo" style="display: none;">Total: Rp {{ number_format($registration->total_price, 0, ',', '.') }}
+Sudah Dibayar: Rp {{ number_format($totalPaid, 0, ',', '.') }}
+Sisa: Rp {{ number_format($remaining, 0, ',', '.') }}</div>
+        @endif
+    </div>
+</div>
+
+<!-- Modal Email Template -->
+<div class="modal fade" id="emailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-envelope"></i> Template Email</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">To:</label>
+                    <input type="text" class="form-control" value="{{ $registration->email }}" readonly>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Subject:</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="emailSubject" value="{{ $emailSubject }}" readonly>
+                        <button class="btn btn-outline-secondary" onclick="copyText('emailSubject')">
+                            <i class="bi bi-clipboard"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Body:</label>
+                    <textarea class="form-control" id="emailBody" rows="12" readonly>{{ $emailBody }}</textarea>
+                </div>
+                
+                <div class="alert alert-info mb-0">
+                    <i class="bi bi-info-circle"></i> 
+                    <strong>Cara Menggunakan:</strong>
+                    <ol class="mb-0 mt-2">
+                        <li>Klik tombol "Copy Subject" dan "Copy Body"</li>
+                        <li>Buka email client Anda (Gmail, Outlook, dll)</li>
+                        <li>Paste subject dan body yang sudah dicopy</li>
+                        <li>Atau gunakan tombol "Buka Gmail" di bawah</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="copyText('emailSubject')">
+                    <i class="bi bi-clipboard"></i> Copy Subject
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="copyText('emailBody')">
+                    <i class="bi bi-clipboard"></i> Copy Body
+                </button>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ $registration->email }}&su={{ urlencode($emailSubject) }}&body={{ urlencode($emailBody) }}" 
+                   target="_blank" 
+                   class="btn btn-primary">
+                    <i class="bi bi-google"></i> Buka Gmail
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+                <!-- Additional Actions -->
                 <div class="d-grid gap-2">
-                    <a href="https://wa.me/{{ preg_replace('/^0/', '62', $registration->phone) }}" target="_blank" class="btn btn-success btn-action">
-                        <i class="bi bi-whatsapp"></i> Hubungi via WA
+                    <a href="{{ route('registration.dashboard', ['reg' => $registration->registration_number, 'token' => $registration->access_token]) }}" 
+                       target="_blank" 
+                       class="btn btn-outline-secondary btn-action">
+                        <i class="bi bi-box-arrow-up-right"></i> Buka Dashboard User
                     </a>
-                    <a href="mailto:{{ $registration->email }}" class="btn btn-outline-primary btn-action">
-                        <i class="bi bi-envelope"></i> Kirim Email
-                    </a>
+                    
+                    @if(!$isLunas && $remaining > 0)
+                    <button class="btn btn-outline-warning btn-action" onclick="copyToClipboard('paymentInfo')">
+                        <i class="bi bi-clipboard-check"></i> Copy Info Pembayaran
+                    </button>
+                    <div id="paymentInfo" style="display: none;">Total: Rp {{ number_format($registration->total_price, 0, ',', '.') }}
+Sudah Dibayar: Rp {{ number_format($totalPaid, 0, ',', '.') }}
+Sisa: Rp {{ number_format($remaining, 0, ',', '.') }}</div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -507,5 +805,52 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function copyToClipboard(elementId) {
+    const element = document.getElementById(elementId);
+    const text = element.innerText || element.textContent;
+    
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    
+    textarea.select();
+    document.execCommand('copy');
+    
+    document.body.removeChild(textarea);
+    
+    const button = event.target.closest('button');
+    const originalHTML = button.innerHTML;
+    button.innerHTML = '<i class="bi bi-check"></i> Copied!';
+    button.classList.add('btn-success');
+    button.classList.remove('btn-outline-warning');
+    
+    setTimeout(() => {
+        button.innerHTML = originalHTML;
+        button.classList.remove('btn-success');
+        button.classList.add('btn-outline-warning');
+    }, 2000);
+}
+
+function copyText(elementId) {
+    const element = document.getElementById(elementId);
+    element.select();
+    document.execCommand('copy');
+    
+    const button = event.target;
+    const originalHTML = button.innerHTML;
+    button.innerHTML = '<i class="bi bi-check"></i> Copied!';
+    button.classList.add('btn-success');
+    button.classList.remove('btn-secondary', 'btn-outline-secondary');
+    
+    setTimeout(() => {
+        button.innerHTML = originalHTML;
+        button.classList.remove('btn-success');
+        button.classList.add('btn-secondary');
+    }, 2000);
+}
+</script>
 </body>
 </html>

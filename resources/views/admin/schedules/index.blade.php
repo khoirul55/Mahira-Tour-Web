@@ -4,22 +4,65 @@
     <title>Kelola Jadwal Paket - Mahira Tour Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
-        body { background: #f8f9fa; }
+        body { 
+            background: #f8f9fa;
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+        }
         .sidebar {
             position: fixed;
             top: 0;
             left: 0;
             height: 100vh;
-            width: 250px;
-            background: #001D5F;
+            width: 260px;
+            background: linear-gradient(135deg, #001D5F 0%, #003087 100%);
             color: white;
-            padding: 20px;
+            padding: 30px 20px;
             overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
         }
         .main-content {
-            margin-left: 250px;
+            margin-left: 260px;
             padding: 30px;
+        }
+        .sidebar h4 {
+            font-weight: 700;
+            margin-bottom: 30px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .admin-info {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .sidebar nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .sidebar nav a:hover {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            transform: translateX(5px);
+        }
+        .sidebar nav a.active {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
         }
         .schedule-card {
             background: white;
@@ -27,6 +70,7 @@
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             margin-bottom: 20px;
+            transition: all 0.3s;
         }
         .schedule-card:hover {
             box-shadow: 0 5px 20px rgba(0,0,0,0.15);
@@ -35,41 +79,50 @@
             width: 150px;
             height: 200px;
             object-fit: cover;
-        }
-        .sidebar nav a {
-            text-decoration: none;
-            transition: all 0.3s;
-            padding: 8px 12px;
-            border-radius: 8px;
-            display: block;
-            color: white;
-            margin-bottom: 5px;
-        }
-        .sidebar nav a:hover, .sidebar nav a.active {
-            background: rgba(255,255,255,0.1);
+            cursor: pointer;
         }
         .badge-status {
             font-size: 0.75rem;
             padding: 5px 12px;
         }
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+        .alert {
+            border: none;
+            border-radius: 10px;
+            padding: 15px 20px;
+        }
+        .modal-content {
+            border: none;
+            border-radius: 12px;
+        }
+        .modal-header {
+            background: linear-gradient(135deg, #001D5F 0%, #003087 100%);
+            color: white;
+            border-radius: 12px 12px 0 0;
+            padding: 20px 25px;
+        }
     </style>
 </head>
-<body>
+<body x-data="scheduleApp()">
 
 <!-- Sidebar -->
 <div class="sidebar">
-    <h3><i class="bi bi-shield-check"></i> Admin Panel</h3>
+    <h4>
+        <i class="bi bi-shield-check"></i> Admin Panel
+    </h4>
     
-    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin: 15px 0;">
-        <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 5px;">
+    <div class="admin-info">
+        <div style="font-weight: 600;">
             <i class="bi bi-person-circle"></i> {{ session('admin_name', 'Admin') }}
         </div>
-        <div style="font-size: 0.85rem; opacity: 0.8;">
-            {{ session('admin_email') }}
-        </div>
+        <small style="opacity: 0.8;">{{ session('admin_email') }}</small>
     </div>
     
-    <hr style="border-color: rgba(255,255,255,0.3);">
+    <hr style="border-color: rgba(255,255,255,0.2);">
     
     <nav>
         <a href="{{ route('admin.dashboard') }}">
@@ -102,16 +155,16 @@
 
     <!-- Alerts -->
     @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show">
+    <div class="alert alert-success alert-dismissible fade show" x-data="{ show: true }" x-show="show">
         <i class="bi bi-check-circle"></i> {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <button type="button" class="btn-close" @click="show = false"></button>
     </div>
     @endif
 
     @if($errors->any())
-    <div class="alert alert-danger alert-dismissible fade show">
+    <div class="alert alert-danger alert-dismissible fade show" x-data="{ show: true }" x-show="show">
         <i class="bi bi-exclamation-circle"></i> {{ $errors->first() }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <button type="button" class="btn-close" @click="show = false"></button>
     </div>
     @endif
 
@@ -174,7 +227,8 @@
             <div class="col-md-2">
                 <img src="{{ Storage::url($schedule->flyer_image) }}" 
                      alt="{{ $schedule->package_name }}" 
-                     class="flyer-img">
+                     class="flyer-img"
+                     @click="openPreview('{{ Storage::url($schedule->flyer_image) }}', '{{ $schedule->package_name }}')">
             </div>
             
             <!-- Schedule Info -->
@@ -216,22 +270,14 @@
                         <i class="bi bi-pencil"></i> Edit
                     </a>
                     
-                    <form action="{{ route('admin.schedules.toggle', $schedule->id) }}" method="POST" class="mb-2">
-                        @csrf
-                        <button type="submit" class="btn btn-sm btn-outline-warning w-100">
-                            <i class="bi bi-toggle-{{ $schedule->status === 'active' ? 'on' : 'off' }}"></i> 
-                            {{ $schedule->status === 'active' ? 'Nonaktifkan' : 'Aktifkan' }}
-                        </button>
-                    </form>
+                    <button @click="toggleStatus({{ $schedule->id }})" class="btn btn-sm btn-outline-warning mb-2 w-100">
+                        <i class="bi bi-toggle-{{ $schedule->status === 'active' ? 'on' : 'off' }}"></i> 
+                        {{ $schedule->status === 'active' ? 'Nonaktifkan' : 'Aktifkan' }}
+                    </button>
                     
-                    <form action="{{ route('admin.schedules.destroy', $schedule->id) }}" method="POST" 
-                          onsubmit="return confirm('Yakin hapus paket ini? Data tidak bisa dikembalikan!')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-outline-danger w-100">
-                            <i class="bi bi-trash"></i> Hapus
-                        </button>
-                    </form>
+                    <button @click="confirmDelete({{ $schedule->id }})" class="btn btn-sm btn-outline-danger w-100">
+                        <i class="bi bi-trash"></i> Hapus
+                    </button>
                 </div>
             </div>
         </div>
@@ -245,6 +291,65 @@
     @endif
 </div>
 
+<!-- Modal Preview -->
+<div class="modal fade" id="previewModal" tabindex="-1" x-ref="previewModal">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" x-text="previewTitle"></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img :src="previewUrl" class="img-fluid" style="max-height: 70vh; border-radius: 8px;">
+            </div>
+            <div class="modal-footer">
+                <a :href="previewUrl" download class="btn btn-success">
+                    <i class="bi bi-download"></i> Download
+                </a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden Forms -->
+<form id="toggleForm" method="POST" style="display: none;">
+    @csrf
+</form>
+
+<form id="deleteForm" method="POST" style="display: none;">
+    @csrf
+    @method('DELETE')
+</form>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function scheduleApp() {
+    return {
+        previewUrl: '',
+        previewTitle: '',
+        
+        openPreview(url, title) {
+            this.previewUrl = url;
+            this.previewTitle = title;
+            new bootstrap.Modal(this.$refs.previewModal).show();
+        },
+        
+        toggleStatus(id) {
+            const form = document.getElementById('toggleForm');
+            form.action = `/admin/schedules/${id}/toggle`;
+            form.submit();
+        },
+        
+        confirmDelete(id) {
+            if (confirm('Yakin hapus paket ini? Data tidak bisa dikembalikan!')) {
+                const form = document.getElementById('deleteForm');
+                form.action = `/admin/schedules/${id}`;
+                form.submit();
+            }
+        }
+    }
+}
+</script>
 </body>
 </html>
