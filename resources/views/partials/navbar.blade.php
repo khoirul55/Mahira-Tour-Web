@@ -1,36 +1,30 @@
-<nav x-data="{ open: false }" class="navbar-zen">
+{{-- resources/views/partials/navbar.blade.php --}}
 
+<nav x-data="{ open: false }" class="navbar-zen">
     <div class="navbar-container">
         <!-- Logo -->
         <a href="{{ url('/') }}" class="navbar-logo">
-            <img src="{{ asset('images/logo-mahira.png') }}" alt="Mahira Tour">
-            <span>Mahira Tour</span>
+            <img src="{{ asset('images/mahira-logo.png') }}" alt="Mahira Tour">
         </a>
 
-<ul class="navbar-menu desktop-only">
-    <li><a href="{{ route('home') }}">Beranda</a></li>
-    <li><a href="{{ route('schedule') }}">Paket & Jadwal</a></li>
-    <li><a href="{{ route('testimonials') }}">Testimoni</a></li>
-    <li><a href="{{ route('gallery') }}">Galeri</a></li>
-    <li><a href="{{ route('about') }}">Tentang Kami</a></li>
-    <li><a href="{{ route('contact') }}">Hubungi Kami</a></li>
-</ul>
+        <!-- Desktop Menu -->
+        <ul class="navbar-menu desktop-only">
+            <li><a href="{{ route('home') }}">Beranda</a></li>
+            <li><a href="{{ route('schedule') }}">Paket & Jadwal</a></li>
+            <li><a href="{{ route('testimonials') }}">Testimoni</a></li>
+            <li><a href="{{ route('gallery') }}">Galeri</a></li>
+            <li><a href="{{ route('about') }}">Tentang Kami</a></li>
+            <li><a href="{{ route('contact') }}">Hubungi Kami</a></li>
+        </ul>
 
-<div class="navbar-actions desktop-only">
-    <a href="{{ route('check.registration.form') }}" class="nav-link-light">
-        Cek Status
-    </a>
-    <a href="{{ route('register') }}" class="btn-zen-primary">
-        Daftar Sekarang
-    </a>
-</div>
-
-
-
-        <!-- Desktop CTA -->
+        <!-- Desktop Actions -->
         <div class="navbar-actions desktop-only">
-            <a href="{{ route('check.registration.form') }}" class="nav-link-light">Cek Status</a>
-            <a href="{{ route('register') }}" class="btn-zen-primary">Daftar Sekarang</a>
+            <a href="{{ route('check.registration.form') }}" class="nav-link-light">
+                Cek Status
+            </a>
+            <a href="{{ route('register') }}" class="btn-zen-primary">
+                Daftar Sekarang
+            </a>
         </div>
 
         <!-- Mobile Toggle -->
@@ -54,16 +48,16 @@
 
         <ul class="mobile-nav">
             <li><a href="{{ route('home') }}">Beranda</a></li>
-            <li><a href="{{ route('paket') }}">Paket & Jadwal</a></li>
-            <li><a href="{{ route('testimoni') }}">Testimoni</a></li>
-            <li><a href="{{ route('galeri') }}">Galeri</a></li>
-            <li><a href="{{ route('tentang') }}">Tentang Kami</a></li>
-            <li><a href="{{ route('kontak') }}">Hubungi Kami</a></li>
+            <li><a href="{{ route('schedule') }}">Paket & Jadwal</a></li>
+            <li><a href="{{ route('testimonials') }}">Testimoni</a></li>
+            <li><a href="{{ route('gallery') }}">Galeri</a></li>
+            <li><a href="{{ route('about') }}">Tentang Kami</a></li>
+            <li><a href="{{ route('contact') }}">Hubungi Kami</a></li>
         </ul>
 
         <div class="mobile-actions">
             <a href="{{ route('register') }}" class="btn-zen-primary full">Daftar Sekarang</a>
-            <a href="{{ route('cek-status') }}" class="nav-link-light">Cek Status</a>
+            <a href="{{ route('check.registration.form') }}" class="nav-link-light">Cek Status</a>
         </div>
     </div>
 </nav>

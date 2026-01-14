@@ -20,48 +20,52 @@ body {
 body:has(.hero-video-section) {
     padding-top: 0;
 }
+/* === HERO - MINIMALIST ZEN + ISLAMIC WARMTH === */
 
-/* === HERO VIDEO SECTION - WEB ANIMATIONS API === */
+:root {
+    --islamic-gold: #D4AF37;
+    --deep-navy: #001D5F;
+    --warm-cream: #F5F1E8;
+    --soft-taupe: #8B7F6E;
+}
+
+/* Fallback jika video tidak ada */
 .hero-video-section {
     position: relative;
-    width: 100%;
     height: 100vh;
     min-height: 650px;
     overflow: hidden;
-    background: #001D5F;
+    /* Gunakan gradient warm jika video gagal */
+    background: linear-gradient(135deg, #001D5F 0%, #1a3a6e 50%, #2d5a8a 100%);
 }
 
+/* Video styling (jika ada) */
 .hero-video {
     position: absolute;
     top: 50%;
     left: 50%;
     min-width: 100%;
     min-height: 100%;
-    width: auto;
-    height: auto;
     transform: translate(-50%, -50%);
     object-fit: cover;
-    z-index: 1;
-    filter: brightness(0.75);
-    opacity: 1;
-    will-change: opacity;
+    filter: brightness(0.6) contrast(1.1);
+    opacity: 0.85;
 }
 
+/* Overlay - Islamic warmth */
 .hero-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* GRADIENT LEBIH SOFT & TERANG */
+    inset: 0;
     background: linear-gradient(
-        135deg, 
-        rgba(0, 29, 95, 0.60) 0%,   /* Lebih transparan */
-        rgba(0, 20, 64, 0.65) 100%  /* Lebih transparan */
+        135deg,
+        rgba(0, 29, 95, 0.75) 0%,
+        rgba(212, 175, 55, 0.15) 50%,
+        rgba(0, 20, 64, 0.80) 100%
     );
     z-index: 2;
 }
 
+/* Content - Centered Zen */
 .hero-content-wrapper {
     position: relative;
     z-index: 10;
@@ -69,150 +73,125 @@ body:has(.hero-video-section) {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 !important; /* Force no padding */
 }
-.hero-content-wrapper .container  {
-    padding: 0 20px; /* Padding cuma di container */
-}
-
 
 .hero-content {
     text-align: center;
     color: white;
-    max-width: 900px;
-    padding: 0; /* Hapus padding */
-    margin: 0 auto; /* Center dengan margin auto */
+    max-width: 800px;
+    padding: 0 24px;
 }
 
+/* Spiritual Anchor - NEW */
+.hero-spiritual {
+    font-family: 'Lora', serif;
+    font-size: 15px;
+    font-style: italic;
+    color: var(--islamic-gold);
+    margin-bottom: 20px;
+    opacity: 0.95;
+    letter-spacing: 0.3px;
+    animation: fadeInUp 1s ease 0.3s both;
+}
+
+/* Badge - Minimalist */
 .hero-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(255, 255, 255, 0.20); /* Sedikit lebih terang */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: 10px 24px;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    padding: 8px 20px;
     border-radius: 50px;
-    margin-bottom: 30px;
-    font-size: 14px;
+    margin-bottom: 24px;
+    font-size: 13px;
     font-weight: 600;
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(212, 175, 55, 0.3);
     animation: fadeInDown 1s ease;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .hero-badge i {
-    color: var(--accent);
-    font-size: 18px;
+    color: var(--islamic-gold);
 }
 
+/* Title - Clean Typography */
 .hero-title {
-    font-size: 56px;
-    font-weight: 700;
+    font-size: 52px;
+    font-weight: 600;
     line-height: 1.2;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     font-family: 'Lora', serif;
     animation: fadeInUp 1s ease 0.2s both;
-    text-shadow: 0 3px 25px rgba(0, 0, 0, 0.35); /* Stronger shadow */
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+    letter-spacing: -0.5px;
 }
 
 .hero-title .highlight {
-    color: var(--accent);
-    position: relative;
-    display: inline-block;
-    text-shadow: 0 2px 20px rgba(212, 175, 55, 0.6);
+    color: var(--islamic-gold);
+    font-weight: 700;
 }
 
+/* Subtitle - Warm & Inviting */
 .hero-subtitle {
-    font-size: 18px;
+    font-size: 17px;
     line-height: 1.7;
-    margin-bottom: 40px;
-    opacity: 0.98; /* Lebih terang */
+    margin-bottom: 36px;
+    opacity: 0.96;
     animation: fadeInUp 1s ease 0.4s both;
-    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+    font-weight: 400;
 }
 
+/* CTA Buttons - Soft & Inviting */
 .hero-cta {
     display: flex;
-    gap: 16px;
+    gap: 14px;
     justify-content: center;
     flex-wrap: wrap;
-    animation: fadeInUp 1s ease 0.6s both;
+    animation: fadeInUp 1s ease 0.5s both;
 }
 
 .btn-primary, .btn-outline {
-    padding: 16px 36px;
+    padding: 15px 32px;
     border-radius: 50px;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 15px;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     transition: all 0.3s ease;
     text-decoration: none;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
 .btn-primary {
     background: white;
-    color: var(--primary);
+    color: var(--deep-navy);
 }
 
 .btn-primary:hover {
-    background: var(--accent);
+    background: var(--islamic-gold);
     color: white;
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(212, 175, 55, 0.35);
 }
 
 .btn-outline {
     background: transparent;
     color: white;
-    border: 2px solid white;
+    border: 2px solid rgba(255, 255, 255, 0.6);
 }
 
 .btn-outline:hover {
-    background: white;
-    color: var(--primary);
-    transform: translateY(-3px);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .hero-video-section {
-        min-height: 550px;
-    }
-    
-    .hero-content-wrapper {
-        padding: 0 15px; /* ← GANTI INI */
-    }
-    
-    .hero-title {
-        font-size: 36px;
-    }
-    
-    .hero-subtitle {
-        font-size: 16px;
-    }
-}
-
-@media (max-width: 576px) {
-    .hero-title {
-        font-size: 28px;
-    }
-    
-    .hero-subtitle {
-        font-size: 15px;
-    }
+    background: rgba(255, 255, 255, 0.15);
+    border-color: white;
+    transform: translateY(-2px);
 }
 
 /* Animations */
 @keyframes fadeInDown {
     from {
         opacity: 0;
-        transform: translateY(-30px);
+        transform: translateY(-20px);
     }
     to {
         opacity: 1;
@@ -223,7 +202,7 @@ body:has(.hero-video-section) {
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -231,6 +210,34 @@ body:has(.hero-video-section) {
     }
 }
 
+/* Mobile - Extra Clean */
+@media (max-width: 768px) {
+    .hero-video-section {
+        min-height: 550px;
+    }
+    
+    .hero-title {
+        font-size: 36px;
+    }
+    
+    .hero-spiritual {
+        font-size: 13px;
+    }
+    
+    .hero-subtitle {
+        font-size: 15px;
+    }
+    
+    .hero-cta {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .btn-primary, .btn-outline {
+        width: 100%;
+        justify-content: center;
+    }
+}
 /* === STATS SECTION === */
 .stats-section {
     background: white;

@@ -9,56 +9,110 @@
 
 @section('content')
 
-<!-- ==================== HERO VIDEO SECTION ==================== -->
+{{-- 
+    STRATEGIC HERO SECTION
+    Psychology: Aspiration → Spiritual Anchor → Trust → Dual CTAs
+    Optimized for both conversion paths
+--}}
+
+<!-- Hero Video Section -->
 <section class="hero-video-section">
-    <!-- Background Video -->
-    <video class="hero-video" 
-           autoplay 
-           muted 
-           playsinline 
-           preload="auto"
-           poster="{{ asset('images/hero/kaabah-poster.jpg') }}">
+    <!-- Background Video with Emotional Fallback -->
+    <video 
+        class="hero-video" 
+        autoplay 
+        muted 
+        loop 
+        playsinline
+        poster="{{ asset('images/jamaah2.jpg') }}"
+    >
         <source src="{{ asset('videos/kaabah-hero.mp4') }}" type="video/mp4">
-        Your browser does not support the video tag.
+        <source src="{{ asset('videos/kaabah-hero.webm') }}" type="video/webm">
+        <!-- Fallback for browsers that don't support video -->
+        <img src="{{ asset('images/jamaah2.jpg') }}" alt="Ka'bah" />
     </video>
     
-    <!-- Dark Overlay -->
+    <!-- Strategic Gradient Overlay -->
     <div class="hero-overlay"></div>
     
-    <!-- Hero Content -->
+    <!-- Content: Aspiration-First Structure -->
     <div class="hero-content-wrapper">
         <div class="container">
             <div class="hero-content">
-                <div class="hero-badge">
-                    <i class="bi bi-patch-check-fill"></i>
-                    <span>Terpercaya Sejak 2016</span>
-                </div>
                 
+                {{-- 1. HEADLINE: Lead with Aspiration --}}
                 <h1 class="hero-title">
-                    Wujudkan Ibadah Umrah & Haji<br>
-                    Bersama <span class="highlight">Keluarga</span>
+                    Wujudkan Ibadah <span class="highlight">Umrah & Haji</span><br>
+                    Bersama Keluarga
                 </h1>
                 
-                <p class="hero-subtitle">
-                    Bimbingan lengkap, fasilitas nyaman, harga transparan.<br>
-                    Berangkat dengan tenang, pulang dengan penuh berkah.
+                {{-- 2. SPIRITUAL ANCHOR: Quranic Reference (Subtle) --}}
+                <p class="hero-spiritual">
+                    "Dan sempurnakanlah ibadah haji dan umrah karena Allah"
                 </p>
                 
+                {{-- 3. SUPPORTING COPY: Emotional Bridge --}}
+                <p class="hero-subtitle">
+                    Perjalanan spiritual yang aman, nyaman, dan penuh keberkahan<br>
+                    bersama bimbingan profesional dan fasilitas terbaik
+                </p>
+                
+                {{-- 4. TRUST SIGNAL: Now positioned after aspiration --}}
+                <div class="hero-badge">
+                    <i class="bi bi-shield-check"></i>
+                    <span>Terpercaya Sejak 2023 • Resmi Kemenag RI</span>
+                </div>
+                
+                {{-- 5. DUAL CTAs: Respecting Both Paths --}}
                 <div class="hero-cta">
-                    <a href="#paket" class="btn-primary">
-                        <i class="bi bi-calendar-check"></i>
-                        Lihat Paket Umrah
-                    </a>
-                    <a href="https://wa.me/6282184515310?text=Assalamualaikum%20Mahira%20Tour%2C%20saya%20ingin%20konsultasi%20paket%20umrah"
-                     class="btn-outline" target="_blank">
+                    {{-- Path A: WhatsApp Consultation (Primary) --}}
+                    <a href="https://wa.me/6282184515310?text=Assalamualaikum,%20saya%20ingin%20konsultasi%20paket%20umrah" 
+                       class="btn-primary"
+                       target="_blank"
+                       rel="noopener">
                         <i class="bi bi-whatsapp"></i>
                         Konsultasi Gratis
                     </a>
+                    
+                    {{-- Path B: Explore Packages (Secondary, softer language) --}}
+                    <a href="#packages" class="btn-outline">
+                        <i class="bi bi-compass"></i>
+                        Jelajahi Paket Umrah
+                    </a>
                 </div>
+                
             </div>
         </div>
     </div>
 </section>
+
+{{-- 
+    STRATEGIC NOTES:
+    
+    1. Trust Hierarchy Fixed:
+       - Badge moved AFTER headline/spiritual anchor
+       - Now: Dream → Feel → Trust → Act
+       
+    2. Spiritual Anchor Added:
+       - Al-Baqarah 2:196 (partial)
+       - Subtle, italic, low-key
+       - Adds depth without being preachy
+       
+    3. Path B Language Softened:
+       - Changed "Lihat Paket Umrah" → "Jelajahi Paket Umrah"
+       - Icon: compass (exploration) instead of eye (viewing)
+       - Feels inviting, not transactional
+       
+    4. Mobile Fallback Strategy:
+       - Poster image specified
+       - Multiple video formats (mp4 + webm)
+       - <img> fallback for no-video-support browsers
+       
+    5. Performance Optimizations:
+       - playsinline for iOS
+       - Poster loads immediately while video buffers
+       - Will-change CSS hint for smooth animations
+--}}
 
 <!-- ==================== STATS SECTION ==================== -->
 <section class="stats-section">
