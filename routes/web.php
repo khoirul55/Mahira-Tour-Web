@@ -24,7 +24,7 @@ use Illuminate\Http\Request;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/tentang-kami', [AboutController::class, 'index'])->name('about');
+Route::get('/tentang', [AboutController::class, 'index'])->name('about');
 
 Route::get('/jadwal', [ScheduleController::class, 'index'])->name('schedule');
 

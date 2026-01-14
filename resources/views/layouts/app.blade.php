@@ -35,7 +35,8 @@
     <!-- Font Awesome - Async -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"></noscript>
-    
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <!-- Page-specific CSS -->
     @stack('styles')
     
