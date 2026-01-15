@@ -16,6 +16,141 @@ body {
     font-family: 'Inter', sans-serif;
 
 }
+
+/* ========== GLOBAL SECTION STYLES - ZEN ISLAMIC ========== */
+
+/* Section Header (untuk semua section) */
+.section-header-center {
+    text-align: center;
+    margin-bottom: 64px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Badge - Gold Underline Style (replicate dari package) */
+.section-badge {
+    display: inline-block;
+    color: var(--islamic-gold);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    padding: 0 0 4px 0;
+    background: none;
+    border-bottom: 2px solid var(--islamic-gold);
+}
+
+/* Title - Lora Serif (replicate dari package) */
+.section-title {
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--deep-navy);
+    margin-bottom: 16px;
+    font-family: 'Lora', serif;
+    line-height: 1.4;
+    letter-spacing: -0.5px;
+}
+
+/* Subtitle - Inter Light (replicate dari package) */
+.section-subtitle {
+    font-size: 15px;
+    color: var(--soft-taupe);
+    font-weight: 300;
+    line-height: 1.8;
+}
+
+/* ========== ABOUT SECTION - UPDATE ========== */
+.about-section .section-badge {
+    background: none;
+    color: var(--islamic-gold);
+    border-bottom: 2px solid var(--islamic-gold);
+    padding: 0 0 4px 0;
+}
+
+/* ========== WHY SECTION - UPDATE ========== */
+.why-section .section-badge {
+    background: none;
+    color: var(--islamic-gold);
+    border-bottom: 2px solid var(--islamic-gold);
+    padding: 0 0 4px 0;
+}
+
+/* ========== STATS SECTION - FIX WEIGHT ========== */
+.stat-number {
+    font-size: 48px;
+    font-weight: 700; /* Dari 800 jadi 700 */
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ========== TESTIMONIAL SECTION - UPDATE ========== */
+.testimonial-section .section-badge {
+    background: none;
+    color: var(--islamic-gold);
+    border-bottom: 2px solid var(--islamic-gold);
+    padding: 0 0 4px 0;
+}
+
+/* ========== GALLERY SECTION - UPDATE ========== */
+.gallery-section .section-badge {
+    background: none;
+    color: var(--islamic-gold);
+    border-bottom: 2px solid var(--islamic-gold);
+    padding: 0 0 4px 0;
+}
+
+/* ========== LOCATION SECTION - UPDATE ========== */
+.location-section .section-badge {
+    background: none;
+    color: var(--islamic-gold);
+    border-bottom: 2px solid var(--islamic-gold);
+    padding: 0 0 4px 0;
+}
+
+/* ========== PARTNERS SECTION - UPDATE ========== */
+.partners-section .section-badge {
+    background: none;
+    color: var(--islamic-gold);
+    border-bottom: 2px solid var(--islamic-gold);
+    padding: 0 0 4px 0;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+    .section-header-center {
+        margin-bottom: 48px;
+        padding: 0 20px;
+    }
+    
+    .section-badge {
+        font-size: 11px;
+    }
+    
+    .section-title {
+        font-size: 28px;
+    }
+    
+    .section-subtitle {
+        font-size: 14px;
+    }
+    
+    .stat-number {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-title {
+        font-size: 24px;
+    }
+    
+    .stat-number {
+        font-size: 32px;
+    }
+}
 /* Override body padding khusus home page */
 body:has(.hero-video-section) {
     padding-top: 0;
@@ -289,12 +424,11 @@ body:has(.hero-video-section) {
     font-weight: 500;
 }
 
-/* === ABOUT SECTION - MINIMALIST ZEN (REFINED) === */
+/* === ABOUT SECTION - MINIMALIST ZEN === */
 
-/* Desktop Default */
 .about-section {
     padding: 100px 0;
-    background: var(--light);
+    background: white;
 }
 
 .about-content {
@@ -330,25 +464,30 @@ body:has(.hero-video-section) {
     margin-bottom: 30px;
 }
 
+/* UPDATED: Feature List - Simple Checkmarks */
 .feature-list {
     list-style: none;
     padding: 0;
-    margin-bottom: 30px;
+    margin: 30px 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
 }
 
 .feature-list li {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 12px;
-    padding: 10px 0;
-    font-size: 16px;
+    font-size: 15px;
     color: var(--dark);
-    font-weight: 500;
+    line-height: 1.6;
 }
 
 .feature-list i {
     color: var(--primary);
     font-size: 20px;
+    margin-top: 2px;
+    flex-shrink: 0;
 }
 
 .about-buttons {
@@ -388,7 +527,7 @@ body:has(.hero-video-section) {
     transform: scale(1.05);
 }
 
-/* === MOBILE - MINIMALIST ZEN === */
+/* === MOBILE - CLEAN & SIMPLE === */
 @media (max-width: 768px) {
     .about-section {
         padding: 0;
@@ -405,7 +544,7 @@ body:has(.hero-video-section) {
         flex-direction: column;
     }
     
-    /* Image - Full Width Hero Style */
+    /* Image - Full Width */
     .about-section .col-lg-6:last-child {
         order: -1;
         padding: 0;
@@ -418,103 +557,57 @@ body:has(.hero-video-section) {
         margin: 0;
         border-radius: 0;
         box-shadow: none;
-        position: relative;
     }
     
     .about-image img {
         object-fit: cover;
-        object-position: center 30%; /* Focus pada area tengah-atas */
-        filter: grayscale(5%) brightness(0.92);
+        object-position: center center;
+        filter: none;
     }
     
-    /* Subtle gradient overlay di bottom */
-    .about-image::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(
-            90deg,
-            transparent 0%,
-            var(--accent) 50%,
-            transparent 100%
-        );
-    }
-    
-    /* Content - Clean & Spacious */
+    /* Content */
     .about-section .col-lg-6:first-child {
         padding: 0;
     }
     
     .about-content {
-        text-align: center;
-        padding: 44px 24px 40px;
-        max-width: 600px;
-        margin: 0 auto;
+        padding: 40px 24px;
         background: white;
     }
     
-    /* Badge Styling */
     .section-badge {
-        font-size: 11px;
-        padding: 7px 16px;
+        font-size: 12px;
+        padding: 6px 16px;
         margin-bottom: 16px;
-        background: transparent;
-        border: 1.5px solid var(--primary);
-        color: var(--primary);
-        font-weight: 700;
-        letter-spacing: 1.2px;
     }
     
     .section-title {
-        font-size: 28px;
+        font-size: 26px;
         line-height: 1.3;
-        margin-bottom: 18px;
-        font-weight: 600;
-        letter-spacing: -0.5px;
-        color: var(--dark);
+        margin-bottom: 20px;
     }
     
     .section-text {
         font-size: 15px;
-        line-height: 1.75;
-        margin-bottom: 32px;
-        color: #4B5563;
-        padding: 0 8px;
+        line-height: 1.7;
+        margin-bottom: 28px;
     }
     
-    /* Feature List - Minimalist Grid */
+    /* Feature List - Simple */
     .feature-list {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px 16px;
-        margin-bottom: 36px;
-        padding: 28px 0;
-        border-top: 1px solid #E5E7EB;
-        border-bottom: 1px solid #E5E7EB;
+        gap: 14px;
+        margin: 28px 0;
     }
     
     .feature-list li {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        font-size: 13px;
-        padding: 0;
-        color: var(--dark);
-        font-weight: 600;
-        text-align: center;
+        font-size: 14px;
     }
     
     .feature-list i {
-        font-size: 22px;
-        color: var(--primary);
-        margin-bottom: 2px;
+        font-size: 18px;
     }
     
-    /* Buttons - Minimalist Style */
+    /* Buttons */
     .about-buttons {
         flex-direction: column;
         gap: 12px;
@@ -523,42 +616,16 @@ body:has(.hero-video-section) {
     
     .about-buttons .btn-primary {
         width: 100%;
-        padding: 15px;
+        padding: 14px;
         justify-content: center;
-        border-radius: 12px;
-        font-weight: 600;
-        font-size: 15px;
-        transition: all 0.3s ease;
-    }
-    
-    .about-buttons .btn-primary:active {
-        transform: scale(0.98);
     }
     
     .about-buttons .btn-text {
-        font-size: 15px;
-        font-weight: 600;
-        padding: 12px 0;
-        color: var(--primary);
-        text-decoration: none;
-        position: relative;
         width: 100%;
         text-align: center;
-        display: inline-block;
-    }
-    
-    .about-buttons .btn-text::after {
-        content: '→';
-        margin-left: 6px;
-        transition: margin-left 0.3s ease;
-    }
-    
-    .about-buttons .btn-text:active::after {
-        margin-left: 12px;
     }
 }
 
-/* Small Mobile - Extra Adjustments */
 @media (max-width: 576px) {
     .about-image {
         height: 40vh;
@@ -567,127 +634,90 @@ body:has(.hero-video-section) {
     }
     
     .about-content {
-        padding: 36px 20px 32px;
+        padding: 36px 20px;
     }
     
     .section-title {
-        font-size: 25px;
-        margin-bottom: 16px;
+        font-size: 24px;
     }
     
     .section-text {
         font-size: 14px;
-        line-height: 1.7;
-        padding: 0 4px;
-    }
-    
-    .feature-list {
-        gap: 16px 12px;
-        padding: 24px 0;
-    }
-    
-    .feature-list li {
-        font-size: 12px;
-    }
-    
-    .feature-list i {
-        font-size: 20px;
     }
 }
+/* === WHY SECTION - ISLAMIC WARMTH === */
 
-/* Extra Small Devices */
-@media (max-width: 375px) {
-    .about-image {
-        height: 35vh;
-        min-height: 260px;
-    }
-    
-    .about-content {
-        padding: 32px 16px 28px;
-    }
-    
-    .section-title {
-        font-size: 23px;
-    }
-    
-    .section-text {
-        font-size: 13px;
-    }
-}
-/* === WHY SECTION === */
 .why-section {
     padding: 100px 0;
-    background: white;
+    background: linear-gradient(180deg, #F5F1E8 0%, #FFFFFF 100%);
 }
 
 .why-card {
     text-align: center;
-    padding: 40px 30px;
+    padding: 48px 32px;
     background: white;
-    border-radius: 16px;
-    border: 2px solid #E5E7EB;
-    transition: all 0.3s ease;
+    border-radius: 20px;
+    border: none;
+    transition: all 0.4s ease;
     height: 100%;
+    box-shadow: 0 4px 20px rgba(0, 29, 95, 0.06);
 }
 
 .why-card:hover {
-    border-color: var(--primary);
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 29, 95, 0.1);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(212, 175, 55, 0.15);
 }
 
+/* Icon - Warm gradient circles */
 .why-icon {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    border-radius: 16px;
+    background: linear-gradient(135deg, #D4AF37 0%, #F4D03F 100%);
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 24px;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 24px rgba(212, 175, 55, 0.25);
 }
 
 .why-card:hover .why-icon {
-    transform: rotateY(360deg);
-    background: linear-gradient(135deg, var(--accent), #B8941F);
+    transform: scale(1.1);
+    box-shadow: 0 12px 32px rgba(212, 175, 55, 0.35);
 }
 
-/* Font Awesome Icons Styling */
 .why-icon i {
     font-size: 36px;
     color: white;
 }
 
-/* Specific icon adjustments if needed */
-.why-icon .fa-mosque {
-    font-size: 38px; /* Sedikit lebih besar untuk masjid */
-}
-
-.why-icon .fa-certificate {
-    font-size: 34px; /* Sedikit lebih kecil untuk sertifikat */
-}
-
-.why-icon .fa-users-gear {
-    font-size: 36px;
-}
-
 .why-title {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 700;
     color: var(--dark);
-    margin-bottom: 12px;
+    margin-bottom: 16px;
+    font-family: 'Lora', serif;
 }
 
 .why-text {
     font-size: 15px;
-    line-height: 1.7;
+    line-height: 1.8;
     color: var(--gray);
     margin: 0;
 }
 
-/* Responsive */
-@media (max-width: 576px) {
+/* Mobile */
+@media (max-width: 768px) {
+    .why-section {
+        padding: 60px 0;
+    }
+    
+    .why-card {
+        padding: 40px 28px;
+        margin-bottom: 20px;
+    }
+    
     .why-icon {
         width: 70px;
         height: 70px;
@@ -697,223 +727,377 @@ body:has(.hero-video-section) {
         font-size: 32px;
     }
     
-    .why-icon .fa-mosque {
-        font-size: 34px;
-    }
-    
-    .why-icon .fa-certificate {
-        font-size: 30px;
+    .why-title {
+        font-size: 20px;
     }
 }
 
-/* === PACKAGE SECTION === */
+/* ========== PACKAGE SECTION - MINIMALIST ZEN ISLAMIC ========== */
+
 .package-section {
     padding: 100px 0;
-    background: var(--light);
+    background: linear-gradient(180deg, #F5F1E8 0%, #FAFAF8 100%);
 }
 
+/* Section Header */
+.package-section .section-header {
+    text-align: center;
+    margin-bottom: 64px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.package-section .section-badge {
+    display: inline-block;
+    color: var(--islamic-gold);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    padding: 0;
+    background: none;
+    border-bottom: 2px solid var(--islamic-gold);
+    padding-bottom: 4px;
+}
+
+.package-section .section-title {
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--deep-navy);
+    margin-bottom: 16px;
+    font-family: 'Lora', serif;
+    line-height: 1.4;
+    letter-spacing: -0.5px;
+}
+
+.package-section .section-subtitle {
+    font-size: 15px;
+    color: var(--soft-taupe);
+    font-weight: 300;
+    line-height: 1.8;
+}
+
+/* Package Grid */
+.package-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 48px;
+    margin-bottom: 64px;
+}
+
+/* Package Card */
 .package-card {
     background: white;
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+    box-shadow: 0 2px 20px rgba(0, 29, 95, 0.04);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(139, 127, 110, 0.08);
+    position: relative;
 }
 
 .package-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 50px rgba(0, 29, 95, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.08);
 }
 
+/* Featured Card */
 .package-card.featured {
-    border: 3px solid var(--accent);
-    position: relative;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    box-shadow: 0 2px 20px rgba(212, 175, 55, 0.08);
 }
 
-.package-card.featured::before {
-    content: '⭐ BEST SELLER';
+.package-card.featured:hover {
+    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.18);
+}
+
+/* Featured Badge */
+.featured-badge {
     position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--accent);
+    top: 0;
+    right: 0;
+    background: var(--islamic-gold);
     color: white;
-    padding: 5px 20px;
-    border-radius: 50px;
-    font-size: 12px;
-    font-weight: 700;
+    padding: 8px 20px;
+    font-size: 11px;
+    font-weight: 600;
     z-index: 10;
+    border-bottom-left-radius: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
+/* Package Image */
 .package-image {
     position: relative;
-    height: 400px; /* Tinggi diperbesar dari 240px */
+    height: 420px;
     overflow: hidden;
+    background: #FAFAF8;
+    padding: 16px;
 }
 
 .package-image img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Ganti dari cover ke contain */
-    object-position: center;
-    background: white; /* Tambahkan background putih */
-    transition: transform 0.5s ease;
+    object-fit: contain;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: brightness(0.98);
 }
 
 .package-card:hover .package-image img {
-    transform: scale(1.05); /* Kurangi zoom dari 1.1 */
+    transform: scale(1.02);
+    filter: brightness(1);
 }
 
-.package-badge {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    background: var(--success);
-    color: white;
-    padding: 6px 16px;
-    border-radius: 50px;
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
+/* Quick Info Section */
+.quick-info {
+    padding: 24px 20px;
+    background: white;
+    border-top: 1px solid rgba(139, 127, 110, 0.08);
 }
 
-.package-badge.featured {
-    background: var(--accent);
-}
-
-.package-body {
-    padding: 30px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
+/* Package Title */
 .package-title {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--dark);
-    margin-bottom: 16px;
     font-family: 'Lora', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--deep-navy);
+    margin-bottom: 16px;
+    line-height: 1.3;
 }
 
-.package-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 2px solid #E5E7EB;
+/* Info Grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
 }
 
-.package-meta span {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    color: var(--gray);
-}
-
-.package-meta i {
-    color: var(--primary);
-}
-
-.package-features {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 24px;
-    flex: 1;
-}
-
-.package-features li {
+.info-item {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 8px 0;
-    font-size: 14px;
-    color: var(--gray);
+    font-size: 13px;
+    color: var(--soft-taupe);
+    font-weight: 400;
 }
 
-.package-features i {
-    color: var(--primary);
-    font-size: 18px;
-}
-
-.package-footer {
+/* Info Icon */
+.info-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0.12) 100%);
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding-top: 20px;
-    border-top: 2px solid #E5E7EB;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
-.package-price {
-    display: flex;
-    flex-direction: column;
-}
-
-.price-label {
+.info-icon i {
+    color: var(--islamic-gold);
     font-size: 12px;
-    color: var(--gray);
-    margin-bottom: 4px;
 }
 
-.price-value {
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--primary);
-    font-family: 'Inter', sans-serif;
+/* Info Text */
+.info-text {
+    color: #374151;
+    font-weight: 500;
 }
 
-.btn-package {
-    padding: 12px 24px;
-    background: var(--primary);
-    color: white;
-    border-radius: 50px;
+.info-highlight {
+    color: var(--islamic-gold);
     font-weight: 600;
     font-size: 14px;
-    text-decoration: none;
-    transition: all 0.3s ease;
 }
 
-.btn-package:hover {
-    background: var(--primary-dark);
-    color: white;
-    transform: translateX(5px);
+/* Info Divider */
+.info-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(139, 127, 110, 0.1), transparent);
+    margin: 10px 0;
 }
 
+/* View All Button */
 .btn-primary-lg {
-    padding: 18px 48px;
-    background: var(--primary);
-    color: white;
-    border-radius: 50px;
-    font-weight: 700;
+    padding: 32px 48px;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.03) 0%, rgba(212, 175, 55, 0.08) 100%);
+    color: var(--deep-navy);
+    border: 1.5px solid rgba(212, 175, 55, 0.25);
+    border-radius: 16px;
+    font-weight: 600;
     font-size: 16px;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    transition: all 0.3s ease;
+    gap: 12px;
+    transition: all 0.4s ease;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 12px rgba(212, 175, 55, 0.08);
 }
 
 .btn-primary-lg:hover {
-    background: var(--primary-dark);
-    transform: translateY(-3px);
-    color: white;
-    box-shadow: 0 10px 30px rgba(0, 29, 95, 0.3);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0.15) 100%);
+    border-color: var(--islamic-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(212, 175, 55, 0.2);
+    color: var(--deep-navy);
 }
-/* Responsive */
-@media (max-width: 768px) {
-    .package-image {
-        height: 350px;
+
+.btn-primary-lg i {
+    transition: transform 0.3s ease;
+}
+
+.btn-primary-lg:hover i {
+    transform: translateX(4px);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
-@media (max-width: 576px) {
+.package-card {
+    animation: fadeInUp 0.6s ease both;
+}
+
+.package-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.package-card:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+/* ========== RESPONSIVE - TABLET ========== */
+@media (max-width: 992px) {
+    .package-section {
+        padding: 80px 0;
+    }
+    
+    .package-grid {
+        gap: 40px;
+    }
+    
     .package-image {
-        height: 300px;
+        height: 400px;
+    }
+}
+
+/* ========== RESPONSIVE - MOBILE ========== */
+@media (max-width: 768px) {
+    .package-section {
+        padding: 60px 0;
+    }
+    
+    .package-section .section-header {
+        margin-bottom: 48px;
+        padding: 0 20px;
+    }
+    
+    .package-section .section-title {
+        font-size: 28px;
+    }
+    
+    .package-section .section-subtitle {
+        font-size: 14px;
+    }
+    
+    .package-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 0 20px;
+    }
+    
+    .package-image {
+        height: 380px;
+        padding: 12px;
+    }
+    
+    .quick-info {
+        padding: 20px 16px;
+    }
+    
+    .package-title {
+        font-size: 16px;
+        margin-bottom: 14px;
+    }
+    
+    .info-grid {
+        gap: 9px;
+    }
+    
+    .info-item {
+        font-size: 12px;
+    }
+    
+    .info-icon {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .info-icon i {
+        font-size: 11px;
+    }
+    
+    .info-highlight {
+        font-size: 13px;
+    }
+    
+    .btn-primary-lg {
+        width: 100%;
+        justify-content: center;
+        padding: 20px 32px;
+        font-size: 15px;
+    }
+}
+
+/* ========== RESPONSIVE - SMALL MOBILE ========== */
+@media (max-width: 480px) {
+    .package-section {
+        padding: 50px 0;
+    }
+    
+    .package-section .section-badge {
+        font-size: 11px;
+    }
+    
+    .package-section .section-title {
+        font-size: 24px;
+    }
+    
+    .package-image {
+        height: 360px;
+        padding: 10px;
+    }
+    
+    .package-title {
+        font-size: 15px;
+    }
+    
+    .featured-badge {
+        font-size: 10px;
+        padding: 6px 16px;
+    }
+}
+
+/* ========== EXTRA SMALL DEVICES ========== */
+@media (max-width: 375px) {
+    .package-image {
+        height: 340px;
+    }
+    
+    .package-section .section-title {
+        font-size: 22px;
     }
 }
 /* === TESTIMONIAL SECTION === */

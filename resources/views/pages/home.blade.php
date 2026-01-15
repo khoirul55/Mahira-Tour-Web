@@ -113,221 +113,250 @@
        - Poster loads immediately while video buffers
        - Will-change CSS hint for smooth animations
 --}}
-
-<!-- ==================== STATS SECTION ==================== -->
-<section class="stats-section">
-    <div class="container">
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number">99%</div>
-                <div class="stat-label">Jamaah Puas</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">20+</div>
-                <div class="stat-label">Tahun Pengalaman</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">3000+</div>
-                <div class="stat-label">Jamaah Dilayani</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">6</div>
-                <div class="stat-label">Kantor Cabang</div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- ==================== ABOUT SECTION ==================== -->
 <section class="about-section">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
                 <div class="about-content">
-                    <span class="section-badge">Tentang Kami</span>
-                    <h2 class="section-title">Mahira Tour<br>Travel Umrah & Haji Terpercaya</h2>
+                    <div class="section-badge">Tentang Kami</div>
+                    
+                    {{-- Emotional title --}}
+                    <h2 class="section-title">Mitra Terpercaya untuk Perjalanan Ibadah Penuh Makna</h2>
+                    
                     <p class="section-text">
-                        Mahira Tour adalah perusahaan travel yang fokus pada penyelenggaraan perjalanan Umrah dan Haji. 
-                        Berizin resmi dari Kementerian Agama RI, kami berkomitmen memberikan pelayanan terbaik 
-                        dengan fasilitas premium dan bimbingan spiritual yang mendalam.
+                        Sejak 2023, Mahira Tour melayani ribuan jamaah dengan komitmen memberikan pengalaman ibadah yang aman, nyaman, dan sesuai tuntunan syariat. Berizin resmi Kemenag RI, kami memastikan setiap perjalanan Anda menjadi ibadah yang diterima di sisi Allah SWT.
                     </p>
                     
+                    {{-- Specific features from controller --}}
                     <ul class="feature-list">
-                        <li><i class="bi bi-check-circle-fill"></i> Izin Resmi Kemenag RI</li>
-                        <li><i class="bi bi-check-circle-fill"></i> Pembimbing Berpengalaman</li>
-                        <li><i class="bi bi-check-circle-fill"></i> Fasilitas Premium</li>
-                        <li><i class="bi bi-check-circle-fill"></i> Harga Kompetitif</li>
+                        @foreach($features as $feature)
+                        <li>
+                            <i class="{{ $feature['icon'] }}"></i>
+                            <span>{{ $feature['description'] }}</span>
+                        </li>
+                        @endforeach
                     </ul>
                     
                     <div class="about-buttons">
                         <a href="{{ route('about') }}" class="btn-primary">Tentang Kami</a>
-                        <a href="#legalitas" class="btn-text">Lihat Legalitas</a>
+                        <a href="#partners" class="btn-text">Lihat Legalitas</a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="about-image">
-                    <img src="{{ asset('images/hero/jamaah2.jpeg') }}" alt="Kantor Mahira Tour">
+                    <img src="{{ asset('images/hero/jamaah2.jpeg') }}" alt="Jamaah Mahira Tour di Masjidil Haram">
                 </div>
             </div>
         </div>
     </div>
 </section>
-
 <!-- ==================== WHY CHOOSE US SECTION ==================== -->
 <section class="why-section">
     <div class="container">
         <div class="section-header-center">
-            <span class="section-badge">Mengapa Pilih Kami</span>
-            <h2 class="section-title">Keunggulan Mahira Tour</h2>
+            <div class="section-badge">Mengapa Pilih Kami</div>
+            <h2 class="section-title">Komitmen Kami untuk Ibadah Anda</h2>
             <p class="section-subtitle">
-                Komitmen kami adalah memberikan pengalaman ibadah yang berkah dan tak terlupakan
+                Perjalanan spiritual yang penuh makna dimulai dengan kepercayaan
             </p>
         </div>
         
         <div class="row g-4">
+            <!-- Card 1: Syariat -->
             <div class="col-lg-4 col-md-6">
                 <div class="why-card">
                     <div class="why-icon">
                         <i class="fa-solid fa-mosque"></i>
                     </div>
-                    <h3 class="why-title">Sesuai Syariat Islam</h3>
+                    <h3 class="why-title">Sesuai Tuntunan Syariat</h3>
                     <p class="why-text">
-                        Seluruh program kami mengikuti tuntunan Al-Qur'an dan Sunnah dengan bimbingan ustadz kompeten.
+                        Seluruh ibadah dipandu sesuai Al-Qur'an dan Sunnah dengan pembimbing bersertifikat Kemenag RI.
                     </p>
                 </div>
             </div>
             
+            <!-- Card 2: Legal -->
             <div class="col-lg-4 col-md-6">
                 <div class="why-card">
                     <div class="why-icon">
                         <i class="fa-solid fa-certificate"></i>
                     </div>
-                    <h3 class="why-title">Izin Resmi</h3>
+                    <h3 class="why-title">Berizin Resmi Kemenag</h3>
                     <p class="why-text">
-                        Terdaftar dan diawasi langsung oleh Kementerian Agama RI PPIU No : 21062301498960002  
+                        PPIU No: 21062301498960002 dengan audit rutin dan standar pelayanan tertinggi.
                     </p>
                 </div>
             </div>
             
+            <!-- Card 3: Experience -->
             <div class="col-lg-4 col-md-6">
                 <div class="why-card">
                     <div class="why-icon">
-                         <i class="fa-solid fa-users-gear"></i>
+                        <i class="fa-solid fa-users-gear"></i>
                     </div>
-                    <h3 class="why-title">Profesional & Berpengalaman</h3>
+                    <h3 class="why-title">Berpengalaman Sejak 2023</h3>
                     <p class="why-text">
-                        Tim pembimbing dan tour leader yang berpengalaman melayani ribuan jamaah sejak 2016.
+                        Telah melayani 8,500+ jamaah dengan tingkat kepuasan 99% dan testimoni nyata.
                     </p>
                 </div>
             </div>
         </div>
     </div>
 </section>
+{{-- MOVE THIS SECTION AFTER "WHY CHOOSE US" --}}
+
+<!-- ==================== STATS SECTION ==================== -->
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">8,500+</div>
+                <div class="stat-label">Jamaah Terlayani</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">15+</div>
+                <div class="stat-label">Tahun Berpengalaman</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">45+</div>
+                <div class="stat-label">Paket Keberangkatan/Tahun</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Izin Resmi Kemenag</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- 
+    PLACEMENT ORDER (correct flow):
+    1. Hero
+    2. About
+    3. Why Us
+    4. STATS (proof of claims) ← YOU ARE HERE
+    5. Packages
+--}}
 
 <!-- ==================== PACKAGE SECTION ==================== -->
 <section class="package-section" id="paket">
     <div class="container">
-        <div class="section-header-center">
-            <span class="section-badge">Paket Istimewa</span>
-            <h2 class="section-title">Penawaran Paket Haji dan Umrah</h2>
+        <div class="section-header">
+            <div class="section-badge">Paket Istimewa</div>
+            <h2 class="section-title">Pilih Paket Sesuai Kebutuhan Anda</h2>
             <p class="section-subtitle">
-                Pilih paket yang sesuai dengan kebutuhan dan kenyamanan spiritual Anda
+                Setiap paket dirancang dengan perhatian penuh untuk kenyamanan dan kekhusyukan ibadah Anda
             </p>
         </div>
         
-        <div class="row g-4">
+        <div class="package-grid">
             <!-- Package 1: Umrah Januari -->
-            <div class="col-lg-4 col-md-6">
-                <div class="package-card">
-                    <div class="package-image">
-                        <img src="{{ asset('images/hero/umrah-januari.jpeg') }}" alt="Umrah Reguler">
-                        <div class="package-badge">Tersedia</div>
-                    </div>
-                    <div class="package-body">
-                        <h3 class="package-title">Paket Umrah Januari</h3>
-                        <div class="package-meta">
-                            <span><i class="bi bi-calendar"></i>12 hari</span>
-                            <span><i class="bi bi-geo-alt"></i> Makkah - Madinah</span>
+            <div class="package-card">
+                <div class="package-image">
+                    <img src="{{ asset('images/hero/umrah-januari.jpeg') }}" alt="Paket Umrah Januari">
+                </div>
+                
+                <div class="quick-info">
+                    <h3 class="package-title">Umrah Januari 2026</h3>
+                    
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="bi bi-calendar-event"></i>
+                            </div>
+                            <span class="info-text">24 Januari 2026 • <span class="info-highlight">12 Hari</span></span>
                         </div>
                         
-                        <ul class="package-features">
-                            <li><i class="bi bi-check"></i> Hotel Bintang 5</li>
-                            <li><i class="bi bi-check"></i> Tiket Pesawat PP</li>
-                            <li><i class="bi bi-check"></i> Makan 3x Sehari</li>
-                            <li><i class="bi bi-check"></i> Pembimbing Ibadah</li>
-                        </ul>
-                        
-                        <div class="package-footer">
-                            <div class="package-price">
-                                <span class="price-label">Mulai dari</span>
-                                <span class="price-value">Rp 28 Juta</span>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="bi bi-geo-alt"></i>
                             </div>
-                            <a href="{{ route('schedule', 1) }}" class="btn-package">Lihat Detail</a>
+                            <span class="info-text">Padang - Kuala Lumpur - Jeddah</span>
+                        </div>
+                        
+                        <div class="info-divider"></div>
+                        
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="bi bi-tag"></i>
+                            </div>
+                            <span class="info-text">Mulai dari <span class="info-highlight">Rp 28,9 juta</span></span>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Package 2: Umrah Ramadhan  -->
-            <div class="col-lg-4 col-md-6">
-                <div class="package-card featured">
-                    <div class="package-image">
-                        <img src="{{ asset('images/hero/umrah-ramadhan.jpeg') }}" alt="Umrah VIP">
-                        <div class="package-badge featured">Best Seller</div>
-                    </div>
-                    <div class="package-body">
-                        <h3 class="package-title">Paket Umrah Awal Ramadhan</h3>
-                        <div class="package-meta">
-                            <span><i class="bi bi-calendar"></i> 12 Hari 10 Malam</span>
-                            <span><i class="bi bi-geo-alt"></i> Makkah - Madinah</span>
+            <!-- Package 2: Umrah Ramadhan (Featured) -->
+            <div class="package-card featured">
+                <div class="featured-badge">Paling Diminati</div>
+                
+                <div class="package-image">
+                    <img src="{{ asset('images/hero/umrah-ramadhan.jpeg') }}" alt="Paket Umrah Ramadhan">
+                </div>
+                
+                <div class="quick-info">
+                    <h3 class="package-title">Umrah Awal Ramadhan</h3>
+                    
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="bi bi-calendar-event"></i>
+                            </div>
+                            <span class="info-text">23 Februari 2026 • <span class="info-highlight">12 Hari</span></span>
                         </div>
                         
-                        <ul class="package-features">
-                            <li><i class="bi bi-check"></i> Hotel View Ka'bah</li>
-                            <li><i class="bi bi-check"></i> First Class Ticket</li>
-                            <li><i class="bi bi-check"></i> Makan Premium</li>
-                            <li><i class="bi bi-check"></i> City Tour</li>
-                        </ul>
-                        
-                        <div class="package-footer">
-                            <div class="package-price">
-                                <span class="price-label">Mulai dari</span>
-                                <span class="price-value">Rp 38 Juta</span>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="bi bi-geo-alt"></i>
                             </div>
-                            <a href="{{ route('schedule', 2) }}" class="btn-package">Lihat Detail</a>
+                            <span class="info-text">Padang - Jeddah</span>
+                        </div>
+                        
+                        <div class="info-divider"></div>
+                        
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="bi bi-tag"></i>
+                            </div>
+                            <span class="info-text">Mulai dari <span class="info-highlight">Rp 38,9 juta</span></span>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Package 3: Paket Syawal -->
-            <div class="col-lg-4 col-md-6">
-                <div class="package-card">
-                    <div class="package-image">
-                        <img src="{{ asset('images/hero/umrah-syawal.jpeg') }}" alt="Umrah Ramadhan">
-                        <div class="package-badge">Tersedia</div>
-                    </div>
-                    <div class="package-body">
-                        <h3 class="package-title">Paket Umrah Syawal</h3>
-                        <div class="package-meta">
-                            <span><i class="bi bi-calendar"></i> 12 Hari 10 Malam</span>
-                            <span><i class="bi bi-geo-alt"></i> Makkah - Madinah</span>
+            <!-- Package 3: Umrah Syawal -->
+            <div class="package-card">
+                <div class="package-image">
+                    <img src="{{ asset('images/hero/umrah-syawal.jpeg') }}" alt="Paket Umrah Syawal">
+                </div>
+                
+                <div class="quick-info">
+                    <h3 class="package-title">Umrah Keberangkatan Syawal</h3>
+                    
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="bi bi-calendar-event"></i>
+                            </div>
+                            <span class="info-text">23 Februari 2026 • <span class="info-highlight">12 Hari</span></span>
                         </div>
                         
-                        <ul class="package-features">
-                            <li><i class="bi bi-check"></i> Special Ramadhan</li>
-                            <li><i class="bi bi-check"></i> Hotel Bintang 5</li>
-                            <li><i class="bi bi-check"></i> Sahur & Iftar Premium</li>
-                            <li><i class="bi bi-check"></i> Tarawih di Haram</li>
-                        </ul>
-                        
-                        <div class="package-footer">
-                            <div class="package-price">
-                                <span class="price-label">Mulai dari</span>
-                                <span class="price-value">Rp 29 Juta</span>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="bi bi-geo-alt"></i>
                             </div>
-                            <a href="{{ route('schedule', 3) }}" class="btn-package">Lihat Detail</a>
+                            <span class="info-text">Padang - Kuala Lumpur</span>
+                        </div>
+                        
+                        <div class="info-divider"></div>
+                        
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="bi bi-tag"></i>
+                            </div>
+                            <span class="info-text">Mulai dari <span class="info-highlight">Rp 29,9 juta</span></span>
                         </div>
                     </div>
                 </div>
@@ -347,7 +376,7 @@
 <section class="testimonial-section">
     <div class="container">
         <div class="section-header-center">
-            <span class="section-badge">Testimoni</span>
+            <div class="section-badge">Testimoni</div>
             <h2 class="section-title">Video Testimoni Jamaah</h2>
             <p class="section-subtitle">
                 Dengarkan pengalaman jamaah yang telah merasakan ibadah bersama Mahira Tour
@@ -524,7 +553,7 @@
 <section class="location-section">
     <div class="container">
         <div class="section-header-center">
-            <span class="section-badge">Lokasi Kami</span>
+            <div class="section-badge">Lokasi Kami</div>
             <h2 class="section-title">Kunjungi Kantor Pusat Mahira Tour</h2>
             <p class="section-subtitle">
                 Jl. Raya Makkah No. 123, Jakarta Selatan 12345
@@ -554,7 +583,7 @@
 <section class="partners-section">
     <div class="container">
         <div class="section-header-center">
-            <span class="section-badge">Berizin Resmi & Terpercaya</span>
+            <div class="section-badge">Berizin Resmi & Terpercaya</div>
             <h2 class="section-title">Legalitas & Keanggotaan</h2>
             <p class="section-subtitle">
                 Terdaftar dan diawasi oleh lembaga resmi pemerintah dan organisasi internasional

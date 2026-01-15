@@ -133,29 +133,31 @@ class HomeController extends Controller
             ]
         ];
 
-        // Data Features
-        $features = [
-            [
-                'icon' => 'bi-shield-check',
-                'title' => 'Izin Resmi',
-                'description' => 'Terdaftar dan berizin resmi dari Kementerian Agama RI'
-            ],
-            [
-                'icon' => 'bi-building',
-                'title' => 'Hotel Terbaik',
-                'description' => 'Hotel bintang 5 dengan jarak dekat dari Masjidil Haram'
-            ],
-            [
-                'icon' => 'bi-people',
-                'title' => 'Tim Profesional',
-                'description' => 'Pembimbing ibadah dan tour leader berpengalaman'
-            ],
-            [
-                'icon' => 'bi-wallet2',
-                'title' => 'Harga Terjangkau',
-                'description' => 'Paket umrah dengan harga kompetitif dan fasilitas lengkap'
-            ]
-        ];
+        // REPLACE $features array in HomeController.php
+
+// Data Features - UPDATED with specificity
+$features = [
+    [
+        'icon' => 'bi-patch-check-fill',
+        'title' => 'PPIU Kemenag RI',
+        'description' => 'Izin resmi No: 21062301498960002 dengan audit rutin'
+    ],
+    [
+        'icon' => 'bi-pin-map-fill',
+        'title' => 'Hotel 100-300m dari Haram',
+        'description' => 'Walking distance ke Masjidil Haram, bukan transportasi'
+    ],
+    [
+        'icon' => 'bi-person-badge-fill',
+        'title' => 'Muthawwif Bersertifikat',
+        'description' => 'Pembimbing lulus sertifikasi resmi Kemenag RI'
+    ],
+    [
+        'icon' => 'bi-calendar-check-fill',
+        'title' => 'Manasik Pra-Keberangkatan',
+        'description' => 'Gratis pelatihan ibadah sebelum keberangkatan'
+    ]
+];
 
         return view('pages.home', compact('schedules', 'features'));
     }
