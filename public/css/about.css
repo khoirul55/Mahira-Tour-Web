@@ -1,14 +1,13 @@
 /* ===== VARIABLES ===== */
 :root {
     --primary: #001D5F;
-    --gold: #D4AF37;
-    --teal: #0D9488;
-    --text-dark: #1c1917;
-    --text-medium: #44403c;
-    --text-light: #78716c;
-    --border: #e7e5e4;
-    --bg-main: #fafaf9;
-    --bg-white: #ffffff;
+    --primary-dark: #001440;
+    --accent: #D4AF37;
+    --success: #10B981;
+    --white: #FFFFFF;
+    --light: #F8F9FA;
+    --gray: #6B7280;
+    --dark: #1F2937;
 }
 
 * {
@@ -23,7 +22,7 @@
     padding: 0 20px;
 }
 
-/* ===== HERO - COMPACT ===== */
+/* ===== HERO ===== */
 .hero {
     position: relative;
     height: 450px;
@@ -79,7 +78,7 @@
 }
 
 .breadcrumb a {
-    color: white;
+    color: var(--white);
     text-decoration: none;
     transition: opacity 0.3s;
 }
@@ -96,7 +95,7 @@
     font-size: 3.5rem;
     font-weight: 800;
     margin-bottom: 20px;
-    color: white;
+    color: var(--white);
     text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     line-height: 1.2;
 }
@@ -122,16 +121,16 @@
 
 .hero p {
     font-size: 1.25rem;
-    color: white;
+    color: var(--white);
     opacity: 0.95;
     line-height: 1.8;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
-/* ===== PROFILE - SIDE BY SIDE ===== */
+/* ===== PROFILE SECTION ===== */
 .profile-section-hero {
     padding: 80px 0;
-    background: var(--bg-white);
+    background: var(--white);
 }
 
 .profile-section-hero .container {
@@ -163,31 +162,31 @@
     display: inline-block;
     font-size: 0.75rem;
     font-weight: 600;
-    color: var(--teal);
+    color: var(--success);
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 1rem;
     padding: 6px 16px;
-    background: rgba(13,148,136,0.1);
+    background: rgba(16,185,129,0.1);
     border-radius: 50px;
 }
 
 .profile-title {
     font-size: 2.5rem;
     font-weight: 700;
-    color: var(--text-dark);
+    color: var(--dark);
     margin-bottom: 1.5rem;
     letter-spacing: -0.02em;
 }
 
 .profile-description {
     font-size: 1rem;
-    color: var(--text-medium);
+    color: var(--gray);
     line-height: 1.8;
     margin-bottom: 2.5rem;
 }
 
-/* Info Grid - Vertical Stack */
+/* Info Grid */
 .info-grid {
     display: flex;
     flex-direction: column;
@@ -195,26 +194,26 @@
 }
 
 .info-item {
-    background: rgba(13,148,136,0.08);
+    background: rgba(16,185,129,0.08);
     padding: 20px;
     border-radius: 12px;
     display: flex;
     align-items: center;
     gap: 15px;
     transition: all 0.3s;
-    border: 1px solid rgba(13,148,136,0.15);
+    border: 1px solid rgba(16,185,129,0.15);
 }
 
 .info-item:hover {
     transform: translateX(5px);
-    border-color: var(--teal);
-    background: rgba(13,148,136,0.12);
+    border-color: var(--success);
+    background: rgba(16,185,129,0.12);
 }
 
 .info-icon {
     width: 50px;
     height: 50px;
-    background: var(--teal);
+    background: var(--success);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -224,7 +223,7 @@
 
 .info-icon i {
     font-size: 1.3rem;
-    color: white;
+    color: var(--white);
 }
 
 .info-text {
@@ -235,7 +234,7 @@
 .info-label {
     display: block;
     font-size: 0.75rem;
-    color: var(--text-light);
+    color: var(--gray);
     margin-bottom: 4px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -245,14 +244,14 @@
     display: block;
     font-size: 1.05rem;
     font-weight: 700;
-    color: var(--text-dark);
+    color: var(--dark);
 }
 
-/* ===== VISION MISSION - TEAL BG ===== */
+/* ===== VISION MISSION ===== */
 .vision-section {
     padding: 80px 0;
-    background: linear-gradient(135deg, #0D9488 0%, #0F766E 100%);
-    color: white;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: var(--white);
 }
 
 .section-header {
@@ -265,7 +264,7 @@
     font-weight: 700;
     margin-bottom: 15px;
     letter-spacing: -0.01em;
-    color: white;
+    color: var(--white);
 }
 
 .vision-content-flat {
@@ -278,7 +277,7 @@
 
 .vision-box-flat,
 .mission-box-flat {
-    background: white;
+    background: var(--white);
     border-radius: 16px;
     padding: 35px 30px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
@@ -295,27 +294,27 @@
 .mission-icon-flat {
     width: 60px;
     height: 60px;
-    background: var(--teal);
+    background: var(--primary);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
     font-size: 1.6rem;
-    color: white;
+    color: var(--white);
 }
 
 .vision-box-flat h3,
 .mission-box-flat h3 {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--text-dark);
+    color: var(--dark);
     margin-bottom: 15px;
 }
 
 .vision-box-flat p {
     font-size: 0.95rem;
-    color: var(--text-medium);
+    color: var(--gray);
     line-height: 1.7;
 }
 
@@ -327,7 +326,7 @@
 
 .mission-list-flat li {
     font-size: 0.9rem;
-    color: var(--text-medium);
+    color: var(--gray);
     line-height: 1.7;
     padding: 8px 0 8px 20px;
     position: relative;
@@ -337,27 +336,27 @@
     content: '•';
     position: absolute;
     left: 0;
-    color: var(--teal);
+    color: var(--primary);
     font-size: 1.3rem;
     font-weight: bold;
 }
 
-/* ===== LEADERSHIP - COMPACT ===== */
+/* ===== LEADERSHIP ===== */
 .leadership {
     padding: 80px 0;
-    background: var(--bg-main);
+    background: var(--light);
 }
 
 .section-title {
     font-size: 2.5rem;
     font-weight: 700;
-    color: var(--text-dark);
+    color: var(--dark);
     margin-bottom: 15px;
 }
 
 .section-subtitle {
     font-size: 1rem;
-    color: var(--text-light);
+    color: var(--gray);
     max-width: 600px;
     margin: 0 auto 50px;
 }
@@ -371,25 +370,25 @@
 }
 
 .leader-card-square {
-    background: white;
+    background: var(--white);
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 8px 30px rgba(0,29,95,0.08);
     transition: all 0.3s;
-    border: 1px solid var(--border);
+    border: 1px solid #E5E7EB;
 }
 
 .leader-card-square:hover {
     transform: translateY(-8px);
     box-shadow: 0 15px 40px rgba(0,29,95,0.12);
-    border-color: var(--teal);
+    border-color: var(--accent);
 }
 
 .leader-photo-square {
     width: 100%;
     aspect-ratio: 1 / 1;
     overflow: hidden;
-    background: var(--bg-main);
+    background: var(--light);
 }
 
 .leader-photo-square img {
@@ -410,12 +409,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--primary), var(--gold));
+    background: linear-gradient(135deg, var(--primary), var(--accent));
 }
 
 .placeholder i {
     font-size: 5rem;
-    color: white;
+    color: var(--white);
     opacity: 0.7;
 }
 
@@ -427,13 +426,13 @@
 .leader-name-square {
     font-size: 1.3rem;
     font-weight: 700;
-    color: var(--text-dark);
+    color: var(--dark);
     margin-bottom: 6px;
 }
 
 .leader-position-square {
     font-size: 0.9rem;
-    color: var(--teal);
+    color: var(--accent);
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -444,7 +443,7 @@
 /* ===== LEGALITAS ===== */
 .legalitas {
     padding: 80px 0;
-    background: white;
+    background: var(--white);
 }
 
 .legal-grid {
@@ -458,14 +457,14 @@
 .legal-card {
     text-align: center;
     padding: 35px 25px;
-    background: var(--bg-main);
+    background: var(--light);
     border-radius: 16px;
-    border: 1px solid var(--border);
+    border: 1px solid #E5E7EB;
     transition: all 0.3s;
 }
 
 .legal-card:hover {
-    border-color: var(--teal);
+    border-color: var(--primary);
     transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(0,29,95,0.08);
 }
@@ -477,7 +476,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: white;
+    background: var(--white);
     border-radius: 50%;
     padding: 20px;
 }
@@ -491,20 +490,20 @@
 .legal-title {
     font-size: 1.05rem;
     font-weight: 700;
-    color: var(--text-dark);
+    color: var(--dark);
     margin-bottom: 8px;
 }
 
 .legal-desc {
     font-size: 0.875rem;
-    color: var(--text-medium);
+    color: var(--gray);
     margin: 0 0 12px 0;
 }
 
 .legal-number {
     display: inline-block;
-    background: rgba(13,148,136,0.1);
-    color: var(--teal);
+    background: rgba(0,29,95,0.1);
+    color: var(--primary);
     padding: 6px 16px;
     border-radius: 50px;
     font-size: 0.8rem;
@@ -512,123 +511,308 @@
     font-family: monospace;
 }
 
-/* ===== BRANCHES MAP - TEAL SIDEBAR ===== */
+/* ===== BRANCHES MAP WITH CARDS ===== */
 .branches {
     padding: 80px 0;
-    background: var(--bg-main);
+    background: var(--light);
 }
 
-.map-wrapper {
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 0;
-    background: white;
-    border-radius: 20px;
+/* Branch Cards Slider */
+.branch-cards-wrapper {
+    margin-bottom: 40px;
     overflow: hidden;
-    box-shadow: 0 15px 50px rgba(0,29,95,0.1);
 }
 
-.branch-sidebar {
-    background: linear-gradient(to bottom, #0D9488, #0F766E);
-    padding: 25px 20px;
-    overflow-y: auto;
-    max-height: 600px;
+.branch-cards-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 10px 0 20px 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) var(--light);
 }
 
-.sidebar-header {
-    color: white;
-    margin-bottom: 20px;
+.branch-cards-container::-webkit-scrollbar {
+    height: 6px;
 }
 
-.sidebar-header h3 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin-bottom: 5px;
-}
-
-.sidebar-header p {
-    font-size: 0.85rem;
-    opacity: 0.9;
-}
-
-.search-box {
-    position: relative;
-    margin-bottom: 20px;
-}
-
-.search-box input {
-    width: 100%;
-    padding: 10px 35px 10px 12px;
-    border: none;
+.branch-cards-container::-webkit-scrollbar-track {
+    background: var(--light);
     border-radius: 10px;
-    font-size: 0.875rem;
-    background: rgba(255,255,255,0.15);
-    color: white;
-    backdrop-filter: blur(10px);
 }
 
-.search-box input::placeholder {
-    color: rgba(255,255,255,0.7);
-}
-
-.search-box i {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: rgba(255,255,255,0.7);
-}
-
-.branch-list-item {
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(10px);
+.branch-cards-container::-webkit-scrollbar-thumb {
+    background: var(--accent);
     border-radius: 10px;
-    padding: 12px;
-    margin-bottom: 10px;
+}
+
+.branch-card {
+    min-width: 280px;
+    background: var(--white);
+    border-radius: 16px;
+    padding: 20px;
     cursor: pointer;
     transition: all 0.3s;
     border: 2px solid transparent;
+    box-shadow: 0 4px 15px rgba(0,29,95,0.08);
 }
 
-.branch-list-item:hover {
-    background: rgba(255,255,255,0.2);
-    border-color: white;
+.branch-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--success);
+    box-shadow: 0 8px 25px rgba(0,29,95,0.12);
 }
 
-.branch-list-item.featured {
-    background: var(--gold);
+.branch-card.main {
+    background: linear-gradient(135deg, var(--accent) 0%, #C5A028 100%);
+    color: var(--white);
 }
 
-.branch-badge {
-    display: inline-block;
-    background: rgba(255,255,255,0.3);
-    padding: 3px 10px;
-    border-radius: 50px;
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: 6px;
+.branch-card.main:hover {
+    border-color: var(--accent);
 }
 
-.branch-list-item h4 {
-    color: white;
-    font-size: 0.95rem;
-    margin-bottom: 4px;
+.branch-card-header {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-weight: 700;
+    gap: 12px;
+    margin-bottom: 12px;
 }
 
-.branch-list-item p {
-    color: rgba(255,255,255,0.9);
-    font-size: 0.75rem;
+.branch-card-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(16,185,129,0.15);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.branch-card.main .branch-card-icon {
+    background: rgba(255,255,255,0.2);
+}
+
+.branch-card-icon i {
+    font-size: 1.5rem;
+    color: var(--success);
+}
+
+.branch-card.main .branch-card-icon i {
+    color: var(--white);
+}
+
+.branch-card-title h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 2px;
+}
+
+.branch-card.main .branch-card-title h4 {
+    color: var(--white);
+}
+
+.branch-card-title p {
+    font-size: 0.8rem;
+    color: var(--gray);
     margin: 0;
 }
 
+.branch-card.main .branch-card-title p {
+    color: rgba(255,255,255,0.9);
+}
+
+.branch-card-body {
+    padding-top: 12px;
+    border-top: 1px solid #E5E7EB;
+}
+
+.branch-card.main .branch-card-body {
+    border-top-color: rgba(255,255,255,0.2);
+}
+
+.branch-card-address {
+    font-size: 0.85rem;
+    color: var(--gray);
+    line-height: 1.5;
+    display: flex;
+    gap: 8px;
+}
+
+.branch-card.main .branch-card-address {
+    color: rgba(255,255,255,0.95);
+}
+
+.branch-card-address i {
+    color: var(--success);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.branch-card.main .branch-card-address i {
+    color: var(--white);
+}
+
+.branch-badge-card {
+    display: inline-block;
+    background: var(--success);
+    color: var(--white);
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 10px;
+}
+
+.branch-card.main .branch-badge-card {
+    background: rgba(255,255,255,0.3);
+}
+
+/* Map Container */
+.map-wrapper {
+    background: var(--white);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 50px rgba(0,29,95,0.1);
+    height: 70vh;
+    min-height: 500px;
+}
+
 #map {
-    height: 600px;
-    border-radius: 0 20px 20px 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 20px;
+}
+
+/* Custom Marker Styles */
+.custom-marker {
+    width: 40px;
+    height: 40px;
+    background: var(--success);
+    border: 3px solid var(--white);
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    transition: all 0.3s;
+}
+
+.custom-marker:hover {
+    transform: rotate(-45deg) scale(1.15);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+}
+
+.custom-marker.main {
+    background: var(--accent);
+    width: 50px;
+    height: 50px;
+}
+
+.custom-marker i {
+    transform: rotate(45deg);
+    color: var(--white);
+    font-size: 20px;
+}
+
+.custom-marker.main i {
+    font-size: 24px;
+}
+
+/* Popup Styles */
+.custom-popup .leaflet-popup-content-wrapper {
+    border-radius: 12px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.popup-header {
+    background: var(--success);
+    color: var(--white);
+    padding: 16px;
+    position: relative;
+}
+
+.popup-header.featured {
+    background: var(--accent);
+}
+
+.popup-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.25);
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.popup-header h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.popup-body {
+    padding: 16px;
+}
+
+.popup-info {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    color: var(--gray);
+}
+
+.popup-info i {
+    color: var(--success);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.popup-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.popup-btn {
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.3s;
+}
+
+.popup-btn.primary {
+    background: var(--success);
+    color: var(--white);
+}
+
+.popup-btn.primary:hover {
+    background: #0D9488;
+    transform: translateY(-2px);
+}
+
+.popup-btn.secondary {
+    background: var(--light);
+    color: var(--dark);
+}
+
+.popup-btn.secondary:hover {
+    background: #E5E7EB;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -651,9 +835,9 @@
     
     .legal-grid { grid-template-columns: 1fr; gap: 20px; }
     
-    .map-wrapper { grid-template-columns: 1fr; }
-    .branch-sidebar { max-height: 250px; order: 2; }
-    #map { height: 400px; order: 1; }
+    .branch-card { min-width: 250px; }
+    
+    .map-wrapper { height: 60vh; min-height: 400px; }
 }
 
 @media (max-width: 576px) {
@@ -666,4 +850,8 @@
     .info-grid { gap: 12px; }
     
     .leader-grid-square { grid-template-columns: 1fr; }
+    
+    .branch-card { min-width: 220px; }
+    
+    .map-wrapper { height: 50vh; min-height: 350px; }
 }

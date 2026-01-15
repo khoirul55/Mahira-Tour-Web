@@ -34,7 +34,7 @@
 <section class="profile-section-hero">
     <div class="container">
         <div class="profile-hero-image">
-            <img src="{{ asset('storage/gallery/gallery-6.webp') }}" alt="Mahira Tour Office" loading="lazy">
+            <img src="{{ asset('storage/hero/about.png') }}" alt="Mahira Tour Office" loading="lazy">
         </div>
         
         <div class="profile-content-centered">
@@ -185,31 +185,24 @@
         </div>
     </div>
 </section>
-
-{{-- BRANCHES --}}
+{{-- BRANCHES SECTION --}}
 <section class="branches">
     <div class="container">
         <div class="section-header">
-            <div class="section-badge">7 Cabang di Indonesia</div>
+            <div class="section-badge">7 Cabang di Indonesia dan 2 Cabang di luar negeri</div>
             <h2 class="section-title">Lokasi Cabang Mahira Tour</h2>
-            <p class="section-subtitle">Klik marker atau pilih cabang untuk melihat detail lokasi</p>
+            <p class="section-subtitle">Klik kartu cabang atau marker pada peta untuk melihat detail lokasi</p>
         </div>
         
-        <div class="map-wrapper">
-            <div class="branch-sidebar">
-                <div class="sidebar-header">
-                    <h3>Pilih Cabang</h3>
-                    <p>Klik untuk melihat di peta</p>
-                </div>
-                
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Cari kota...">
-                    <i class="bi bi-search"></i>
-                </div>
-                
-                <div id="branchList"></div>
+        {{-- Branch Cards Slider --}}
+        <div class="branch-cards-wrapper">
+            <div class="branch-cards-container" id="branchCardsContainer">
+                {{-- Cards will be rendered by JavaScript --}}
             </div>
-            
+        </div>
+        
+        {{-- Map --}}
+        <div class="map-wrapper">
             <div id="map"></div>
         </div>
     </div>

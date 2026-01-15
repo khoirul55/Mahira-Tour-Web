@@ -1,45 +1,4 @@
-
-
-
-// Counter Animation
-function animateCounter() {
-    const counters = document.querySelectorAll('.stat-number');
-    
-    counters.forEach(counter => {
-        const target = parseFloat(counter.getAttribute('data-target'));
-        if (!target) return;
-        
-        const increment = target / 100;
-        let current = 0;
-        
-        const updateCounter = () => {
-            if (current < target) {
-                current += increment;
-                counter.textContent = Math.ceil(current) + '+';
-                requestAnimationFrame(updateCounter);
-            } else {
-                counter.textContent = target + '+';
-            }
-        };
-        
-        updateCounter();
-    });
-}
-
-// Intersection Observer for animation trigger
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            animateCounter();
-            observer.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.5 });
-
-
-
-
-// Transform data untuk koordinat
+// Branch data with coordinates
 const branchesWithCoords = [
     {id: 1, name: "Sungai Penuh", region: "Jambi", address: "Jl. Muradi, Desa Koto Keras, Kecamatan Pesisir Bukit", phone: "082184515310", coordinates: [-2.0621, 101.3953], isMain: true},
     {id: 2, name: "Padang", region: "Sumatera Barat", address: "Jl. Raya Taruko 1 / Manunggal 3 No 66 A", coordinates: [-0.9471, 100.4172], isMain: false},
@@ -66,9 +25,9 @@ function createCustomIcon(isMain) {
         html: `<div class="custom-marker ${isMain ? 'main' : ''}">
                 <i class="bi bi-${isMain ? 'building-fill' : 'geo-alt-fill'}"></i>
               </div>`,
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-        popupAnchor: [0, -40]
+        iconSize: isMain ? [50, 50] : [40, 40],
+        iconAnchor: isMain ? [25, 50] : [20, 40],
+        popupAnchor: [0, isMain ? -50 : -40]
     });
 }
 
@@ -105,6 +64,7 @@ function createPopupContent(branch) {
     `;
 }
 
+// Add markers to map
 branchesWithCoords.forEach(branch => {
     const marker = L.marker(branch.coordinates, {
         icon: createCustomIcon(branch.isMain)
@@ -118,48 +78,69 @@ branchesWithCoords.forEach(branch => {
     markers[branch.id] = marker;
 });
 
-function renderBranchList(filteredBranches = branchesWithCoords) {
-    const listHTML = filteredBranches.map(branch => `
-        <div class="branch-list-item ${branch.isMain ? 'featured' : ''}" 
-             onclick="focusBranch(${branch.id})">
-            ${branch.isMain ? '<div class="branch-badge">Kantor Pusat</div>' : ''}
-            <h4>
-                <i class="bi bi-${branch.isMain ? 'building-fill' : 'geo-alt-fill'}"></i>
-                ${branch.name}
-            </h4>
-            <p>${branch.region}</p>
+// Render branch cards
+function renderBranchCards() {
+    const container = document.getElementById('branchCardsContainer');
+    if (!container) return;
+    
+    const cardsHTML = branchesWithCoords.map(branch => `
+        <div class="branch-card ${branch.isMain ? 'main' : ''}" onclick="focusBranch(${branch.id})">
+            <div class="branch-card-header">
+                <div class="branch-card-icon">
+                    <i class="bi bi-${branch.isMain ? 'building-fill' : 'geo-alt-fill'}"></i>
+                </div>
+                <div class="branch-card-title">
+                    <h4>${branch.name}</h4>
+                    <p>${branch.region}</p>
+                </div>
+            </div>
+            <div class="branch-card-body">
+                <div class="branch-card-address">
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <span>${branch.address}</span>
+                </div>
+                ${branch.isMain ? '<div class="branch-badge-card">Kantor Pusat</div>' : ''}
+            </div>
         </div>
     `).join('');
     
-    document.getElementById('branchList').innerHTML = listHTML;
+    container.innerHTML = cardsHTML;
 }
 
+// Focus on branch when card clicked
 function focusBranch(branchId) {
     const branch = branchesWithCoords.find(b => b.id === branchId);
+    if (!branch) return;
+    
     map.flyTo(branch.coordinates, 13, {duration: 1.5});
+    
+    // Highlight card
+    document.querySelectorAll('.branch-card').forEach(card => {
+        card.style.transform = '';
+        card.style.borderColor = 'transparent';
+    });
+    
+    const clickedCard = event.target.closest('.branch-card');
+    if (clickedCard) {
+        clickedCard.style.transform = 'translateY(-5px)';
+        clickedCard.style.borderColor = branch.isMain ? 'var(--accent)' : 'var(--success)';
+    }
     
     setTimeout(() => {
         markers[branchId].openPopup();
     }, 1500);
 }
 
-document.getElementById('searchInput').addEventListener('input', (e) => {
-    const keyword = e.target.value.toLowerCase();
-    const filtered = branchesWithCoords.filter(b => 
-        b.name.toLowerCase().includes(keyword) ||
-        b.region.toLowerCase().includes(keyword)
-    );
-    renderBranchList(filtered);
-});
+// Initialize
+renderBranchCards();
 
-renderBranchList();
-
+// Auto focus on main branch after load
 setTimeout(() => {
     focusBranch(1);
 }, 1000);
-// Lazy load background images
-const lazyBackgrounds = document.querySelectorAll('.lazy-bg');
 
+// Lazy load backgrounds
+const lazyBackgrounds = document.querySelectorAll('.lazy-bg');
 const bgObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -168,9 +149,9 @@ const bgObserver = new IntersectionObserver((entries) => {
         }
     });
 });
-
 lazyBackgrounds.forEach(bg => bgObserver.observe(bg));
-// Di akhir file about.js
+
+// Section fade animation
 const sections = document.querySelectorAll('section');
 const fadeObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
