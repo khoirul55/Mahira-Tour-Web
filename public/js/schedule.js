@@ -96,3 +96,40 @@ document.addEventListener('keydown', (e) => {
         closeDetailModal();
     }
 });
+
+function openDetailModal(scheduleId) {
+    const schedule = schedulesData[scheduleId];
+    if (!schedule) {
+        console.error('Schedule not found:', scheduleId);
+        return;
+    }
+    
+    const modal = document.getElementById('detailModal');
+    
+    // Populate modal
+    document.getElementById('modalPackageName').textContent = schedule.package_name;
+    document.getElementById('modalFlyerImage').src = schedule.flyer_image;
+    document.getElementById('modalFlyerImage').alt = schedule.package_name;
+    
+    document.getElementById('modalDepartureDate').textContent = formatDate(schedule.departure_date);
+    document.getElementById('modalReturnDate').textContent = formatDate(schedule.return_date);
+    // HAPUS 2 baris ini - element tidak ada di HTML:
+    // document.getElementById('modalRoute').textContent = schedule.departure_route;
+    // document.getElementById('modalDuration').textContent = schedule.duration;
+    
+    document.getElementById('modalAirline').textContent = schedule.airline;
+    document.getElementById('modalDuration').textContent = schedule.duration; // INI SUDAH ADA
+    document.getElementById('modalPrice').textContent = formatPrice(schedule.price);
+    
+    const available = schedule.quota - schedule.seats_taken;
+    document.getElementById('modalAvailability').textContent = 
+        schedule.status === 'full' ? 'Kuota Penuh' : `${available} dari ${schedule.quota} Jamaah`;
+    
+    // Update button
+    const registerUrl = `/register?schedule_id=${scheduleId}`;
+    document.getElementById('modalRegisterBtnBottom').href = registerUrl;
+    
+    // Show modal
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}

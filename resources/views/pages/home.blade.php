@@ -198,7 +198,7 @@
                     </div>
                     <h3 class="why-title">Berpengalaman Sejak 2023</h3>
                     <p class="why-text">
-                        Telah melayani 8,500+ jamaah dengan tingkat kepuasan 99% dan testimoni nyata.
+                        Telah melayani 5000+ jamaah dengan testimoni yang nyata.
                     </p>
                 </div>
             </div>
@@ -212,7 +212,7 @@
     <div class="container">
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-number">8,500+</div>
+                <div class="stat-number">5000+</div>
                 <div class="stat-label">Jamaah Terlayani</div>
             </div>
             <div class="stat-card">

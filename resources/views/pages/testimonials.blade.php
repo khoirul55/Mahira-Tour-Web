@@ -8,24 +8,97 @@
 
 @section('content')
     <!-- Hero Section -->
-    <section class="hero-zen">
+    <section class="hero">
+        <div class="hero-background">
+            <img src="{{ asset('storage/hero/hero-testimonial.jpeg') }}" 
+                 alt="Testimoni Jamaah Mahira Tour" 
+                 loading="eager">
+        </div>
+        
+        <div class="hero-overlay"></div>
+        
         <div class="hero-content">
-            <div class="breadcrumb-zen">
-                <a href="{{ route('home') }}"><i class="bi bi-house-door"></i> BERANDA</a>
+            <div class="breadcrumb">
+                <a href="{{ route('home') }}">
+                    <i class="bi bi-house-door-fill"></i> Beranda
+                </a>
                 <span>/</span>
-                <span>TESTIMONI</span>
+                <span>Testimoni</span>
             </div>
-            
-            <h1>Testimoni Jamaah</h1>
-            <div class="zen-divider"></div>
-            <p class="subtitle">Pengalaman spiritual dari para jamaah yang telah menunaikan ibadah bersama kami</p>
+            <h1>
+                <span class="word">Testimoni</span> 
+                <span class="word">Jamaah</span>
+            </h1>
+            <p>Pengalaman spiritual dari para jamaah yang telah menunaikan ibadah bersama kami</p>
         </div>
     </section>
 
     <!-- Main Content -->
     <main class="container-zen">
         
-        <!-- Section Header -->
+        <!-- Video Testimonials Section -->
+        <div class="section-header-zen">
+            <h2>Video Testimoni</h2>
+            <p>Dengarkan langsung pengalaman jamaah kami</p>
+        </div>
+
+        <div class="video-grid-zen">
+            <!-- Video 1 -->
+            <div class="video-card-zen">
+                <div class="video-wrapper-zen">
+                    <iframe 
+                        src="https://www.youtube.com/embed/B-JQ7BGS5i8" 
+                        title="Testimoni Jamaah Mahira Tour"
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-caption-zen">
+                    <h4>Pengalaman Umrah Luar Biasa</h4>
+                    <p>Jamaah Mahira Tour</p>
+                </div>
+            </div>
+
+            <!-- Video 2 -->
+            <div class="video-card-zen">
+                <div class="video-wrapper-zen">
+                    <iframe 
+                        src="https://www.youtube.com/embed/lSbViwp5fCA" 
+                        title="Testimoni Jamaah Mahira Tour"
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-caption-zen">
+                    <h4>Pelayanan Sangat Memuaskan</h4>
+                    <p>Jamaah Mahira Tour</p>
+                </div>
+            </div>
+
+            <!-- Video 3 -->
+            <div class="video-card-zen">
+                <div class="video-wrapper-zen">
+                    <iframe 
+                        src="https://www.youtube.com/embed/JgQmegExd5A" 
+                        title="Testimoni Jamaah Mahira Tour"
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-caption-zen">
+                    <h4>Bimbingan Spiritual Berkualitas</h4>
+                    <p>Jamaah Mahira Tour</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="section-divider-zen"></div>
+
+        <!-- Text Testimonials Section -->
         <div class="section-header-zen">
             <h2>Apa Kata Mereka</h2>
             <p>Cerita inspiratif dari jamaah yang telah berangkat</p>

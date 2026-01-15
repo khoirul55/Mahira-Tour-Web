@@ -170,3 +170,20 @@ const bgObserver = new IntersectionObserver((entries) => {
 });
 
 lazyBackgrounds.forEach(bg => bgObserver.observe(bg));
+// Di akhir file about.js
+const sections = document.querySelectorAll('section');
+const fadeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, { threshold: 0.1 });
+
+sections.forEach(section => {
+    section.style.opacity = '0';
+    section.style.transform = 'translateY(30px)';
+    section.style.transition = 'all 0.8s ease';
+    fadeObserver.observe(section);
+});
