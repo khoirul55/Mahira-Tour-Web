@@ -1,0 +1,332 @@
+/* ==================== NAVBAR ZEN - MOBILE OPTIMIZED ==================== */
+
+/* ===== BASE NAVBAR ===== */
+
+/* Navbar transparan untuk home page hero */
+body:has(.hero-video-section) .navbar-zen {
+    background: transparent;
+    border-bottom: none;
+    box-shadow: none;
+}
+
+body:has(.hero-video-section) .navbar-zen.scrolled {
+    background: #ffffff;
+    border-bottom: 1px solid #e7e5e4;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.navbar-zen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: #ffffff;
+    border-bottom: 1px solid #e7e5e4;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+}
+
+/* ===== LOGO ===== */
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #1c1917;
+    font-weight: 600;
+    z-index: 1001;
+}
+
+.navbar-logo img {
+    height: 32px;
+    width: auto;
+}
+
+.logo-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #001d5f;
+}
+
+/* ===== DESKTOP MENU ===== */
+.navbar-menu {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-menu li {
+    margin: 0;
+}
+
+.navbar-menu a {
+    text-decoration: none;
+    color: #44403c;
+    font-size: 0.875rem;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.navbar-menu a:hover {
+    color: #001d5f;
+}
+
+.navbar-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #001d5f;
+    transition: width 0.25s ease;
+}
+
+.navbar-menu a:hover::after {
+    width: 100%;
+}
+
+/* ===== DESKTOP ACTIONS ===== */
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.nav-link-light {
+    font-size: 0.875rem;
+    color: #78716c;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-link-light:hover {
+    color: #001d5f;
+}
+
+.btn-zen-primary {
+    background: #001d5f;
+    color: #fff;
+    padding: 0.75rem 1.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 2px solid #001d5f;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.btn-zen-primary:hover {
+    background: transparent;
+    color: #001d5f;
+}
+
+/* ===== MOBILE ELEMENTS ===== */
+.mobile-only {
+    display: none;
+}
+
+/* ===== MOBILE TOGGLE ===== */
+.mobile-toggle {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: #001d5f;
+    z-index: 1001;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+}
+
+.mobile-toggle:active {
+    transform: scale(0.95);
+}
+
+/* ===== MOBILE MENU OVERLAY ===== */
+.mobile-menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    backdrop-filter: blur(2px);
+}
+
+/* ===== MOBILE MENU DRAWER ===== */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 80%;
+    max-width: 320px;
+    background: #ffffff;
+    z-index: 999;
+    overflow-y: auto;
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== MOBILE MENU HEADER ===== */
+.mobile-menu-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1.5rem 1.25rem;
+    border-bottom: 1px solid #e7e5e4;
+}
+
+.mobile-menu-logo {
+    height: 32px;
+    width: auto;
+}
+
+.mobile-close {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #78716c;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.mobile-close:hover {
+    background: #f5f5f4;
+    color: #001d5f;
+}
+
+.mobile-close:active {
+    transform: scale(0.95);
+}
+
+/* ===== MOBILE NAV LINKS ===== */
+.mobile-nav {
+    list-style: none;
+    margin: 0;
+    padding: 1.5rem 0;
+    flex: 1;
+}
+
+.mobile-nav li {
+    margin: 0;
+}
+
+.mobile-nav a {
+    display: block;
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: #1c1917;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.mobile-nav a:hover,
+.mobile-nav a:active {
+    background: #f8f9fa;
+    border-left-color: #001d5f;
+    color: #001d5f;
+}
+
+/* ===== MOBILE ACTIONS ===== */
+.mobile-actions {
+    padding: 1.25rem;
+    border-top: 1px solid #e7e5e4;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: #fafafa;
+}
+
+.mobile-actions .btn-zen-primary {
+    width: 100%;
+    text-align: center;
+    display: block;
+    padding: 1rem;
+}
+
+.mobile-actions .nav-link-light {
+    text-align: center;
+    display: block;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (min-width: 769px) {
+    .mobile-toggle,
+    .mobile-menu-overlay,
+    .mobile-menu {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none !important;
+    }
+
+    .mobile-only {
+        display: block !important;
+    }
+    
+    .mobile-toggle {
+        display: flex !important;
+    }
+    
+    .navbar-container {
+        padding: 0.75rem 1rem;
+        height: 64px;
+    }
+    
+    .navbar-logo img {
+        height: 28px;
+    }
+    
+    .logo-text {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .mobile-menu {
+        width: 85%;
+    }
+    
+    .navbar-container {
+        padding: 0.75rem 0.75rem;
+    }
+    
+    .logo-text {
+        display: none;
+    }
+}
+/* ===== ALPINE X-CLOAK ===== */
+[x-cloak] {
+    display: none !important;
+}
