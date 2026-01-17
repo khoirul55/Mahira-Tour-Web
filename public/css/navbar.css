@@ -1,8 +1,20 @@
-/* ==================== NAVBAR ZEN - MOBILE OPTIMIZED ==================== */
+/* ==================== NAVBAR ZEN - MOBILE FIXED ==================== */
 
-/* ===== BASE NAVBAR ===== */
+/* Base Navbar */
+.navbar-zen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: #ffffff;
+    border-bottom: 1px solid #e7e5e4;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
 
-/* Navbar transparan untuk home page hero */
+/* Transparent navbar untuk hero page */
 body:has(.hero-video-section) .navbar-zen {
     background: transparent;
     border-bottom: none;
@@ -14,16 +26,22 @@ body:has(.hero-video-section) .navbar-zen.scrolled {
     border-bottom: 1px solid #e7e5e4;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
-.navbar-zen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    background: #ffffff;
-    border-bottom: 1px solid #e7e5e4;
-    z-index: 1000;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+/* White text untuk navbar di hero */
+body:has(.hero-video-section) .navbar-zen:not(.scrolled) .navbar-menu a,
+body:has(.hero-video-section) .navbar-zen:not(.scrolled) .nav-link-light,
+body:has(.hero-video-section) .navbar-zen:not(.scrolled) .logo-text {
+    color: white;
+}
+
+body:has(.hero-video-section) .navbar-zen:not(.scrolled) .btn-zen-primary {
+    background: white;
+    color: #001d5f;
+    border-color: white;
+}
+
+body:has(.hero-video-section) .navbar-zen:not(.scrolled) .mobile-toggle {
+    color: white;
 }
 
 .navbar-container {
@@ -36,7 +54,7 @@ body:has(.hero-video-section) .navbar-zen.scrolled {
     height: 72px;
 }
 
-/* ===== LOGO ===== */
+/* Logo */
 .navbar-logo {
     display: flex;
     align-items: center;
@@ -56,9 +74,10 @@ body:has(.hero-video-section) .navbar-zen.scrolled {
     font-size: 1.1rem;
     font-weight: 700;
     color: #001d5f;
+    transition: color 0.3s ease;
 }
 
-/* ===== DESKTOP MENU ===== */
+/* Desktop Menu */
 .navbar-menu {
     display: flex;
     gap: 2rem;
@@ -99,7 +118,7 @@ body:has(.hero-video-section) .navbar-zen.scrolled {
     width: 100%;
 }
 
-/* ===== DESKTOP ACTIONS ===== */
+/* Desktop Actions */
 .navbar-actions {
     display: flex;
     align-items: center;
@@ -127,7 +146,7 @@ body:has(.hero-video-section) .navbar-zen.scrolled {
     text-decoration: none;
     border: 2px solid #001d5f;
     border-radius: 8px;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
 }
 
 .btn-zen-primary:hover {
@@ -135,12 +154,12 @@ body:has(.hero-video-section) .navbar-zen.scrolled {
     color: #001d5f;
 }
 
-/* ===== MOBILE ELEMENTS ===== */
+/* Mobile Elements */
 .mobile-only {
     display: none;
 }
 
-/* ===== MOBILE TOGGLE ===== */
+/* Mobile Toggle - CRITICAL FIX */
 .mobile-toggle {
     background: none;
     border: none;
@@ -155,13 +174,23 @@ body:has(.hero-video-section) .navbar-zen.scrolled {
     justify-content: center;
     width: 44px;
     height: 44px;
+    transition: all 0.2s ease;
+    /* CRITICAL: Make sure it's clickable */
+    pointer-events: auto;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .mobile-toggle:active {
     transform: scale(0.95);
+    background: rgba(0, 29, 95, 0.1);
+    border-radius: 8px;
 }
 
-/* ===== MOBILE MENU OVERLAY ===== */
+.mobile-toggle i {
+    font-size: 28px;
+}
+
+/* Mobile Menu Overlay - FIXED */
 .mobile-menu-overlay {
     position: fixed;
     inset: 0;
@@ -170,7 +199,7 @@ body:has(.hero-video-section) .navbar-zen.scrolled {
     backdrop-filter: blur(2px);
 }
 
-/* ===== MOBILE MENU DRAWER ===== */
+/* Mobile Menu Drawer - FIXED */
 .mobile-menu {
     position: fixed;
     top: 0;
@@ -184,9 +213,12 @@ body:has(.hero-video-section) .navbar-zen.scrolled {
     box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
+    /* CRITICAL: Hardware acceleration */
+    transform: translateZ(0);
+    will-change: transform;
 }
 
-/* ===== MOBILE MENU HEADER ===== */
+/* Mobile Menu Header */
 .mobile-menu-header {
     display: flex;
     justify-content: flex-end;
@@ -194,15 +226,10 @@ body:has(.hero-video-section) .navbar-zen.scrolled {
     border-bottom: 1px solid #e7e5e4;
 }
 
-.mobile-menu-logo {
-    height: 32px;
-    width: auto;
-}
-
 .mobile-close {
     background: none;
     border: none;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     cursor: pointer;
     color: #78716c;
     width: 44px;
@@ -212,6 +239,9 @@ body:has(.hero-video-section) .navbar-zen.scrolled {
     justify-content: center;
     border-radius: 8px;
     transition: all 0.2s ease;
+    /* CRITICAL: Ensure clickability */
+    pointer-events: auto;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .mobile-close:hover {
@@ -223,7 +253,11 @@ body:has(.hero-video-section) .navbar-zen.scrolled {
     transform: scale(0.95);
 }
 
-/* ===== MOBILE NAV LINKS ===== */
+.mobile-close i {
+    font-size: 24px;
+}
+
+/* Mobile Nav Links */
 .mobile-nav {
     list-style: none;
     margin: 0;
@@ -244,16 +278,19 @@ body:has(.hero-video-section) .navbar-zen.scrolled {
     color: #1c1917;
     transition: all 0.2s ease;
     border-left: 3px solid transparent;
+    /* CRITICAL: Ensure touch target */
+    min-height: 48px;
+    display: flex;
+    align-items: center;
 }
 
-.mobile-nav a:hover,
 .mobile-nav a:active {
     background: #f8f9fa;
     border-left-color: #001d5f;
     color: #001d5f;
 }
 
-/* ===== MOBILE ACTIONS ===== */
+/* Mobile Actions */
 .mobile-actions {
     padding: 1.25rem;
     border-top: 1px solid #e7e5e4;
@@ -268,6 +305,7 @@ body:has(.hero-video-section) .navbar-zen.scrolled {
     text-align: center;
     display: block;
     padding: 1rem;
+    min-height: 48px;
 }
 
 .mobile-actions .nav-link-light {
@@ -277,7 +315,12 @@ body:has(.hero-video-section) .navbar-zen.scrolled {
     font-size: 0.875rem;
 }
 
-/* ===== RESPONSIVE ===== */
+/* Alpine x-cloak */
+[x-cloak] {
+    display: none !important;
+}
+
+/* ==================== RESPONSIVE ==================== */
 @media (min-width: 769px) {
     .mobile-toggle,
     .mobile-menu-overlay,
@@ -292,7 +335,7 @@ body:has(.hero-video-section) .navbar-zen.scrolled {
     }
 
     .mobile-only {
-        display: block !important;
+        display: flex !important;
     }
     
     .mobile-toggle {
@@ -326,7 +369,12 @@ body:has(.hero-video-section) .navbar-zen.scrolled {
         display: none;
     }
 }
-/* ===== ALPINE X-CLOAK ===== */
-[x-cloak] {
-    display: none !important;
+
+/* iOS Safari fix for touch targets */
+@supports (-webkit-touch-callout: none) {
+    .mobile-toggle,
+    .mobile-close,
+    .mobile-nav a {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    }
 }

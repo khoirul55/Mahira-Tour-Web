@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <title>@yield('title', 'Mahira Tour - Travel Haji & Umrah Terpercaya')</title>
@@ -21,7 +21,7 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     
-    <!-- ✅ NAVBAR CSS - LOAD SEBELUM VITE -->
+    <!-- Navbar CSS - Load before Vite -->
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
     
     <!-- Vite Assets -->
@@ -30,8 +30,53 @@
     <!-- Page-specific CSS -->
     @stack('styles')
     
+    <!-- Alpine.js x-cloak style -->
     <style>
-        [x-cloak] { display: none !important; }
+        [x-cloak] { 
+            display: none !important; 
+        }
+        
+        /* Smooth transitions for Alpine */
+        .transition-opacity {
+            transition-property: opacity;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .ease-out {
+            transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+        }
+        
+        .ease-in {
+            transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+        }
+        
+        .duration-200 {
+            transition-duration: 200ms;
+        }
+        
+        .duration-150 {
+            transition-duration: 150ms;
+        }
+        
+        .duration-300 {
+            transition-duration: 300ms;
+        }
+        
+        .opacity-0 {
+            opacity: 0;
+        }
+        
+        .opacity-100 {
+            opacity: 1;
+        }
+        
+        .-translate-x-full {
+            transform: translateX(-100%);
+        }
+        
+        .translate-x-0 {
+            transform: translateX(0);
+        }
     </style>
 </head>
 <body>
@@ -46,6 +91,21 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
+    <!-- Page-specific scripts -->
     @stack('scripts')
+    
+    <!-- Debug Alpine (remove in production) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Alpine version:', window.Alpine ? window.Alpine.version : 'NOT LOADED');
+            
+            // Test if Alpine is working
+            if (!window.Alpine) {
+                console.error('⚠️ Alpine.js NOT loaded! Check app.js');
+            } else {
+                console.log('✅ Alpine.js loaded successfully');
+            }
+        });
+    </script>
 </body>
 </html>
