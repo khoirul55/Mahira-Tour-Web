@@ -60,7 +60,7 @@
                 {{-- 4. TRUST SIGNAL: Now positioned after aspiration --}}
                 <div class="hero-badge">
                     <i class="bi bi-shield-check"></i>
-                    <span>Terpercaya Sejak 2023 • Resmi Kemenag RI</span>
+                    <span>Terpercaya Sejak 2016 • Resmi Kemenag RI</span>
                 </div>
                 
                 {{-- 5. DUAL CTAs: Respecting Both Paths --}}
@@ -113,40 +113,55 @@
        - Poster loads immediately while video buffers
        - Will-change CSS hint for smooth animations
 --}}
-<!-- ==================== ABOUT SECTION ==================== -->
+<!-- ==================== ABOUT SECTION - STORYTELLING APPROACH ==================== -->
 <section class="about-section">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
                 <div class="about-content">
-                    <div class="section-badge">Tentang Kami</div>
+                    <!-- Micro Badge -->
+                    <div class="section-badge">Cerita Kami</div>
                     
-                    {{-- Emotional title --}}
-                    <h2 class="section-title">Mitra Terpercaya untuk Perjalanan Ibadah Penuh Makna</h2>
+                    <!-- Emotional Hook -->
+                    <h2 class="section-title">
+                        Dari Mimpi Keluarga Kecil,<br>
+                        Kini Melayani Ribuan Jamaah
+                    </h2>
                     
-                    <p class="section-text">
-                        Sejak 2023, Mahira Tour melayani ribuan jamaah dengan komitmen memberikan pengalaman ibadah yang aman, nyaman, dan sesuai tuntunan syariat. Berizin resmi Kemenag RI, kami memastikan setiap perjalanan Anda menjadi ibadah yang diterima di sisi Allah SWT.
+                    <!-- Founder Story (Personal) -->
+                    <p class="founder-quote">
+                        "Tahun 2016, kami berangkat umrah pertama kali. 
+                        Pengalaman yang mengubah hidup. Dari situ lahir mimpi: 
+                        <strong>membantu keluarga Indonesia merasakan momen spiritual yang sama.</strong>"
+                        <span class="quote-author">— Ust.Khilal Hamdan & Ust. Nadirman Hamdan, Founder Mahira Tour</span>
                     </p>
                     
-                    {{-- Specific features from controller --}}
-                    <ul class="feature-list">
-                        @foreach($features as $feature)
-                        <li>
-                            <i class="{{ $feature['icon'] }}"></i>
-                            <span>{{ $feature['description'] }}</span>
-                        </li>
-                        @endforeach
-                    </ul>
-                    
-                    <div class="about-buttons">
-                        <a href="{{ route('about') }}" class="btn-primary">Tentang Kami</a>
-                        <a href="#partners" class="btn-text">Lihat Legalitas</a>
+                    <!-- Proof Points (Data-driven) -->
+                    <div class="trust-metrics">
+                        <div class="metric">
+                            <strong>2016</strong>
+                            <span>Tahun didirikan</span>
+                        </div>
+                        <div class="metric">
+                            <strong>1,234</strong>
+                            <span>Jamaah terlayani</span>
+                        </div>
+                        <div class="metric">
+                            <strong>4.9/5</strong>
+                            <span>Rating testimoni</span>
+                        </div>
                     </div>
+                    
+                    <!-- Single Strong CTA -->
+                    <a href="{{ route('about') }}" class="btn-story">
+                        Baca Cerita Lengkap 
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="about-image">
-                    <img src="{{ asset('images/hero/jamaah2.jpeg') }}" alt="Jamaah Mahira Tour di Masjidil Haram">
+                    <img src="{{ asset('images/hero/jamaah2.jpeg') }}" alt="Tim Mahira Tour bersama jamaah">
                 </div>
             </div>
         </div>
