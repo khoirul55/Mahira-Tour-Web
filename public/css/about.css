@@ -88,7 +88,7 @@
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(0, 29, 95, 0.85) 0%, rgba(0, 20, 64, 0.75) 100%);
+    background: rgba(0, 29, 95, 0.70);
     z-index: 2;
 }
 
@@ -100,7 +100,7 @@
     padding: 0 20px;
 }
 
-.breadcrumb {
+.breadcrumb-custom {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -112,17 +112,17 @@
     font-size: 0.9rem;
 }
 
-.breadcrumb a {
+.breadcrumb-custom a {
     color: var(--white);
     text-decoration: none;
     transition: opacity 0.3s;
 }
 
-.breadcrumb a:hover { 
+.breadcrumb-custom a:hover { 
     opacity: 0.8; 
 }
 
-.breadcrumb span {
+.breadcrumb-custom span {
     color: rgba(255,255,255,0.8);
 }
 
@@ -147,17 +147,19 @@
 
 
 .hero-tagline {
-    font-size: 1.5rem;
-    color: var(--accent);
+    font-size: 1.25rem;
+    color: var(--white);
+    opacity: 0.95;
     font-weight: 600;
-    margin-bottom: 10px;
-    font-family: 'Lora', serif;
+    margin-bottom: 5px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 .hero-desc {
     font-size: 1.1rem;
     color: var(--white);
-    opacity: 0.9;
+    opacity: 0.85;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 /* ===== QUICK STATS BAR ===== */
