@@ -632,9 +632,33 @@
                 <h4 class="partner-name">HIMPUH</h4>
                 <p class="partner-desc">Himpunan Penyelenggara Umrah Haji</p>
             </div>
+        </div>
         
+        {{-- Button Lihat Surat Izin --}}
+        <div class="text-center mt-4">
+            <button class="btn-view-legalitas" onclick="openPpiuModal()">
+                <i class="bi bi-file-earmark-text"></i> Lihat Surat Izin PPIU
+            </button>
+        </div>
     </div>
 </section>
+
+{{-- PPIU Modal Home --}}
+<div id="ppiuModal" class="ppiu-modal" onclick="if(event.target===this)closePpiuModal()">
+    <div class="ppiu-modal-content">
+        <button class="ppiu-modal-close" onclick="closePpiuModal()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+        <h4><i class="bi bi-file-earmark-check"></i> Surat Izin PPIU</h4>
+        <div class="ppiu-modal-image">
+            <img src="{{ Storage::url('surat/suratizin.jpg') }}" alt="Surat Izin PPIU Mahira Tour" loading="lazy">
+        </div>
+        <a href="{{ Storage::url('surat/suratizin.jpg') }}" download class="btn-download-ppiu">
+            <i class="bi bi-download"></i> Download Surat Izin
+        </a>
+    </div>
+</div>
+
 
 <!-- ==================== CTA SECTION ==================== -->
 <section class="cta-section">
@@ -673,4 +697,14 @@
 
 @push('scripts')
 <script src="{{ asset('js/home.js') }}"></script>
+<script>
+function openPpiuModal() {
+    document.getElementById('ppiuModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closePpiuModal() {
+    document.getElementById('ppiuModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+</script>
 @endpush

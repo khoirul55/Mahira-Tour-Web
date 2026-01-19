@@ -32,25 +32,6 @@
     </div>
 </section>
 
-{{-- QUICK STATS BAR --}}
-<section class="quick-stats-bar">
-    <div class="container">
-        <div class="stats-bar-grid">
-            @foreach($stats as $stat)
-            <div class="stat-bar-item">
-                <div class="stat-bar-icon">
-                    <i class="bi {{ $stat['icon'] }}"></i>
-                </div>
-                <div class="stat-bar-content">
-                    <span class="stat-bar-number">{{ $stat['number'] }}</span>
-                    <span class="stat-bar-label">{{ $stat['label'] }}</span>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-
 {{-- FOUNDER STORY --}}
 <section class="founder-story-section">
     <div class="container">
@@ -291,6 +272,9 @@
                         <span class="value">{{ $ppiuInfo['issuer'] }}</span>
                     </div>
                 </div>
+                <button class="btn-view-ppiu" onclick="openPpiuModal()">
+                    <i class="bi bi-file-earmark-text"></i> Lihat Surat Izin
+                </button>
             </div>
         </div>
         
@@ -370,10 +354,37 @@
     </div>
 </section>
 
+{{-- PPIU Modal --}}
+<div id="ppiuModal" class="ppiu-modal" onclick="if(event.target===this)closePpiuModal()">
+    <div class="ppiu-modal-content">
+        <button class="ppiu-modal-close" onclick="closePpiuModal()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+        <h4><i class="bi bi-file-earmark-check"></i> Surat Izin PPIU</h4>
+        <div class="ppiu-modal-image">
+            <img src="{{ Storage::url('surat/suratizin.jpg') }}" alt="Surat Izin PPIU Mahira Tour" loading="lazy">
+        </div>
+        <a href="{{ Storage::url('surat/suratizin.jpg') }}" download class="btn-download-ppiu">
+            <i class="bi bi-download"></i> Download Surat Izin
+        </a>
+    </div>
+</div>
+
 @endsection
+
 
 @push('scripts')
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>const branchesData = @json($branches);</script>
 <script src="{{ asset('js/about.js') }}"></script>
+<script>
+function openPpiuModal() {
+    document.getElementById('ppiuModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closePpiuModal() {
+    document.getElementById('ppiuModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+</script>
 @endpush

@@ -1253,3 +1253,144 @@
         font-size: 1rem;
     }
 }
+
+/* ========== PPIU BUTTON & MODAL ========== */
+.btn-view-ppiu {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: rgba(255,255,255,0.2);
+    color: var(--white);
+    border: 2px solid rgba(255,255,255,0.4);
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.btn-view-ppiu:hover {
+    background: var(--white);
+    color: var(--primary);
+    border-color: var(--white);
+    transform: translateY(-2px);
+}
+
+.ppiu-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.ppiu-modal.active {
+    display: flex;
+}
+
+.ppiu-modal-content {
+    background: white;
+    border-radius: 20px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    padding: 30px;
+    animation: ppiuModalZoom 0.3s ease;
+}
+
+@keyframes ppiuModalZoom {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.ppiu-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: #F3F4F6;
+    color: #374151;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s;
+}
+
+.ppiu-modal-close:hover {
+    background: var(--primary);
+    color: white;
+    transform: rotate(90deg);
+}
+
+.ppiu-modal-content h4 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ppiu-modal-content h4 i {
+    color: var(--accent);
+}
+
+.ppiu-modal-image {
+    background: #F9FAFB;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.ppiu-modal-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-download-ppiu {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, var(--success), #0D9488);
+    color: white;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    width: 100%;
+    justify-content: center;
+}
+
+.btn-download-ppiu:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    color: white;
+}
+
+@media (max-width: 576px) {
+    .ppiu-modal-content {
+        padding: 20px;
+    }
+    
+    .ppiu-modal-content h4 {
+        font-size: 1.1rem;
+    }
+}
