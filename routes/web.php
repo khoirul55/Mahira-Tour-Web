@@ -438,19 +438,7 @@ Route::post('/registration/{id}/submit-pelunasan', [RegistrationController::clas
 // ============================================
 // Tambahkan di luar middleware admin
 
-Route::post('/api/jamaah/{id}/passport-request', function(Request $request, $id) {
-    $jamaah = \App\Models\Jamaah::findOrFail($id);
-    
-    $jamaah->update([
-        'need_passport' => $request->need_passport ?? true,
-        'passport_request_at' => now()
-    ]);
-    
-    return response()->json([
-        'success' => true,
-        'message' => 'Request passport berhasil disimpan'
-    ]);
-})->name('api.jamaah.passport-request');
+Route::post('/api/jamaah/{id}/passport-request', [RegistrationController::class, 'passportRequest'])->name('api.jamaah.passport-request');
 // ROUTE FALLBACK (404 Page)
 // ============================================
 

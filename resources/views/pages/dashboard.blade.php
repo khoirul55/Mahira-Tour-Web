@@ -1502,7 +1502,7 @@ function dashboardApp() {
             this.jamaahNumber = number;
             
             try {
-                const response = await fetch(`/api/jamaah/${id}`);
+                const response = await fetch(`/api/jamaah/${id}?token={{ request('token') }}`);
                 const data = await response.json();
                 
                 this.jamaahData = {
@@ -1535,7 +1535,7 @@ function dashboardApp() {
             this.isSubmitting = true;
             
             try {
-                const response = await fetch(`/api/jamaah/${this.jamaahId}`, {
+                const response = await fetch(`/api/jamaah/${this.jamaahId}?token={{ request('token') }}`, {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
@@ -1650,7 +1650,7 @@ function dashboardApp() {
                 
                 // Save no passport preference
                 if (this.noPassport) {
-                    await fetch(`/api/jamaah/${this.docJamaahId}/passport-request`, {
+                    await fetch(`/api/jamaah/${this.docJamaahId}/passport-request?token={{ request('token') }}`, {
                         method: 'POST',
                         headers: {
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,

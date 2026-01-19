@@ -401,9 +401,14 @@ public function submitPelunasan(Request $request, $registrationId)
     /**
      * API: Get Jamaah Data
      */
-    public function getJamaahData($id)
+    public function getJamaahData(Request $request, $id)
     {
-        $jamaah = Jamaah::findOrFail($id);
+        $jamaah = Jamaah::with('registration')->findOrFail($id);
+        $token = $request->query('token') ?: $request->cookie('mahira_dashboard_token');
+
+        if (!$token || !$jamaah->registration->validateAccessToken($token)) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
         
         return response()->json([
             'id' => $jamaah->id,
@@ -431,6 +436,13 @@ public function submitPelunasan(Request $request, $registrationId)
      */
     public function updateJamaahData(Request $request, $id)
     {
+        $jamaah = Jamaah::with('registration')->findOrFail($id);
+        $token = $request->query('token') ?: $request->cookie('mahira_dashboard_token');
+
+        if (!$token || !$jamaah->registration->validateAccessToken($token)) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
         $validated = $request->validate([
             'title' => 'required|string',
             'full_name' => 'required|string|min:3',
@@ -451,7 +463,6 @@ public function submitPelunasan(Request $request, $registrationId)
         ]);
         
         try {
-            $jamaah = Jamaah::findOrFail($id);
             $jamaah->update($validated);
             $jamaah->updateCompletionStatus();
             
@@ -465,5 +476,28 @@ public function submitPelunasan(Request $request, $registrationId)
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+    /**
+     * API: Passport Request
+     */
+    public function passportRequest(Request $request, $id)
+    {
+        $jamaah = Jamaah::with('registration')->findOrFail($id);
+        $token = $request->query('token') ?: $request->cookie('mahira_dashboard_token');
+
+        if (!$token || !$jamaah->registration->validateAccessToken($token)) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        $jamaah->update([
+            'need_passport' => $request->need_passport ?? true,
+            'passport_request_at' => now()
+        ]);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Request passport berhasil disimpan'
+        ]);
     }
 }
