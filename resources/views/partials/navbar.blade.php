@@ -5,7 +5,6 @@
     <div class="navbar-container">
         <a href="{{ url('/') }}" class="navbar-logo">
             <img src="{{ asset('images/mahira-logo.png') }}" alt="Mahira Tour">
-            <span class="logo-text">Mahira Tour</span>
         </a>
 
         {{-- Desktop Menu --}}
