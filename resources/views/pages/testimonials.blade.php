@@ -18,7 +18,7 @@
         <div class="hero-overlay"></div>
         
         <div class="hero-content">
-            <div class="breadcrumb">
+            <div class="breadcrumb-custom">
                 <a href="{{ route('home') }}">
                     <i class="bi bi-house-door-fill"></i> Beranda
                 </a>
@@ -38,6 +38,7 @@
         
         <!-- Video Testimonials Section -->
         <div class="section-header-zen">
+            <div class="section-badge">Video Testimoni</div>
             <h2>Video Testimoni</h2>
             <p>Dengarkan langsung pengalaman jamaah kami</p>
         </div>
@@ -46,13 +47,10 @@
             <!-- Video 1 -->
             <div class="video-card-zen">
                 <div class="video-wrapper-zen">
-                    <iframe 
-                        src="https://www.youtube.com/embed/B-JQ7BGS5i8" 
-                        title="Testimoni Jamaah Mahira Tour"
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
+                    <div class="youtube-lite" data-id="B-JQ7BGS5i8">
+                        <img src="https://img.youtube.com/vi/B-JQ7BGS5i8/hqdefault.jpg" alt="Thumnbail Testimoni">
+                        <div class="play-btn"></div>
+                    </div>
                 </div>
                 <div class="video-caption-zen">
                     <h4>Pengalaman Umrah Luar Biasa</h4>
@@ -63,13 +61,10 @@
             <!-- Video 2 -->
             <div class="video-card-zen">
                 <div class="video-wrapper-zen">
-                    <iframe 
-                        src="https://www.youtube.com/embed/lSbViwp5fCA" 
-                        title="Testimoni Jamaah Mahira Tour"
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
+                    <div class="youtube-lite" data-id="lSbViwp5fCA">
+                        <img src="https://img.youtube.com/vi/lSbViwp5fCA/hqdefault.jpg" alt="Thumnbail Testimoni">
+                        <div class="play-btn"></div>
+                    </div>
                 </div>
                 <div class="video-caption-zen">
                     <h4>Pelayanan Sangat Memuaskan</h4>
@@ -80,13 +75,10 @@
             <!-- Video 3 -->
             <div class="video-card-zen">
                 <div class="video-wrapper-zen">
-                    <iframe 
-                        src="https://www.youtube.com/embed/JgQmegExd5A" 
-                        title="Testimoni Jamaah Mahira Tour"
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
+                    <div class="youtube-lite" data-id="JgQmegExd5A">
+                        <img src="https://img.youtube.com/vi/JgQmegExd5A/hqdefault.jpg" alt="Thumnbail Testimoni">
+                        <div class="play-btn"></div>
+                    </div>
                 </div>
                 <div class="video-caption-zen">
                     <h4>Bimbingan Spiritual Berkualitas</h4>
@@ -100,6 +92,7 @@
 
         <!-- Text Testimonials Section -->
         <div class="section-header-zen">
+            <div class="section-badge">Cerita Jamaah</div>
             <h2>Apa Kata Mereka</h2>
             <p>Cerita inspiratif dari jamaah yang telah berangkat</p>
         </div>
@@ -158,4 +151,25 @@
         </section>
 
     </main>
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const youtubeLites = document.querySelectorAll('.youtube-lite');
+        
+        youtubeLites.forEach(lite => {
+            lite.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const iframe = document.createElement('iframe');
+                iframe.setAttribute('src', `https://www.youtube.com/embed/${id}?autoplay=1`);
+                iframe.setAttribute('title', 'YouTube video player');
+                iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+                iframe.setAttribute('allowfullscreen', '1');
+                
+                this.parentNode.replaceChild(iframe, this);
+            });
+        });
+    });
+</script>
+@endpush
 @endsection

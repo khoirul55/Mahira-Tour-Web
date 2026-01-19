@@ -83,10 +83,7 @@
     animation: kenBurns 20s ease-in-out infinite alternate;
 }
 
-@keyframes kenBurns {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.08); }
-}
+
 
 .hero-overlay {
     position: absolute;
@@ -147,16 +144,7 @@
 .hero h1 .word:nth-child(1) { animation-delay: 0.3s; }
 .hero h1 .word:nth-child(2) { animation-delay: 0.5s; }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+
 
 .hero-tagline {
     font-size: 1.5rem;
@@ -1069,7 +1057,7 @@
 .btn-primary-cta,
 .btn-outline-cta {
     padding: 16px 32px;
-    border-radius: 12px;
+    border-radius: 50px;
     font-size: 1rem;
     font-weight: 600;
     text-decoration: none;
@@ -1306,10 +1294,7 @@
     animation: ppiuModalZoom 0.3s ease;
 }
 
-@keyframes ppiuModalZoom {
-    from { transform: scale(0.9); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
+
 
 .ppiu-modal-close {
     position: absolute;

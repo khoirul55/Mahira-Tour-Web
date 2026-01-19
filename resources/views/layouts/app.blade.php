@@ -21,6 +21,11 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     
+    <!-- Global CSS Variables -->
+    <link rel="stylesheet" href="{{ asset('css/variables.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/animations.css') }}">
+    
     <!-- Navbar CSS - Load before Vite -->
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
     
@@ -93,19 +98,5 @@
     
     <!-- Page-specific scripts -->
     @stack('scripts')
-    
-    <!-- Debug Alpine (remove in production) -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Alpine version:', window.Alpine ? window.Alpine.version : 'NOT LOADED');
-            
-            // Test if Alpine is working
-            if (!window.Alpine) {
-                console.error('⚠️ Alpine.js NOT loaded! Check app.js');
-            } else {
-                console.log('✅ Alpine.js loaded successfully');
-            }
-        });
-    </script>
 </body>
 </html>

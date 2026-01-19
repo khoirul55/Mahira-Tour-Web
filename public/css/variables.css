@@ -1,0 +1,27 @@
+:root {
+    /* Color Palette */
+    --primary: #001D5F;
+    --primary-dark: #001440;
+    --accent: #D4AF37;
+    --gold: #D4AF37; /* Alias for --accent */
+    --primary-navy: #001D5F; /* Alias for --primary */
+    --success: #10B981;
+    --white: #FFFFFF;
+    --light: #F8F9FA;
+    --gray: #6B7280;
+    --dark: #1F2937;
+    
+    /* Semantic Colors */
+    --text-dark: #1F2937;
+    --text-medium: #4B5563;
+    --text-light: #9CA3AF;
+    --border: #E5E7EB;
+    --bg-main: #F9FAFB;
+    --bg-white: #FFFFFF;
+    
+    /* Spacing & Sizing */
+    --section-padding: 100px;
+    --container-max: 1200px;
+    --br-action: 12px;
+    --br-cta: 50px;
+}

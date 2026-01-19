@@ -49,10 +49,7 @@ body {
     animation: kenBurns 20s ease-in-out infinite alternate;
 }
 
-@keyframes kenBurns {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.08); }
-}
+
 
 .hero-overlay {
     position: absolute;
@@ -72,7 +69,7 @@ body {
     padding: 0 20px;
 }
 
-.breadcrumb {
+.breadcrumb-custom {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -85,17 +82,17 @@ body {
     animation: fadeIn 0.8s ease 0.2s backwards;
 }
 
-.breadcrumb a {
+.breadcrumb-custom a {
     color: white;
     text-decoration: none;
     transition: opacity 0.3s;
 }
 
-.breadcrumb a:hover { 
+.breadcrumb-custom a:hover { 
     opacity: 0.8; 
 }
 
-.breadcrumb span {
+.breadcrumb-custom span {
     color: rgba(255,255,255,0.8);
 }
 
@@ -118,16 +115,7 @@ body {
 .hero h1 .word:nth-child(1) { animation-delay: 0.3s; }
 .hero h1 .word:nth-child(2) { animation-delay: 0.5s; }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+
 
 .hero p {
     font-size: 1.25rem;
@@ -155,6 +143,18 @@ body {
     text-align: center;
     margin-bottom: 3rem;
     margin-top: 4rem;
+}
+
+.section-badge {
+    display: inline-block;
+    color: #D4AF37;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    padding-bottom: 4px;
+    border-bottom: 2px solid #D4AF37;
 }
 
 .section-header-zen h2 {
@@ -200,6 +200,56 @@ body {
     padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
     background: var(--bg-main);
     overflow: hidden;
+}
+
+.youtube-lite {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.youtube-lite img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.youtube-lite:hover img {
+    opacity: 0.9;
+}
+
+.youtube-lite .play-btn {
+    position: absolute;
+    width: 68px;
+    height: 48px;
+    background-color: rgba(255, 0, 0, 0.9);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    z-index: 2;
+}
+
+.youtube-lite .play-btn::before {
+    content: "";
+    border-style: solid;
+    border-width: 10px 0 10px 18px;
+    border-color: transparent transparent transparent #fff;
+}
+
+.youtube-lite:hover .play-btn {
+    background-color: #ff0000;
+    transform: scale(1.1);
 }
 
 .video-wrapper-zen iframe {
@@ -251,6 +301,8 @@ body {
     border: 1px solid var(--border);
     position: relative;
     transition: all 0.3s ease;
+    border-radius: 16px;
+    overflow: hidden;
 }
 
 .testimonial-card-zen::before {
@@ -415,6 +467,7 @@ body {
     letter-spacing: 0.5px;
     transition: all 0.3s ease;
     border: 1px solid var(--primary);
+    border-radius: 50px;
 }
 
 .btn-zen:hover {

@@ -16,7 +16,7 @@
     </div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-        <div class="breadcrumb">
+        <div class="breadcrumb-custom">
             <a href="{{ route('home') }}">
                 <i class="bi bi-house-door-fill"></i> Beranda
             </a>
