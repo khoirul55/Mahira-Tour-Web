@@ -38,6 +38,11 @@ class Document extends Model
         return Storage::url($this->file_path);
     }
 
+    public function verifier()
+    {
+        return $this->belongsTo(Admin::class, 'verified_by');
+    }
+
     public function delete()
     {
         // Delete file from storage

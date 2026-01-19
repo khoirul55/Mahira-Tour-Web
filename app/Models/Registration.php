@@ -185,4 +185,9 @@ class Registration extends Model
     {
         return $this->hasMany(Payment::class);
     }
+
+    public function assignedAdmin()
+    {
+        return $this->belongsTo(Admin::class, 'assigned_to');
+    }
 }
