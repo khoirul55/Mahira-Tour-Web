@@ -222,6 +222,28 @@
 </section>
 {{-- MOVE THIS SECTION AFTER "WHY CHOOSE US" --}}
 
+</section>
+
+<!-- ==================== HADITH SECTION ==================== -->
+<section class="hadith-section">
+    <div class="hadith-overlay"></div>
+    <div class="container">
+        <div class="hadith-content" data-aos="fade-up">
+            <div class="hadith-icon">
+                <i class="bi bi-quote"></i>
+            </div>
+            <h3 class="hadith-text">
+                "Laksanakanlah haji dan umrah secara berturut-turut, karena keduanya dapat menghilangkan kefakiran dan dosa, sebagaimana api menghilangkan karat pada besi."
+            </h3>
+            <div class="hadith-source">
+                <span class="source-line"></span>
+                <span class="source-text">HR. Tirmidzi</span>
+                <span class="source-line"></span>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- ==================== STATS SECTION ==================== -->
 <section class="stats-section">
     <div class="container">

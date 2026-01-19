@@ -432,6 +432,79 @@ body {
     margin: 0;
 }
 
+/* ========== HADITH PARALLAX SECTION ========== */
+.hadith-section {
+    position: relative;
+    background-image: url('../images/hero/hero-about.jpeg'); /* Placeholder Image */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 140px 0;
+    text-align: center;
+    color: white;
+}
+
+.hadith-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0, 20, 64, 0.85) 0%, rgba(0, 29, 95, 0.75) 100%);
+    backdrop-filter: blur(2px);
+    z-index: 1;
+}
+
+.hadith-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hadith-icon {
+    font-size: 48px;
+    color: var(--gold);
+    margin-bottom: 32px;
+    opacity: 0.9;
+}
+
+.hadith-text {
+    font-family: 'Lora', serif;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    font-style: italic;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.hadith-source {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.source-line {
+    height: 1px;
+    width: 60px;
+    background: var(--gold);
+    opacity: 0.6;
+}
+
+.source-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Responsive Hadith */
+@media (max-width: 768px) {
+    .hadith-text { font-size: 24px; }
+    .hadith-section { padding: 100px 0; }
+}
+
 /* ========== PACKAGE ========== */
 .package-section {
     padding: 100px 0;
