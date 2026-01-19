@@ -26,86 +26,115 @@
             <span class="word">Tentang</span> 
             <span class="word">Mahira Tour</span>
         </h1>
-        <p>{{ $companyInfo['tagline'] }} - Mitra terpercaya perjalanan ibadah Anda sejak 2016</p>
+        <p>Mitra terpercaya perjalanan ibadah Anda sejak 2016</p>
     </div>
 </section>
 
-{{-- PROFILE --}}
-<section class="profile-section-hero">
+{{-- FOUNDER STORY --}}
+<section class="founder-story-section">
     <div class="container">
-        <div class="profile-hero-image">
-            <img src="{{ asset('storage/hero/about.png') }}" alt="Mahira Tour Office" loading="lazy">
+        <div class="section-header-center">
+            <div class="section-badge">Cerita Kami</div>
+            <h2 class="section-title">Dari Mimpi Keluarga Kecil,<br>Kini Melayani Ribuan Jamaah</h2>
         </div>
         
-        <div class="profile-content-centered">
-            <div class="section-badge">Profil Perusahaan</div>
-            <h2 class="profile-title">{{ $companyInfo['name'] }}</h2>
-            <p class="profile-description">{{ $companyInfo['description'] }}</p>
+        {{-- Founder Photos --}}
+        <div class="founders-grid">
+            <div class="founder-card">
+                <div class="founder-photo">
+                    <img src="{{ asset('storage/team/direktur.webp') }}" alt="Khilal Hamdan">
+                </div>
+                <h4>Ust. Khilal Hamdan</h4>
+                <p>Co-Founder & Direktur</p>
+            </div>
+            <div class="founder-card">
+                <div class="founder-photo">
+                    <img src="{{ asset('storage/team/komisaris.webp') }}" alt="Nadirman Hamdan">
+                </div>
+                <h4>Ust. Nadirman Hamdan</h4>
+                <p>Co-Founder & Komisaris</p>
+            </div>
+        </div>
+        
+        {{-- Story Content --}}
+        <div class="story-content">
+            <div class="story-quote">
+                <i class="bi bi-quote"></i>
+                <p>"Tahun 2016, kami berangkat umrah pertama kali. Pengalaman yang mengubah hidup. 
+                Dari situ lahir mimpi: <strong>membantu keluarga Indonesia merasakan momen spiritual yang sama.</strong> 
+                Kami tahu perjalanan ibadah bukan hanya soal tiket dan hotel, tapi tentang membangun kenangan 
+                yang akan diingat selamanya."</p>
+                <span class="quote-author">— Ust. Khilal Hamdan & Ust. Nadirman Hamdan</span>
+            </div>
             
-            <div class="info-grid">
-                <div class="info-item">
-                    <div class="info-icon">
-                        <i class="bi bi-calendar-check-fill"></i>
-                    </div>
-                    <div class="info-text">
-                        <span class="info-label">Berdiri sejak</span>
-                        <strong class="info-value">{{ $companyInfo['founded'] }}</strong>
-                    </div>
-                </div>
-                
-                <div class="info-item">
-                    <div class="info-icon">
-                        <i class="bi bi-shield-fill-check"></i>
-                    </div>
-                    <div class="info-text">
-                        <span class="info-label">Izin PPIU Resmi</span>
-                        <strong class="info-value">{{ $companyInfo['ppiu_date'] }}</strong>
+            {{-- Timeline --}}
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2016</div>
+                    <div class="timeline-content">
+                        <h5>Awal Mula</h5>
+                        <p>Berangkat umrah pertama kali dan merasakan pengalaman spiritual yang mengubah hidup</p>
                     </div>
                 </div>
-                
-                <div class="info-item">
-                    <div class="info-icon">
-                        <i class="bi bi-building"></i>
-                    </div>
-                    <div class="info-text">
-                        <span class="info-label">Cabang</span>
-                        <strong class="info-value">7 Kota</strong>
+                <div class="timeline-item">
+                    <div class="timeline-year">2023</div>
+                    <div class="timeline-content">
+                        <h5>Resmi Berizin</h5>
+                        <p>Mendapat izin resmi PPIU dari Kementerian Agama RI</p>
                     </div>
                 </div>
-            
+                <div class="timeline-item">
+                    <div class="timeline-year">2026</div>
+                    <div class="timeline-content">
+                        <h5>Lebih dari 5000 Jamaah</h5>
+                        <p>Telah melayani ribuan keluarga Indonesia dengan penuh dedikasi</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-{{-- VISION & MISSION --}}
-<section class="vision-section">
+{{-- OUR VALUES --}}
+<section class="values-section">
     <div class="container">
-        <div class="section-header">
-            <h2 class="section-title-main">Visi dan Misi</h2>
+        <div class="section-header-center">
+            <div class="section-badge">Nilai-Nilai Kami</div>
+            <h2 class="section-title">Komitmen yang Kami Pegang</h2>
+            <p class="section-subtitle">Prinsip yang memandu setiap langkah kami dalam melayani jamaah</p>
         </div>
         
-        <div class="vision-content-flat">
-            <div class="vision-box-flat">
-                <div class="vision-icon-flat">
-                    <i class="bi bi-eye-fill"></i>
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="bi bi-shield-check"></i>
                 </div>
-                <h3>Visi</h3>
-                <p>{{ $visionMission['vision'] }}</p>
+                <h4>Amanah</h4>
+                <p>Menjaga kepercayaan jamaah sebagai tanggung jawab utama dalam setiap pelayanan</p>
             </div>
             
-            <div class="mission-box-flat">
-                <div class="mission-icon-flat">
-                    <i class="bi bi-bullseye"></i>
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="bi bi-award"></i>
                 </div>
-                <h3>Misi</h3>
-                <ul class="mission-list-flat">
-                    <li>Menyediakan Produk Layanan yang Variatif dan kompetitif</li>
-                    <li>Menjaga & Memproteksi kepercayaan perusahaan</li>
-                    <li>Memberikan Generasi Baru yang Profesional</li>
-                    <li>Melayani dengan dedikasi dan keikhlasan</li>
-                    <li>Bimbingan lengkap untuk pemahaman ibadah</li>
-                </ul>
+                <h4>Profesional</h4>
+                <p>Memberikan layanan terbaik dengan standar kualitas tertinggi dan tim berpengalaman</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="bi bi-heart"></i>
+                </div>
+                <h4>Ikhlas</h4>
+                <p>Melayani dengan hati yang tulus untuk membantu mewujudkan ibadah jamaah</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="bi bi-people"></i>
+                </div>
+                <h4>Peduli</h4>
+                <p>Memahami kebutuhan setiap jamaah dan memberikan perhatian penuh di setiap perjalanan</p>
             </div>
         </div>
     </div>
@@ -114,9 +143,9 @@
 {{-- LEADERSHIP --}}
 <section class="leadership">
     <div class="container">
-        <div class="section-header">
+        <div class="section-header-center">
             <div class="section-badge">Kepemimpinan</div>
-            <h2 class="section-title">Pimpinan Mahira Tour</h2>
+            <h2 class="section-title">Tim Pimpinan Mahira Tour</h2>
             <p class="section-subtitle">Dipimpin oleh profesional berpengalaman di bidang travel dan layanan haji & umrah</p>
         </div>
         
@@ -148,48 +177,69 @@
     </div>
 </section>
 
-{{-- LEGALITAS --}}
-<section class="legalitas">
+{{-- TRUST & CERTIFIED (Stats + Legal gabung) --}}
+<section class="trust-certified-section">
     <div class="container">
-        <div class="section-header">
-            <div class="section-badge">Berizin Resmi & Terpercaya</div>
-            <h2 class="section-title">Legalitas & Keanggotaan</h2>
-            <p class="section-subtitle">Terdaftar dan diawasi oleh lembaga resmi pemerintah</p>
+        <div class="section-header-center">
+            <div class="section-badge">Dipercaya & Bersertifikat</div>
+            <h2 class="section-title">Terpercaya oleh Ribuan Jamaah</h2>
+            <p class="section-subtitle">Dengan izin resmi dan pengawasan dari lembaga pemerintah</p>
         </div>
         
-        <div class="legal-grid">
-            <div class="legal-card">
+        {{-- Stats --}}
+        <div class="stats-grid-compact">
+            <div class="stat-item-compact">
+                <div class="stat-number">5000+</div>
+                <div class="stat-label">Jamaah Terlayani</div>
+            </div>
+            <div class="stat-item-compact">
+                <div class="stat-number">10+</div>
+                <div class="stat-label">Tahun Berpengalaman</div>
+            </div>
+            <div class="stat-item-compact">
+                <div class="stat-number">45+</div>
+                <div class="stat-label">Keberangkatan/Tahun</div>
+            </div>
+            <div class="stat-item-compact">
+                <div class="stat-number">4.9/5</div>
+                <div class="stat-label">Rating Testimoni</div>
+            </div>
+        </div>
+        
+        {{-- Legal Partners --}}
+        <div class="legal-grid-compact">
+            <div class="legal-card-compact">
                 <div class="legal-logo">
                     <img src="{{ asset('images/partners/kemenag.png') }}" alt="Kementerian Agama RI" loading="lazy">
                 </div>
-                <h4 class="legal-title">Kementerian Agama RI</h4>
-                <p class="legal-desc">Penyelenggara Perjalanan Ibadah Umrah Resmi</p>
-                <span class="legal-number">21062301498960002</span>
+                <h5>Kementerian Agama RI</h5>
+                <p>PPIU No: 21062301498960002</p>
             </div>
             
-            <div class="legal-card">
+            <div class="legal-card-compact">
                 <div class="legal-logo">
                     <img src="{{ asset('images/partners/siskopatuh.png') }}" alt="Siskopatuh" loading="lazy">
                 </div>
-                <h4 class="legal-title">Siskopatuh</h4>
-                <p class="legal-desc">Sistem Komputerisasi Haji Terpadu</p>
+                <h5>Siskopatuh</h5>
+                <p>Sistem Komputerisasi Haji</p>
             </div>
             
-            <div class="legal-card">
+            <div class="legal-card-compact">
                 <div class="legal-logo">
                     <img src="{{ asset('images/partners/himpuh.png') }}" alt="HIMPUH" loading="lazy">
                 </div>
-                <h4 class="legal-title">HIMPUH</h4>
-                <p class="legal-desc">Himpunan Penyelenggara Umrah Haji</p>
+                <h5>HIMPUH</h5>
+                <p>Himpunan Penyelenggara Umrah</p>
             </div>
         </div>
     </div>
 </section>
-{{-- BRANCHES SECTION --}}
+
+{{-- BRANCHES --}}
 <section class="branches">
     <div class="container">
-        <div class="section-header">
-            <div class="section-badge">7 Cabang di Indonesia dan 2 Cabang di luar negeri</div>
+        <div class="section-header-center">
+            <div class="section-badge">7 Cabang di Indonesia & 2 Cabang Internasional</div>
             <h2 class="section-title">Lokasi Cabang Mahira Tour</h2>
             <p class="section-subtitle">Klik kartu cabang atau marker pada peta untuk melihat detail lokasi</p>
         </div>
@@ -208,7 +258,26 @@
     </div>
 </section>
 
-
+{{-- CTA SECTION --}}
+<section class="cta-about">
+    <div class="container">
+        <div class="cta-content-about">
+            <h2>Siap Memulai Perjalanan Spiritual Anda?</h2>
+            <p>Hubungi kami untuk konsultasi gratis dan temukan paket yang sesuai kebutuhan Anda</p>
+            <div class="cta-buttons-about">
+                <a href="https://wa.me/6282184515310?text=Assalamualaikum,%20saya%20ingin%20konsultasi%20paket%20umrah" 
+                   class="btn-primary-cta" target="_blank">
+                    <i class="bi bi-whatsapp"></i>
+                    Konsultasi via WhatsApp
+                </a>
+                <a href="{{ route('schedule') }}" class="btn-outline-cta">
+                    <i class="bi bi-calendar-check"></i>
+                    Lihat Jadwal Keberangkatan
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
 
 @endsection
 
