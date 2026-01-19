@@ -82,6 +82,35 @@ class AboutController extends Controller
         ]
     ];
     
-    return view('pages.about', compact('companyInfo', 'visionMission', 'leadership', 'branches'));
+    // Team Members (placeholder - bisa diisi nanti)
+    $team = [
+        // Uncomment dan isi data tim setelah foto tersedia
+        // ['name' => 'Nama Tim', 'position' => 'Customer Service', 'photo' => 'team/nama.webp'],
+    ];
+    
+    // Quick Stats
+    $stats = [
+        ['number' => '5000+', 'label' => 'Jamaah Terlayani', 'icon' => 'bi-people-fill'],
+        ['number' => '10+', 'label' => 'Tahun Berpengalaman', 'icon' => 'bi-calendar-check'],
+        ['number' => '7', 'label' => 'Cabang di Indonesia', 'icon' => 'bi-geo-alt-fill'],
+        ['number' => '45+', 'label' => 'Keberangkatan/Tahun', 'icon' => 'bi-airplane-fill'],
+    ];
+    
+    // PPIU Info
+    $ppiuInfo = [
+        'number' => '21062301498960002',
+        'date' => '15 Februari 2025',
+        'issuer' => 'Kementerian Agama Republik Indonesia',
+    ];
+    
+    return view('pages.about', compact(
+        'companyInfo', 
+        'visionMission', 
+        'leadership', 
+        'branches', 
+        'team', 
+        'stats',
+        'ppiuInfo'
+    ));
     }
 }

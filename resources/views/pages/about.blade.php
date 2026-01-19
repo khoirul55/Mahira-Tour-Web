@@ -3,6 +3,7 @@
 @section('title', 'Tentang Kami - Mahira Tour')
 
 @push('styles')
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <link rel="stylesheet" href="{{ asset('css/about.css') }}">
 @endpush
 
@@ -26,7 +27,27 @@
             <span class="word">Tentang</span> 
             <span class="word">Mahira Tour</span>
         </h1>
-        <p>Mitra terpercaya perjalanan ibadah Anda sejak 2016</p>
+        <p class="hero-tagline">{{ $companyInfo['tagline'] }}</p>
+        <p class="hero-desc">Mitra terpercaya perjalanan ibadah Anda sejak {{ $companyInfo['founded'] }}</p>
+    </div>
+</section>
+
+{{-- QUICK STATS BAR --}}
+<section class="quick-stats-bar">
+    <div class="container">
+        <div class="stats-bar-grid">
+            @foreach($stats as $stat)
+            <div class="stat-bar-item">
+                <div class="stat-bar-icon">
+                    <i class="bi {{ $stat['icon'] }}"></i>
+                </div>
+                <div class="stat-bar-content">
+                    <span class="stat-bar-number">{{ $stat['number'] }}</span>
+                    <span class="stat-bar-label">{{ $stat['label'] }}</span>
+                </div>
+            </div>
+            @endforeach
+        </div>
     </div>
 </section>
 
@@ -38,58 +59,103 @@
             <h2 class="section-title">Dari Mimpi Keluarga Kecil,<br>Kini Melayani Ribuan Jamaah</h2>
         </div>
         
-        {{-- Founder Photos --}}
-        <div class="founders-grid">
-            <div class="founder-card">
-                <div class="founder-photo">
-                    <img src="{{ asset('storage/team/direktur.webp') }}" alt="Khilal Hamdan">
+        <div class="founder-story-layout">
+            {{-- Founder Photos --}}
+            <div class="founders-side">
+                @foreach($leadership as $leader)
+                <div class="founder-card-compact">
+                    <div class="founder-photo-compact">
+                        @if($leader['name'] == 'Khilal Hamdan')
+                            <img src="{{ asset('storage/team/direktur.webp') }}" alt="{{ $leader['name'] }}">
+                        @elseif($leader['name'] == 'Nadirman Hamdan')
+                            <img src="{{ asset('storage/team/komisaris.webp') }}" alt="{{ $leader['name'] }}">
+                        @else
+                            <div class="placeholder-compact">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                        @endif
+                    </div>
+                    <h4>Ust. {{ $leader['name'] }}</h4>
+                    <p>{{ $leader['position'] }}</p>
                 </div>
-                <h4>Ust. Khilal Hamdan</h4>
-                <p>Co-Founder & Direktur</p>
-            </div>
-            <div class="founder-card">
-                <div class="founder-photo">
-                    <img src="{{ asset('storage/team/komisaris.webp') }}" alt="Nadirman Hamdan">
-                </div>
-                <h4>Ust. Nadirman Hamdan</h4>
-                <p>Co-Founder & Komisaris</p>
-            </div>
-        </div>
-        
-        {{-- Story Content --}}
-        <div class="story-content">
-            <div class="story-quote">
-                <i class="bi bi-quote"></i>
-                <p>"Tahun 2016, kami berangkat umrah pertama kali. Pengalaman yang mengubah hidup. 
-                Dari situ lahir mimpi: <strong>membantu keluarga Indonesia merasakan momen spiritual yang sama.</strong> 
-                Kami tahu perjalanan ibadah bukan hanya soal tiket dan hotel, tapi tentang membangun kenangan 
-                yang akan diingat selamanya."</p>
-                <span class="quote-author">— Ust. Khilal Hamdan & Ust. Nadirman Hamdan</span>
+                @endforeach
             </div>
             
-            {{-- Timeline --}}
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-year">2016</div>
-                    <div class="timeline-content">
-                        <h5>Awal Mula</h5>
-                        <p>Berangkat umrah pertama kali dan merasakan pengalaman spiritual yang mengubah hidup</p>
+            {{-- Story Content --}}
+            <div class="story-side">
+                <div class="story-quote">
+                    <i class="bi bi-quote"></i>
+                    <p>"Tahun 2016, kami berangkat umrah pertama kali. Pengalaman yang mengubah hidup. 
+                    Dari situ lahir mimpi: <strong>membantu keluarga Indonesia merasakan momen spiritual yang sama.</strong> 
+                    Kami tahu perjalanan ibadah bukan hanya soal tiket dan hotel, tapi tentang membangun kenangan 
+                    yang akan diingat selamanya."</p>
+                    <span class="quote-author">— Ust. Khilal Hamdan & Ust. Nadirman Hamdan</span>
+                </div>
+                
+                {{-- Timeline --}}
+                <div class="timeline-horizontal">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-year">2016</div>
+                        <div class="timeline-content">
+                            <h5>Awal Mula</h5>
+                            <p>Berangkat umrah pertama kali dan merasakan pengalaman spiritual yang mengubah hidup</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-year">2025</div>
+                        <div class="timeline-content">
+                            <h5>Resmi Berizin</h5>
+                            <p>Mendapat izin resmi PPIU dari Kementerian Agama RI</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-year">2026</div>
+                        <div class="timeline-content">
+                            <h5>5000+ Jamaah</h5>
+                            <p>Telah melayani ribuan keluarga Indonesia dengan penuh dedikasi</p>
+                        </div>
                     </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">2023</div>
-                    <div class="timeline-content">
-                        <h5>Resmi Berizin</h5>
-                        <p>Mendapat izin resmi PPIU dari Kementerian Agama RI</p>
-                    </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- VISI & MISI --}}
+<section class="vision-mission-section">
+    <div class="container">
+        <div class="section-header-center">
+            <div class="section-badge">Visi & Misi</div>
+            <h2 class="section-title">Komitmen Kami Untuk Indonesia</h2>
+        </div>
+        
+        <div class="vision-mission-grid">
+            {{-- Vision --}}
+            <div class="vision-card">
+                <div class="vm-icon">
+                    <i class="bi bi-eye-fill"></i>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">2026</div>
-                    <div class="timeline-content">
-                        <h5>Lebih dari 5000 Jamaah</h5>
-                        <p>Telah melayani ribuan keluarga Indonesia dengan penuh dedikasi</p>
-                    </div>
+                <h3>Visi</h3>
+                <p>{{ $visionMission['vision'] }}</p>
+            </div>
+            
+            {{-- Mission --}}
+            <div class="mission-card">
+                <div class="vm-icon">
+                    <i class="bi bi-bullseye"></i>
                 </div>
+                <h3>Misi</h3>
+                <ul class="mission-list">
+                    @foreach($visionMission['missions'] as $mission)
+                    <li>
+                        <i class="bi bi-check-circle-fill"></i>
+                        <span>{{ $mission }}</span>
+                    </li>
+                    @endforeach
+                </ul>
             </div>
         </div>
     </div>
@@ -100,8 +166,8 @@
     <div class="container">
         <div class="section-header-center">
             <div class="section-badge">Nilai-Nilai Kami</div>
-            <h2 class="section-title">Komitmen yang Kami Pegang</h2>
-            <p class="section-subtitle">Prinsip yang memandu setiap langkah kami dalam melayani jamaah</p>
+            <h2 class="section-title">Prinsip yang Memandu Langkah Kami</h2>
+            <p class="section-subtitle">Nilai-nilai yang kami pegang teguh dalam melayani setiap jamaah</p>
         </div>
         
         <div class="values-grid">
@@ -141,7 +207,7 @@
 </section>
 
 {{-- LEADERSHIP --}}
-<section class="leadership">
+<section class="leadership-section">
     <div class="container">
         <div class="section-header-center">
             <div class="section-badge">Kepemimpinan</div>
@@ -149,14 +215,14 @@
             <p class="section-subtitle">Dipimpin oleh profesional berpengalaman di bidang travel dan layanan haji & umrah</p>
         </div>
         
-        <div class="leader-grid-square">
+        <div class="leader-grid">
             @foreach($leadership as $leader)
-            <div class="leader-card-square">
-                <div class="leader-photo-square">
+            <div class="leader-card">
+                <div class="leader-photo">
                     @if($leader['name'] == 'Khilal Hamdan')
-                        <img src="{{ asset('storage/team/direktur.webp') }}" alt="Khilal Hamdan" loading="lazy">
+                        <img src="{{ asset('storage/team/direktur.webp') }}" alt="{{ $leader['name'] }}" loading="lazy">
                     @elseif($leader['name'] == 'Nadirman Hamdan')
-                        <img src="{{ asset('storage/team/komisaris.webp') }}" alt="Nadirman Hamdan" loading="lazy">
+                        <img src="{{ asset('storage/team/komisaris.webp') }}" alt="{{ $leader['name'] }}" loading="lazy">
                     @else
                         <div class="placeholder">
                             <i class="bi bi-person-circle"></i>
@@ -164,9 +230,9 @@
                     @endif
                 </div>
                 
-                <div class="leader-info-square">
-                    <h4 class="leader-name-square">{{ $leader['name'] }}</h4>
-                    <p class="leader-position-square">
+                <div class="leader-info">
+                    <h4 class="leader-name">Ust. {{ $leader['name'] }}</h4>
+                    <p class="leader-position">
                         <i class="bi bi-award-fill"></i>
                         {{ $leader['position'] }}
                     </p>
@@ -174,35 +240,57 @@
             </div>
             @endforeach
         </div>
+        
+        {{-- Team Section Placeholder --}}
+        @if(count($team) > 0)
+        <div class="team-section-inner">
+            <h3 class="team-title">Tim Kami</h3>
+            <div class="team-grid">
+                @foreach($team as $member)
+                <div class="team-card">
+                    <div class="team-photo">
+                        <img src="{{ Storage::url($member['photo']) }}" alt="{{ $member['name'] }}" loading="lazy">
+                    </div>
+                    <h5>{{ $member['name'] }}</h5>
+                    <p>{{ $member['position'] }}</p>
+                </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
     </div>
 </section>
 
-{{-- TRUST & CERTIFIED (Stats + Legal gabung) --}}
+{{-- TRUST & CERTIFIED --}}
 <section class="trust-certified-section">
     <div class="container">
         <div class="section-header-center">
-            <div class="section-badge">Dipercaya & Bersertifikat</div>
-            <h2 class="section-title">Terpercaya oleh Ribuan Jamaah</h2>
-            <p class="section-subtitle">Dengan izin resmi dan pengawasan dari lembaga pemerintah</p>
+            <div class="section-badge">Berizin & Terpercaya</div>
+            <h2 class="section-title">Legalitas Resmi Mahira Tour</h2>
+            <p class="section-subtitle">Terdaftar dan diawasi oleh lembaga resmi pemerintah</p>
         </div>
         
-        {{-- Stats --}}
-        <div class="stats-grid-compact">
-            <div class="stat-item-compact">
-                <div class="stat-number">5000+</div>
-                <div class="stat-label">Jamaah Terlayani</div>
+        {{-- PPIU License Card --}}
+        <div class="ppiu-license-card">
+            <div class="ppiu-icon">
+                <i class="bi bi-patch-check-fill"></i>
             </div>
-            <div class="stat-item-compact">
-                <div class="stat-number">10+</div>
-                <div class="stat-label">Tahun Berpengalaman</div>
-            </div>
-            <div class="stat-item-compact">
-                <div class="stat-number">45+</div>
-                <div class="stat-label">Keberangkatan/Tahun</div>
-            </div>
-            <div class="stat-item-compact">
-                <div class="stat-number">4.9/5</div>
-                <div class="stat-label">Rating Testimoni</div>
+            <div class="ppiu-content">
+                <h4>Surat Izin Penyelenggaraan Perjalanan Ibadah Umrah (PPIU)</h4>
+                <div class="ppiu-details">
+                    <div class="ppiu-detail-item">
+                        <span class="label">Nomor Izin</span>
+                        <span class="value">{{ $ppiuInfo['number'] }}</span>
+                    </div>
+                    <div class="ppiu-detail-item">
+                        <span class="label">Tanggal Terbit</span>
+                        <span class="value">{{ $ppiuInfo['date'] }}</span>
+                    </div>
+                    <div class="ppiu-detail-item">
+                        <span class="label">Diterbitkan Oleh</span>
+                        <span class="value">{{ $ppiuInfo['issuer'] }}</span>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -213,7 +301,7 @@
                     <img src="{{ asset('images/partners/kemenag.png') }}" alt="Kementerian Agama RI" loading="lazy">
                 </div>
                 <h5>Kementerian Agama RI</h5>
-                <p>PPIU No: 21062301498960002</p>
+                <p>Berizin Resmi</p>
             </div>
             
             <div class="legal-card-compact">
@@ -221,7 +309,7 @@
                     <img src="{{ asset('images/partners/siskopatuh.png') }}" alt="Siskopatuh" loading="lazy">
                 </div>
                 <h5>Siskopatuh</h5>
-                <p>Sistem Komputerisasi Haji</p>
+                <p>Terdaftar</p>
             </div>
             
             <div class="legal-card-compact">
@@ -229,7 +317,7 @@
                     <img src="{{ asset('images/partners/himpuh.png') }}" alt="HIMPUH" loading="lazy">
                 </div>
                 <h5>HIMPUH</h5>
-                <p>Himpunan Penyelenggara Umrah</p>
+                <p>Anggota Resmi</p>
             </div>
         </div>
     </div>
@@ -239,7 +327,7 @@
 <section class="branches">
     <div class="container">
         <div class="section-header-center">
-            <div class="section-badge">7 Cabang di Indonesia & 2 Cabang Internasional</div>
+            <div class="section-badge">{{ count($branches) }} Cabang di Indonesia</div>
             <h2 class="section-title">Lokasi Cabang Mahira Tour</h2>
             <p class="section-subtitle">Klik kartu cabang atau marker pada peta untuk melihat detail lokasi</p>
         </div>
@@ -262,6 +350,9 @@
 <section class="cta-about">
     <div class="container">
         <div class="cta-content-about">
+            <div class="cta-icon">
+                <i class="bi bi-kaaba"></i>
+            </div>
             <h2>Siap Memulai Perjalanan Spiritual Anda?</h2>
             <p>Hubungi kami untuk konsultasi gratis dan temukan paket yang sesuai kebutuhan Anda</p>
             <div class="cta-buttons-about">
