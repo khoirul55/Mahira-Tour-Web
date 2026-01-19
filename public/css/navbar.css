@@ -68,6 +68,29 @@ body:has(.hero-video-section) .navbar-zen:not(.scrolled) .mobile-toggle {
 .navbar-logo img {
     height: 70px;
     width: auto;
+    transition: opacity 0.3s ease;
+}
+
+/* Default state (for non-hero pages): Show colored logo, hide white logo */
+.logo-white { display: none; }
+.logo-color { display: block; }
+
+/* Hero Page Initial State (Transparent Navbar) */
+/* Show White Logo, Hide Color Logo */
+body:has(.hero-video-section) .navbar-zen:not(.scrolled) .logo-white {
+    display: block;
+}
+body:has(.hero-video-section) .navbar-zen:not(.scrolled) .logo-color {
+    display: none;
+}
+
+/* Hero Page Scrolled State (White Navbar) */
+/* Revert to Default: Hide White Logo, Show Color Logo */
+body:has(.hero-video-section) .navbar-zen.scrolled .logo-white {
+    display: none;
+}
+body:has(.hero-video-section) .navbar-zen.scrolled .logo-color {
+    display: block;
 }
 
 .logo-text {

@@ -4,7 +4,10 @@
      class="navbar-zen">
     <div class="navbar-container">
         <a href="{{ url('/') }}" class="navbar-logo">
-            <img src="{{ asset('images/mahira-logo.png') }}" alt="Mahira Tour">
+            <!-- Logo for Transparent Header (White) -->
+            <img src="{{ asset('images/mahira-logo-white.png') }}" alt="Mahira Tour" class="logo-white">
+            <!-- Logo for Scrolled Header (Original Color) -->
+            <img src="{{ asset('images/mahira-logo-transparent.png') }}" alt="Mahira Tour" class="logo-color">
         </a>
 
         {{-- Desktop Menu --}}
