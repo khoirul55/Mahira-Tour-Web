@@ -4,11 +4,29 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
+<style>
+/* Alpine Modal Fix - ADD THIS */
+.gallery-modal-alpine {
+    position: fixed;
+    z-index: 99999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+[x-cloak] {
+    display: none !important;
+}
+</style>
 @endpush
 
 @section('content')
 
-<!-- HAPUS x-data wrapper luar, pindahkan ke section -->
 <!-- Hero Section -->
 <section class="hero">
     <div class="hero-background">
@@ -35,7 +53,7 @@
     </div>
 </section>
 
-<!-- SATU x-data untuk semua -->
+<!-- Gallery Section with Alpine.js -->
 <section class="py-5 bg-light" x-data="{
     activeFilter: 'all',
     galleries: @js($galleries),
@@ -49,7 +67,9 @@
     },
     
     openModal(index) {
-        this.currentIndex = index;
+        // Find the actual index in the full galleries array
+        const gallery = this.filteredGalleries[index];
+        this.currentIndex = this.galleries.findIndex(g => g === gallery);
         this.modalOpen = true;
         document.body.style.overflow = 'hidden';
     },
@@ -118,36 +138,43 @@
             <p>Coba pilih kategori lain</p>
         </div>
     </div>
-</section>
 
-<!-- Modal - PINDAHKAN KE DALAM SECTION -->
-<div x-show="modalOpen" 
-     x-cloak
-     x-transition
-     @click.self="closeModal()"
-     class="gallery-modal">
-    
-    <span class="gallery-close" @click="closeModal()">&times;</span>
-    
-    <div class="gallery-counter" x-text="`${currentIndex + 1} / ${galleries.length}`"></div>
-    
-    <button class="gallery-nav prev" @click="changeGallery(-1)">
-        <i class="bi bi-chevron-left"></i>
-    </button>
-    
-    <div class="gallery-modal-content">
-        <img :src="galleries[currentIndex].image" 
-             :alt="galleries[currentIndex].title">
-        <div class="modal-info">
-            <div class="modal-title" x-text="galleries[currentIndex].title"></div>
-            <span class="modal-category" x-text="galleries[currentIndex].category"></span>
+    <!-- FIXED Modal - Using gallery-modal-alpine like home.blade.php -->
+    <div x-show="modalOpen" 
+         x-cloak
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         @click.self="closeModal()" 
+         class="gallery-modal-alpine">
+        
+        <span class="gallery-close" @click="closeModal()">&times;</span>
+        
+        <div class="gallery-counter" x-text="`${currentIndex + 1} / ${galleries.length}`"></div>
+        
+        <button class="gallery-nav prev" @click="changeGallery(-1)" type="button">
+            <i class="bi bi-chevron-left"></i>
+        </button>
+        
+        <div class="gallery-modal-content" @click.stop>
+            <img :src="galleries[currentIndex].image" 
+                 :alt="galleries[currentIndex].title"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100">
+            <div class="modal-info">
+                <div class="modal-title" x-text="galleries[currentIndex].title"></div>
+                <span class="modal-category" x-text="galleries[currentIndex].category"></span>
+            </div>
         </div>
+        
+        <button class="gallery-nav next" @click="changeGallery(1)" type="button">
+            <i class="bi bi-chevron-right"></i>
+        </button>
     </div>
-    
-    <button class="gallery-nav next" @click="changeGallery(1)">
-        <i class="bi bi-chevron-right"></i>
-    </button>
-</div>
 </section>
 
 @endsection
