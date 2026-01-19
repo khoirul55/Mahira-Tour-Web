@@ -375,7 +375,7 @@
 
 @push('scripts')
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>const branchesData = @json($branches);</script>
+<script>const branchesData = JSON.parse('{!! addslashes(json_encode($branches)) !!}');</script>
 <script src="{{ asset('js/about.js') }}"></script>
 <script>
 function openPpiuModal() {

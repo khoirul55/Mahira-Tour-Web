@@ -182,6 +182,6 @@
 @push('scripts')
 <script>
     // Galleries data for debugging
-    console.log('Galleries loaded:', @json($galleries));
+    console.log('Galleries loaded:', JSON.parse('{!! addslashes(json_encode($galleries)) !!}'));
 </script>
 @endpush
