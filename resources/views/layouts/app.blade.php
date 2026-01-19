@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <title>@yield('title', 'Mahira Tour - Travel Haji & Umrah Terpercaya')</title>
+    <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png">
     
     <!-- Preconnect to CDNs -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
