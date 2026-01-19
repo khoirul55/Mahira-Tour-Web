@@ -303,306 +303,78 @@
     color: white;
 }
 
-/* ===== BUTTON ACTIONS - 2 HORIZONTAL BUTTONS ===== */
+/* ===== BUTTON ACTIONS - COMPLETE SECTION ===== */
+
+/* ========== CARD BUTTONS (2 Horizontal Buttons) ========== */
 .flyer-actions {
     display: flex;
     gap: 8px;
     margin-top: auto;
 }
 
+/* Button Daftar - Blue Primary */
 .btn-register-direct {
     flex: 1;
-    padding: 12px;
-    background: linear-gradient(135deg, #1B5E20, #2E7D32);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    transition: all 0.3s;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    cursor: pointer;
+    gap: 10px;
+    background: var(--primary-navy);
+    color: white;
+    padding: 16px 40px;
     text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    border: 2px solid var(--primary-navy);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .btn-register-direct:hover:not(:disabled) {
-    background: linear-gradient(135deg, #2E7D32, #1B5E20);
+    background: transparent;
+    color: var(--primary-navy);
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(27, 94, 32, 0.3);
-    color: white;
+    box-shadow: 0 4px 12px rgba(0, 29, 95, 0.15);
 }
 
 .btn-register-direct:disabled {
     background: #9E9E9E;
+    border-color: #9E9E9E;
     cursor: not-allowed;
     opacity: 0.7;
 }
 
+/* Button Detail - White base, Blue on hover */
 .btn-view-detail {
     flex: 1;
-    padding: 12px;
-    background: white;
-    color: var(--primary-navy);
-    border: 2px solid var(--primary-navy);
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    transition: all 0.3s;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 10px;
+    background: white;
+    color: var(--primary-navy);
+    padding: 16px 40px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    border: 2px solid var(--primary-navy);
+    border-radius: 8px;
+    transition: all 0.3s ease;
     cursor: pointer;
 }
 
 .btn-view-detail:hover {
-    background: var(--lighter-navy);
+    background: var(--primary-navy);
+    color: white;
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 29, 95, 0.15);
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-    .flyer-image-container, .flyer-image-wrapper {
-        height: 240px;
-    }
-    
-    .flyer-info {
-        padding: 16px;
-    }
-    
-    .flyer-title {
-        font-size: 1.1rem;
-    }
-    
-    .flyer-actions {
-        flex-direction: column;
-    }
-}
+/* ========== MODAL STYLES ========== */
 
-/* ===== MODAL ===== */
-.flyer-modal {
-    display: none;
-    position: fixed;
-    z-index: 9999;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.95);
-    animation: fadeIn 0.3s;
-}
-
-.flyer-modal.active {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
-}
-
-.modal-close {
-    position: fixed;
-    top: 30px;
-    right: 50px;
-    font-size: 50px;
-    color: white;
-    cursor: pointer;
-    z-index: 10000;
-    transition: transform 0.3s;
-    line-height: 1;
-}
-
-.modal-close:hover {
-    transform: scale(1.2) rotate(90deg);
-}
-
-.modal-content-wrapper {
-    max-width: 900px;
-    width: 100%;
-    text-align: center;
-}
-
-.modal-flyer-image {
-    max-width: 100%;
-    max-height: 80vh;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    border-radius: 12px;
-    box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
-    margin-bottom: 30px;
-}
-
-.modal-info {
-    color: white;
-    text-align: center;
-}
-
-.modal-info h3 {
-    font-size: 1.5rem;
-    font-weight: 800;
-    margin-bottom: 10px;
-}
-
-.modal-info p {
-    font-size: 1rem;
-    opacity: 0.9;
-}
-
-/* ===== INFO SECTION ===== */
-.info-card-section {
-    background: white;
-    padding: 80px 0;
-}
-
-.info-feature-card {
-    text-align: center;
-    padding: 30px 20px;
-    background: var(--lighter-navy);
-    border-radius: 16px;
-    transition: all 0.3s;
-    height: 100%;
-}
-
-.info-feature-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 29, 95, 0.15);
-}
-
-.info-icon {
-    width: 70px;
-    height: 70px;
-    background: linear-gradient(135deg, var(--primary-navy), var(--light-navy));
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-}
-
-.info-icon i {
-    font-size: 2rem;
-    color: white;
-}
-
-.info-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--primary-navy);
-    margin-bottom: 10px;
-}
-
-.info-text {
-    color: var(--text-gray);
-    margin: 0;
-}
-
-/* ===== CTA SECTION ===== */
-.cta-section {
-    background: linear-gradient(135deg, var(--primary-navy) 0%, var(--light-navy) 100%);
-    padding: 80px 0;
-    color: white;
-    text-align: center;
-}
-
-.cta-content h3 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: 15px;
-}
-
-.cta-content p {
-    font-size: 1.2rem;
-    opacity: 0.9;
-    margin-bottom: 30px;
-}
-
-.btn-cta {
-    padding: 18px 45px;
-    background: var(--gold);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 1.15rem;
-    transition: all 0.4s;
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-    box-shadow: 0 10px 35px rgba(212, 175, 55, 0.4);
-}
-
-.btn-cta:hover {
-    background: #F4D03F;
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 15px 50px rgba(212, 175, 55, 0.6);
-    color: white;
-}
-
-.empty-state {
-    text-align: center;
-    padding: 80px 20px;
-}
-
-.empty-icon {
-    font-size: 5rem;
-    color: var(--text-gray);
-    opacity: 0.5;
-    margin-bottom: 25px;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-    .hero {
-        height: 400px;
-    }
-    
-    .hero h1 {
-        font-size: 2.2rem;
-    }
-    
-    .hero p {
-        font-size: 1rem;
-    }
-    
-    .flyer-image-container, .flyer-image-wrapper {
-        height: 350px;
-    }
-    
-    .flyer-info {
-        padding: 20px;
-    }
-    
-    .flyer-title {
-        font-size: 1.2rem;
-    }
-    
-    .flyer-secondary-actions {
-        flex-direction: column;
-    }
-    
-    .modal-close {
-        top: 20px;
-        right: 20px;
-        font-size: 40px;
-    }
-    
-    .cta-content h3 {
-        font-size: 1.8rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .flyer-image-container, .flyer-image-wrapper {
-        height: 400px;
-    }
-    
-    .filter-btn {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
-}
-/* ===== DETAIL MODAL - MATCH REFERENCE ===== */
 .detail-modal {
     display: none;
     position: fixed;
@@ -693,19 +465,21 @@
     overflow-y: auto;
 }
 
-/* Flyer Image - Without Padding */
+/* Flyer Image - High Quality Display */
 .modal-flyer-section {
     margin: 0;
     padding: 0;
-    background: #F9FAFB;
+    background: white;
 }
 
 .modal-flyer-img {
     width: 100%;
     height: auto;
-    max-height: 300px;
-    object-fit: cover;
+    max-height: 400px;
+    object-fit: contain;
     display: block;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
 }
 
 /* Detail Items */
@@ -786,46 +560,76 @@
     padding: 16px 20px;
     background: white;
     border-top: 1px solid #E5E7EB;
-    display: flex;
-    gap: 10px;
 }
 
+/* Modal Register Button - Blue Primary (Match button story) */
 .btn-modal-register-main {
-    flex: 1;
-    padding: 14px;
-    background: linear-gradient(135deg, #1B5E20, #2E7D32);
-    color: white;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 0.95rem;
-    text-decoration: none;
-    display: flex;
+    width: 100%;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    transition: all 0.3s;
-    box-shadow: 0 6px 20px rgba(27, 94, 32, 0.25);
+    gap: 10px;
+    background: var(--primary-navy);
+    color: white;
+    padding: 16px 40px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    border: 2px solid var(--primary-navy);
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
 .btn-modal-register-main:hover {
-    background: linear-gradient(135deg, #2E7D32, #1B5E20);
+    background: transparent;
+    color: var(--primary-navy);
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(27, 94, 32, 0.35);
-    color: white;
+    box-shadow: 0 4px 12px rgba(0, 29, 95, 0.15);
 }
 
-/* Mobile Responsive */
+/* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
+    .flyer-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn-register-direct,
+    .btn-view-detail {
+        width: 100%;
+        padding: 14px 32px;
+        font-size: 14px;
+    }
+    
     .modal-drawer {
         width: 95%;
         max-width: none;
     }
     
     .modal-flyer-img {
-        max-height: 250px;
+        max-height: 300px;
     }
     
     .detail-group {
         padding: 10px;
+    }
+    
+    .btn-modal-register-main {
+        padding: 14px 32px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 576px) {
+    .btn-register-direct,
+    .btn-view-detail {
+        padding: 12px 28px;
+        font-size: 13px;
+    }
+    
+    .btn-modal-register-main {
+        padding: 12px 28px;
+        font-size: 13px;
     }
 }

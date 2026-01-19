@@ -2,33 +2,13 @@
 
 @section('title', 'Galeri Kegiatan - Mahira Tour')
 
-@section('content')
-
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
 @endpush
 
-<div x-data="{
-    activeFilter: 'all',
-    galleries: @js($galleries),
-    currentIndex: 0,
-    modalOpen: false,
-    
-    get filteredGalleries() {
-        return this.activeFilter === 'all' 
-            ? this.galleries 
-            : this.galleries.filter(g => g.category === this.activeFilter);
-    },
-    
-    openModal(index) {
-        this.currentIndex = index;
-        this.modalOpen = true;
-    },
-    
-    changeGallery(direction) {
-        this.currentIndex = (this.currentIndex + direction + this.galleries.length) % this.galleries.length;
-    }
-}" @keydown.escape.window="modalOpen = false" @keydown.arrow-left.window="modalOpen && changeGallery(-1)" @keydown.arrow-right.window="modalOpen && changeGallery(1)">
+@section('content')
+
+<!-- HAPUS x-data wrapper luar, pindahkan ke section -->
 <!-- Hero Section -->
 <section class="hero">
     <div class="hero-background">
@@ -55,16 +35,38 @@
     </div>
 </section>
 
+<!-- SATU x-data untuk semua -->
 <section class="py-5 bg-light" x-data="{
     activeFilter: 'all',
     galleries: @js($galleries),
+    currentIndex: 0,
+    modalOpen: false,
     
     get filteredGalleries() {
         return this.activeFilter === 'all' 
             ? this.galleries 
             : this.galleries.filter(g => g.category === this.activeFilter);
+    },
+    
+    openModal(index) {
+        this.currentIndex = index;
+        this.modalOpen = true;
+        document.body.style.overflow = 'hidden';
+    },
+    
+    closeModal() {
+        this.modalOpen = false;
+        document.body.style.overflow = '';
+    },
+    
+    changeGallery(direction) {
+        this.currentIndex = (this.currentIndex + direction + this.galleries.length) % this.galleries.length;
     }
-}">
+}" 
+@keydown.escape.window="if(modalOpen) closeModal()" 
+@keydown.arrow-left.window="if(modalOpen) changeGallery(-1)" 
+@keydown.arrow-right.window="if(modalOpen) changeGallery(1)">
+
     <div class="container">
         
         <!-- Filter Section -->
@@ -95,7 +97,6 @@
 
         <!-- Gallery Grid -->
         <div class="gallery-grid">
-        <!-- Gallery Grid - update onclick -->
             <template x-for="(gallery, index) in filteredGalleries" :key="index">
                 <div class="gallery-card" @click="openModal(index)">
                     <div class="gallery-image-wrapper">
@@ -119,38 +120,41 @@
     </div>
 </section>
 
-<!-- Modal -->
+<!-- Modal - PINDAHKAN KE DALAM SECTION -->
 <div x-show="modalOpen" 
-         x-transition
-         @click.self="modalOpen = false"
-         class="gallery-modal">
-        
-        <span class="gallery-close" @click="modalOpen = false">&times;</span>
-        
-        <div class="gallery-counter" x-text="`${currentIndex + 1} / ${galleries.length}`"></div>
-        
-        <button class="gallery-nav prev" @click="changeGallery(-1)">
-            <i class="bi bi-chevron-left"></i>
-        </button>
-        
-        <div class="gallery-modal-content">
-            <img :src="galleries[currentIndex].image" :alt="galleries[currentIndex].title" id="galleryModalImg">
-            <div class="modal-info">
-                <div class="modal-title" x-text="galleries[currentIndex].title"></div>
-                <span class="modal-category" x-text="galleries[currentIndex].category"></span>
-            </div>
+     x-cloak
+     x-transition
+     @click.self="closeModal()"
+     class="gallery-modal">
+    
+    <span class="gallery-close" @click="closeModal()">&times;</span>
+    
+    <div class="gallery-counter" x-text="`${currentIndex + 1} / ${galleries.length}`"></div>
+    
+    <button class="gallery-nav prev" @click="changeGallery(-1)">
+        <i class="bi bi-chevron-left"></i>
+    </button>
+    
+    <div class="gallery-modal-content">
+        <img :src="galleries[currentIndex].image" 
+             :alt="galleries[currentIndex].title">
+        <div class="modal-info">
+            <div class="modal-title" x-text="galleries[currentIndex].title"></div>
+            <span class="modal-category" x-text="galleries[currentIndex].category"></span>
         </div>
-        
-        <button class="gallery-nav next" @click="changeGallery(1)">
-            <i class="bi bi-chevron-right"></i>
-        </button>
     </div>
+    
+    <button class="gallery-nav next" @click="changeGallery(1)">
+        <i class="bi bi-chevron-right"></i>
+    </button>
+</div>
+</section>
+
+@endsection
 
 @push('scripts')
 <script>
-    // Pass data galleries dari PHP ke JavaScript
-    const galleries = @json($galleries);
+    // Galleries data for debugging
+    console.log('Galleries loaded:', @json($galleries));
 </script>
 @endpush
-
-@endsection

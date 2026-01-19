@@ -4,7 +4,7 @@
 @section('title', 'Beranda - Mahira Tour | Travel Haji & Umrah Terpercaya')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/home.css') }}">
+<link rel="stylesheet" href="{{ asset('css/home.css?v=2.0') }}">
 @endpush
 
 @section('content')
