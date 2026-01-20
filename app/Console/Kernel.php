@@ -17,6 +17,17 @@ class Kernel extends ConsoleKernel
                  ->hourly()
                  ->withoutOverlapping()
                  ->runInBackground();
+
+        // Reminder Pelunasan (Jalan setiap hari jam 09:00 pagi)
+        $schedule->command('pelunasan:remind')
+                 ->dailyAt('09:00')
+                 ->withoutOverlapping()
+                 ->runInBackground();
+
+        // Cleanup Data Cancelled (Jalan setiap hari jam 02:00 pagi - saat trafik rendah)
+        $schedule->command('bookings:cleanup')
+                 ->dailyAt('02:00')
+                 ->runInBackground();
         // =======================================
     }
     
