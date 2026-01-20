@@ -1207,10 +1207,7 @@ body {
 ::selection { background: var(--primary); color: white; }
 ::-moz-selection { background: var(--primary); color: white; }
 
-::-webkit-scrollbar { width: 12px; }
-::-webkit-scrollbar-track { background: var(--light); }
-::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 6px; }
-::-webkit-scrollbar-thumb:hover { background: var(--primary-dark); }
+
 
 html { scroll-behavior: smooth; }
 
