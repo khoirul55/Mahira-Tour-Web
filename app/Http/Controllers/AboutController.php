@@ -34,7 +34,7 @@ class AboutController extends Controller
     
     $leadership = [
         ['name' => 'Khilal Hamdan', 'position' => 'Direktur Utama'],
-        ['name' => 'Nadirman Hamdan', 'position' => 'Komisaris']
+        ['name' => 'Nadirman Hamdan', 'position' => 'Komisaris Utama']
     ];
     
     $branches = [

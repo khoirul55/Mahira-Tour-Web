@@ -159,17 +159,19 @@
             <i class="bi bi-chevron-left"></i>
         </button>
         
-        <div class="gallery-modal-content" @click.stop>
-            <img :src="galleries[currentIndex].image" 
-                 :alt="galleries[currentIndex].title"
-                 x-transition:enter="transition ease-out duration-200"
-                 x-transition:enter-start="opacity-0 scale-95"
-                 x-transition:enter-end="opacity-100 scale-100">
-            <div class="modal-info">
-                <div class="modal-title" x-text="galleries[currentIndex].title"></div>
-                <span class="modal-category" x-text="galleries[currentIndex].category"></span>
+        <template x-if="galleries[currentIndex]">
+            <div class="gallery-modal-content" @click.stop>
+                <img :src="galleries[currentIndex].image" 
+                     :alt="galleries[currentIndex].title"
+                     x-transition:enter="transition ease-out duration-200"
+                     x-transition:enter-start="opacity-0 scale-95"
+                     x-transition:enter-end="opacity-100 scale-100">
+                <div class="modal-info">
+                    <div class="modal-title" x-text="galleries[currentIndex].title"></div>
+                    <span class="modal-category" x-text="galleries[currentIndex].category"></span>
+                </div>
             </div>
-        </div>
+        </template>
         
         <button class="gallery-nav next" @click="changeGallery(1)" type="button">
             <i class="bi bi-chevron-right"></i>

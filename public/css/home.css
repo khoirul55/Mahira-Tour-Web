@@ -1059,7 +1059,7 @@ body {
     .hero-video-section { min-height: 550px; }
     .hero-content-wrapper { padding-top: 64px; }
     .hero-content { padding: 0 20px; }
-    .hero-title { font-size: 36px; }
+    .hero-title { font-size: 32px; word-wrap: break-word; }
     .hero-spiritual { font-size: 13px; }
     .hero-subtitle { font-size: 15px; }
     .hero-badge { font-size: 12px; padding: 8px 20px; }
@@ -1093,7 +1093,10 @@ body {
     .quick-info { padding: 20px 16px; }
     .package-title { font-size: 16px; }
     
-    .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    @media (max-width: 400px) {
+        .gallery-grid { grid-template-columns: 1fr; }
+    }
     .gallery-item { height: 180px; }
     
     .gallery-modal-alpine .gallery-close { top: 20px; right: 20px; font-size: 35px; width: 50px; height: 50px; }
@@ -1171,15 +1174,19 @@ body {
 
 /* Extra Small */
 @media (max-width: 375px) {
-    .hero-title { font-size: 24px; }
+    .hero-title { font-size: 24px; line-height: 1.3; }
     .hero-spiritual { font-size: 12px; }
     .section-title { font-size: 22px; }
-    .stat-number { font-size: 32px; }
+    .stat-number { font-size: 28px; }
     .about-image { height: 35vh; min-height: 260px; }
-    .metric strong { font-size: 20px; }
+    .metric strong { font-size: 18px; }
     .package-image { height: 340px; }
-    .cta-title { font-size: 26px; }
-    .cta-subtitle { font-size: 15px; }
+    .cta-title { font-size: 24px; }
+    .cta-subtitle { font-size: 14px; }
+    
+    /* Ensure content doesn't overflow */
+    .hero-content { padding: 0 16px; }
+    .hero-badge { width: 100%; justify-content: center; box-sizing: border-box; }
 }
 
 /* ========== UTILITIES ========== */
