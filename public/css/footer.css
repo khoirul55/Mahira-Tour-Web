@@ -230,7 +230,27 @@
     transition: all 0.3s ease;
 }
 
+@media (max-width: 991px) {
+    .footer-mahira { padding: 60px 0 0; }
+    .col-lg-3, .col-lg-2, .col-lg-4 { margin-bottom: 40px; }
+    .footer-newsletter { margin-top: 0; }
+}
+
 @media (max-width: 768px) {
+    .footer-title { font-size: 1.1rem; border-bottom-width: 1px; }
+    .footer-description { font-size: 0.85rem; max-width: 100%; }
+    
+    .social-links { justify-content: flex-start; }
+    
+    .newsletter-form { flex-direction: column; }
+    .newsletter-form button { width: 100%; }
+    
+    .footer-bottom-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
     .whatsapp-button {
         width: 56px;
         height: 56px;

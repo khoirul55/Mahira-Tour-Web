@@ -160,7 +160,7 @@
             lite.addEventListener('click', function() {
                 const id = this.getAttribute('data-id');
                 const iframe = document.createElement('iframe');
-                iframe.setAttribute('src', `https://www.youtube.com/embed/${id}?autoplay=1`);
+                iframe.setAttribute('src', `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`);
                 iframe.setAttribute('title', 'YouTube video player');
                 iframe.setAttribute('frameborder', '0');
                 iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
