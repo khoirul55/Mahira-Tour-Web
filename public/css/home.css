@@ -15,9 +15,11 @@
 
 * { box-sizing: border-box; }
 
-body {
+html, body {
     font-family: 'Inter', sans-serif;
     padding-top: 0;
+    overflow-x: hidden;
+    width: 100%;
 }
 
 /* ========== GLOBAL COMPONENTS ========== */
@@ -135,11 +137,11 @@ body {
 }
 
 .hero-content {
-    text-align: center !important;
-    color: white !important;
-    max-width: 800px !important;
-    padding: 0 24px !important;
-    margin: 0 auto !important; /* PENTING: tambahkan ini */
+    text-align: center;
+    color: white;
+    max-width: 800px;
+    padding: 0 24px;
+    margin: 0 auto;
 }
 
 .hero-title {
@@ -1057,7 +1059,7 @@ body {
 /* Mobile */
 @media (max-width: 768px) {
     .hero-video-section { min-height: 550px; }
-    .hero-content-wrapper { padding-top: 64px; }
+    .hero-content-wrapper { padding-top: 90px; }
     .hero-content { padding: 0 20px; }
     .hero-title { font-size: 32px; word-wrap: break-word; }
     .hero-spiritual { font-size: 13px; }
