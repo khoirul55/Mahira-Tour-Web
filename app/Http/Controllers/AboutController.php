@@ -42,43 +42,43 @@ class AboutController extends Controller
             'name' => 'Kantor Pusat',
             'region' => 'Sungai Penuh',
             'address' => 'Jl. Muradi, Desa Koto Keras, Kecamatan Pesisir Bukit, Kota Sungai Penuh',
-            'is_main' => true
+            'is_main' => true,
+            'map_link' => 'https://maps.app.goo.gl/MahiraTourSungaiPenuh' // Placeholder or remove if not needed
         ],
         [
             'name' => 'Regional Sumatera Barat',
             'region' => 'Padang',
-            'address' => 'Jl. Raya Taruko 1 / Manunggal 3 No 66 A, RT 5 RW 8, Korong Gadang, Kec. Kuranji',
-            'is_main' => false
+            'address' => 'Taruko I, Jl. Raya No.66 A, Korong Gadang, Kec. Kuranji, Kota Padang, Sumatera Barat 25158',
+            'is_main' => false,
+            'map_link' => 'https://maps.app.goo.gl/bN6zG5ds5Ynutf3k9?g_st=aw'
         ],
         [
             'name' => 'Cabang Jambi',
             'region' => 'Jambi',
-            'address' => 'Jl. Sunan Gunung Djati RT.28, Kenali Asam, Kota Baru, Jambi',
-            'is_main' => false
+            'address' => 'Gg. Nuri 1, RT.25/RW.no 16, Jelutung, Kec. Jelutung, Kota Jambi, Jambi 36136',
+            'is_main' => false,
+            'map_link' => 'https://maps.app.goo.gl/DZ4fU5dQsnxJXg3L8'
         ],
         [
-            'name' => 'Cabang Jakarta Timur',
-            'region' => 'Jakarta',
-            'address' => 'Jl. Tegal Amba No 6, Desa Lorong Sawit, Kec. Lorong Sawit, Jakarta Timur',
-            'is_main' => false
+            'name' => 'Cabang Bungo',
+            'region' => 'Jambi',
+            'address' => 'Suka Jaya, Kabupaten Bungo, Jambi',
+            'is_main' => false,
+            'map_link' => 'https://maps.app.goo.gl/CUKHXVoTSiyZyNif6?g_st=aw'
         ],
         [
-            'name' => 'Cabang Padang Utara',
-            'region' => 'Padang',
-            'address' => 'Jl. Pategangan, Gang L No. 4, RT. 004, RW. 003, Air Tawar Barat, Padang Utara',
-            'is_main' => false
-        ],
-        [
-            'name' => 'Cabang Bengkulu',
-            'region' => 'Bengkulu',
-            'address' => 'Jl. Sutoyo 6, Kelurahan Tanah Patah, Kec. Ratu Agung, Kota Bengkulu, RW. 02, RT. 19, No. 72',
-            'is_main' => false
+            'name' => 'Cabang Tebo',
+            'region' => 'Jambi',
+            'address' => 'Jl. Padang Lamo, Tlk. Kuali, Kec. Tebo Ulu, Kabupaten Tebo, Jambi 37259',
+            'is_main' => false,
+            'map_link' => 'https://maps.app.goo.gl/sBNookviKWUfWY1bA?g_st=aw'
         ],
         [
             'name' => 'Cabang Merangin',
             'region' => 'Merangin',
             'address' => 'Muara Panco Barat, Kec. Renah Pembarap, Kabupaten Merangin',
-            'is_main' => false
+            'is_main' => false,
+            'map_link' => ''
         ]
     ];
     

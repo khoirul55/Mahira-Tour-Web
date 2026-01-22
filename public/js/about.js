@@ -1,12 +1,11 @@
 // Branch data with coordinates
 const branchesWithCoords = [
-    {id: 1, name: "Sungai Penuh", region: "Jambi", address: "Jl. Muradi, Desa Koto Keras, Kecamatan Pesisir Bukit", phone: "082184515310", coordinates: [-2.0621, 101.3953], isMain: true},
-    {id: 2, name: "Padang", region: "Sumatera Barat", address: "Jl. Raya Taruko 1 / Manunggal 3 No 66 A", coordinates: [-0.9471, 100.4172], isMain: false},
-    {id: 3, name: "Jambi", region: "Jambi", address: "Jl. Sunan Gunung Djati RT.28, Kenali Asam", coordinates: [-1.6101, 103.6131], isMain: false},
-    {id: 4, name: "Jakarta", region: "DKI Jakarta", address: "Jl. Regal Amba No 8, Jakarta Timur", coordinates: [-6.2088, 106.8456], isMain: false},
-    {id: 5, name: "Padang Utara", region: "Sumatera Barat", address: "Jl. Peloponegon, Gang L No. 4", coordinates: [-0.9199, 100.3543], isMain: false},
-    {id: 6, name: "Bengkulu", region: "Bengkulu", address: "Jl. Sentang 4, Tanah Patah", coordinates: [-3.7928, 102.2608], isMain: false},
-    {id: 7, name: "Merangin", region: "Jambi", address: "Muara Panas Rantai, Tanah Hombun", coordinates: [-2.0833, 101.6833], isMain: false}
+    {id: 1, name: "Sungai Penuh", region: "Jambi", address: "Jl. Muradi, Desa Koto Keras, Kecamatan Pesisir Bukit", phone: "082184515310", coordinates: [-2.0621, 101.3953], isMain: true, mapLink: ""},
+    {id: 2, name: "Padang", region: "Sumatera Barat", address: "Taruko I, Jl. Raya No.66 A, Korong Gadang", coordinates: [-0.9155963, 100.4001498], isMain: false, mapLink: "https://maps.app.goo.gl/bN6zG5ds5Ynutf3k9?g_st=aw"},
+    {id: 3, name: "Jambi", region: "Jambi", address: "Gg. Nuri 1, RT.25/RW.no 16, Jelutung", coordinates: [-1.6116861, 103.6184803], isMain: false, mapLink: "https://maps.app.goo.gl/DZ4fU5dQsnxJXg3L8"},
+    {id: 4, name: "Bungo", region: "Jambi", address: "Suka Jaya, Kabupaten Bungo", coordinates: [-1.507646, 102.061605], isMain: false, mapLink: "https://maps.app.goo.gl/CUKHXVoTSiyZyNif6?g_st=aw"},
+    {id: 5, name: "Tebo", region: "Jambi", address: "Jl. Padang Lamo, Tlk. Kuali, Kec. Tebo Ulu", coordinates: [-1.21661, 102.195169], isMain: false, mapLink: "https://maps.app.goo.gl/sBNookviKWUfWY1bA?g_st=aw"},
+    {id: 6, name: "Merangin", region: "Jambi", address: "Muara Panco Barat, Kec. Renah Pembarap", coordinates: [-2.0833, 101.6833], isMain: false, mapLink: ""}
 ];
 
 // Initialize map
@@ -32,6 +31,8 @@ function createCustomIcon(isMain) {
 }
 
 function createPopupContent(branch) {
+    const mapUrl = branch.mapLink ? branch.mapLink : `https://www.google.com/maps/dir/?api=1&destination=${branch.coordinates[0]},${branch.coordinates[1]}`;
+    
     return `
         <div class="popup-header ${branch.isMain ? 'featured' : ''}">
             ${branch.isMain ? '<div class="popup-badge">Kantor Pusat</div>' : ''}
@@ -42,24 +43,16 @@ function createPopupContent(branch) {
                 <i class="bi bi-geo-alt-fill"></i>
                 <span>${branch.address}</span>
             </div>
-            ${branch.phone ? `
-                <div class="popup-actions">
+            <div class="popup-actions">
+                ${branch.phone ? `
                     <a href="tel:${branch.phone}" class="popup-btn primary">
                         <i class="bi bi-telephone-fill"></i> Hubungi
                     </a>
-                    <a href="https://www.google.com/maps/dir/?api=1&destination=${branch.coordinates[0]},${branch.coordinates[1]}" 
-                       target="_blank" class="popup-btn secondary">
-                        <i class="bi bi-compass"></i> Rute
-                    </a>
-                </div>
-            ` : `
-                <div class="popup-actions">
-                    <a href="https://www.google.com/maps/dir/?api=1&destination=${branch.coordinates[0]},${branch.coordinates[1]}" 
-                       target="_blank" class="popup-btn primary">
-                        <i class="bi bi-compass"></i> Lihat Rute
-                    </a>
-                </div>
-            `}
+                ` : ''}
+                <a href="${mapUrl}" target="_blank" class="popup-btn ${branch.phone ? 'secondary' : 'primary'}">
+                    <i class="bi bi-map-fill"></i> Google Maps
+                </a>
+            </div>
         </div>
     `;
 }
