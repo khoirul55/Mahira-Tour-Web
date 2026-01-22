@@ -73,6 +73,13 @@ return [
         'visibility' => 'private', // Hanya admin yang bisa akses
     ],
 
+    'secure' => [
+        'driver' => 'local',
+        'root' => storage_path('app/secure'),
+        'visibility' => 'private',
+        'throw' => false,
+    ],
+
     ],
 
     /*

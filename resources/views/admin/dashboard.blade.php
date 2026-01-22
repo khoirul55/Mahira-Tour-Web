@@ -303,7 +303,72 @@
         .modal-body {
             padding: 25px;
         }
-    </style>
+
+        /* Mobile Responsive Styles */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            padding: 10px 15px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: none;
+            color: #001D5F;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+                padding-top: 80px; /* Space for toggle button */
+            }
+
+            .sidebar-toggle {
+                display: block;
+            }
+
+            .sidebar-overlay.show {
+                display: block;
+                opacity: 1;
+            }
+            
+            .stat-card, .payment-card, .doc-card {
+                margin-bottom: 15px;
+            }
+            
+            .nav-tabs-custom {
+                padding: 0 10px;
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                white-space: nowrap;
+            }
+            
+            .nav-tabs-custom .nav-link {
+                padding: 1rem;
+            }
+        }
 </head>
 <body x-data="adminApp()">
 
@@ -457,7 +522,7 @@
                     </div>
                     <div class="col-md-3">
                         @if($payment->proof_path)
-                        <button class="btn btn-sm btn-info" @click="openPreview('{{ Storage::url($payment->proof_path) }}', 'Bukti DP')">
+                        <button class="btn btn-sm btn-info" @click="openPreview('{{ route('admin.secure.file', ['path' => $payment->proof_path]) }}', 'Bukti DP')">
                             <i class="bi bi-eye"></i> Lihat Bukti
                         </button>
                         @else
@@ -517,7 +582,7 @@
                         @foreach($jamaah->documents as $doc)
                         <div class="doc-item">
                             @if(in_array(pathinfo($doc->file_path, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']))
-                                <img src="{{ Storage::url($doc->file_path) }}" alt="{{ $doc->document_type }}" style="cursor: pointer;" @click="openPreview('{{ Storage::url($doc->file_path) }}', '{{ $doc->document_type }}')">
+                                <img src="{{ route('admin.secure.file', ['path' => $doc->file_path]) }}" alt="{{ $doc->document_type }}" style="cursor: pointer;" @click="openPreview('{{ route('admin.secure.file', ['path' => $doc->file_path]) }}', '{{ $doc->document_type }}')">
                             @else
                                 <div class="doc-icon"><i class="bi bi-file-pdf text-danger"></i></div>
                             @endif
@@ -526,10 +591,10 @@
                                 <i class="bi bi-check-circle-fill text-success"></i>
                             @endif
                             <div class="mt-2">
-                                <button class="btn btn-xs btn-outline-primary" @click="openPreview('{{ Storage::url($doc->file_path) }}', '{{ strtoupper($doc->document_type) }}')">
+                                <button class="btn btn-xs btn-outline-primary" @click="openPreview('{{ route('admin.secure.file', ['path' => $doc->file_path]) }}', '{{ strtoupper($doc->document_type) }}')">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <a href="{{ Storage::url($doc->file_path) }}" download class="btn btn-xs btn-outline-success">
+                                <a href="{{ route('admin.secure.file', ['path' => $doc->file_path]) }}" download class="btn btn-xs btn-outline-success">
                                     <i class="bi bi-download"></i>
                                 </a>
                             </div>

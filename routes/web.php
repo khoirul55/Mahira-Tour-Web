@@ -155,6 +155,11 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function() {
         Route::post('/{id}/toggle', [App\Http\Controllers\Admin\ScheduleController::class, 'toggleStatus'])->name('toggle');
         Route::post('/{id}/quota', [App\Http\Controllers\Admin\ScheduleController::class, 'updateQuota'])->name('quota');
     });
+    // Secure File Access
+    Route::get('/secure-file/{path}', [App\Http\Controllers\PrivateFileController::class, 'show'])
+        ->where('path', '.*')
+        ->name('admin.secure.file');
+
 });
 
 // ============================================

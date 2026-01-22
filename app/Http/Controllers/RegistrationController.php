@@ -228,7 +228,7 @@ public function store(Request $request)
                 uniqid() . '_' . 
                 time() . '.' . 
                 $file->extension();
-            $path = $file->storeAs('payments', $filename, 'public');
+            $path = $file->storeAs('payments', $filename, 'secure');
             
             // Update payment record
             $dpPayment->update([
@@ -282,7 +282,7 @@ public function submitPelunasan(Request $request, $registrationId)
             uniqid() . '_' . 
             time() . '.' . 
             $file->extension();
-        $path = $file->storeAs('payments', $filename, 'public');
+        $path = $file->storeAs('payments', $filename, 'secure');
         
         // Cek apakah sudah ada payment pelunasan
         $pelunasan = $registration->pelunasanPayment();
@@ -359,7 +359,7 @@ public function submitPelunasan(Request $request, $registrationId)
                 uniqid() . '_' . 
                 time() . '.' . 
                 $file->extension();
-            $path = $file->storeAs('documents/' . $validated['document_type'], $filename, 'public');
+            $path = $file->storeAs('documents/' . $validated['document_type'], $filename, 'secure');
             
             // Create or update document
             Document::updateOrCreate(
