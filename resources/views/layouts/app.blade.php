@@ -34,7 +34,8 @@
     <link rel="stylesheet" href="{{ asset('css/animations.css') }}">
     
     <!-- Navbar CSS - Load before Vite -->
-    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+    <!-- Navbar CSS - Load before Vite -->
+    <link rel="stylesheet" href="{{ asset('css/navbar.css?v=2.0') }}">
     
     <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
