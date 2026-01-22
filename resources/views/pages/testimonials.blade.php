@@ -160,11 +160,14 @@
             lite.addEventListener('click', function() {
                 const id = this.getAttribute('data-id');
                 const iframe = document.createElement('iframe');
-                iframe.setAttribute('src', `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`);
+                // Fix Error 153: Add origin and proper referrer policy
+                const origin = window.location.origin;
+                iframe.setAttribute('src', `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1&origin=${origin}`);
                 iframe.setAttribute('title', 'YouTube video player');
                 iframe.setAttribute('frameborder', '0');
-                iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+                iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
                 iframe.setAttribute('allowfullscreen', '1');
+                iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
                 
                 this.parentNode.replaceChild(iframe, this);
             });

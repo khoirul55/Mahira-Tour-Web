@@ -425,12 +425,13 @@
                 <div class="testimonial-card">
                     <div class="testimonial-video">
                         <iframe 
-                            src="https://www.youtube.com/embed/B-JQ7BGS5i8?rel=0&modestbranding=1&playsinline=1" 
+                            src="https://www.youtube.com/embed/B-JQ7BGS5i8?rel=0&modestbranding=1&playsinline=1&origin={{ request()->getSchemeAndHttpHost() }}" 
                             title="Testimoni Jamaah Mahira Tour"
                             frameborder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                             allowfullscreen
                             loading="lazy"
+                            referrerpolicy="strict-origin-when-cross-origin"
                             style="width: 100%; height: 100%; border-radius: 12px;">
                         </iframe>
                     </div>
@@ -445,12 +446,13 @@
                 <div class="testimonial-card">
                     <div class="testimonial-video">
                         <iframe 
-                            src="https://www.youtube.com/embed/lSbViwp5fCA?rel=0&modestbranding=1&playsinline=1" 
+                            src="https://www.youtube.com/embed/lSbViwp5fCA?rel=0&modestbranding=1&playsinline=1&origin={{ request()->getSchemeAndHttpHost() }}" 
                             title="Testimoni Jamaah Mahira Tour"
                             frameborder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                             allowfullscreen
                             loading="lazy"
+                            referrerpolicy="strict-origin-when-cross-origin"
                             style="width: 100%; height: 100%; border-radius: 12px;">
                         </iframe>
                     </div>
@@ -464,12 +466,13 @@
                 <div class="testimonial-card">
                     <div class="testimonial-video">
                         <iframe 
-                            src="https://www.youtube.com/embed/JgQmegExd5A?rel=0&modestbranding=1&playsinline=1" 
+                            src="https://www.youtube.com/embed/JgQmegExd5A?rel=0&modestbranding=1&playsinline=1&origin={{ request()->getSchemeAndHttpHost() }}" 
                             title="Testimoni Jamaah Mahira Tour"
                             frameborder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                             allowfullscreen
                             loading="lazy"
+                            referrerpolicy="strict-origin-when-cross-origin"
                             style="width: 100%; height: 100%; border-radius: 12px;">
                         </iframe>
                     </div>
