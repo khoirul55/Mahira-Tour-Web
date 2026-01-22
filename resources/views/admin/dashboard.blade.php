@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Admin Panel - Mahira Tour</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -369,11 +370,20 @@
                 padding: 1rem;
             }
         }
+    </style>
 </head>
 <body x-data="adminApp()">
 
+<!-- Mobile Sidebar Toggle -->
+<button class="sidebar-toggle" @click="toggleSidebar()">
+    <i class="bi bi-list fs-4"></i>
+</button>
+
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" :class="{ 'show': sidebarOpen }" @click="toggleSidebar()"></div>
+
 <!-- Sidebar -->
-<div class="sidebar">
+<div class="sidebar" :class="{ 'show': sidebarOpen }">
     <h4>
         <i class="bi bi-shield-check"></i>
         Admin Panel
@@ -666,6 +676,33 @@
     </div>
 </div>
 
+<!-- Modal Reject -->
+<div class="modal fade" id="rejectModal" tabindex="-1" x-ref="rejectModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form :action="rejectAction" method="POST">
+                @csrf
+                <input type="hidden" name="action" value="reject">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Tolak Pembayaran</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Apakah Anda yakin ingin menolak pembayaran ini?</p>
+                    <div class="mb-3">
+                        <label class="form-label">Alasan Penolakan <span class="text-danger">*</span></label>
+                        <textarea name="notes" class="form-control" rows="3" required placeholder="Contoh: Bukti transfer buram, Nominal tidak sesuai..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-danger">Tolak Pembayaran</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- Modal Preview -->
 <div class="modal fade" id="previewModal" tabindex="-1" x-ref="previewModal">
     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -696,9 +733,39 @@
 <script>
 function adminApp() {
     return {
+        sidebarOpen: false,
         previewUrl: '',
         previewTitle: '',
         previewType: 'image',
+        rejectAction: '',
+        
+        init() {
+            // Tab Persistence Logic
+            const urlParams = new URLSearchParams(window.location.search);
+            const tabParam = urlParams.get('tab');
+            if(tabParam) {
+                const tabEl = document.querySelector(`button[data-bs-target="#tab-${tabParam}"]`);
+                if(tabEl) {
+                    const tab = new bootstrap.Tab(tabEl);
+                    tab.show();
+                }
+            }
+
+            // Update URL on tab click
+            const tabLinks = document.querySelectorAll('button[data-bs-toggle="tab"]');
+            tabLinks.forEach(link => {
+                link.addEventListener('shown.bs.tab', event => {
+                    const targetId = event.target.getAttribute('data-bs-target').replace('#tab-', '');
+                    const newUrl = new URL(window.location);
+                    newUrl.searchParams.set('tab', targetId);
+                    window.history.pushState({}, '', newUrl);
+                });
+            });
+        },
+
+        toggleSidebar() {
+            this.sidebarOpen = !this.sidebarOpen;
+        },
         
         openPreview(url, title) {
             this.previewUrl = url;
@@ -708,19 +775,8 @@ function adminApp() {
         },
         
         rejectPayment(id) {
-            const reason = prompt('Alasan penolakan:');
-            if (reason) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = `/admin/verify-payment/${id}`;
-                form.innerHTML = `
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="action" value="reject">
-                    <input type="hidden" name="notes" value="${reason}">
-                `;
-                document.body.appendChild(form);
-                form.submit();
-            }
+            this.rejectAction = `/admin/verify-payment/${id}`;
+            new bootstrap.Modal(this.$refs.rejectModal).show();
         }
     }
 }
