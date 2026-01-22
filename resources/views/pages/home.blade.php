@@ -4,7 +4,7 @@
 @section('title', 'Beranda - Mahira Tour | Travel Haji & Umrah Terpercaya')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/home.css?v=2.0') }}">
+<link rel="stylesheet" href="{{ asset('css/home.css?v=2.1') }}">
 @endpush
 
 @section('content')
@@ -540,16 +540,33 @@
             <h2 class="section-title">Dokumentasi Perjalanan Ibadah</h2>
         </div>
         
-        <!-- Grid Gallery -->
-        <div class="gallery-grid">
-            <template x-for="(item, index) in galleries" :key="index">
-                <div class="gallery-item" @click="openModal(index)">
-                    <img :src="item.src" :alt="item.alt" loading="lazy">
-                    <div class="gallery-overlay">
-                        <i class="bi bi-zoom-in"></i>
+        <!-- Slider Gallery -->
+        <div class="gallery-slider-wrapper" x-data="{
+            scrollLeft() { 
+                $refs.slider.scrollBy({ left: -320, behavior: 'smooth' }); 
+            },
+            scrollRight() { 
+                $refs.slider.scrollBy({ left: 320, behavior: 'smooth' }); 
+            }
+        }">
+            <!-- Desktop Navigation Buttons -->
+            <button class="slider-nav prev desktop-only" @click="scrollLeft()">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+            <button class="slider-nav next desktop-only" @click="scrollRight()">
+                <i class="bi bi-chevron-right"></i>
+            </button>
+
+            <div class="gallery-slider" x-ref="slider">
+                <template x-for="(item, index) in galleries" :key="index">
+                    <div class="gallery-item" @click="openModal(index)">
+                        <img :src="item.src" :alt="item.alt" loading="lazy">
+                        <div class="gallery-overlay">
+                            <i class="bi bi-zoom-in"></i>
+                        </div>
                     </div>
-                </div>
-            </template>
+                </template>
+            </div>
         </div>
         
         <div class="text-center mt-4">

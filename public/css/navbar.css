@@ -217,9 +217,10 @@ body:has(.hero-video-section) .navbar-zen.scrolled .logo-color {
 .mobile-menu-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.3); /* Slightly more transparent */
     z-index: 998;
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(4px); /* Lighter blur for better performance */
+    -webkit-backdrop-filter: blur(4px); /* Safari support */
 }
 
 /* Mobile Menu Drawer - FIXED */
