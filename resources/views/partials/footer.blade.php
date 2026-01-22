@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row g-4">
                 <!-- Brand Column -->
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-5 col-md-6">
                     <div class="footer-brand">
                         <div class="footer-logo">
                             <img src="{{ asset('images/mahira-logo.png') }}" alt="Mahira Tour">
@@ -44,7 +44,7 @@
                 </div>
                 
                 <!-- Quick Links -->
-                <div class="col-lg-2 col-md-6">
+                <div class="col-lg-3 col-md-6">
                     <h5 class="footer-title">Menu</h5>
                     <ul class="footer-links">
                         <li><a href="{{ route('home') }}">Beranda</a></li>
@@ -56,21 +56,8 @@
                     </ul>
                 </div>
                 
-                <!-- Services -->
-                <div class="col-lg-3 col-md-6">
-                    <h5 class="footer-title">Layanan</h5>
-                    <ul class="footer-links">
-                        <li><a href="#">Paket Umrah Reguler</a></li>
-                        <li><a href="#">Paket Umrah VIP</a></li>
-                        <li><a href="#">Paket Haji Furoda</a></li>
-                        <li><a href="#">Umrah Plus Turki</a></li>
-                        <li><a href="#">Umrah Ramadhan</a></li>
-                        <li><a href="#">Manasik Haji/Umrah</a></li>
-                    </ul>
-                </div>
-                
                 <!-- Contact -->
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-4 col-md-6">
                     <h5 class="footer-title">Hubungi Kami</h5>
                     
                     <div class="contact-item">

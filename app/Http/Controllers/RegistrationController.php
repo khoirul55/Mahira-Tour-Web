@@ -61,7 +61,7 @@ public function store(Request $request)
         $availableSeats = $schedule->quota - $schedule->seats_taken;
         
         if ($availableSeats < $validated['num_people']) {
-            throw new \Exception('Maaf, kursi tidak mencukupi. Tersisa ' . $availableSeats . ' kursi.');
+            throw new \Exception('Maaf, kursi tidak mencukupi untuk jumlah jamaah yang diminta.');
         }
     
         $totalPrice = $schedule->price * $validated['num_people'];
@@ -151,7 +151,8 @@ public function store(Request $request)
                 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => $e->getMessage()])->withInput();
+            Log::error('Registration Error: ' . $e->getMessage());
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat memproses pendaftaran. Silakan coba lagi atau hubungi admin.'])->withInput();
         }
     }
     
@@ -249,7 +250,8 @@ public function store(Request $request)
         
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => $e->getMessage()]);
+            Log::error('Payment Upload Error: ' . $e->getMessage());
+            return back()->withErrors(['error' => 'Gagal mengunggah bukti pembayaran via sistem. Silakan coba lagi.']);
         }
     }
 
@@ -310,7 +312,8 @@ public function submitPelunasan(Request $request, $registrationId)
         
     } catch (\Exception $e) {
         DB::rollBack();
-        return back()->withErrors(['error' => $e->getMessage()]);
+        Log::error('Pelunasan Upload Error: ' . $e->getMessage());
+        return back()->withErrors(['error' => 'Gagal mengunggah bukti pelunasan. Silakan hubungi admin jika masalah berlanjut.']);
     }
 }
     
@@ -379,7 +382,8 @@ public function submitPelunasan(Request $request, $registrationId)
             
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => $e->getMessage()]);
+            Log::error('Document Upload Error: ' . $e->getMessage());
+            return back()->withErrors(['error' => 'Gagal mengunggah dokumen. Pastikan format dan ukuran file sesuai.']);
         }
     }
     

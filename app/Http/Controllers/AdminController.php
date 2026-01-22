@@ -102,7 +102,8 @@ class AdminController extends Controller
             
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Gagal memproses: ' . $e->getMessage());
+            Log::error('Payment Verification Error: ' . $e->getMessage());
+            return back()->with('error', 'Gagal memproses pembayaran. Silakan coba lagi.');
         }
     }
     
@@ -305,7 +306,8 @@ public function sendTagihan($registrationId)
         return back()->with('success', '✅ Tagihan pelunasan berhasil dikirim ke ' . $registration->email);
         
     } catch (\Exception $e) {
-        return back()->withErrors(['error' => $e->getMessage()]);
+        Log::error('Send Tagihan Error: ' . $e->getMessage());
+        return back()->withErrors(['error' => 'Gagal mengirim tagihan. Pastikan email user valid atau coba lagi nanti.']);
     }
 }
 
@@ -357,7 +359,8 @@ public function verifyPelunasan(Request $request, $paymentId)
         }
     } catch (\Exception $e) {
         DB::rollBack();
-        return back()->withErrors(['error' => $e->getMessage()]);
+        Log::error('Verify Pelunasan Error: ' . $e->getMessage());
+        return back()->withErrors(['error' => 'Terjadi kesalahan saat memproses pelunasan.']);
     }
 }
 
