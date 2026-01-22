@@ -17,7 +17,7 @@ class StoreRegistrationRequest extends FormRequest
             'schedule_id' => 'required|exists:schedules,id',
             'full_name' => 'required|string|min:3|max:255',
             'phone' => ['required', 'string', 'min:10', 'max:15', 'regex:/^(\+62|62|0)8[1-9][0-9]{6,11}$/'],
-            'email' => 'required|email:dns,spoof|max:255',
+            'email' => 'required|email:dns|max:255',
             'num_people' => 'required|integer|between:1,10',
             'notes' => 'nullable|string|max:1000',
         ];

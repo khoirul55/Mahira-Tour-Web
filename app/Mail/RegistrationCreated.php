@@ -23,6 +23,6 @@ class RegistrationCreated extends Mailable
     public function build()
     {
         return $this->subject('Pendaftaran Berhasil - Mahira Tour')
-                    ->view('emails.registration-created');
+                    ->view('emails.registration_created');
     }
 }
