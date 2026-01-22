@@ -257,67 +257,7 @@
     </div>
 </div>
 
-<!-- Info Section -->
-<section class="info-card-section">
-    <div class="container">
-        <div class="text-center mb-5" data-aos="fade-up">
-            <div class="section-subtitle" style="color: var(--gold); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: inline-block; padding: 8px 20px; background: rgba(212, 175, 55, 0.1); border-radius: 50px;">
-                KEMUDAHAN PENDAFTARAN
-            </div>
-            <h2 class="fw-bold" style="font-size: 2.5rem; color: var(--primary-navy);">Kenapa Daftar di Mahira Tour?</h2>
-        </div>
-        
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                <div class="info-feature-card">
-                    <div class="info-icon">
-                        <i class="bi bi-clock-history"></i>
-                    </div>
-                    <h5 class="info-title">Booking Cepat</h5>
-                    <p class="info-text">Proses pendaftaran mudah dan cepat, konfirmasi dalam 1x24 jam</p>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                <div class="info-feature-card">
-                    <div class="info-icon">
-                        <i class="bi bi-credit-card"></i>
-                    </div>
-                    <h5 class="info-title">Cicilan Tersedia</h5>
-                    <p class="info-text">Program cicilan dengan DP 30% dan pelunasan H-30 keberangkatan</p>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                <div class="info-feature-card">
-                    <div class="info-icon">
-                        <i class="bi bi-headset"></i>
-                    </div>
-                    <h5 class="info-title">Support 24/7</h5>
-                    <p class="info-text">Tim kami siap membantu Anda kapan saja melalui WhatsApp</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- CTA Section -->
-<section class="cta-section">
-    <div class="container">
-        <div class="cta-content text-center">
-            <div data-aos="fade-up">
-                <h3 class="fw-bold mb-3" style="font-size: 2.5rem;">Tidak Menemukan Jadwal yang Cocok?</h3>
-                <p class="mb-5" style="font-size: 1.25rem; opacity: 0.95; max-width: 600px; margin: 0 auto 2rem;">
-                    Hubungi kami untuk informasi jadwal private atau keberangkatan khusus
-                </p>
-                <a href="{{ route('contact') }}" class="btn-cta">
-                    <i class="bi bi-telephone"></i>
-                    Hubungi Kami Sekarang
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
 @endsection
 
 @push('scripts')
