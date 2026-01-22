@@ -42,54 +42,7 @@
     <!-- Page-specific CSS -->
     @stack('styles')
     
-    <!-- Alpine.js x-cloak style -->
-    <style>
-        [x-cloak] { 
-            display: none !important; 
-        }
-        
-        /* Smooth transitions for Alpine */
-        .transition-opacity {
-            transition-property: opacity;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .ease-out {
-            transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-        }
-        
-        .ease-in {
-            transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
-        }
-        
-        .duration-200 {
-            transition-duration: 200ms;
-        }
-        
-        .duration-150 {
-            transition-duration: 150ms;
-        }
-        
-        .duration-300 {
-            transition-duration: 300ms;
-        }
-        
-        .opacity-0 {
-            opacity: 0;
-        }
-        
-        .opacity-100 {
-            opacity: 1;
-        }
-        
-        .-translate-x-full {
-            transform: translateX(-100%);
-        }
-        
-        .translate-x-0 {
-            transform: translateX(0);
-        }
-    </style>
+    <!-- Alpine.js x-cloak style handled in animations.css -->
 </head>
 <body>
     @include('partials.navbar')

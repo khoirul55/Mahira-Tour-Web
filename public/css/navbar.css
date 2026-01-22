@@ -7,8 +7,8 @@
     left: 0;
     right: 0;
     width: 100%;
-    background: #ffffff;
-    border-bottom: 1px solid #e7e5e4;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
     z-index: 1000;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
@@ -22,8 +22,8 @@ body:has(.hero-video-section) .navbar-zen {
 }
 
 body:has(.hero-video-section) .navbar-zen.scrolled {
-    background: #ffffff;
-    border-bottom: 1px solid #e7e5e4;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
@@ -36,7 +36,7 @@ body:has(.hero-video-section) .navbar-zen:not(.scrolled) .logo-text {
 
 body:has(.hero-video-section) .navbar-zen:not(.scrolled) .btn-zen-primary {
     background: white;
-    color: #001d5f;
+    color: var(--primary);
     border-color: white;
 }
 
@@ -96,7 +96,7 @@ body:has(.hero-video-section) .navbar-zen.scrolled .logo-color {
 .logo-text {
     font-size: 1.1rem;
     font-weight: 700;
-    color: #001d5f;
+    color: var(--primary);
     transition: color 0.3s ease;
 }
 
@@ -123,7 +123,7 @@ body:has(.hero-video-section) .navbar-zen.scrolled .logo-color {
 }
 
 .navbar-menu a:hover {
-    color: #001d5f;
+    color: var(--primary);
 }
 
 .navbar-menu a::after {
@@ -133,7 +133,7 @@ body:has(.hero-video-section) .navbar-zen.scrolled .logo-color {
     left: 0;
     width: 0;
     height: 2px;
-    background: #001d5f;
+    background: var(--primary);
     transition: width 0.25s ease;
 }
 
@@ -157,24 +157,24 @@ body:has(.hero-video-section) .navbar-zen.scrolled .logo-color {
 }
 
 .nav-link-light:hover {
-    color: #001d5f;
+    color: var(--primary);
 }
 
 .btn-zen-primary {
-    background: #001d5f;
-    color: #fff;
+    background: var(--primary);
+    color: var(--white);
     padding: 0.75rem 1.75rem;
     font-size: 0.875rem;
     font-weight: 600;
     text-decoration: none;
-    border: 2px solid #001d5f;
+    border: 2px solid var(--primary);
     border-radius: 12px;
     transition: all 0.3s ease;
 }
 
 .btn-zen-primary:hover {
     background: transparent;
-    color: #001d5f;
+    color: var(--primary);
 }
 
 /* Mobile Elements */
@@ -189,7 +189,7 @@ body:has(.hero-video-section) .navbar-zen.scrolled .logo-color {
     font-size: 1.8rem;
     cursor: pointer;
     padding: 0.5rem;
-    color: #001d5f;
+    color: var(--primary);
     z-index: 1001;
     position: relative;
     display: flex;
@@ -246,7 +246,7 @@ body:has(.hero-video-section) .navbar-zen.scrolled .logo-color {
     display: flex;
     justify-content: flex-end;
     padding: 1.5rem 1.25rem;
-    border-bottom: 1px solid #e7e5e4;
+    border-bottom: 1px solid var(--border);
 }
 
 .mobile-close {
@@ -269,7 +269,7 @@ body:has(.hero-video-section) .navbar-zen.scrolled .logo-color {
 
 .mobile-close:hover {
     background: #f5f5f4;
-    color: #001d5f;
+    color: var(--primary);
 }
 
 .mobile-close:active {
@@ -309,14 +309,14 @@ body:has(.hero-video-section) .navbar-zen.scrolled .logo-color {
 
 .mobile-nav a:active {
     background: #f8f9fa;
-    border-left-color: #001d5f;
-    color: #001d5f;
+    border-left-color: var(--primary);
+    color: var(--primary);
 }
 
 /* Mobile Actions */
 .mobile-actions {
     padding: 1.25rem;
-    border-top: 1px solid #e7e5e4;
+    border-top: 1px solid var(--border);
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
