@@ -36,6 +36,7 @@
     <!-- Navbar CSS - Load before Vite -->
     <!-- Navbar CSS - Load before Vite -->
     <link rel="stylesheet" href="{{ asset('css/navbar.css?v=2.0') }}">
+    <link rel="stylesheet" href="{{ asset('css/page-hero.css') }}">
     
     <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -58,6 +59,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- Page-specific scripts -->
+    <script src="{{ asset('js/navbar.js') }}"></script>
     @stack('scripts')
 </body>
 </html>

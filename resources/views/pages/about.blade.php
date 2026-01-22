@@ -10,13 +10,14 @@
 @section('content')
 
 {{-- HERO --}}
-<section class="hero">
-    <div class="hero-background">
+{{-- HERO --}}
+<section class="page-hero">
+    <div class="page-hero-background">
         <img src="{{ asset('storage/hero/hero-about.jpeg') }}" alt="Tentang Mahira Tour" loading="eager">
     </div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-        <div class="breadcrumb-custom">
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+        <div class="hero-breadcrumb">
             <a href="{{ route('home') }}">
                 <i class="bi bi-house-door-fill"></i> Beranda
             </a>

@@ -14,14 +14,16 @@
     transition: all 0.3s ease;
 }
 
-/* Transparent navbar untuk hero page */
-body:has(.hero-video-section) .navbar-zen {
+/* Transparent navbar untuk hero page (Home & Subpages) */
+body:has(.hero-video-section) .navbar-zen,
+body:has(.page-hero) .navbar-zen {
     background: transparent;
     border-bottom: none;
     box-shadow: none;
 }
 
-body:has(.hero-video-section) .navbar-zen.scrolled {
+body:has(.hero-video-section) .navbar-zen.scrolled,
+body:has(.page-hero) .navbar-zen.scrolled {
     background: var(--white);
     border-bottom: 1px solid var(--border);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -30,17 +32,22 @@ body:has(.hero-video-section) .navbar-zen.scrolled {
 /* White text untuk navbar di hero */
 body:has(.hero-video-section) .navbar-zen:not(.scrolled) .navbar-menu a,
 body:has(.hero-video-section) .navbar-zen:not(.scrolled) .nav-link-light,
-body:has(.hero-video-section) .navbar-zen:not(.scrolled) .logo-text {
+body:has(.hero-video-section) .navbar-zen:not(.scrolled) .logo-text,
+body:has(.page-hero) .navbar-zen:not(.scrolled) .navbar-menu a,
+body:has(.page-hero) .navbar-zen:not(.scrolled) .nav-link-light,
+body:has(.page-hero) .navbar-zen:not(.scrolled) .logo-text {
     color: white;
 }
 
-body:has(.hero-video-section) .navbar-zen:not(.scrolled) .btn-zen-primary {
+body:has(.hero-video-section) .navbar-zen:not(.scrolled) .btn-zen-primary,
+body:has(.page-hero) .navbar-zen:not(.scrolled) .btn-zen-primary {
     background: white;
     color: var(--primary);
     border-color: white;
 }
 
-body:has(.hero-video-section) .navbar-zen:not(.scrolled) .mobile-toggle {
+body:has(.hero-video-section) .navbar-zen:not(.scrolled) .mobile-toggle,
+body:has(.page-hero) .navbar-zen:not(.scrolled) .mobile-toggle {
     color: white;
 }
 
@@ -77,19 +84,23 @@ body:has(.hero-video-section) .navbar-zen:not(.scrolled) .mobile-toggle {
 
 /* Hero Page Initial State (Transparent Navbar) */
 /* Show White Logo, Hide Color Logo */
-body:has(.hero-video-section) .navbar-zen:not(.scrolled) .logo-white {
+body:has(.hero-video-section) .navbar-zen:not(.scrolled) .logo-white,
+body:has(.page-hero) .navbar-zen:not(.scrolled) .logo-white {
     display: block;
 }
-body:has(.hero-video-section) .navbar-zen:not(.scrolled) .logo-color {
+body:has(.hero-video-section) .navbar-zen:not(.scrolled) .logo-color,
+body:has(.page-hero) .navbar-zen:not(.scrolled) .logo-color {
     display: none;
 }
 
 /* Hero Page Scrolled State (White Navbar) */
 /* Revert to Default: Hide White Logo, Show Color Logo */
-body:has(.hero-video-section) .navbar-zen.scrolled .logo-white {
+body:has(.hero-video-section) .navbar-zen.scrolled .logo-white,
+body:has(.page-hero) .navbar-zen.scrolled .logo-white {
     display: none;
 }
-body:has(.hero-video-section) .navbar-zen.scrolled .logo-color {
+body:has(.hero-video-section) .navbar-zen.scrolled .logo-color,
+body:has(.page-hero) .navbar-zen.scrolled .logo-color {
     display: block;
 }
 

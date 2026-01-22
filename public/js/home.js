@@ -310,13 +310,6 @@ Mohon informasi lebih lanjut terkait paket yang saya minati. Terima kasih 🙏`;
         }
     });
     // Navbar scroll effect
-window.addEventListener('scroll', () => {
-    const navbar = document.querySelector('.navbar-zen');
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-});
+
     
 })();

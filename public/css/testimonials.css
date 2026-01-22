@@ -19,7 +19,7 @@ body {
     background: var(--bg-main);
     color: var(--text-dark);
     line-height: 1.6;
-    padding-top: 80px;
+    /* padding-top: 80px; REMOVED for consistency with page-hero */
 }
 
 /* ===== HERO SECTION - MATCH ABOUT STYLE ===== */
