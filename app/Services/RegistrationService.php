@@ -8,6 +8,13 @@ use App\Mail\RegistrationCreated;
 
 class RegistrationService
 {
+    protected $whatsAppService;
+
+    public function __construct(\App\Services\WhatsAppService $whatsAppService)
+    {
+        $this->whatsAppService = $whatsAppService;
+    }
+
     /**
      * Handle the creation of a new registration
      */
@@ -110,6 +117,21 @@ class RegistrationService
             } catch (\Exception $e) {
                 Log::error('Email failed: ' . $e->getMessage());
                 // Don't rollback transaction just for email fail
+            }
+
+            // WHATSAPP NOTIFICATION
+            try {
+                $message = "Assalamu'alaikum *{$registration->full_name}*,\n\n";
+                $message .= "Alhamdulillah, pendaftaran Umrah Anda berhasil diterima.\n";
+                $message .= "No. Registrasi: *{$registration->registration_number}*\n";
+                $message .= "Paket: {$schedule->package_name}\n\n";
+                $message .= "Silakan lengkapi data jamaah dan upload bukti pembayaran melalui Dashboard User:\n";
+                $message .= "{$dashboardUrl}\n\n";
+                $message .= "Terima kasih,\n*Mahira Tour Indonesia*";
+                
+                $this->whatsAppService->sendMessage($registration->phone, $message);
+            } catch (\Exception $e) {
+                Log::error('WhatsApp failed: ' . $e->getMessage());
             }
             
             return $registration;
