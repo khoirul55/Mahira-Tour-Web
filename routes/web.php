@@ -108,30 +108,30 @@ Route::get('/admin/logout', [AuthController::class, 'logout'])->name('admin.logo
 Route::middleware(['admin.auth'])->prefix('admin')->group(function() {
     
     // Dashboard
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
     
     // Payment Verification
-    Route::post('/verify-payment/{id}', [AdminController::class, 'verifyPayment'])->name('admin.verify-payment');
+    Route::post('/verify-payment/{id}', [App\Http\Controllers\Admin\PaymentController::class, 'verify'])->name('admin.verify-payment');
     
     // Pelunasan Management
-    Route::get('/pelunasan', [AdminController::class, 'pelunasan'])->name('admin.pelunasan.index');
-    Route::post('/pelunasan/{id}/send-tagihan', [AdminController::class, 'sendTagihan'])->name('admin.pelunasan.send-tagihan');
-    Route::post('/pelunasan/{id}/verify', [AdminController::class, 'verifyPelunasan'])->name('admin.pelunasan.verify');
+    Route::get('/pelunasan', [App\Http\Controllers\Admin\PaymentController::class, 'pelunasan'])->name('admin.pelunasan.index');
+    Route::post('/pelunasan/{id}/send-tagihan', [App\Http\Controllers\Admin\PaymentController::class, 'sendTagihan'])->name('admin.pelunasan.send-tagihan');
+    Route::post('/pelunasan/{id}/verify', [App\Http\Controllers\Admin\PaymentController::class, 'verifyPelunasan'])->name('admin.pelunasan.verify');
 
     // Registration Management
     Route::prefix('registrations')->name('admin.registrations.')->group(function() {
-        Route::get('/', [AdminController::class, 'registrations'])->name('index');
-        Route::get('/export', [AdminController::class, 'exportRegistrations'])->name('export');
-        Route::get('/{id}', [AdminController::class, 'showRegistration'])->name('show');
-        Route::get('/{id}/export', [AdminController::class, 'exportSingleRegistration'])->name('export-single');
+        Route::get('/', [App\Http\Controllers\Admin\RegistrationController::class, 'index'])->name('index');
+        Route::get('/export', [App\Http\Controllers\Admin\RegistrationController::class, 'export'])->name('export');
+        Route::get('/{id}', [App\Http\Controllers\Admin\RegistrationController::class, 'show'])->name('show');
+        Route::get('/{id}/export', [App\Http\Controllers\Admin\RegistrationController::class, 'exportSingle'])->name('export-single');
     });
     
     // Document Management
-    Route::post('/documents/{id}/verify', [AdminController::class, 'verifyDocument'])->name('admin.documents.verify');
-    Route::get('/documents/download-all/{registrationId}', [AdminController::class, 'downloadAllDocuments'])->name('admin.documents.download-all');
+    Route::post('/documents/{id}/verify', [App\Http\Controllers\Admin\DocumentController::class, 'verify'])->name('admin.documents.verify');
+    Route::get('/documents/download-all/{registrationId}', [App\Http\Controllers\Admin\DocumentController::class, 'downloadAll'])->name('admin.documents.download-all');
     
     // Passport Management
-    Route::post('/passport/{jamaahId}/process', [AdminController::class, 'processPassport'])->name('admin.passport.process');
+    Route::post('/passport/{jamaahId}/process', [App\Http\Controllers\Admin\DocumentController::class, 'processPassport'])->name('admin.passport.process');
     
     // Content Management: Galleries
     Route::prefix('galleries')->name('admin.galleries.')->group(function() {
@@ -155,6 +155,7 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function() {
         Route::post('/{id}/toggle', [App\Http\Controllers\Admin\ScheduleController::class, 'toggleStatus'])->name('toggle');
         Route::post('/{id}/quota', [App\Http\Controllers\Admin\ScheduleController::class, 'updateQuota'])->name('quota');
     });
+    
     // Secure File Access
     Route::get('/secure-file/{path}', [App\Http\Controllers\PrivateFileController::class, 'show'])
         ->where('path', '.*')
