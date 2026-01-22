@@ -11,25 +11,41 @@ class PrivateFileController extends Controller
 {
     public function show(Request $request, $path)
     {
-        // 1. Cek Auth (Admin only for now, can extend to Owner later)
-        if (!auth()->guard('admin_web')->check()) {
-            abort(403, 'Unauthorized access');
+        // 1. Check if file exists
+        if (!Storage::disk('secure')->exists($path)) {
+            // Fallback to public
+            if (Storage::disk('public')->exists($path)) {
+                 return response()->file(Storage::disk('public')->path($path));
+            }
+            abort(404, 'File not found');
         }
 
-        // 2. Cek apakah file ada di secure storage
-        if (Storage::disk('secure')->exists($path)) {
-            $file = Storage::disk('secure')->path($path);
+        $file = Storage::disk('secure')->path($path);
+
+        // 2. ADMIN AUTH
+        if (auth()->guard('admin_web')->check()) {
             return response()->file($file);
         }
-        
-        // 3. FALLBACK: Cek di public storage (untuk migrasi file lama)
-        // Kadang path yang dikirim user lengkap dengan 'documents/...' atau 'payments/...'
-        // Jadi kita coba cek langsung di disk public
-        if (Storage::disk('public')->exists($path)) {
-             $file = Storage::disk('public')->path($path);
-             return response()->file($file);
+
+        // 3. USER TOKEN AUTH (Mahira Dashboard Token)
+        $token = $request->query('token') ?: $request->cookie('mahira_dashboard_token');
+
+        if ($token) {
+            // Check ownership via Document
+            $document = Document::where('file_path', $path)->with('jamaah.registration')->first();
+            if ($document && $document->jamaah->registration->validateAccessToken($token)) {
+                return response()->file($file);
+            }
+
+            // Check ownership via Payment
+            $payment = Payment::where('proof_path', $path)->with('registration')->first();
+            if ($payment && $payment->registration->validateAccessToken($token)) {
+                return response()->file($file);
+            }
+            
+            // Check ownership via Passport (if stored separately, but usually in Document)
         }
 
-        abort(404, 'File not found');
+        abort(403, 'Unauthorized access');
     }
 }

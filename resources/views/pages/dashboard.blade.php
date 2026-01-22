@@ -1561,19 +1561,42 @@ function dashboardApp() {
             }
         },
         
-        openDocumentModal(jamaahId, jamaahName, index) {
+        async openDocumentModal(jamaahId, jamaahName, index) {
             this.docJamaahId = jamaahId;
             this.docJamaahName = jamaahName;
             
             // Reset documents
             this.documents = {
-                ktp: { file: null, preview: null },
-                kk: { file: null, preview: null },
-                photo: { file: null, preview: null },
-                buku_nikah: { file: null, preview: null },
-                passport: { file: null, preview: null }
+                ktp: { file: null, preview: null, exists: false },
+                kk: { file: null, preview: null, exists: false },
+                photo: { file: null, preview: null, exists: false },
+                buku_nikah: { file: null, preview: null, exists: false },
+                passport: { file: null, preview: null, exists: false }
             };
             this.noPassport = false;
+            
+            // Fetch existing documents
+            try {
+                const response = await fetch(`/api/jamaah/${jamaahId}?token={{ request('token') }}`);
+                const data = await response.json();
+                
+                if (data.documents) {
+                    Object.keys(data.documents).forEach(type => {
+                        if (this.documents[type]) {
+                            this.documents[type].exists = true;
+                            this.documents[type].preview = data.documents[type].url;
+                            // Dummy file object for display logic
+                            this.documents[type].file = { name: data.documents[type].file_name, size: 0 }; 
+                        }
+                    });
+                }
+                
+                if (data.need_passport) {
+                    this.noPassport = true;
+                }
+            } catch (error) {
+                console.error('Error fetching docs:', error);
+            }
             
             this.showDocModal = true;
         },
@@ -1590,6 +1613,7 @@ function dashboardApp() {
             }
             
             this.documents[docType].file = file;
+            this.documents[docType].exists = false; // Reset exists flag as this is new
             
             // Create preview for images
             if (file.type.startsWith('image/')) {
@@ -1604,11 +1628,11 @@ function dashboardApp() {
         },
         
         removeFile(docType) {
-            this.documents[docType] = { file: null, preview: null };
+            this.documents[docType] = { file: null, preview: null, exists: false };
         },
         
         formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
+            if (bytes === 0) return 'Existing File';
             const k = 1024;
             const sizes = ['Bytes', 'KB', 'MB'];
             const i = Math.floor(Math.log(bytes) / Math.log(k));
@@ -1616,8 +1640,14 @@ function dashboardApp() {
         },
         
         async submitDocuments() {
-            if (!this.canSubmitDocs) {
-                alert('❌ Mohon upload dokumen wajib: KTP, KK, dan Pas Foto');
+            // Check if required docs are present (either existing or new file)
+            // Note: KTP, KK, Photo are required
+            const ktpOk = this.documents.ktp.file;
+            const kkOk = this.documents.kk.file;
+            const photoOk = this.documents.photo.file;
+            
+            if (!ktpOk || !kkOk || !photoOk) {
+                alert('❌ Mohon upload/lengkapi dokumen wajib: KTP, KK, dan Pas Foto');
                 return;
             }
             
@@ -1625,9 +1655,11 @@ function dashboardApp() {
             
             try {
                 const docTypes = ['ktp', 'kk', 'photo', 'buku_nikah', 'passport'];
+                let uploadCount = 0;
                 
                 for (const docType of docTypes) {
-                    if (this.documents[docType].file) {
+                    // Only upload if it's a NEW file (instanceof File)
+                    if (this.documents[docType].file && this.documents[docType].file instanceof File) {
                         const formData = new FormData();
                         formData.append('jamaah_id', this.docJamaahId);
                         formData.append('document_type', docType);
@@ -1645,6 +1677,7 @@ function dashboardApp() {
                         if (!response.ok) {
                             throw new Error(`Gagal upload ${docType}`);
                         }
+                        uploadCount++;
                     }
                 }
                 
@@ -1661,8 +1694,13 @@ function dashboardApp() {
                     });
                 }
                 
-                alert('✅ Dokumen berhasil diupload!');
-                location.reload();
+                if (uploadCount > 0 || this.noPassport) {
+                    alert('✅ Dokumen berhasil diupdate!');
+                    location.reload();
+                } else {
+                    alert('⚠️ Tidak ada dokumen baru yang diupload.');
+                    this.showDocModal = false;
+                }
                 
             } catch (error) {
                 console.error('Error:', error);

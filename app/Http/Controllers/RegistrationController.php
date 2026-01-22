@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Log;
 
 class RegistrationController extends Controller
 {
+    protected $registrationService;
+
+    public function __construct(\App\Services\RegistrationService $registrationService)
+    {
+        $this->registrationService = $registrationService;
+    }
+
     /**
      * STEP 1: Form Quick Booking (3 fields only)
      */
@@ -42,117 +49,23 @@ class RegistrationController extends Controller
     /**
      * STEP 2: Process Quick Booking
      */
-public function store(Request $request)
-{
-    $validated = $request->validate([
-        'schedule_id' => 'required|exists:schedules,id',
-        'full_name' => 'required|string|min:3|max:255',
-        'phone' => 'required|string|regex:/^08[0-9]{9,11}$/',
-        'email' => 'required|email|max:255',
-        'num_people' => 'required|integer|between:1,10',
-        'notes' => 'nullable|string|max:1000',
-    ]);
-    
-    DB::beginTransaction();
-    
-    try {
-        $schedule = Schedule::lockForUpdate()->findOrFail($validated['schedule_id']);
-        
-        $availableSeats = $schedule->quota - $schedule->seats_taken;
-        
-        if ($availableSeats < $validated['num_people']) {
-            throw new \Exception('Maaf, kursi tidak mencukupi untuk jumlah jamaah yang diminta.');
-        }
-    
-        $totalPrice = $schedule->price * $validated['num_people'];
-        $dpAmount = 5000000;
-        $pelunasanAmount = $totalPrice - $dpAmount;
-        
-        // ✅ FIX: Pastikan pelunasan_deadline SELALU terisi
-        $pelunasanDeadline = $schedule->departure_date->copy()->subDays(30);
-
-        // Create registration
-        $registration = Registration::create([
-            'registration_number' => Registration::generateRegistrationNumber(),
-            'schedule_id' => $schedule->id,
-            'full_name' => $validated['full_name'],
-            'email' => $validated['email'],
-            'phone' => $validated['phone'],
-            'num_people' => $validated['num_people'],
-            'notes' => $validated['notes'],
-            'total_price' => $totalPrice,
-            'dp_amount' => $dpAmount,
-            'pelunasan_amount' => $pelunasanAmount,
-            'pelunasan_deadline' => $pelunasanDeadline, // ✅ PENTING!
-            'status' => 'draft',
-            'completion_percentage' => 5,
-            'payment_deadline' => now()->addDays(3),
-            'document_deadline' => now()->addDays(7),
-            'last_activity_at' => now()
-        ]);
-            // ✅ FIX: Create placeholder jamaah records dengan NIK UNIQUE
-            for ($i = 0; $i < $validated['num_people']; $i++) {
-                Jamaah::create([
-                    'registration_id' => $registration->id,
-                    'title' => 'Tn.',
-                    'full_name' => 'Jamaah ' . ($i + 1) . ' - Belum Dilengkapi',
-                    'nik' => 'T' . str_pad($registration->id, 3, '0', STR_PAD_LEFT) . str_pad(($i + 1), 2, '0', STR_PAD_LEFT) . substr(uniqid(), -9), // ✅ NIK UNIQUE (max 16 char)
-                    'birth_place' => '-',
-                    'birth_date' => now()->subYears(30),
-                    'gender' => 'L',
-                    'marital_status' => 'single',
-                    'father_name' => '-',
-                    'occupation' => '-',
-                    'address' => '-',
-                    'emergency_name' => '-',
-                    'emergency_relation' => '-',
-                    'emergency_phone' => '-',
-                    'completion_status' => 'empty'
-                ]);
-            }
+    public function store(\App\Http\Requests\StoreRegistrationRequest $request)
+    {
+        try {
+            $registration = $this->registrationService->createRegistration($request->validated());
             
-            // Create pending DP payment record
-            Payment::create([
-                'registration_id' => $registration->id,
-                'payment_type' => 'dp',
-                'amount' => $dpAmount,
-                'payment_method' => 'transfer',
-                'status' => 'pending'
-            ]);
-            
-            // Reserve seats
-            $schedule->increment('seats_taken', $validated['num_people']);
-            
-            DB::commit();
-            
-            // Generate token
-            $token = $registration->generateAccessToken();
-
-            // Dashboard URL
-            $dashboardUrl = route('registration.dashboard', [
-                'reg' => $registration->registration_number,
-                'token' => $token
-            ]);
-
-            // Kirim email
-            try {
-                Mail::to($registration->email)
-                     ->send(new \App\Mail\RegistrationCreated($registration, $dashboardUrl));
-            } catch (\Exception $e) {
-                Log::error('Email failed', ['error' => $e->getMessage()]);
-            }
-
             return redirect()
                 ->route('registration.dashboard', [
                     'reg' => $registration->registration_number,
-                    'token' => $token
+                    'token' => $registration->access_token // generated in service
                 ])
                 ->with('success', 'Booking berhasil! Link dashboard telah dikirim ke: ' . $registration->email);
                 
         } catch (\Exception $e) {
-            DB::rollBack();
             Log::error('Registration Error: ' . $e->getMessage());
-            return back()->withErrors(['error' => 'Terjadi kesalahan saat memproses pendaftaran. Silakan coba lagi atau hubungi admin.'])->withInput();
+            return back()
+                ->withErrors(['error' => $e->getMessage()])
+                ->withInput();
         }
     }
     
@@ -431,14 +344,24 @@ public function submitPelunasan(Request $request, $registrationId)
             'city' => $jamaah->city,
             'emergency_name' => $jamaah->emergency_name,
             'emergency_relation' => $jamaah->emergency_relation,
-            'emergency_phone' => $jamaah->emergency_phone
+            'emergency_phone' => $jamaah->emergency_phone,
+            'documents' => $jamaah->documents->mapWithKeys(function ($doc) use ($token) {
+                return [$doc->document_type => [
+                    'exists' => true,
+                    'file_name' => $doc->file_name,
+                    'url' => route('admin.secure.file', ['path' => $doc->file_path, 'token' => $token])
+                ]];
+            })
         ]);
     }
 
     /**
      * API: Update Jamaah Data
      */
-    public function updateJamaahData(Request $request, $id)
+    /**
+     * API: Update Jamaah Data
+     */
+    public function updateJamaahData(\App\Http\Requests\UpdateJamaahRequest $request, $id)
     {
         $jamaah = Jamaah::with('registration')->findOrFail($id);
         $token = $request->query('token') ?: $request->cookie('mahira_dashboard_token');
@@ -447,27 +370,8 @@ public function submitPelunasan(Request $request, $registrationId)
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
         }
 
-        $validated = $request->validate([
-            'title' => 'required|string',
-            'full_name' => 'required|string|min:3',
-            'nik' => 'required|string|size:16',
-            'birth_place' => 'required|string',
-            'birth_date' => 'required|date',
-            'gender' => 'required|in:L,P',
-            'marital_status' => 'required|in:single,married,divorced,widowed',
-            'father_name' => 'required|string',
-            'occupation' => 'required|string',
-            'blood_type' => 'nullable|in:A,B,AB,O',
-            'address' => 'required|string',
-            'province' => 'nullable|string',
-            'city' => 'nullable|string',
-            'emergency_name' => 'required|string',
-            'emergency_relation' => 'required|string',
-            'emergency_phone' => 'required|string'
-        ]);
-        
         try {
-            $jamaah->update($validated);
+            $jamaah->update($request->validated());
             $jamaah->updateCompletionStatus();
             
             return response()->json([
