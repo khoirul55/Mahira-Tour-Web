@@ -20,17 +20,23 @@ class PublicController extends Controller
     public function checkRegistrationSubmit(Request $request)
     {
         $validated = $request->validate([
-            'registration_number' => 'required|string',
+            'keyword' => 'required|string', // Bisa No. Reg atau No. HP
             'email' => 'required|email'
         ]);
         
-        $registration = \App\Models\Registration::where('registration_number', $validated['registration_number'])
-            ->where('email', $validated['email'])
+        // Cari berdasarkan Email DAN (No. Reg ATAU No. HP)
+        $registration = \App\Models\Registration::where('email', $validated['email'])
+            ->where(function($query) use ($validated) {
+                $query->where('registration_number', $validated['keyword'])
+                      ->orWhere('phone', $validated['keyword'])
+                      // Support format HP 08xx vs 62xx
+                      ->orWhere('phone', 'like', '%' . substr($validated['keyword'], -10)); 
+            })
             ->first();
         
         if (!$registration) {
             return back()
-                ->withErrors(['error' => 'Nomor registrasi atau email tidak ditemukan. Pastikan data yang Anda masukkan benar.'])
+                ->withErrors(['error' => 'Data tidak ditemukan. Pastikan Email dan Nomor Registrasi/HP sesuai.'])
                 ->withInput();
         }
         

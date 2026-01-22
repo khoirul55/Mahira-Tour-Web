@@ -148,15 +148,15 @@
             @csrf
             
             <div class="form-group-check">
-                <label>Nomor Registrasi <span style="color: #EF4444;">*</span></label>
+                <label>Nomor Registrasi <span style="font-weight: normal; color: #666;">atau</span> Nomor HP <span style="color: #EF4444;">*</span></label>
                 <input type="text" 
-                       name="registration_number" 
+                       name="keyword" 
                        class="form-control-check" 
-                       placeholder="MHR-20260108-XXXX"
-                       value="{{ old('registration_number') }}"
+                       placeholder="Contoh: MHR-xxx atau 0812xxx"
+                       value="{{ old('keyword') }}"
                        required>
                 <small style="color: #6B7280; font-size: 0.85rem; margin-top: 0.25rem; display: block;">
-                    Cek email/WhatsApp Anda untuk nomor registrasi
+                    Masukkan nomor registrasi (jika tahu) atau nomor WhatsApp yang didaftarkan.
                 </small>
             </div>
             
