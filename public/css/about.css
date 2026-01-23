@@ -138,8 +138,9 @@
 
 .hero h1 .word {
     display: inline-block;
-    animation: fadeInUp 0.8s ease backwards;
 }
+
+
 
 .hero h1 .word:nth-child(1) { animation-delay: 0.3s; }
 .hero h1 .word:nth-child(2) { animation-delay: 0.5s; }
@@ -1136,11 +1137,23 @@
     }
 
     .hero h1 {
-        font-size: 2.2rem;
+        font-size: 2rem; /* Reduced from 2.2rem */
+        line-height: 1.1;
     }
     
     .hero-tagline {
-        font-size: 1.1rem;
+        font-size: 1rem; /* Reduced from 1.1rem */
+    }
+
+    /* Reduce Section Padding Globally on Mobile */
+    .founder-story-section, 
+    .vision-mission-section,
+    .values-section,
+    .leadership-section,
+    .trust-certified-section,
+    .branches,
+    .cta-about {
+        padding: 50px 0; /* Reduced from 100px */
     }
     
     .quick-stats-bar {
@@ -1217,11 +1230,11 @@
     }
     
     .section-title {
-        font-size: 2rem;
+        font-size: 1.75rem; /* Reduced from 2rem */
     }
     
     .cta-content-about h2 {
-        font-size: 2rem;
+        font-size: 1.75rem; /* Reduced from 2rem */
     }
     
     .cta-buttons-about {

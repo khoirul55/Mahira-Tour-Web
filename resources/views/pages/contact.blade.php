@@ -20,10 +20,11 @@
             <span>Hubungi Kami</span>
         </div>
         <h1>
-            <span class="word">Hubungi</span> 
-            <span class="word">Kami</span>
+            <span class="hero-text-line slide-left">Hubungi</span> 
+            <span class="hero-text-line slide-right">Kami</span>
         </h1>
-        <p>Kami siap membantu Anda mewujudkan perjalanan spiritual yang berkesan</p>
+        <p class="hero-tagline">UMRAH BERSAMA, BERKAH BERSAMA</p>
+        <p class="hero-desc">Kami siap membantu Anda mewujudkan perjalanan spiritual yang berkesan</p>
     </div>
 </section>
 

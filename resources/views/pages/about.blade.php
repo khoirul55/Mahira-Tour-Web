@@ -25,8 +25,8 @@
             <span>Tentang Kami</span>
         </div>
         <h1>
-            <span class="word">Tentang</span> 
-            <span class="word">Mahira Tour</span>
+            <span class="hero-text-line slide-left">Tentang</span> 
+            <span class="hero-text-line slide-right">Mahira Tour</span>
         </h1>
         <p class="hero-tagline">{{ $companyInfo['tagline'] }}</p>
         <p class="hero-desc">Mitra terpercaya perjalanan ibadah Anda sejak {{ $companyInfo['founded'] }}</p>

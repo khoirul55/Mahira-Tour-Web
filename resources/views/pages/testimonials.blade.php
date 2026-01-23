@@ -28,10 +28,11 @@
                 <span>Testimoni</span>
             </div>
             <h1>
-                <span class="word">Testimoni</span> 
-                <span class="word">Jamaah</span>
+                <span class="hero-text-line slide-left">Testimoni</span> 
+                <span class="hero-text-line slide-right">Jamaah</span>
             </h1>
-            <p>Pengalaman spiritual dari para jamaah yang telah menunaikan ibadah bersama kami</p>
+            <p class="hero-tagline">UMRAH BERSAMA, BERKAH BERSAMA</p>
+            <p class="hero-desc">Pengalaman spiritual dari para jamaah yang telah menunaikan ibadah bersama kami</p>
         </div>
     </section>
 

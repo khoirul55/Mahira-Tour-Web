@@ -6,6 +6,24 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <title>@yield('title', 'Mahira Tour - Travel Haji & Umrah Terpercaya')</title>
+    <meta name="description" content="@yield('meta_description', 'Mahira Tour adalah travel Haji & Umrah terpercaya di Indonesia. Melayani ribuan jamaah sejak 2016 dengan layanan profesional dan bimbingan ibadah sesuai sunnah.')">
+    <meta name="keywords" content="mahira tour, travel umrah, haji plus, umrah terpercaya, travel haji indonesia, paket umrah hemat, umrah 2026">
+    <meta name="author" content="Mahira Tour">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('title', 'Mahira Tour - Travel Haji & Umrah Terpercaya')">
+    <meta property="og:description" content="@yield('meta_description', 'Mahira Tour adalah travel Haji & Umrah terpercaya di Indonesia. Melayani ribuan jamaah sejak 2016.')">
+    <meta property="og:image" content="{{ asset('images/hero/hero-video-poster.webp') }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url()->current() }}">
+    <meta property="twitter:title" content="@yield('title', 'Mahira Tour - Travel Haji & Umrah Terpercaya')">
+    <meta property="twitter:description" content="@yield('meta_description', 'Mahira Tour adalah travel Haji & Umrah terpercaya di Indonesia. Melayani ribuan jamaah sejak 2016.')">
+    <meta property="twitter:image" content="{{ asset('images/hero/hero-video-poster.webp') }}">
     
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/favicon/apple-touch-icon.png') }}">

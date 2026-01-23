@@ -96,7 +96,31 @@
 
 .hero h1 .word {
     display: inline-block;
-    animation: fadeInUp 0.8s ease backwards;
+}
+
+/* Standardized Slide Animation */
+
+
+.hero-tagline {
+    font-size: 1.25rem;
+    color: var(--white);
+    opacity: 0.95;
+    font-weight: 600;
+    margin-bottom: 5px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.hero-desc {
+    font-size: 1.1rem;
+    color: var(--white);
+    opacity: 0.85;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .hero h1 { font-size: 2rem; line-height: 1.1; }
+    .hero-tagline { font-size: 1rem; }
 }
 
 .hero h1 .word:nth-child(1) { animation-delay: 0.3s; }

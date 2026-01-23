@@ -47,10 +47,11 @@
             <span>Galeri</span>
         </div>
         <h1>
-            <span class="word">Galeri</span> 
-            <span class="word">Kegiatan</span>
+            <span class="hero-text-line slide-left">Galeri</span> 
+            <span class="hero-text-line slide-right">Kegiatan</span>
         </h1>
-        <p>Dokumentasi perjalanan ibadah Umrah bersama Mahira Tour</p>
+        <p class="hero-tagline">UMRAH BERSAMA, BERKAH BERSAMA</p>
+        <p class="hero-desc">Dokumentasi perjalanan ibadah Umrah bersama Mahira Tour</p>
     </div>
 </section>
 

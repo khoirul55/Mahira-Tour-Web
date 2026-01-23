@@ -356,28 +356,101 @@
 }
 
 /* Responsive */
+/* Responsive */
 @media (max-width: 768px) {
-    .booking-card,
-    .check-card {
-        padding: 2rem 1.5rem;
-    }
-    
-    .booking-header h1 {
-        font-size: 1.8rem; /* Smaller font on mobile */
-    }
-    
+    /* Reduce Section Padding */
     .quick-booking-section,
     .check-section {
-        padding: 40px 0; /* Reduced padding */
+        padding: 30px 0; /* Tighter padding */
+        min-height: auto; /* Allow natural height on mobile */
+    }
+    
+    .booking-header {
+        margin-bottom: 2rem;
+        padding: 0 1rem;
     }
 
+    .booking-header h1 {
+        font-size: 1.6rem; /* Smaller font on mobile */
+        margin-bottom: 0.5rem;
+    }
+    
+    .booking-header p {
+        font-size: 0.95rem;
+    }
+
+    /* Card Optimizations */
+    .booking-card,
+    .check-card {
+        padding: 1.5rem; /* Reduced internal padding to give more space for inputs */
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15); /* Softer shadow */
+        margin-bottom: 30px; /* Space at bottom */
+    }
+    
+    .check-card h1 {
+        font-size: 1.5rem; /* Smaller card title */
+    }
+    
+    .check-card p {
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Login Methods Grid */
     .login-method-cards {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Stack vertically */
+        gap: 0.75rem;
+    }
+    
+    .method-card {
+        padding: 0.8rem;
+        flex-direction: row; /* Horizontal layout for buttons on mobile is often better */
+        justify-content: flex-start;
+        text-align: left;
+    }
+    
+    .method-card i {
+        font-size: 1.2rem;
+        margin-right: 0.5rem;
+    }
+    
+    .method-title {
+        font-size: 0.9rem;
     }
 
+    /* Form Elements */
+    .form-group-quick,
+    .form-group-check {
+        margin-bottom: 1.25rem;
+    }
+    
+    .form-control-quick,
+    .form-select-quick,
+    .form-control-check {
+        padding: 12px 14px; /* Slightly more compact inputs */
+        font-size: 0.95rem;
+    }
+    
+    /* Buttons */
     .btn-booking,
     .btn-check {
-        padding: 14px; /* Slightly smaller button on mobile */
+        padding: 14px;
         font-size: 1rem;
+        border-radius: 12px; /* Matching input radius */
+    }
+    
+    /* Package Summary in Quick Book */
+    .package-summary {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .package-summary h3 {
+        font-size: 1.1rem;
+    }
+    
+    .package-price {
+        font-size: 1.4rem;
     }
 }

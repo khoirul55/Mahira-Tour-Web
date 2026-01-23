@@ -28,10 +28,11 @@
             <span>Jadwal Keberangkatan</span>
         </div>
         <h1>
-            <span class="word">Jadwal</span> 
-            <span class="word">Keberangkatan</span>
+            <span class="hero-text-line slide-left">Jadwal</span> 
+            <span class="hero-text-line slide-right">Keberangkatan</span>
         </h1>
-        <p>Pilih jadwal yang sesuai dengan rencana perjalanan spiritual Anda</p>
+        <p class="hero-tagline">UMRAH BERSAMA, BERKAH BERSAMA</p>
+        <p class="hero-desc">Pilih jadwal yang sesuai dengan rencana perjalanan spiritual Anda</p>
     </div>
 </section>
 
