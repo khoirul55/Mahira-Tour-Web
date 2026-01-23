@@ -11,8 +11,9 @@
     <!-- Hero Section -->
     <section class="page-hero">
         <div class="page-hero-background">
-            <img src="{{ asset('storage/hero/hero-testimonial.jpeg') }}" 
+            <img src="{{ asset('storage/hero/hero-testimonial.webp') }}" 
                  alt="Testimoni Jamaah Mahira Tour" 
+                 fetchpriority="high"
                  loading="eager">
         </div>
         

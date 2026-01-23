@@ -10,7 +10,7 @@
 @section('content')
 <section class="page-hero">
     <div class="page-hero-background">
-        <img src="{{ asset('storage/gallery/kaabah.jpg') }}" alt="Hubungi Mahira Tour" loading="eager">
+        <img src="{{ asset('storage/gallery/kaabah.webp') }}" alt="Hubungi Mahira Tour" fetchpriority="high" loading="eager">
     </div>
     <div class="page-hero-overlay"></div>
     <div class="page-hero-content">
