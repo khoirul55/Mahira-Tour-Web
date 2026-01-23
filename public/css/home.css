@@ -798,6 +798,66 @@ html, body {
     /* Mobile Layout Updates */
     .hero-video-section { min-height: 550px; }
     .hero-content-wrapper { padding-top: 90px; }
+}
+
+/* Scroll Hint Animation (Mobile Only) */
+.scroll-hint-wrapper {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 10;
+    display: none; /* Hidden by default (Desktop) */
+}
+
+@media (max-width: 768px) {
+    .scroll-hint-wrapper {
+        display: block; /* Show only on mobile */
+    }
+}
+
+.scroll-hand {
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    font-size: 22px;
+    animation: swipeHint 1.5s ease-in-out infinite;
+    border: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+@keyframes swipeHint {
+    0% { transform: translateX(0) rotate(0deg); opacity: 1; }
+    50% { transform: translateX(-15px) rotate(-10deg); opacity: 0.8; }
+    100% { transform: translateX(0) rotate(0deg); opacity: 1; }
+}
+
+/* Desktop Hover Navigation */
+.slider-nav.desktop-hover-reveal {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.9);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gallery-slider-wrapper:hover .slider-nav.desktop-hover-reveal {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+}
+
+.gallery-slider {
+    cursor: grab; /* Show grab cursor */
+}
+
+.gallery-slider:active {
+    cursor: grabbing;
+}
+@media (max-width: 768px) {
     .hero-content { padding: 0 20px; }
     .hero-title { font-size: 32px; word-wrap: break-word; }
     .hero-spiritual { font-size: 13px; }

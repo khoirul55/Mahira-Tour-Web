@@ -547,15 +547,37 @@
             },
             scrollRight() { 
                 $refs.slider.scrollBy({ left: 320, behavior: 'smooth' }); 
+            },
+            hintVisible: true,
+            idleTimer: null,
+            interact() {
+                this.hintVisible = false;
+                clearTimeout(this.idleTimer);
+                this.idleTimer = setTimeout(() => {
+                    this.hintVisible = true;
+                }, 3000);
             }
-        }">
-            <!-- Desktop Navigation Buttons -->
-            <button class="slider-nav prev desktop-only" @click="scrollLeft()">
+        }"
+        x-init="$watch('hintVisible', value => console.log('Hint:', value))"
+        @touchstart.passive="interact()"
+        @scroll.passive="interact()"
+        @mouseenter="hintVisible = false"
+        class="gallery-slider-wrapper relative group" {{-- Added relative and group for hover effects --}}
+        >
+            <!-- Desktop Navigation Buttons (Hover Only) -->
+            <button class="slider-nav prev desktop-hover-reveal" @click="scrollLeft()">
                 <i class="bi bi-chevron-left"></i>
             </button>
-            <button class="slider-nav next desktop-only" @click="scrollRight()">
+            <button class="slider-nav next desktop-hover-reveal" @click="scrollRight()">
                 <i class="bi bi-chevron-right"></i>
             </button>
+
+            <!-- Hand Scroll Hint (Mobile Only + Smart Idle) -->
+            <div class="scroll-hint-wrapper" x-show="hintVisible" x-transition.opacity.duration.500ms>
+                <div class="scroll-hand">
+                    <i class="bi bi-hand-index-thumb"></i>
+                </div>
+            </div>
 
             <div class="gallery-slider" x-ref="slider">
                 <template x-for="(item, index) in galleries" :key="index">
