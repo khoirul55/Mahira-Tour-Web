@@ -555,7 +555,7 @@
                 clearTimeout(this.idleTimer);
                 this.idleTimer = setTimeout(() => {
                     this.hintVisible = true;
-                }, 3000);
+                }, 1500);
             }
         }"
         x-init="$watch('hintVisible', value => console.log('Hint:', value))"
