@@ -143,7 +143,7 @@
                             <span>Tahun didirikan</span>
                         </div>
                         <div class="metric">
-                            <strong>1,234</strong>
+                            <strong>1000+</strong>
                             <span>Jamaah terlayani</span>
                         </div>
                         <div class="metric">
