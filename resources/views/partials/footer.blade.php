@@ -8,7 +8,7 @@
                 <div class="col-lg-5 col-md-6">
                     <div class="footer-brand">
                         <div class="footer-logo">
-                            <img src="{{ asset('images/mahira-logo.png') }}" alt="Mahira Tour">
+                            <img src="{{ asset('images/mahira-logo.webp') }}" alt="Mahira Tour" loading="lazy">
                             <span>Mahira Tour</span>
                         </div>
 

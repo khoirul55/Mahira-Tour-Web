@@ -24,12 +24,12 @@
         muted 
         loop 
         playsinline
-        poster="{{ asset('images/jamaah2.jpg') }}"
+        poster="{{ asset('images/hero/jamaah2.webp') }}"
     >
         <source src="{{ asset('videos/kaabah-hero.mp4') }}" type="video/mp4">
         <source src="{{ asset('videos/kaabah-hero.webm') }}" type="video/webm">
         <!-- Fallback for browsers that don't support video -->
-        <img src="{{ asset('images/jamaah2.jpg') }}" alt="Ka'bah" />
+        <img src="{{ asset('images/hero/jamaah2.webp') }}" alt="Ka'bah" fetchpriority="high" />
     </video>
     
     <!-- Strategic Gradient Overlay -->
@@ -161,7 +161,7 @@
             </div>
             <div class="col-lg-6">
                 <div class="about-image">
-                    <img src="{{ asset('images/hero/jamaah2.jpeg') }}" alt="Tim Mahira Tour bersama jamaah">
+                    <img src="{{ asset('images/hero/jamaah2.webp') }}" alt="Tim Mahira Tour bersama jamaah" loading="lazy">
                 </div>
             </div>
         </div>
@@ -292,7 +292,7 @@
             <!-- Package 1: Umrah Januari -->
             <div class="package-card">
                 <div class="package-image">
-                    <img src="{{ asset('images/hero/umrah-januari.jpeg') }}" alt="Paket Umrah Januari">
+                    <img src="{{ asset('images/hero/umrah-januari.webp') }}" alt="Paket Umrah Januari" loading="lazy">
                 </div>
                 
                 <div class="quick-info">
@@ -330,7 +330,7 @@
                 <div class="featured-badge">Paling Diminati</div>
                 
                 <div class="package-image">
-                    <img src="{{ asset('images/hero/umrah-ramadhan.jpeg') }}" alt="Paket Umrah Ramadhan">
+                    <img src="{{ asset('images/hero/umrah-ramadhan.webp') }}" alt="Paket Umrah Ramadhan" loading="lazy">
                 </div>
                 
                 <div class="quick-info">
@@ -366,7 +366,7 @@
             <!-- Package 3: Umrah Syawal -->
             <div class="package-card">
                 <div class="package-image">
-                    <img src="{{ asset('images/hero/umrah-syawal.jpeg') }}" alt="Paket Umrah Syawal">
+                    <img src="{{ asset('images/hero/umrah-syawal.webp') }}" alt="Paket Umrah Syawal" loading="lazy">
                 </div>
                 
                 <div class="quick-info">
@@ -654,7 +654,7 @@
             <!-- Kementerian Agama RI -->
             <div class="partner-item">
                 <div class="partner-logo-wrapper">
-                    <img src="{{ asset('images/partners/kemenag.png') }}" alt="Kementerian Agama RI">
+                    <img src="{{ asset('images/partners/kemenag.webp') }}" alt="Kementerian Agama RI" loading="lazy">
                 </div>
                 <h4 class="partner-name">Kementerian Agama RI</h4>
                 <p class="partner-desc">PPIU No: 21062301498960002</p>
@@ -663,7 +663,7 @@
             <!-- Siskopatuh -->
             <div class="partner-item">
                 <div class="partner-logo-wrapper">
-                    <img src="{{ asset('images/partners/siskopatuh.png') }}" alt="Siskopatuh">
+                    <img src="{{ asset('images/partners/siskopatuh.webp') }}" alt="Siskopatuh" loading="lazy">
                 </div>
                 <h4 class="partner-name">Siskopatuh</h4>
                 <p class="partner-desc">Sistem Komputerisasi Haji Terpadu</p>
@@ -672,7 +672,7 @@
             <!-- HIMPUH -->
             <div class="partner-item">
                 <div class="partner-logo-wrapper">
-                    <img src="{{ asset('images/partners/himpuh.png') }}" alt="HIMPUH">
+                    <img src="{{ asset('images/partners/himpuh.webp') }}" alt="HIMPUH" loading="lazy">
                 </div>
                 <h4 class="partner-name">HIMPUH</h4>
                 <p class="partner-desc">Himpunan Penyelenggara Umrah Haji</p>

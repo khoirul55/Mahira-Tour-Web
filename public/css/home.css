@@ -437,7 +437,7 @@ html, body {
 /* ========== HADITH PARALLAX SECTION ========== */
 .hadith-section {
     position: relative;
-    background-image: url('../images/hero/hero-about.jpeg'); /* Placeholder Image */
+    background-image: url('../images/hero/hero-about.webp'); /* Placeholder Image */
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;

@@ -13,7 +13,7 @@
 {{-- HERO --}}
 <section class="page-hero">
     <div class="page-hero-background">
-        <img src="{{ asset('storage/hero/hero-about.jpeg') }}" alt="Tentang Mahira Tour" loading="eager">
+        <img src="{{ asset('images/hero/hero-about.webp') }}" alt="Tentang Mahira Tour" fetchpriority="high" loading="eager">
     </div>
     <div class="page-hero-overlay"></div>
     <div class="page-hero-content">
@@ -283,7 +283,7 @@
         <div class="legal-grid-compact">
             <div class="legal-card-compact">
                 <div class="legal-logo">
-                    <img src="{{ asset('images/partners/kemenag.png') }}" alt="Kementerian Agama RI" loading="lazy">
+                    <img src="{{ asset('images/partners/kemenag.webp') }}" alt="Kementerian Agama RI" loading="lazy">
                 </div>
                 <h5>Kementerian Agama RI</h5>
                 <p>Berizin Resmi</p>
@@ -291,7 +291,7 @@
             
             <div class="legal-card-compact">
                 <div class="legal-logo">
-                    <img src="{{ asset('images/partners/siskopatuh.png') }}" alt="Siskopatuh" loading="lazy">
+                    <img src="{{ asset('images/partners/siskopatuh.webp') }}" alt="Siskopatuh" loading="lazy">
                 </div>
                 <h5>Siskopatuh</h5>
                 <p>Terdaftar</p>
@@ -299,7 +299,7 @@
             
             <div class="legal-card-compact">
                 <div class="legal-logo">
-                    <img src="{{ asset('images/partners/himpuh.png') }}" alt="HIMPUH" loading="lazy">
+                    <img src="{{ asset('images/partners/himpuh.webp') }}" alt="HIMPUH" loading="lazy">
                 </div>
                 <h5>HIMPUH</h5>
                 <p>Anggota Resmi</p>

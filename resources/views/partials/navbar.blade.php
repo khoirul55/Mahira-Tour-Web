@@ -5,9 +5,9 @@
     <div class="navbar-container">
         <a href="{{ url('/') }}" class="navbar-logo">
             <!-- Logo for Transparent Header (White) -->
-            <img src="{{ asset('images/mahira-logo-white.png') }}" alt="Mahira Tour" class="logo-white">
+            <img src="{{ asset('images/mahira-logo-white.webp') }}" alt="Mahira Tour" class="logo-white">
             <!-- Logo for Scrolled Header (Original Color) -->
-            <img src="{{ asset('images/mahira-logo-transparent.png') }}" alt="Mahira Tour" class="logo-color">
+            <img src="{{ asset('images/mahira-logo-transparent.webp') }}" alt="Mahira Tour" class="logo-color">
         </a>
 
         {{-- Desktop Menu --}}
