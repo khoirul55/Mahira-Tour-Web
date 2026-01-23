@@ -1,0 +1,383 @@
+/* ========================================
+   REGISTRATION & BOOKING FLOW STYLES
+   ======================================== */
+
+/* Shared Section Styles */
+.quick-booking-section,
+.check-section {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #001D5F 0%, #002B8F 100%);
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Background Pattern (Harmonized) */
+.quick-booking-section::before,
+.check-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.05" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') bottom center no-repeat;
+    opacity: 0.3;
+}
+
+.booking-container {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding: 0 15px;
+}
+
+/* Header Styles */
+.booking-header {
+    text-align: center;
+    color: white;
+    margin-bottom: 3rem;
+}
+
+.booking-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.booking-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Card Styles */
+.booking-card,
+.check-card {
+    background: white;
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+.check-card {
+    max-width: 500px;
+}
+
+.check-card h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.check-card p {
+    color: var(--gray);
+    margin-bottom: 2rem;
+}
+
+/* Selection Mode Styles (New) */
+.login-method-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.method-label {
+    cursor: pointer;
+    position: relative;
+}
+
+.method-input {
+    display: none;
+}
+
+.method-card {
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.method-card:hover {
+    border-color: var(--primary);
+    background: var(--bg-main);
+}
+
+.method-input:checked + .method-card {
+    border-color: var(--primary);
+    background: rgba(0, 29, 95, 0.05);
+    color: var(--primary);
+}
+
+.method-card i {
+    font-size: 1.5rem;
+    color: var(--text-light);
+    transition: color 0.3s;
+}
+
+.method-input:checked + .method-card i {
+    color: var(--primary);
+}
+
+.method-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-medium);
+}
+
+.method-input:checked + .method-card .method-title {
+    color: var(--primary);
+}
+
+/* Package Summary (Quick Booking) */
+.package-summary {
+    background: linear-gradient(135deg, #F8F9FF 0%, #E8EBF3 100%);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 2px solid var(--gold);
+}
+
+.package-summary h3 {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+.package-info {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.package-info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary);
+}
+
+.package-info-item i {
+    color: var(--gold);
+    width: 20px;
+}
+
+.package-price {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--gold);
+    margin-top: 1rem;
+}
+
+/* Form Elements */
+.form-group-quick,
+.form-group-check {
+    margin-bottom: 1.5rem;
+}
+
+.form-group-quick label,
+.form-group-check label {
+    display: block;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-group-quick label .required {
+    color: #EF4444;
+}
+
+.form-control-quick,
+.form-select-quick,
+.form-control-check {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s;
+    font-family: inherit;
+    background: white;
+}
+
+.form-control-quick:focus,
+.form-select-quick:focus,
+.form-control-check:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 29, 95, 0.1);
+}
+
+.form-control-quick.is-invalid {
+    border-color: #EF4444;
+}
+
+.form-select-quick {
+    cursor: pointer;
+}
+
+/* Buttons */
+.btn-booking,
+.btn-check {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+    text-decoration: none;
+    display: block; /* Ensure block display */
+    text-align: center;
+    position: relative; /* Ensure z-index works */
+    z-index: 10;
+}
+
+.btn-booking:hover,
+.btn-check:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
+    color: white;
+}
+
+.btn-booking:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Info Notes & Alerts */
+.info-note {
+    background: #FEF3C7;
+    border: 2px solid #F59E0B;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.info-note i {
+    color: #F59E0B;
+    font-size: 1.5rem;
+}
+
+.info-note-content {
+    flex: 1;
+}
+
+.info-note-content strong {
+    color: var(--primary);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.info-note-content p {
+    margin: 0;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.alert-custom,
+.alert-check {
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.alert-danger {
+    background: #FEE2E2;
+    border: 2px solid #EF4444;
+    color: #991B1B;
+}
+
+.alert-check {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Divider & Links (Check Page) */
+.divider {
+    text-align: center;
+    margin: 2rem 0;
+    color: var(--gray);
+    position: relative;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background: var(--border);
+}
+
+.divider::before { left: 0; }
+.divider::after { right: 0; }
+
+.link-register {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: var(--gray);
+}
+
+.link-register a {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.link-register a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .booking-card,
+    .check-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .booking-header h1 {
+        font-size: 1.8rem; /* Smaller font on mobile */
+    }
+    
+    .quick-booking-section,
+    .check-section {
+        padding: 40px 0; /* Reduced padding */
+    }
+
+    .login-method-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .btn-booking,
+    .btn-check {
+        padding: 14px; /* Slightly smaller button on mobile */
+        font-size: 1rem;
+    }
+}
