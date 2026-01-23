@@ -143,7 +143,7 @@
                             <span>Tahun didirikan</span>
                         </div>
                         <div class="metric">
-                            <strong>1000+</strong>
+                            <strong>2000+</strong>
                             <span>Jamaah terlayani</span>
                         </div>
                         <div class="metric">
@@ -249,11 +249,11 @@
     <div class="container">
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-number">5000+</div>
+                <div class="stat-number">2000+</div>
                 <div class="stat-label">Jamaah Terlayani</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">15+</div>
+                <div class="stat-number">10+</div>
                 <div class="stat-label">Tahun Berpengalaman</div>
             </div>
             <div class="stat-card">
