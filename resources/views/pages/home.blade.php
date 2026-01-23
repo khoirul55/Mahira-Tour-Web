@@ -40,10 +40,14 @@
         <div class="container">
             <div class="hero-content">
                 
-                {{-- 1. HEADLINE: Lead with Aspiration --}}
+                {{-- 1. HEADLINE: Cinematic Slide Animation --}}
                 <h1 class="hero-title">
-                    Wujudkan Ibadah <span class="highlight">Umrah & Haji</span><br>
-                    Bersama Keluarga
+                    <span class="hero-text-line slide-left">
+                        Wujudkan Ibadah <span class="highlight">Umrah & Haji</span>
+                    </span>
+                    <span class="hero-text-line slide-right">
+                        Bersama Keluarga
+                    </span>
                 </h1>
                 
                 {{-- 2. SPIRITUAL ANCHOR: Quranic Reference (Subtle) --}}
@@ -67,7 +71,7 @@
                 <div class="hero-cta">
                     {{-- Path A: WhatsApp Consultation (Primary) --}}
                     <a href="https://wa.me/6282184515310?text=Assalamualaikum,%20saya%20ingin%20konsultasi%20paket%20umrah" 
-                       class="btn-primary"
+                       class="btn-primary pulse-effect"
                        target="_blank"
                        rel="noopener">
                         <i class="bi bi-whatsapp"></i>
