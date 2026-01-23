@@ -84,7 +84,7 @@
                             <i class="fa-solid fa-envelope"></i>
                         </div>
                         <div>
-                            <a href="mailto:info@mahiratour.com">info@mahiratour.com</a>
+                            <a href="mailto:admin@mahiratour.id">admin@mahiratour.id</a>
                         </div>
                     </div>
                     

@@ -105,7 +105,7 @@
         
         <p>Jika ada pertanyaan, hubungi kami:<br>
         📞 WhatsApp: 0821-8451-5310<br>
-        📧 Email: info@mahiratour.com</p>
+        📧 Email: admin@mahiratour.id</p>
         
         <p>Jazakumullah khairan,<br>
         <strong>Tim Mahira Tour</strong></p>
