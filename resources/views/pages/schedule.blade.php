@@ -11,7 +11,7 @@
 <!-- Hero Section -->
 <section class="page-hero">
     <div class="page-hero-background">
-        <img src="{{ asset('storage/hero/hero-schedule.webp') }}" 
+        <img src="{{ asset('images/hero/hero-schedule.webp') }}" 
              alt="Jadwal Keberangkatan Mahira Tour" 
              fetchpriority="high"
              loading="eager">

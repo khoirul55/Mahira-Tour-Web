@@ -30,7 +30,7 @@
 <!-- Hero Section -->
 <section class="page-hero">
     <div class="page-hero-background">
-        <img src="{{ asset('storage/hero/hero-gallery.webp') }}" 
+        <img src="{{ asset('images/hero/hero-gallery.webp') }}" 
              alt="Galeri Kegiatan Mahira Tour" 
              fetchpriority="high"
              loading="eager">
