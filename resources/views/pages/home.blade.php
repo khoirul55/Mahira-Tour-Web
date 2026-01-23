@@ -24,12 +24,12 @@
         muted 
         loop 
         playsinline
-        poster="{{ asset('images/hero/jamaah2.webp') }}"
+        poster="{{ asset('images/hero/video-poster.webp') }}"
     >
         <source src="{{ asset('videos/kaabah-hero.mp4') }}" type="video/mp4">
         <source src="{{ asset('videos/kaabah-hero.webm') }}" type="video/webm">
         <!-- Fallback for browsers that don't support video -->
-        <img src="{{ asset('images/hero/jamaah2.webp') }}" alt="Ka'bah" fetchpriority="high" />
+        <img src="{{ asset('images/hero/video-poster.webp') }}" alt="Ka'bah" fetchpriority="high" />
     </video>
     
     <!-- Strategic Gradient Overlay -->
