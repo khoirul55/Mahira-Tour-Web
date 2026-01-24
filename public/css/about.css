@@ -246,52 +246,55 @@
 }
 
 .founders-side {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+    display: none; /* Deprecated */
 }
 
-.founder-card-compact {
-    text-align: center;
-    padding: 30px;
-    background: var(--light);
-    border-radius: 20px;
-    transition: all 0.3s;
+/* Story Image Styling */
+.story-image-container {
+    position: relative;
+    padding: 20px;
 }
 
-.founder-card-compact:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(212,175,55,0.15);
-}
-
-.founder-photo-compact {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
+.story-image-frame {
+    position: relative;
+    border-radius: 20px; /* Modern rounded corners */
     overflow: hidden;
-    margin: 0 auto 20px auto;
-    border: 4px solid var(--accent);
-    box-shadow: 0 10px 30px rgba(212,175,55,0.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    aspect-ratio: 4/5; /* Portrait orientation for magazine feel */
 }
 
-.founder-photo-compact img {
+.story-img-main {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 40%;
+    transition: transform 0.7s ease;
 }
 
-.founder-card-compact h4 {
-    font-size: 1.2rem;
+.story-image-frame:hover .story-img-main {
+    transform: scale(1.05); /* Subtle zoom effect */
+}
+
+.story-img-badge {
+    position: absolute;
+    bottom: 30px;
+    right: -20px;
+    background: var(--white);
+    padding: 15px 30px;
+    border-radius: 50px;
+    box-shadow: -10px 10px 30px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
     font-weight: 700;
-    color: var(--dark);
-    margin-bottom: 5px;
+    color: var(--primary);
+    border-left: 4px solid var(--accent);
+    z-index: 2;
+    transform: translateX(-10px);
 }
 
-.founder-card-compact p {
-    font-size: 0.9rem;
-    color: var(--accent);
-    font-weight: 600;
+.story-img-badge i {
+    color: #E11D48; /* Heart color */
+    font-size: 1.2rem;
 }
 
 /* Story Side */
@@ -303,54 +306,87 @@
 
 .story-quote {
     position: relative;
-    background: linear-gradient(135deg, var(--cream) 0%, #FAFAF8 100%);
-    border-left: 4px solid var(--accent);
-    padding: 40px 40px 40px 50px;
-    border-radius: 12px;
+    background: #FFFFFF;
+    border: 1px solid rgba(212,175,55,0.2);
+    border-left: 5px solid var(--accent);
+    padding: 50px 40px;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05); /* Soft premium shadow */
+    transition: transform 0.3s ease;
+}
+
+.story-quote:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 60px rgba(212,175,55,0.1);
 }
 
 .story-quote i {
     position: absolute;
     top: 30px;
-    left: 20px;
-    font-size: 2rem;
+    left: 30px;
+    font-size: 3rem;
     color: var(--accent);
-    opacity: 0.3;
+    opacity: 0.15;
+    font-family: serif; /* Classic quote style */
 }
 
 .story-quote p {
     font-family: 'Lora', serif;
-    font-size: 1.1rem;
-    line-height: 1.9;
-    color: var(--gray);
+    font-size: 1.25rem; /* Larger for impact */
+    line-height: 1.8;
+    color: var(--text-dark); /* Darker for readability */
     font-style: italic;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 2;
 }
 
 .story-quote strong {
     color: var(--primary);
     font-weight: 600;
+    background: linear-gradient(120deg, rgba(212,175,55,0.2) 0%, rgba(212,175,55,0) 100%);
+    padding: 0 5px;
 }
 
 .quote-author {
-    display: block;
-    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1rem;
     font-style: normal;
     color: var(--primary);
-    font-weight: 600;
+    font-weight: 700;
+    border-top: 1px solid #EEE;
+    padding-top: 20px;
+    letter-spacing: 0.5px;
 }
 
-/* Timeline Horizontal */
+.quote-author::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 2px;
+    background: var(--accent);
+}
+
+/* Timeline Horizontal (Desktop) */
 .timeline-horizontal {
     display: flex;
     gap: 30px;
+    position: relative;
+    margin-top: 40px;
 }
 
 .timeline-item {
     flex: 1;
     text-align: center;
     position: relative;
-    padding-top: 30px;
+    padding-top: 40px;
+    transition: transform 0.3s ease;
+}
+
+.timeline-item:hover {
+    transform: translateY(-5px);
 }
 
 .timeline-marker {
@@ -358,50 +394,96 @@
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 16px;
-    height: 16px;
-    background: var(--accent);
+    width: 20px;
+    height: 20px;
+    background: var(--white);
+    border: 4px solid var(--accent);
     border-radius: 50%;
     box-shadow: 0 0 0 4px rgba(212,175,55,0.2);
+    z-index: 2;
+    transition: all 0.3s;
 }
 
-.timeline-item::before {
+.timeline-item:hover .timeline-marker {
+    background: var(--accent);
+    box-shadow: 0 0 0 6px rgba(212,175,55,0.3);
+}
+
+/* Connecting Line (Desktop) */
+.timeline-horizontal::before {
     content: '';
     position: absolute;
-    top: 7px;
-    left: 0;
-    right: 0;
+    top: 10px;
+    left: 10%; /* Start a bit inside */
+    right: 10%; /* End a bit inside */
     height: 2px;
     background: #E5E7EB;
-    z-index: -1;
-}
-
-.timeline-item:first-child::before {
-    left: 50%;
-}
-
-.timeline-item:last-child::before {
-    right: 50%;
+    z-index: 1;
 }
 
 .timeline-year {
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 800;
     color: var(--accent);
     margin: 15px 0 10px;
+    font-family: 'Lora', serif;
 }
 
 .timeline-content h5 {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: var(--dark);
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 .timeline-content p {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: var(--gray);
-    line-height: 1.5;
+    line-height: 1.6;
+}
+
+/* ===== RESPONSIVE TIMELINE (MOBILE) ===== */
+@media (max-width: 768px) {
+    .timeline-horizontal {
+        flex-direction: column;
+        gap: 0;
+        padding-left: 20px;
+        margin-top: 30px;
+    }
+
+    .timeline-horizontal::before {
+        display: none; /* Hide horizontal line */
+    }
+
+    /* Create Vertical Line */
+    .timeline-horizontal::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 29px; /* Align with markers */
+        width: 2px;
+        background: #E5E7EB;
+        z-index: 1;
+    }
+
+    .timeline-item {
+        text-align: left;
+        padding-top: 0;
+        padding-bottom: 40px;
+        padding-left: 40px;
+    }
+
+    .timeline-marker {
+        left: 30px; /* Align to left */
+        top: 0;
+        transform: translateX(-50%);
+    }
+
+    .timeline-year {
+        margin-top: -5px; /* Align with marker */
+        font-size: 1.5rem;
+    }
 }
 
 /* ===== VISION & MISSION ===== */
