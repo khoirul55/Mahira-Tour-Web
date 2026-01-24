@@ -49,13 +49,17 @@ Route::post('/newsletter/subscribe', [App\Http\Controllers\NewsletterController:
 
 // DEBUG EMAIL ROUTE (Will be removed later)
 Route::get('/test-email', function() {
+    // Force Clear Cache for this request (optional hack)
+    \Illuminate\Support\Facades\Artisan::call('config:clear');
+    
     try {
+        $config = config('mail');
         \Illuminate\Support\Facades\Mail::raw('Tes kirim email dari Mahira Tour (Debug Mode). Jika ini masuk, berarti SMTP Sukses.', function($msg) {
             $msg->to('info@mahiratour.id')->subject('Test Email SMTP Mahira Tour');
         });
-        return "Email Terkirim! Cek inbox info@mahiratour.id";
+        dd("BERHASIL! Email Terkirim. Cek Inbox Zoho Anda.\n\nConfig: " . $config['host'] . ":" . $config['port']);
     } catch (\Exception $e) {
-        return "Gagal Kirim Email: " . $e->getMessage();
+        dd("GAGAL! Pesan Error:\n" . $e->getMessage());
     }
 });
 
