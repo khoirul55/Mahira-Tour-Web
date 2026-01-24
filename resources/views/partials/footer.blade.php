@@ -65,8 +65,9 @@
                             <i class="fa-solid fa-location-dot"></i>
                         </div>
                         <div>
-                            Jl. Raya Makkah No. 123<br>
-                            Jakarta Selatan 12345
+                            Jl. Muradi No. 19, RT 000/RW 000,<br>
+                            Kel. Koto Lolo, Kec. Pesisir Bukit,<br>
+                            Kota Sungai Penuh, Jambi
                         </div>
                     </div>
                     

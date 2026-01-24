@@ -1,12 +1,5 @@
-    :root {
-        --primary-navy: #001D5F;
-        --white: #FFFFFF;
-        --light-navy: #002B8F;
-        --lighter-navy: #E8EBF3;
-        --gold: #D4AF37;
-        --text-dark: #1A1A1A;
-        --text-gray: #6B7280;
-    }
+    /* contact.css */
+    /* Variables are inherited from variables.css */
 
     .hero {
         position: relative;
@@ -132,7 +125,7 @@
         margin: 0 auto;
     }
 
-    .contact-card {
+    .quick-contact-section .contact-card {
         background: var(--white);
         border-radius: 20px;
         padding: 2.5rem 2rem;
@@ -143,13 +136,13 @@
         text-align: center;
     }
     
-    .contact-card:hover {
+    .quick-contact-section .contact-card:hover {
         transform: translateY(-10px);
         box-shadow: 0 20px 60px rgba(0, 29, 95, 0.15);
         border-color: var(--gold);
     }
     
-    .contact-icon {
+    .quick-contact-section .contact-icon {
         width: 80px;
         height: 80px;
         background: linear-gradient(135deg, var(--primary-navy), var(--light-navy));
@@ -162,42 +155,42 @@
         transition: all 0.4s;
     }
 
-    .contact-card:hover .contact-icon {
+    .quick-contact-section .contact-card:hover .contact-icon {
         transform: scale(1.1) rotate(5deg);
         background: linear-gradient(135deg, var(--gold), #C49B2F);
     }
     
-    .contact-icon i {
+    .quick-contact-section .contact-icon i {
         font-size: 2.2rem;
         color: var(--white);
     }
     
-    .contact-title {
+    .quick-contact-section .contact-title {
         font-size: 1.3rem;
         font-weight: 700;
         color: var(--primary-navy);
         margin-bottom: 12px;
     }
     
-    .contact-info {
+    .quick-contact-section .contact-info {
         color: var(--text-gray);
         line-height: 1.8;
         margin-bottom: 20px;
         font-size: 1rem;
     }
     
-    .contact-info a {
+    .quick-contact-section .contact-info a {
         color: var(--text-gray);
         text-decoration: none;
         transition: color 0.3s;
         font-weight: 600;
     }
     
-    .contact-info a:hover {
+    .quick-contact-section .contact-info a:hover {
         color: var(--primary-navy);
     }
 
-    .contact-action {
+    .quick-contact-section .contact-action {
         display: inline-flex;
         align-items: center;
         gap: 8px;
@@ -211,7 +204,7 @@
         transition: all 0.3s;
     }
 
-    .contact-action:hover {
+    .quick-contact-section .contact-action:hover {
         background: var(--primary-navy);
         color: var(--white);
         transform: translateX(5px);

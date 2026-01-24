@@ -189,7 +189,7 @@
             <div class="map-card" data-aos="fade-left">
                 <div class="map-header">
                     <h3>Lokasi Kantor Pusat</h3>
-                    <p>Jl. Muradi, Desa Koto Keras, Kec. Pesisir Bukit, Sungai Penuh, Jambi</p>
+                    <p>Jl. Muradi No. 19, RT 000/RW 000, Kel. Koto Lolo, Kec. Pesisir Bukit, Kota Sungai Penuh, Jambi</p>
                 </div>
                 <iframe 
                     id="map"
