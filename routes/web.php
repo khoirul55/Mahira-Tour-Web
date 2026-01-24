@@ -44,6 +44,21 @@ Route::post('/kontak', function () {
         ->with('success', 'Terima kasih! Pesan Anda telah terkirim. Tim Mahira Tour akan segera menghubungi Anda.');
 })->name('contact.submit'); // TODO: Move to ContactController
 
+// Newsletter Subscribe
+Route::post('/newsletter/subscribe', [App\Http\Controllers\NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+
+// DEBUG EMAIL ROUTE (Will be removed later)
+Route::get('/test-email', function() {
+    try {
+        \Illuminate\Support\Facades\Mail::raw('Tes kirim email dari Mahira Tour (Debug Mode). Jika ini masuk, berarti SMTP Sukses.', function($msg) {
+            $msg->to('info@mahiratour.id')->subject('Test Email SMTP Mahira Tour');
+        });
+        return "Email Terkirim! Cek inbox info@mahiratour.id";
+    } catch (\Exception $e) {
+        return "Gagal Kirim Email: " . $e->getMessage();
+    }
+});
+
 
 // ============================================
 // LAYANAN & HALAMAN STATIS LAINNYA
