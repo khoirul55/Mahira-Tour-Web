@@ -201,7 +201,7 @@ body:has(.page-hero) .navbar-zen.scrolled .logo-color {
     cursor: pointer;
     padding: 0.5rem;
     color: var(--primary);
-    z-index: 1001;
+    z-index: 1001; /* Must be above menu */
     position: relative;
     display: flex;
     align-items: center;
@@ -212,6 +212,12 @@ body:has(.page-hero) .navbar-zen.scrolled .logo-color {
     /* CRITICAL: Make sure it's clickable */
     pointer-events: auto;
     -webkit-tap-highlight-color: transparent;
+}
+
+/* Force dark color when menu is open (Active State) */
+.mobile-toggle.active-toggle {
+    color: var(--primary) !important;
+    transform: rotate(90deg); /* Optional: Nice rotation effect */
 }
 
 .mobile-toggle:active {
@@ -238,7 +244,7 @@ body:has(.page-hero) .navbar-zen.scrolled .logo-color {
 .mobile-menu {
     position: fixed;
     top: 0;
-    left: 0;
+    right: 0; /* Changed from left: 0 to right: 0 */
     bottom: 0;
     width: 80%;
     max-width: 320px;
@@ -254,11 +260,22 @@ body:has(.page-hero) .navbar-zen.scrolled .logo-color {
 }
 
 /* Mobile Menu Header */
+/* Mobile Menu Header - iOS Style */
 .mobile-menu-header {
     display: flex;
-    justify-content: flex-end;
-    padding: 1.5rem 1.25rem;
+    justify-content: space-between; /* Separate Title and Close Button */
+    align-items: center;
+    padding: 1.25rem 1.5rem;
     border-bottom: 1px solid var(--border);
+    background: #fdfdfd;
+}
+
+.mobile-menu-title {
+    font-family: 'Lora', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 0.5px;
 }
 
 .mobile-close {

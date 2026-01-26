@@ -27,7 +27,8 @@
         </div>
 
         {{-- Mobile Toggle - FIXED: Proper event handler --}}
-        <button @click="mobileOpen = true" 
+        <button @click="mobileOpen = !mobileOpen" 
+                :class="{ 'active-toggle': mobileOpen }"
                 type="button"
                 class="mobile-toggle mobile-only"
                 aria-label="Open menu"
@@ -52,24 +53,17 @@
     <div x-show="mobileOpen"
          x-cloak
          x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="-translate-x-full"
+         x-transition:enter-start="translate-x-full"
          x-transition:enter-end="translate-x-0"
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="translate-x-0"
-         x-transition:leave-end="-translate-x-full"
+         x-transition:leave-end="translate-x-full"
          @click.outside="mobileOpen = false"
          class="mobile-menu">
         
-        <div class="mobile-menu-header">
-            <button @click="mobileOpen = false" 
-                    type="button"
-                    class="mobile-close"
-                    aria-label="Close menu">
-                <i class="bi bi-x-lg"></i>
-            </button>
-        </div>
+        {{-- Mobile Menu Header Removed --}}
         
-        <ul class="mobile-nav">
+        <ul class="mobile-nav" style="padding-top: 80px;">
             <li><a href="{{ route('home') }}" @click="mobileOpen = false">Beranda</a></li>
             <li><a href="{{ route('schedule') }}" @click="mobileOpen = false">Paket & Jadwal</a></li>
             <li><a href="{{ route('testimonials') }}" @click="mobileOpen = false">Testimoni</a></li>

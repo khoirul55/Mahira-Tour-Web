@@ -23,16 +23,16 @@
     font-size: 0.9rem;
     letter-spacing: 3px;
     padding-left: 20px;
-    color: #B89230; /* Gold */
+    color: #9A7B2C; /* Darker Gold for Readability */
     text-transform: uppercase;
     font-weight: 700;
     margin-bottom: 20px;
-    border-left: 3px solid #B89230;
+    border-left: 3px solid #D4AF37;
 }
 
 .split-title {
     font-size: 3rem;
-    font-weight: 800; /* Extra bold */
+    font-weight: 700; /* Reduced from 800 for elegance */
     color: var(--primary);
     line-height: 1.1;
     margin-bottom: 30px;
@@ -135,8 +135,8 @@
     }
     
     .split-title {
-        font-size: 2rem; /* Smaller font for mobile */
-        word-wrap: break-word; /* Prevent overflow */
+        font-size: 2rem;
+        word-wrap: break-word;
     }
     
     .split-desc {
@@ -155,38 +155,36 @@
         padding: 12px 20px;
     }
     
+    /* FIX: Show images on mobile, stacked below text */
     .split-image-side {
-        display: none; /* Hide images on mobile as requested */
+        display: flex;
+        width: 100%;
+        height: 250px; /* Fixed height for mobile banner */
+        margin-top: 40px;
+        gap: 10px;
     }
 
-    .split-img-wrapper.img-tall, .split-img-wrapper.img-short {
-        margin-top: 0; /* Remove stagger offset */
-        height: 100%; /* Fill container */
-        flex: 1;
+    .split-img-wrapper.img-tall {
+        margin-top: 0;
+        height: 100%;
+        width: 60%; /* Main image larger */
+    }
+    
+    .split-img-wrapper.img-short {
+        margin-top: 0; 
+        height: 100%;
+        width: 40%;
     }
     
     .split-content-side {
         width: 100%;
-        order: 2; /* Text Second */
+        order: 1; /* Text First */
     }
 }
 
-@media (min-width: 768px) and (max-width: 991px) {
-     /* Tablet specific */
+/* Optimize for very small screens */
+@media (max-width: 480px) {
     .split-image-side {
-        display: flex;
-        height: 300px;
-    }
-}
-
-/* Force show on larger mobile but optimized */
-@media (max-width: 767px) {
-    .split-image-side {
-        display: none; /* FORCE HIDE on small screens too */
-    }
-    
-    .split-img-wrapper.img-tall, .split-img-wrapper.img-short {
-        margin-top: 0;
-        height: 100%;
+        height: 200px;
     }
 }
