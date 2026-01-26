@@ -49,4 +49,27 @@ class ScheduleController extends Controller
     
         return view('pages.schedule', compact('schedules', 'departure_routes'));
     }
+
+
+    public function show($id, $slug = null)
+    {
+        $schedule = Schedule::where('id', $id)
+            ->where('status', '!=', 'cancelled') // Allow 'full' to be seen, but not 'cancelled'
+            ->firstOrFail();
+            
+        // SEO: Redirect if slug doesn't match
+        $expectedSlug = \Illuminate\Support\Str::slug($schedule->package_name);
+        if ($slug !== $expectedSlug) {
+            return redirect()->route('schedule.detail', ['id' => $id, 'slug' => $expectedSlug]);
+        }
+        
+        $related_packages = Schedule::where('status', 'active')
+            ->where('id', '!=', $id)
+            ->where('departure_date', '>=', now())
+            ->inRandomOrder()
+            ->take(3)
+            ->get();
+            
+        return view('pages.schedule-detail', compact('schedule', 'related_packages'));
+    }
 }

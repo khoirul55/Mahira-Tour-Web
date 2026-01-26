@@ -20,13 +20,20 @@ class Schedule extends Model
         'quota',
         'seats_taken',
         'flyer_image',
-        'status'
+        'status',
+        'description',
+        'hotel_makkah',
+        'hotel_madinah',
+        'itinerary',
+        'features'
     ];
 
     protected $casts = [
         'departure_date' => 'date',
         'return_date' => 'date',
-        'price' => 'decimal:2'
+        'price' => 'decimal:2',
+        'itinerary' => 'array', // Casting to array for easier JSON handling
+        'features' => 'array'   // Casting to array
     ];
 
     // Relationships

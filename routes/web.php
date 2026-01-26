@@ -25,6 +25,7 @@ use App\Http\Controllers\AdminController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/tentang', [AboutController::class, 'index'])->name('about');
 Route::get('/jadwal', [ScheduleController::class, 'index'])->name('schedule');
+Route::get('/jadwal/{id}/{slug?}', [ScheduleController::class, 'show'])->name('schedule.detail');
 Route::get('/kontak', [ContactController::class, 'index'])->name('contact');
 
 // Kontak Submit

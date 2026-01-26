@@ -277,9 +277,10 @@
                 </div>
             </div>
 
-            <!-- Right Column - Flyer Upload & Preview -->
+            <!-- Right Column - Flyer Upload & Details -->
             <div class="col-md-6">
-                <div class="card">
+                <!-- Flyer Card -->
+                <div class="card mb-4">
                     <div class="card-header bg-warning text-dark">
                         <h5 class="mb-0"><i class="bi bi-image"></i> Upload Flyer Paket</h5>
                     </div>
@@ -292,14 +293,13 @@
                                    accept="image/jpeg,image/jpg,image/png,image/webp" 
                                    @change="previewImage($event)" 
                                    required>
-                            <small class="text-muted">Format: JPG, PNG, WEBP. Max 10MB. Rekomendasi ukuran: 1200x1600px (portrait)</small>
+                            <small class="text-muted">Format: JPG, PNG, WEBP. Max 10MB.</small>
                         </div>
 
                         <div class="preview-container">
                             <div x-show="!imagePreview" class="text-muted">
                                 <i class="bi bi-file-image" style="font-size: 4rem;"></i>
                                 <p class="mt-3">Belum ada flyer dipilih</p>
-                                <small>Flyer akan ditampilkan di halaman jadwal</small>
                             </div>
                             <div x-show="imagePreview" x-cloak>
                                 <img :src="imagePreview" class="preview-image" alt="Preview Flyer">
@@ -307,6 +307,54 @@
                                     <i class="bi bi-check-circle"></i> Flyer siap diupload
                                 </p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Info Card -->
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-list-stars"></i> Detail Lengkap (Untuk Halaman Detail)</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Hotels -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-6">
+                                <label class="form-label required">Hotel Makkah</label>
+                                <input type="text" name="hotel_makkah" class="form-control" 
+                                       placeholder="Contoh: Zamzam Tower"
+                                       value="{{ old('hotel_makkah') }}" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label required">Hotel Madinah</label>
+                                <input type="text" name="hotel_madinah" class="form-control" 
+                                       placeholder="Contoh: Rove Madinah"
+                                       value="{{ old('hotel_madinah') }}" required>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label class="form-label">Deskripsi Singkat</label>
+                            <textarea name="description" class="form-control" rows="3"
+                                      placeholder="Deskripsi menarik tentang paket ini...">{{ old('description') }}</textarea>
+                        </div>
+
+                        <!-- Itinerary -->
+                        <div class="mb-3">
+                            <label class="form-label">Itinerary (JSON / Text)</label>
+                            <div class="form-text text-muted mb-2">
+                                Sementara masukkan teks biasa atau format JSON manual. Nanti akan kita upgrade ke Repeater.
+                            </div>
+                            <textarea name="itinerary" class="form-control" rows="5"
+                                      placeholder='[{"day":1,"activity":"Keberangkatan"},{"day":2,"activity":"Tawaf"}]'>{{ old('itinerary') }}</textarea>
+                        </div>
+                        
+                         <!-- Features -->
+                        <div class="mb-3">
+                            <label class="form-label">Fasilitas Termasuk (Pisahkan dengan koma)</label>
+                            <textarea name="features" class="form-control" rows="3"
+                                      placeholder="Visa Umrah, Tiket Pesawat PP, Makan 3x Sehari, Mutawwif">{{ old('features') }}</textarea>
                         </div>
                     </div>
                 </div>

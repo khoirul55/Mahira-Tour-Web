@@ -104,8 +104,7 @@
      data-seats-taken="{{ $schedule['seats_taken'] }}">
     
     {{-- Flyer Image --}}
-    <div class="flyer-image-container" 
-         onclick="openDetailModal({{ $schedule['id'] }})">
+    <a href="{{ route('schedule.detail', ['id' => $schedule['id'], 'slug' => \Illuminate\Support\Str::slug($schedule['package_name'])]) }}" class="flyer-image-container">
         <img src="{{ Storage::url($schedule['flyer_image']) }}" 
              alt="{{ $schedule['package_name'] }}" 
              class="flyer-image"
@@ -120,7 +119,7 @@
             <i class="bi bi-eye"></i>
             Lihat Detail
         </div>
-    </div>
+        </a>
     
     {{-- Card Info --}}
     <div class="flyer-info">
@@ -158,10 +157,10 @@
             </button>
             @endif
             
-            <button class="btn-view-detail" 
-                    onclick="openDetailModal({{ $schedule['id'] }})">
+            <a href="{{ route('schedule.detail', ['id' => $schedule['id'], 'slug' => \Illuminate\Support\Str::slug($schedule['package_name'])]) }}" 
+               class="btn-view-detail">
                 <i class="bi bi-info-circle"></i> Detail
-            </button>
+            </a>
         </div>
     </div>
 </div>
@@ -179,86 +178,7 @@
     </div>
 </section>
 
-<!-- Detail Modal (Simplified) -->
-<div id="detailModal" class="detail-modal">
-    <div class="modal-overlay" onclick="closeDetailModal()"></div>
-    
-    <div class="modal-drawer">
-        <!-- Header -->
-        <div class="modal-header-custom">
-            <button class="modal-close-btn" onclick="closeDetailModal()">
-                <i class="bi bi-x-lg"></i>
-            </button>
-            <h4 id="modalPackageName">Detail Paket</h4>
-        </div>
-        
-        <!-- Body -->
-        <div class="modal-body-custom">
-            <!-- Flyer Small -->
-            <div class="modal-flyer-section">
-                <img id="modalFlyerImage" src="" alt="Flyer" class="modal-flyer-img">
-            </div>
-            
-            <!-- Info List -->
-            <div class="modal-details-section">
-                <div class="detail-group">
-                    <div class="detail-icon"><i class="bi bi-calendar-check"></i></div>
-                    <div class="detail-content">
-                        <small>Keberangkatan</small>
-                        <strong id="modalDepartureDate">-</strong>
-                    </div>
-                </div>
-                
-                <div class="detail-group">
-                    <div class="detail-icon"><i class="bi bi-calendar-x"></i></div>
-                    <div class="detail-content">
-                        <small>Kepulangan</small>
-                        <strong id="modalReturnDate">-</strong>
-                    </div>
-                </div>
-                
-                <div class="detail-group">
-                    <div class="detail-icon"><i class="bi bi-airplane-fill"></i></div>
-                    <div class="detail-content">
-                        <small>Maskapai</small>
-                        <strong id="modalAirline">-</strong>
-                    </div>
-                </div>
-                
-                <div class="detail-group">
-                    <div class="detail-icon"><i class="bi bi-clock"></i></div>
-                    <div class="detail-content">
-                        <small>Durasi</small>
-                        <strong id="modalDuration">-</strong>
-                    </div>
-                </div>
-                
-                <div class="detail-group">
-                    <div class="detail-icon"><i class="bi bi-people-fill"></i></div>
-                    <div class="detail-content">
-                        <small>Kuota Tersedia</small>
-                        <strong id="modalAvailability">-</strong>
-                    </div>
-                </div>
-                
-                <div class="detail-group price-highlight">
-                    <div class="detail-icon"><i class="bi bi-tag-fill"></i></div>
-                    <div class="detail-content">
-                        <small>Harga Paket</small>
-                        <strong id="modalPrice" class="text-gold">-</strong>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Footer -->
-        <div class="modal-footer-custom">
-            <a href="{{ route('register') }}" id="modalRegisterBtnBottom" class="btn-modal-register-main">
-                <i class="bi bi-pencil-square"></i> Daftar Sekarang
-            </a>
-        </div>
-    </div>
-</div>
+
 
 
 @endsection

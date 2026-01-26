@@ -62,6 +62,12 @@ class ScheduleController extends Controller
             'quota' => 'required|integer|min:1',
             'flyer_image' => 'required|image|mimes:jpeg,jpg,png,webp|max:10240', // 10MB
             'status' => 'required|in:active,full,cancelled',
+            // New Fields
+            'description' => 'nullable|string',
+            'hotel_makkah' => 'nullable|string|max:255',
+            'hotel_madinah' => 'nullable|string|max:255',
+            'itinerary' => 'nullable|string',
+            'features' => 'nullable|string',
         ]);
         
         DB::beginTransaction();
@@ -87,7 +93,14 @@ class ScheduleController extends Controller
                 'quota' => $validated['quota'],
                 'seats_taken' => 0,
                 'flyer_image' => $flyerPath,
+                'flyer_image' => $flyerPath,
                 'status' => $validated['status'],
+                // New Fields
+                'description' => $validated['description'] ?? null,
+                'hotel_makkah' => $validated['hotel_makkah'] ?? null,
+                'hotel_madinah' => $validated['hotel_madinah'] ?? null,
+                'itinerary' => $validated['itinerary'] ?? null,
+                'features' => $validated['features'] ?? null,
             ]);
             
             DB::commit();
@@ -128,6 +141,12 @@ class ScheduleController extends Controller
             'quota' => 'required|integer|min:' . $schedule->seats_taken, // Quota minimal = seats yang sudah diambil
             'flyer_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:10240',
             'status' => 'required|in:active,full,cancelled',
+            // New Fields
+            'description' => 'nullable|string',
+            'hotel_makkah' => 'nullable|string|max:255',
+            'hotel_madinah' => 'nullable|string|max:255',
+            'itinerary' => 'nullable|string',
+            'features' => 'nullable|string',
         ]);
         
         DB::beginTransaction();
