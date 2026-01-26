@@ -4,6 +4,7 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/testimonials.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/cta.css') }}">
 @endpush
 
 @section('content')
@@ -143,17 +144,9 @@
             @endforelse
         </div>
 
-        <!-- CTA Section -->
-        <section class="cta-zen">
-            <h3>Siap Berangkat Umrah?</h3>
-            <p>Bergabunglah dengan ratusan jamaah yang telah merasakan pelayanan terbaik kami</p>
-            <a href="{{ route('register') }}" class="btn-zen">
-                <i class="bi bi-calendar-check"></i>
-                DAFTAR SEKARANG
-            </a>
-        </section>
-
     </main>
+
+    @include('partials.cta-section')
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {

@@ -5,6 +5,7 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/home.css?v=2.1') }}">
+<link rel="stylesheet" href="{{ asset('css/cta.css') }}">
 @endpush
 
 @section('content')
@@ -732,26 +733,8 @@
 
 
 <!-- ==================== CTA SECTION ==================== -->
-<section class="cta-section">
-    <div class="container">
-        <div class="cta-content">
-            <h2 class="cta-title">Siap Berangkat ke Tanah Suci?</h2>
-            <p class="cta-subtitle">
-                Hubungi kami sekarang untuk konsultasi gratis dan dapatkan penawaran terbaik
-            </p>
-            <div class="cta-buttons">
-                <a href="https://wa.me/6282184515310?text=Assalamualaikum%20Mahira%20Tour%2C%20saya%20ingin%20konsultasi%20paket%20umrah" class="btn-cta-primary" target="_blank">
-                    <i class="bi bi-whatsapp"></i>
-                    Konsultasi via WhatsApp
-                </a>
-                <a href="{{ route('register') }}" class="btn-cta-secondary">
-                    <i class="bi bi-person-plus"></i>
-                    Daftar Sekarang
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
+<!-- ==================== CTA SECTION ==================== -->
+@include('partials.cta-section')
 
 <!-- ==================== FLOATING WHATSAPP BUTTON ==================== -->
 <div class="floating-whatsapp">

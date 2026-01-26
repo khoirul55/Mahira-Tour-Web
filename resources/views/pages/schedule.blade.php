@@ -4,6 +4,7 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/schedule.css') }}">
+<link rel="stylesheet" href="{{ asset('css/cta.css') }}">
 @endpush
 
 @section('content')
@@ -180,6 +181,8 @@
 
 
 
+
+@include('partials.cta-section')
 
 @endsection
 
