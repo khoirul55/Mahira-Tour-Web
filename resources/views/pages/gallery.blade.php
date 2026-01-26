@@ -4,25 +4,6 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
-<style>
-/* Alpine Modal Fix - ADD THIS */
-.gallery-modal-alpine {
-    position: fixed;
-    z-index: 99999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.95);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-[x-cloak] {
-    display: none !important;
-}
-</style>
 @endpush
 
 @section('content')
