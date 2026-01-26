@@ -136,187 +136,119 @@
 </section>
 
 {{-- COMPANY STORY (Literary Style) --}}
-<section class="founder-story-section">
+{{-- ZIG-ZAG SECTIONS (Story to Vision) --}}
+<section class="zigzag-section">
     <div class="container">
-        {{-- 1. TITLE --}}
-        <div class="section-header-center">
-            <div class="section-badge">Tentang Kami</div>
-            <h2 class="section-title">Lebih Dari Sekadar Perjalanan</h2>
-        </div>
         
-        {{-- 2. NARRATIVE --}}
-        <div class="story-narrative-container">
-            <div class="story-narrative story-block visible">
-                <p>
-                    <span class="drop-cap">C</span>erita ini tidak dimulai di kantor yang megah, pun tidak bermula dari rencana bisnis yang rumit. Semuanya berawal pada tahun 2016, di tengah lautan manusia yang memutih di Masjidil Haram. Saat itu, untuk pertama kalinya kening kami bersujud di depan Ka'bah. Ada getaran hebat yang menjalar—sebuah rasa rindu yang akhirnya terobati, bercampur dengan kedamaian yang sulit dilukiskan kata-kata.
-                </p>
-                
-                {{-- Float Image inserted naturally into text flow --}}
-                <div class="story-img-wrapper">
-                    <img src="{{ asset('images/hero/video-poster.webp') }}" alt="Suasana Jamaah Mahira Tour" class="story-float-img">
-                    <span class="story-caption">Suasana kekhusyukan jamaah bersama Mahira Tour</span>
-                </div>
-
-                <p>
-                    Di sela-sela doa yang rapuh itu, mata kami menangkap wajah-wajah jamaah lain. Ada yang kebingungan mencari arah, ada yang cemas menanti rombongan, namun tak sedikit pula yang tersenyum lega. Detik itu juga, sebuah niat terpatri dalam hati: <strong style="color:var(--primary)">Setiap Muslim berhak merasakan kekhusyukan ini tanpa harus terusik rasa was-was.</strong> Kami ingin menjadi jembatan bagi rindu-rindu itu.
-                </p>
-
-                <p>
-                    Perjalanan merintis Mahira Tour bukanlah jalan yang lurus tanpa kerikil. Kami belajar, tertatih, dan berbenah. Dari sekadar membantu tetangga dan kerabat, amanah itu perlahan membesar. Kami sadar, melayani tamu Allah tidak bisa hanya bermodal semangat. Dibutuhkan profesionalitas, kejujuran, dan sistem yang kokoh.
-                </p>
-
-                <p>
-                    Kini, setelah ribuan jamaah kami antarkan, semangat itu tidak berubah sediplin pun. Justru ia semakin menyala. Bagi kami, Mahira Tour bukan sekadar biro perjalanan; ia adalah wadah persaudaraan, tempat di mana kami melayani Anda bukan sebagai klien, melainkan sebagai keluarga sendiri di Tanah Suci.
-                </p>
-                
-                {{-- Ornament Separator --}}
-                <div class="story-separator">
-                    <i class="bi bi-star-fill" style="font-size: 0.8rem;"></i>
-                    <i class="bi bi-diamond-fill" style="font-size: 0.6rem;"></i>
-                    <i class="bi bi-star-fill" style="font-size: 0.8rem;"></i>
-                </div>
-            </div>
-            
-            {{-- 3. IMPACT / TITIK BALIK --}}
-            <div class="story-block">
-                <div class="impact-box">
-                    <h3 style="font-family: 'Lora', serif; margin-bottom: 2rem; font-size: 2rem;">Menjaga Amanah dengan Profesionalitas</h3>
-                    <p style="max-width: 800px; margin: 0 auto 3rem; font-size: 1.1rem; opacity: 0.9;">
-                        Alhamdulillah, komitmen kami telah terwujud dengan izin resmi PPIU Kementerian Agama RI. Ribuan jamaah telah membuktikan bahwa ibadah yang tenang dimulai dari kepercayaan.
+        {{-- BLOCK 1: STORY (Text Left, Image Right) --}}
+        <div class="row align-items-center zigzag-row">
+            <div class="col-lg-6 order-2 order-lg-1">
+                <div class="zigzag-content">
+                    <h2 class="zigzag-title">SEBUAH PERJALANAN <br>AMANAH & PELAYANAN</h2>
+                    <p class="zigzag-desc">
+                        Cerita ini tidak dimulai di kantor yang megah, pun tidak bermula dari rencana bisnis yang rumit. Semuanya berawal pada tahun 2016, di tengah lautan manusia yang memutih di Masjidil Haram.
                     </p>
-                    
-                    <div style="display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap;">
-                        <div class="stat">
-                            <div class="impact-number">2.000+</div>
-                            <div class="impact-label">Hati yang Tertaut</div>
-                        </div>
-                        <div class="stat">
-                            <div class="impact-number">100%</div>
-                            <div class="impact-label">Resmi & Amanah</div>
-                        </div>
-                    </div>
+                    <p class="zigzag-desc">
+                        Di sana, sebuah niat terpatri: <strong>Setiap Muslim berhak merasakan kekhusyukan tanpa rasa was-was.</strong> Kini, setelah ribuan jamaah kami antarkan, Mahira Tour bukan sekadar biro perjalanan, melainkan wadah persaudaraan keluarga Allah.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2">
+                <div class="zigzag-image-wrapper">
+                    <img src="{{ asset('images/hero/jamaah2.webp') }}" alt="Sejarah Mahira Tour" class="zigzag-img">
                 </div>
             </div>
         </div>
-    </div>
-</section>
 
-{{-- VISI & MISI --}}
-<section class="vision-mission-section">
-    <div class="container">
-        <div class="section-header-center">
-            <div class="section-badge">Visi & Misi</div>
-            <h2 class="section-title">Komitmen Kami Untuk Indonesia</h2>
-        </div>
-        
-        <div class="vision-mission-grid">
-            {{-- Vision --}}
-            <div class="vision-card">
-                <div class="vm-icon">
-                    <i class="bi bi-eye-fill"></i>
+        {{-- BLOCK 2: VALUES/EXPERTISE (Image Left, Text Right) --}}
+        <div class="row align-items-center zigzag-row reversed">
+            <div class="col-lg-6 order-1">
+                <div class="zigzag-image-wrapper">
+                    <img src="{{ asset('images/hero/video-poster.webp') }}" alt="Profesionalitas Mahira Tour" class="zigzag-img">
                 </div>
-                <h3>Visi</h3>
-                <p>{{ $visionMission['vision'] }}</p>
             </div>
-            
-            {{-- Mission --}}
-            <div class="mission-card">
-                <div class="vm-icon">
-                    <i class="bi bi-bullseye"></i>
+            <div class="col-lg-6 order-2">
+                <div class="zigzag-content">
+                    <h2 class="zigzag-title">LEBIH DARI SEKADAR <br>HAJI & UMRAH</h2>
+                    <p class="zigzag-desc">
+                        Kami tidak hanya mengurus tiket dan visa. Kami merancang pengalaman spiritual yang mendalam. Dengan izin resmi PPIU Kemenag RI, kami menjamin keamanan dan kenyamanan ibadah Anda.
+                    </p>
+                    <p class="zigzag-desc">
+                        <ul>
+                            <li><i class="bi bi-check-circle-fill text-gold"></i> Bimbingan Ibadah Sesuai Sunnah</li>
+                            <li><i class="bi bi-check-circle-fill text-gold"></i> Fasilitas Nyaman & Terjamin</li>
+                            <li><i class="bi bi-check-circle-fill text-gold"></i> Pendampingan Sepenuh Hati</li>
+                        </ul>
+                    </p>
                 </div>
-                <h3>Misi</h3>
-                <ul class="mission-list">
-                    @foreach($visionMission['missions'] as $mission)
-                    <li>
-                        <i class="bi bi-check-circle-fill"></i>
-                        <span>{{ $mission }}</span>
-                    </li>
-                    @endforeach
-                </ul>
             </div>
         </div>
+
+        {{-- BLOCK 3: VISION & MISSION (Text Left, Image Right) --}}
+        <div class="row align-items-center zigzag-row">
+            <div class="col-lg-6 order-2 order-lg-1">
+                <div class="zigzag-content">
+                    <h2 class="zigzag-title">PERJALANAN ANDA, <br>KOMITMEN KAMI</h2>
+                    <p class="zigzag-desc">
+                        <strong>Visi Kami:</strong> Menjadi jembatan terpercaya bagi jutaan hati yang merindu Baitullah.
+                    </p>
+                    <p class="zigzag-desc">
+                        Kami berkomitmen untuk memberikan pelayanan yang jujur, amanah, dan profesional. Setiap senyum kepuasan jamaah adalah bukti dedikasi kami untuk Indonesia.
+                    </p>
+                    <a href="https://wa.me/6282184515310" class="btn-zigzag">
+                        Konsultasi Sekarang <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2">
+                <div class="zigzag-image-wrapper">
+                    <img src="{{ asset('images/hero/umrah-ramadhan.webp') }}" alt="Visi Misi Mahira Tour" class="zigzag-img">
+                </div>
+            </div>
+        </div>
+
     </div>
 </section>
 
 {{-- OUR VALUES --}}
-<section class="values-section">
-    <div class="container">
-        <div class="section-header-center">
-            <div class="section-badge">Nilai-Nilai Kami</div>
-            <h2 class="section-title">Prinsip yang Memandu Langkah Kami</h2>
-            <p class="section-subtitle">Nilai-nilai yang kami pegang teguh dalam melayani setiap jamaah</p>
-        </div>
-        
-        <div class="values-grid">
-            <div class="value-card">
-                <div class="value-icon">
-                    <i class="bi bi-shield-check"></i>
-                </div>
-                <h4>Amanah</h4>
-                <p>Kami menempatkan kejujuran di atas segalanya. Apa yang kami sampaikan, itulah yang akan Anda dapatkan. Tidak ada janji manis yang tak ditepati.</p>
-            </div>
-            
-            <div class="value-card">
-                <div class="value-icon">
-                    <i class="bi bi-award"></i>
-                </div>
-                <h4>Profesional</h4>
-                <p>Didukung sistem yang rapi dan tim yang berpengalaman, kami memastikan setiap detail perjalanan Anda terurus dengan baik.</p>
-            </div>
-            
-            <div class="value-card">
-                <div class="value-icon">
-                    <i class="bi bi-heart"></i>
-                </div>
-                <h4>Melayani dengan Hati</h4>
-                <p>Kami melayani Anda bukan sebagai klien, tapi sebagai tamu Allah yang mulia. Empati dan kehangatan adalah bahasa utama kami.</p>
-            </div>
-            
-            <div class="value-card">
-                <div class="value-icon">
-                    <i class="bi bi-people"></i>
-                </div>
-                <h4>Peduli</h4>
-                <p>Memahami kebutuhan setiap jamaah dan memberikan perhatian penuh, karena setiap cerita perjalanan Anda berharga bagi kami.</p>
-            </div>
-        </div>
-    </div>
-</section>
+
 
 {{-- LEADERSHIP --}}
 <section class="leadership-section">
     <div class="container">
         <div class="section-header-center">
             <div class="section-badge">Kepemimpinan</div>
-            <h2 class="section-title">Tim Pimpinan Mahira Tour</h2>
-            <p class="section-subtitle">Dipimpin oleh profesional berpengalaman di bidang travel dan layanan haji & umrah</p>
+            <h2 class="section-title zigzag-title" style="text-align:center; margin-top:0;">TIM PIMPINAN MAHIRA TOUR</h2>
+            <p class="section-subtitle">DIPIMPIN OLEH PROFESIONAL BERPENGALAMAN</p>
         </div>
         
-        <div class="leader-grid">
-            @foreach($leadership as $leader)
-            <div class="leader-card">
-                <div class="leader-photo">
-                    @if($leader['name'] == 'Khilal Hamdan')
-                        <img src="{{ asset('storage/team/direktur.webp') }}" alt="{{ $leader['name'] }}" loading="lazy">
-                    @elseif($leader['name'] == 'Nadirman Hamdan')
-                        <img src="{{ asset('storage/team/komisaris.webp') }}" alt="{{ $leader['name'] }}" loading="lazy">
-                    @else
-                        <div class="placeholder">
-                            <i class="bi bi-person-circle"></i>
-                        </div>
-                    @endif
+        {{-- EXECUTIVE PROFILE LAYOUT --}}
+        <div class="executive-profile-wrapper">
+            @foreach($leadership as $index => $leader)
+            <div class="executive-card {{ $index % 2 == 0 ? '' : 'reversed' }}">
+                <div class="executive-image-col">
+                    <div class="executive-frame">
+                        @if($leader['name'] == 'Khilal Hamdan')
+                            <img src="{{ asset('storage/team/direktur.webp') }}" alt="{{ $leader['name'] }}" loading="lazy" class="executive-img">
+                        @elseif($leader['name'] == 'Nadirman Hamdan')
+                            <img src="{{ asset('storage/team/komisaris.webp') }}" alt="{{ $leader['name'] }}" loading="lazy" class="executive-img">
+                        @else
+                            <div class="placeholder"><i class="bi bi-person-circle"></i></div>
+                        @endif
+                    </div>
                 </div>
-                
-                <div class="leader-info">
-                    <h4 class="leader-name">Ust. {{ $leader['name'] }}</h4>
-                    <p class="leader-position">
-                        <i class="bi bi-award-fill"></i>
-                        {{ $leader['position'] }}
-                    </p>
+                <div class="executive-info-col">
+                    <h3 class="executive-name">{{ $leader['name'] }}</h3>
+                    <p class="executive-role">{{ strtoupper($leader['position']) }}</p>
+                    <div class="executive-quote">
+                        <i class="bi bi-quote"></i>
+                        <p>Mengemban amanah untuk melayani tamu-tamu Allah adalah kehormatan tertinggi bagi kami. Kepuasan jamaah adalah prioritas utama.</p>
+                    </div>
                 </div>
             </div>
             @endforeach
         </div>
+
         
         {{-- Team Section Placeholder --}}
         @if(count($team) > 0)
@@ -343,8 +275,8 @@
     <div class="container">
         <div class="section-header-center">
             <div class="section-badge">Berizin & Terpercaya</div>
-            <h2 class="section-title">Legalitas Resmi Mahira Tour</h2>
-            <p class="section-subtitle">Terdaftar dan diawasi oleh lembaga resmi pemerintah</p>
+            <h2 class="section-title zigzag-title" style="color:white; text-align:center; margin-top:0;">LEGALITAS RESMI</h2>
+            <p class="section-subtitle">TERDAFTAR DAN DIAWASI PEMERINTAH RI</p>
         </div>
         
         {{-- PPIU License Card --}}
@@ -375,31 +307,25 @@
         </div>
         
         {{-- Legal Partners --}}
-        <div class="legal-grid-compact">
-            <div class="legal-card-compact">
-                <div class="legal-logo">
-                    <img src="{{ asset('images/partners/kemenag.webp') }}" alt="Kementerian Agama RI" loading="lazy">
-                </div>
-                <h5>Kementerian Agama RI</h5>
-                <p>Berizin Resmi</p>
+        {{-- Legal Partners (Horizontal Banner) --}}
+        <div class="legal-banner-wrapper">
+            <div class="legal-item">
+                <img src="{{ asset('images/partners/kemenag.webp') }}" alt="Kemenag" class="legal-icon hover-color">
+                <span class="legal-label">RESMI KEMENAG RI</span>
             </div>
-            
-            <div class="legal-card-compact">
-                <div class="legal-logo">
-                    <img src="{{ asset('images/partners/siskopatuh.webp') }}" alt="Siskopatuh" loading="lazy">
-                </div>
-                <h5>Siskopatuh</h5>
-                <p>Terdaftar</p>
+            <div class="legal-divider"></div>
+            <div class="legal-item">
+                <img src="{{ asset('images/partners/himpuh.webp') }}" alt="HIMPUH" class="legal-icon hover-color">
+                <span class="legal-label">ANGGOTA HIMPUH</span>
             </div>
-            
-            <div class="legal-card-compact">
-                <div class="legal-logo">
-                    <img src="{{ asset('images/partners/himpuh.webp') }}" alt="HIMPUH" loading="lazy">
-                </div>
-                <h5>HIMPUH</h5>
-                <p>Anggota Resmi</p>
+            <div class="legal-divider"></div>
+            <div class="legal-item">
+                <img src="{{ asset('images/partners/siskopatuh.webp') }}" alt="Siskopatuh" class="legal-icon hover-color">
+                <span class="legal-label">TERDAFTAR SISKOPATUH</span>
             </div>
         </div>
+    </div>
+</section>
     </div>
 </section>
 
@@ -408,8 +334,8 @@
     <div class="container">
         <div class="section-header-center">
             <div class="section-badge">{{ count($branches) }} Cabang di Indonesia</div>
-            <h2 class="section-title">Lokasi Cabang Mahira Tour</h2>
-            <p class="section-subtitle">Klik kartu cabang atau marker pada peta untuk melihat detail lokasi</p>
+            <h2 class="section-title zigzag-title" style="text-align:center; margin-top:0;">LOKASI CABANG KAMI</h2>
+            <p class="section-subtitle">KLIK KARTU CABANG UNTUK DETAIL LOKASI</p>
         </div>
         
         {{-- Branch Cards Slider --}}
@@ -427,24 +353,34 @@
 </section>
 
 {{-- CTA SECTION --}}
-<section class="cta-about">
-    <div class="container">
-        <div class="cta-content-about">
-            <div class="cta-icon">
-                <i class="bi bi-moon-stars-fill"></i>
-            </div>
-            <h2>Mari Jemput Rindu Itu</h2>
-            <p>Panggilan itu mungkin sudah terdengar di hati Anda. Jika saatnya telah tiba, izinkan kami menemani langkah Anda menuju Rumah-Nya.</p>
-            <div class="cta-buttons-about">
+{{-- CLOSING CTA (Vertical Split Style) --}}
+<section class="closing-split-section">
+    <div class="split-container">
+        {{-- Left: Text Content --}}
+        <div class="split-content-side">
+            <span class="split-subtitle">PERJALANAN RUHANI</span>
+            <h2 class="split-title">LANGKAH MENUJU <br>RUMAH-NYA</h2>
+            <p class="split-desc">
+                Panggilan itu mungkin sudah terdengar di hati Anda. Kami mengerti bahwa ini bukan sekadar perjalanan fisik, tapi perjalanan hati menuju Sang Pencipta. Izinkan Mahira Tour membersamai setiap langkah ibadah Anda dengan kenyamanan dan kepastian.
+            </p>
+            <div class="split-buttons">
                 <a href="https://wa.me/6282184515310?text=Assalamualaikum,%20saya%20ingin%20konsultasi%20paket%20umrah" 
-                   class="btn-primary-cta" target="_blank">
-                    <i class="bi bi-whatsapp"></i>
-                    Hubungi Kami untuk Konsultasi
+                   class="btn-split-primary" target="_blank">
+                    <i class="bi bi-whatsapp"></i> Konsultasi Gratis
                 </a>
-                <a href="{{ route('schedule') }}" class="btn-outline-cta">
-                    <i class="bi bi-calendar-check"></i>
-                    Lihat Jadwal
+                <a href="{{ route('schedule') }}" class="btn-split-outline">
+                    <i class="bi bi-calendar-check"></i> Lihat Jadwal
                 </a>
+            </div>
+        </div>
+
+        {{-- Right: Dual Vertical Images --}}
+        <div class="split-image-side">
+            <div class="split-img-wrapper img-tall">
+                <img src="{{ asset('images/hero/hero-about.webp') }}" alt="Ka'bah" class="split-img">
+            </div>
+            <div class="split-img-wrapper img-short">
+                <img src="{{ asset('images/hero/masjid-nabawi.webp') }}" alt="Masjid Nabawi" class="split-img">
             </div>
         </div>
     </div>

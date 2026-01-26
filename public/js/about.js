@@ -8,13 +8,31 @@ const branchesWithCoords = [
     {id: 6, name: "Merangin", region: "Jambi", address: "Muara Panco Barat, Kec. Renah Pembarap", coordinates: [-2.0833, 101.6833], isMain: false, mapLink: ""}
 ];
 
-// Initialize map
-const map = L.map('map').setView([-1.5, 102], 6);
+// Initialize map with interaction disabled initially
+const map = L.map('map', {
+    scrollWheelZoom: false, // Disable scroll zoom
+    dragging: !L.Browser.mobile, // Disable dragging on mobile initially
+    tap: false
+}).setView([-1.5, 102], 6);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors',
     maxZoom: 19
 }).addTo(map);
+
+// Enable interaction on click/focus
+map.on('click', function() {
+    if (L.Browser.mobile) {
+        map.dragging.enable();
+        map.tap && map.tap.enable();
+    }
+    map.scrollWheelZoom.enable();
+});
+
+// Disable interaction when mouse leaves map (optional, good for UX)
+map.on('mouseout', function() {
+    map.scrollWheelZoom.disable();
+});
 
 const markers = {};
 
