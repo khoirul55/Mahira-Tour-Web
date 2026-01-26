@@ -17,15 +17,24 @@ class Schedule extends Model
         'airline',
         'duration',
         'price',
+        'price_triple',
+        'price_double',
+        'price_child',
         'quota',
         'seats_taken',
         'flyer_image',
         'status',
         'description',
         'hotel_makkah',
+        'hotel_makkah_image',
         'hotel_madinah',
+        'hotel_madinah_image',
         'itinerary',
-        'features'
+        'itinerary_pdf',
+        'features',
+        'excludes',
+        'gifts',
+        'additional_info'
     ];
 
     protected $casts = [

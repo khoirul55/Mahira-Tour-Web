@@ -321,15 +321,19 @@
                         <div class="row g-3 mb-3">
                             <div class="col-6">
                                 <label class="form-label required">Hotel Makkah</label>
-                                <input type="text" name="hotel_makkah" class="form-control" 
+                                <input type="text" name="hotel_makkah" class="form-control mb-2" 
                                        placeholder="Contoh: Zamzam Tower"
                                        value="{{ old('hotel_makkah') }}" required>
+                                <input type="file" name="hotel_makkah_image" class="form-control form-control-sm" accept="image/*">
+                                <small class="text-muted">Upload Foto Hotel Makkah</small>
                             </div>
                             <div class="col-6">
                                 <label class="form-label required">Hotel Madinah</label>
-                                <input type="text" name="hotel_madinah" class="form-control" 
+                                <input type="text" name="hotel_madinah" class="form-control mb-2" 
                                        placeholder="Contoh: Rove Madinah"
                                        value="{{ old('hotel_madinah') }}" required>
+                                <input type="file" name="hotel_madinah_image" class="form-control form-control-sm" accept="image/*">
+                                <small class="text-muted">Upload Foto Hotel Madinah</small>
                             </div>
                         </div>
 
@@ -342,19 +346,49 @@
 
                         <!-- Itinerary -->
                         <div class="mb-3">
-                            <label class="form-label">Itinerary (JSON / Text)</label>
-                            <div class="form-text text-muted mb-2">
-                                Sementara masukkan teks biasa atau format JSON manual. Nanti akan kita upgrade ke Repeater.
-                            </div>
+                            <label class="form-label">Itinerary (Teks)</label>
                             <textarea name="itinerary" class="form-control" rows="5"
-                                      placeholder='[{"day":1,"activity":"Keberangkatan"},{"day":2,"activity":"Tawaf"}]'>{{ old('itinerary') }}</textarea>
+                                      placeholder="Hari 1: Keberangkatan...&#10;Hari 2: Tawaf...&#10;Hari 3: Ziarah...">{{ old('itinerary') }}</textarea>
+                            <small class="text-muted">Tulis itinerary harian secara manual di sini.</small>
                         </div>
                         
                          <!-- Features -->
                         <div class="mb-3">
-                            <label class="form-label">Fasilitas Termasuk (Pisahkan dengan koma)</label>
+                            <label class="form-label">Fasilitas Termasuk (Includes)</label>
                             <textarea name="features" class="form-control" rows="3"
                                       placeholder="Visa Umrah, Tiket Pesawat PP, Makan 3x Sehari, Mutawwif">{{ old('features') }}</textarea>
+                             <small class="text-muted">Pisahkan dengan koma</small>
+                        </div>
+
+                        <!-- Excludes -->
+                        <div class="mb-3">
+                            <label class="form-label">Tidak Termasuk (Excludes)</label>
+                            <textarea name="excludes" class="form-control" rows="3"
+                                      placeholder="Paspor, Vaksin, Pengeluaran Pribadi">{{ old('excludes') }}</textarea>
+                            <small class="text-muted">Pisahkan dengan koma</small>
+                        </div>
+
+                        <!-- Gifts -->
+                        <div class="mb-3">
+                            <label class="form-label">Hadiah Umrah (Gifts)</label>
+                            <textarea name="gifts" class="form-control" rows="3"
+                                      placeholder="Koper, Tas Selempang, Kain Ihram, Air Zamzam">{{ old('gifts') }}</textarea>
+                            <small class="text-muted">Pisahkan dengan koma</small>
+                        </div>
+
+                        <!-- Additional Info -->
+                        <div class="mb-3">
+                            <label class="form-label">Informasi Tambahan</label>
+                            <textarea name="additional_info" class="form-control" rows="3"
+                                      placeholder="Harga dapat berubah sewaktu-waktu...">{{ old('additional_info') }}</textarea>
+                            <small class="text-muted">Pisahkan dengan koma atau baris baru</small>
+                        </div>
+
+                        <!-- Itinerary PDF -->
+                        <div class="mb-3">
+                            <label class="form-label">Upload Itinerary PDF</label>
+                            <input type="file" name="itinerary_pdf" class="form-control" accept="application/pdf">
+                            <small class="text-muted">Max size: 5MB</small>
                         </div>
                     </div>
                 </div>

@@ -1,490 +1,335 @@
-/* PREMIUM SCHEDULE DETAIL CSS */
+/* HAGEL STYLE DETAIL PAGE CSS */
 
-/* VARIABLES */
 :root {
-    --primary-navy: #001D5F;
-    --gold: #B89230;
-    --gold-light: #F4E4BC;
-    --white: #FFFFFF;
-    --text-dark: #1A1A1A;
-    --text-gray: #6B7280;
+    --hagel-gold: #C5A036; /* Warna Gold dari Referensi */
+    --hagel-navy: #001D5F;
+    --text-dark: #333333;
+    --text-light: #666666;
     --bg-light: #F9FAFB;
 }
 
 body {
-    background-color: var(--bg-light);
+    font-family: 'Inter', sans-serif; /* Clean modern font */
+    background-color: white;
 }
 
-/* HERO SECTION */
-.detail-hero {
-    position: relative;
-    height: 60vh;
-    min-height: 400px;
+/* ===== HERO SECTION ===== */
+.hagel-hero {
+    height: 85vh; /* Tinggi hampir full screen */
+    max-height: 700px;
+    min-height: 500px;
     overflow: hidden;
-    display: flex;
-    align-items: flex-end;
+    position: relative;
 }
 
-.hero-background {
-    position: absolute;
-    inset: 0;
-    width: 100%;
+.hero-left {
     height: 100%;
 }
 
-.hero-background img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    animation: zoomSlow 20s infinite alternate;
-}
-
-@keyframes zoomSlow {
-    from { transform: scale(1); }
-    to { transform: scale(1.1); }
-}
-
-.hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0,29,95,0.9), rgba(0,29,95,0.4));
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-    padding-bottom: 60px;
-    color: white;
-}
-
-.hero-badge {
-    background: var(--gold);
-    color: white;
-    padding: 8px 16px;
-    border-radius: 50px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 15px rgba(184, 146, 48, 0.4);
-}
-
-.hero-title {
-    font-family: 'Lora', serif;
-    font-size: 3.5rem;
-    font-weight: 700;
-    margin-bottom: 25px;
-    line-height: 1.1;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-}
-
-/* Meta Pills */
-.hero-meta {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.meta-pill {
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 10px 20px;
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1rem;
-    font-weight: 500;
-}
-
-.meta-pill i {
-    color: var(--gold);
-}
-
-/* MAIN CONTAINER */
-.main-container {
-    margin-top: -50px;
-    position: relative;
-    z-index: 10;
-    padding-bottom: 80px;
-}
-
-/* CONTENT CARDS */
-.content-card {
-    background: white;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    border: 1px solid rgba(0,0,0,0.02);
-}
-
-.card-header-premium {
-    padding: 25px 30px;
-    border-bottom: 1px solid #eee;
-    background: white;
-}
-
-.card-header-premium h3 {
-    margin: 0;
-    font-family: 'Lora', serif;
-    font-size: 1.5rem;
-    color: var(--primary-navy);
-    font-weight: 700;
-    position: relative;
-    padding-left: 20px;
-}
-
-.card-header-premium h3::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 25px;
-    background: var(--gold);
-    border-radius: 4px;
-}
-
-.card-body-premium {
-    padding: 30px;
-}
-
-.description-text {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #4B5563;
-    margin-bottom: 30px;
-}
-
-/* Features Grid */
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-}
-
-.feature-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 1rem;
-    color: var(--text-dark);
-    font-weight: 500;
-}
-
-.text-gold {
-    color: var(--gold);
-}
-
-/* ACCOMMODATION */
-.hotel-pair {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 30px;
-}
-
-.hotel-item {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 20px;
-    background: #F9FAFB;
-    border-radius: 12px;
-    border: 1px solid #eee;
-}
-
-.hotel-icon {
-    width: 60px;
-    height: 60px;
-    background: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    color: var(--primary-navy);
-    font-size: 1.5rem;
-}
-
-.hotel-info .city {
-    display: block;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--text-gray);
-    letter-spacing: 1px;
-    margin-bottom: 5px;
-}
-
-.hotel-info .hotel-name {
-    margin: 0;
-    font-weight: 700;
-    color: var(--primary-navy);
-    font-size: 1.1rem;
-}
-
-.stars {
-    color: #FFC107;
-    font-size: 0.8rem;
-    margin-top: 5px;
-}
-
-.hotel-divider {
-    color: var(--gold);
-    font-size: 1.5rem;
-}
-
-/* ITINERARY TIMELINE */
-.timeline {
-    position: relative;
-    padding-left: 30px;
-}
-
-.timeline::before {
-    content: '';
-    position: absolute;
-    left: 14px;
-    top: 10px;
-    bottom: 0;
-    width: 2px;
-    background: #E5E7EB;
-}
-
-.timeline-item {
-    position: relative;
-    margin-bottom: 30px;
-}
-
-.timeline-marker {
-    position: absolute;
-    left: -30px;
-    width: 30px;
-    height: 30px;
-    background: var(--primary-navy);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 0.9rem;
-    border: 4px solid white;
-    box-shadow: 0 0 0 2px var(--primary-navy);
-}
-
-.timeline-content h5 {
-    font-weight: 700;
-    color: var(--primary-navy);
-    margin-bottom: 5px;
-}
-
-.timeline-content p {
-    color: var(--text-gray);
-    margin: 0;
-}
-
-/* SIDEBAR PRICE CARD */
-.sticky-sidebar {
-    position: sticky;
-    top: 100px; /* Below Navbar */
-}
-
-.price-card {
-    background: white;
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-    border: 1px solid var(--gold-light);
-    position: relative;
-    overflow: hidden;
-}
-
-.price-card::before {
-    content: '';
+.hero-bg-wrapper {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 6px;
-    background: var(--gold);
+    height: 100%;
 }
 
-.price-header span {
-    display: block;
-    color: var(--text-gray);
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 5px;
-}
-
-.price-amount {
-    font-family: 'Lora', serif;
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--primary-navy);
-}
-
-.quota-info {
-    margin-top: 25px;
-}
-
-.progress {
-    height: 8px;
-    border-radius: 4px;
-    background: #E5E7EB;
-}
-
-.progress-bar {
-    background: var(--gold);
-    border-radius: 4px;
-}
-
-.price-divider {
-    margin: 25px 0;
-    border-color: #eee;
-}
-
-.btn-book-now {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+.hero-bg-img {
     width: 100%;
-    background: var(--primary-navy);
-    color: white;
-    padding: 16px;
-    border-radius: 8px;
-    font-weight: 700;
-    text-decoration: none;
-    transition: all 0.3s;
-    margin-bottom: 15px;
-}
-
-.btn-book-now:hover {
-    background: #00154a;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0,29,95,0.2);
-    color: white;
-}
-
-.btn-book-now.disabled {
-    background: #9CA3AF;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
-
-.btn-whatsapp {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    background: white;
-    color: #25D366;
-    border: 2px solid #25D366;
-    padding: 14px;
-    border-radius: 8px;
-    font-weight: 700;
-    text-decoration: none;
-    transition: all 0.3s;
-}
-
-.btn-whatsapp:hover {
-    background: #25D366;
-    color: white;
-}
-
-/* RELATED PACKAGES */
-.related-card {
-    display: block;
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    text-decoration: none;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    transition: all 0.3s;
-}
-
-.related-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-}
-
-.related-card img {
-    width: 100%;
-    height: 200px;
+    height: 100%;
     object-fit: cover;
 }
 
-.related-info {
-    padding: 15px;
+.hero-gradient-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Dark overlay text clarity */
+    z-index: 1;
 }
 
-.related-info h5 {
-    color: var(--primary-navy);
-    font-weight: 700;
+.hero-text-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 8%;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.sub-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.main-title {
+    font-family: 'Lora', serif; /* Font Serif untuk kesan mewah */
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.hero-dates {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.duration-badge {
     font-size: 1rem;
-    margin-bottom: 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    background: var(--hagel-gold);
+    color: white;
+    padding: 2px 10px;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-left: 10px;
 }
 
-.related-info .price {
-    color: var(--gold);
+.hero-route i {
+    color: var(--hagel-gold);
+    margin-right: 5px;
+}
+
+/* ===== HERO RIGHT (GOLD PANEL) ===== */
+.hero-right-gold {
+    background-color: var(--hagel-gold);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px;
+    position: relative;
+    color: var(--hagel-navy);
+}
+
+.pricing-content {
+    width: 100%;
+    max-width: 350px;
+}
+
+.price-group {
+    margin-bottom: 25px;
+}
+
+.price-label {
+    display: block;
     font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.price-value {
+    font-family: 'Lora', serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin: 0;
+    color: white; /* Harga warna putih di background gold */
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.btn-chat-wa {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: all 0.3s;
+    width: 100%;
+}
+
+.btn-chat-wa:hover {
+    background: white;
+    color: var(--hagel-gold);
+}
+
+.floating-chat-icon {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: #0056b3; /* Blue chat icon */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+
+/* ===== CONTENT SECTION ===== */
+.section-heading-left {
+    color: var(--hagel-navy);
+    font-weight: 800;
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+}
+
+.section-heading {
+    color: var(--hagel-navy);
+    font-weight: 800;
+    font-size: 1.5rem;
+}
+
+/* Hotel Cards */
+.hotel-card {
+    text-align: center;
+}
+
+.hotel-img-wrapper {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 180px;
+    background: #eee;
+}
+
+.hotel-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hotel-badge {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 29, 95, 0.8);
+    color: white;
+    padding: 5px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.hotel-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--hagel-navy);
+}
+
+/* Lists */
+.hagel-list {
+    list-style: none;
+    padding: 0;
     margin: 0;
 }
 
-/* MOBILE RESPONSIVE */
+.hagel-list li {
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 12px;
+    color: var(--text-dark);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.hagel-list li::before {
+    content: '•';
+    color: var(--text-dark); /* Bullet hitam simple */
+    font-weight: bold;
+    font-size: 1.2rem;
+    position: absolute;
+    left: 0;
+    top: -3px;
+}
+
+/* Flight */
+.airline-name {
+    color: var(--hagel-navy);
+    font-weight: 700;
+    font-family: 'Lora', serif;
+}
+
+.flight-icon {
+    font-size: 4rem;
+    color: var(--hagel-gold);
+    margin: 10px 0;
+}
+
+/* Itinerary Button */
+.btn-download-itinerary {
+    display: inline-block;
+    background: var(--hagel-navy);
+    color: white;
+    padding: 15px 30px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+}
+
+.btn-download-itinerary:hover {
+    background: #00154a;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* RESPONSIVE */
 @media (max-width: 991px) {
-    .main-container {
-        margin-top: 0;
-        padding-top: 30px;
-    }
-    
-    .price-card {
-        margin-bottom: 40px;
-    }
-    
-    .hotel-pair {
+    .hagel-hero {
+        height: auto;
+        max-height: none;
         flex-direction: column;
-        gap: 15px;
+    }
+
+    .hero-left {
+        height: 400px;
+    }
+
+    .hero-text-content {
+        padding: 40px 20px;
+        text-align: center;
     }
     
-    .hotel-divider {
-        transform: rotate(90deg);
-        font-size: 1rem;
+    .hero-right-gold {
+        padding: 40px 20px;
+    }
+    
+    .pricing-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    
+    .main-title {
+        font-size: 2.2rem;
     }
 }
 
 @media (max-width: 768px) {
-    .hero-title {
-        font-size: 2.2rem;
-    }
-    
-    .detail-hero {
-        height: 50vh;
-    }
-    
-    .features-grid {
+    .pricing-content {
         grid-template-columns: 1fr;
     }
     
-    .card-header-premium {
-        padding: 20px;
+    .sticky-bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
     }
     
-    .card-body-premium {
-        padding: 20px;
+    body {
+        padding-bottom: 60px; /* Space for sticky nav */
     }
 }

@@ -58,16 +58,25 @@ class ScheduleController extends Controller
             'departure_route' => 'required|string|max:100',
             'airline' => 'required|string|max:100',
             'duration' => 'required|string|max:50',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|numeric|min:0', // Used as Quad/Base
+            'price_triple' => 'nullable|numeric|min:0',
+            'price_double' => 'nullable|numeric|min:0',
+            'price_child' => 'nullable|numeric|min:0',
             'quota' => 'required|integer|min:1',
             'flyer_image' => 'required|image|mimes:jpeg,jpg,png,webp|max:10240', // 10MB
             'status' => 'required|in:active,full,cancelled',
             // New Fields
             'description' => 'nullable|string',
             'hotel_makkah' => 'nullable|string|max:255',
+            'hotel_makkah_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
             'hotel_madinah' => 'nullable|string|max:255',
+            'hotel_madinah_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
             'itinerary' => 'nullable|string',
             'features' => 'nullable|string',
+            'excludes' => 'nullable|string',
+            'gifts' => 'nullable|string',
+            'additional_info' => 'nullable|string',
+            'itinerary_pdf' => 'nullable|file|mimes:pdf|max:5120',
         ]);
         
         DB::beginTransaction();
@@ -82,6 +91,23 @@ class ScheduleController extends Controller
                 90     // Quality tinggi untuk flyer
             );
             
+            // Upload PDF if exists
+            $pdfPath = null;
+            if ($request->hasFile('itinerary_pdf')) {
+                $pdfPath = $request->file('itinerary_pdf')->store('schedules/itineraries', 'public');
+            }
+
+            // Upload Hotel Images
+            $hotelMakkahPath = null;
+            if ($request->hasFile('hotel_makkah_image')) {
+                $hotelMakkahPath = ImageHelper::optimizeAndSave($request->file('hotel_makkah_image'), 'schedules/hotels', 800, 600, 85);
+            }
+
+            $hotelMadinahPath = null;
+            if ($request->hasFile('hotel_madinah_image')) {
+                $hotelMadinahPath = ImageHelper::optimizeAndSave($request->file('hotel_madinah_image'), 'schedules/hotels', 800, 600, 85);
+            }
+            
             Schedule::create([
                 'package_name' => $validated['package_name'],
                 'departure_date' => $validated['departure_date'],
@@ -90,17 +116,25 @@ class ScheduleController extends Controller
                 'airline' => $validated['airline'],
                 'duration' => $validated['duration'],
                 'price' => $validated['price'],
+                'price_triple' => $validated['price_triple'] ?? null,
+                'price_double' => $validated['price_double'] ?? null,
+                'price_child' => $validated['price_child'] ?? null,
                 'quota' => $validated['quota'],
                 'seats_taken' => 0,
-                'flyer_image' => $flyerPath,
                 'flyer_image' => $flyerPath,
                 'status' => $validated['status'],
                 // New Fields
                 'description' => $validated['description'] ?? null,
                 'hotel_makkah' => $validated['hotel_makkah'] ?? null,
+                'hotel_makkah_image' => $hotelMakkahPath,
                 'hotel_madinah' => $validated['hotel_madinah'] ?? null,
+                'hotel_madinah_image' => $hotelMadinahPath,
                 'itinerary' => $validated['itinerary'] ?? null,
+                'itinerary_pdf' => $pdfPath,
                 'features' => $validated['features'] ?? null,
+                'excludes' => $validated['excludes'] ?? null,
+                'gifts' => $validated['gifts'] ?? null,
+                'additional_info' => $validated['additional_info'] ?? null,
             ]);
             
             DB::commit();
@@ -138,15 +172,24 @@ class ScheduleController extends Controller
             'airline' => 'required|string|max:100',
             'duration' => 'required|string|max:50',
             'price' => 'required|numeric|min:0',
+            'price_triple' => 'nullable|numeric|min:0',
+            'price_double' => 'nullable|numeric|min:0',
+            'price_child' => 'nullable|numeric|min:0',
             'quota' => 'required|integer|min:' . $schedule->seats_taken, // Quota minimal = seats yang sudah diambil
             'flyer_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:10240',
             'status' => 'required|in:active,full,cancelled',
             // New Fields
             'description' => 'nullable|string',
             'hotel_makkah' => 'nullable|string|max:255',
+            'hotel_makkah_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
             'hotel_madinah' => 'nullable|string|max:255',
+            'hotel_madinah_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
             'itinerary' => 'nullable|string',
             'features' => 'nullable|string',
+            'excludes' => 'nullable|string',
+            'gifts' => 'nullable|string',
+            'additional_info' => 'nullable|string',
+            'itinerary_pdf' => 'nullable|file|mimes:pdf|max:5120',
         ]);
         
         DB::beginTransaction();
@@ -165,6 +208,21 @@ class ScheduleController extends Controller
                     1600,
                     90
                 );
+            }
+            
+            // Update PDF if uploaded
+            if ($request->hasFile('itinerary_pdf')) {
+                 $validated['itinerary_pdf'] = $request->file('itinerary_pdf')->store('schedules/itineraries', 'public');
+            }
+
+            // Update Hotel Images
+            if ($request->hasFile('hotel_makkah_image')) {
+                if ($schedule->hotel_makkah_image) ImageHelper::deleteImage($schedule->hotel_makkah_image);
+                $validated['hotel_makkah_image'] = ImageHelper::optimizeAndSave($request->file('hotel_makkah_image'), 'schedules/hotels', 800, 600, 85);
+            }
+            if ($request->hasFile('hotel_madinah_image')) {
+                if ($schedule->hotel_madinah_image) ImageHelper::deleteImage($schedule->hotel_madinah_image);
+                $validated['hotel_madinah_image'] = ImageHelper::optimizeAndSave($request->file('hotel_madinah_image'), 'schedules/hotels', 800, 600, 85);
             }
             
             $schedule->update($validated);
@@ -199,6 +257,8 @@ class ScheduleController extends Controller
             
             // Delete flyer
             ImageHelper::deleteImage($schedule->flyer_image);
+            if ($schedule->hotel_makkah_image) ImageHelper::deleteImage($schedule->hotel_makkah_image);
+            if ($schedule->hotel_madinah_image) ImageHelper::deleteImage($schedule->hotel_madinah_image);
             
             $schedule->delete();
             

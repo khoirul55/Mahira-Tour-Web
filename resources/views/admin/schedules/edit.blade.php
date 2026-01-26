@@ -213,6 +213,72 @@
                     </div>
                 </div>
 
+                </div>
+
+                <!-- New Card: Page Details -->
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-layout-text-window-reverse"></i> Detail Halaman</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Deskripsi Singkat</label>
+                            <textarea name="description" class="form-control" rows="3">{{ old('description', $schedule->description) }}</textarea>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Hotel Makkah</label>
+                                <input type="text" name="hotel_makkah" class="form-control mb-2" 
+                                       value="{{ old('hotel_makkah', $schedule->hotel_makkah) }}" placeholder="Contoh: Anjum Hotel">
+                                <input type="file" name="hotel_makkah_image" class="form-control form-control-sm mb-1" accept="image/*">
+                                @if($schedule->hotel_makkah_image)
+                                    <small class="d-block"><a href="{{ Storage::url($schedule->hotel_makkah_image) }}" target="_blank">Lihat Foto Makkah</a></small>
+                                @endif
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Hotel Madinah</label>
+                                <input type="text" name="hotel_madinah" class="form-control mb-2" 
+                                       value="{{ old('hotel_madinah', $schedule->hotel_madinah) }}" placeholder="Contoh: Rove Hotel">
+                                <input type="file" name="hotel_madinah_image" class="form-control form-control-sm mb-1" accept="image/*">
+                                @if($schedule->hotel_madinah_image)
+                                    <small class="d-block"><a href="{{ Storage::url($schedule->hotel_madinah_image) }}" target="_blank">Lihat Foto Madinah</a></small>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Itinerary (Teks)</label>
+                            <textarea name="itinerary" class="form-control" rows="4" 
+                                      placeholder="Hari 1: ...">{{ old('itinerary', $schedule->itinerary) }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Fasilitas Termasuk (Includes)</label>
+                            <textarea name="features" class="form-control" rows="3"
+                                      placeholder="Visa, Tiket, dll (Pisahkan koma)">{{ old('features', $schedule->features) }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Tidak Termasuk (Excludes)</label>
+                            <textarea name="excludes" class="form-control" rows="3"
+                                      placeholder="Paspor, Vaksin, dll (Pisahkan koma)">{{ old('excludes', $schedule->excludes) }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Hadiah Umrah (Gifts)</label>
+                            <textarea name="gifts" class="form-control" rows="3"
+                                      placeholder="Koper, Tas Selempang, dll (Pisahkan koma)">{{ old('gifts', $schedule->gifts) }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Informasi Tambahan</label>
+                            <textarea name="additional_info" class="form-control" rows="3"
+                                      placeholder="Informasi penting lainnya...">{{ old('additional_info', $schedule->additional_info) }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="card mb-4">
                     <div class="card-header bg-success text-white">
                         <h5 class="mb-0"><i class="bi bi-calendar"></i> Tanggal & Harga</h5>
@@ -239,12 +305,38 @@
                                    required>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label required">Harga per Orang</label>
-                            <div class="input-group">
-                                <span class="input-group-text">Rp</span>
-                                <input type="number" name="price" class="form-control" 
-                                       value="{{ old('price', $schedule->price) }}" min="0" step="100000" required>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label required">Harga Quad/Base</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">Rp</span>
+                                    <input type="number" name="price" class="form-control" 
+                                           value="{{ old('price', $schedule->price) }}" min="0" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Harga Triple</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">Rp</span>
+                                    <input type="number" name="price_triple" class="form-control" 
+                                           value="{{ old('price_triple', $schedule->price_triple) }}" min="0">
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Harga Double</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">Rp</span>
+                                    <input type="number" name="price_double" class="form-control" 
+                                           value="{{ old('price_double', $schedule->price_double) }}" min="0">
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Harga Child</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">Rp</span>
+                                    <input type="number" name="price_child" class="form-control" 
+                                           value="{{ old('price_child', $schedule->price_child) }}" min="0">
+                                </div>
                             </div>
                         </div>
 
@@ -300,6 +392,23 @@
                                     @click="resetPreview()">
                                 <i class="bi bi-arrow-counterclockwise"></i> Lihat Flyer Asli
                             </button>
+                        </div>
+                        
+                        <hr>
+                        
+                        <!-- Itinerary PDF -->
+                        <div class="mb-3">
+                            <label class="form-label">Update Itinerary PDF</label>
+                            <input type="file" name="itinerary_pdf" class="form-control" accept="application/pdf">
+                            <small class="text-muted">Upload baru untuk mengganti. Max 5MB.</small>
+                            
+                            @if($schedule->itinerary_pdf)
+                            <div class="mt-2">
+                                <a href="{{ Storage::url($schedule->itinerary_pdf) }}" target="_blank" class="btn btn-sm btn-outline-info">
+                                    <i class="bi bi-file-earmark-pdf"></i> Lihat PDF Saat Ini
+                                </a>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
