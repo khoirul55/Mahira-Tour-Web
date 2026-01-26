@@ -19,7 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if($this->app->environment('production') || env('APP_ENV') === 'production') {
+        // Force HTTPS in Production or if explicitly requested via ENV
+        // This handles Cloudflare/Proxy scenarios where acts as HTTP but needs HTTPS links
+        if($this->app->environment('production') || env('FORCE_HTTPS', false)) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
     }

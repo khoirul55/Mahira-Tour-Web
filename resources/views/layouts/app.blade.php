@@ -26,11 +26,11 @@
     <meta property="twitter:image" content="{{ asset('images/hero/hero-video-poster.webp') }}">
     
     <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/favicon/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/favicon/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/favicon/favicon-16x16.png') }}">
-    <link rel="manifest" href="{{ asset('assets/favicon/site.webmanifest') }}">
-    <link rel="shortcut icon" href="{{ asset('assets/favicon/favicon.ico') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/favicon/apple-touch-icon.png?v=2') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/favicon/favicon-32x32.png?v=2') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/favicon/favicon-16x16.png?v=2') }}">
+    <link rel="manifest" href="{{ asset('assets/favicon/site.webmanifest?v=2') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/favicon/favicon.ico?v=2') }}">
     
     <!-- Preconnect to CDNs -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
