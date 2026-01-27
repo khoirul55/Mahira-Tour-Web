@@ -7,701 +7,524 @@
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 <style>
-/* Dashboard Styles */
-.dashboard-section {
-    min-height: 100vh;
-    background: linear-gradient(180deg, #F8F9FF 0%, #fff 100%);
-    padding: 80px 0;
-}
 
-.dashboard-container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Header */
-.dashboard-header {
-    background: linear-gradient(135deg, #001D5F 0%, #002B8F 100%);
-    color: white;
-    border-radius: 24px;
-    padding: 2.5rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 10px 40px rgba(0, 29, 95, 0.2);
-}
-
-.dashboard-header h1 {
-    font-size: 2rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
-}
-
-.dashboard-header .reg-number {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #D4AF37;
-    margin-bottom: 1rem;
-}
-
-.dashboard-header .deadline {
-    background: rgba(255, 255, 255, 0.15);
-    padding: 0.75rem 1.25rem;
-    border-radius: 12px;
-    display: inline-block;
-    margin-top: 1rem;
-}
-
-/* Progress Bar */
-.progress-section {
-    background: white;
-    border-radius: 20px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-}
-
-.progress-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-
-.progress-header h3 {
-    font-weight: 700;
-    color: #001D5F;
-}
-
-.progress-percentage {
-    font-size: 2rem;
-    font-weight: 800;
-    color: #10B981;
-}
-
-.progress-bar-container {
-    height: 12px;
-    background: #E8EBF3;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.progress-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #10B981 0%, #059669 100%);
-    border-radius: 10px;
-    transition: width 0.5s ease;
-}
-
-/* Action Cards Grid */
-.action-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    margin-bottom: 2rem;
-}
-
-.action-card {
-    background: white;
-    border-radius: 20px;
-    padding: 2rem;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s;
-}
-
-.action-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.action-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #E8EBF3;
-}
-
-.action-card-header h3 {
-    font-weight: 700;
-    color: #001D5F;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.action-card-header i {
-    font-size: 1.5rem;
-    color: #D4AF37;
-}
-
-.badge-status {
-    padding: 0.5rem 1rem;
-    border-radius: 50px;
-    font-size: 0.85rem;
-    font-weight: 700;
-}
-
-.badge-pending {
-    background: #FEF3C7;
-    color: #F59E0B;
-}
-
-.badge-complete {
-    background: #D1FAE5;
-    color: #059669;
-}
-
-.badge-waiting {
-    background: #DBEAFE;
-    color: #2563EB;
-}
-
-/* Jamaah List */
-.jamaah-item {
-    background: #F8F9FF;
-    border-radius: 12px;
-    padding: 1.25rem;
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.jamaah-item.complete {
-    background: #D1FAE5;
-    border: 2px solid #10B981;
-}
-
-.jamaah-info {
-    flex: 1;
-}
-
-.jamaah-info h4 {
-    font-weight: 700;
-    color: #001D5F;
-    margin-bottom: 0.25rem;
-}
-
-.jamaah-info small {
-    color: #6B7280;
-}
-
-.btn-jamaah {
-    padding: 0.5rem 1.25rem;
-    background: #001D5F;
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.btn-jamaah:hover {
-    background: #002B8F;
-    transform: translateY(-2px);
-}
-
-.btn-jamaah.complete {
-    background: #10B981;
-}
-
-/* Payment Section */
-.payment-instructions {
-    background: #FEF3C7;
-    border: 2px solid #F59E0B;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.payment-instructions h4 {
-    color: #001D5F;
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-.bank-info {
-    background: linear-gradient(135deg, #001D5F 0%, #002B8F 100%);
-    color: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-.bank-account {
-    font-size: 1.8rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-    margin: 1rem 0;
-}
-
-.btn-copy {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    padding: 0.5rem 1rem;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.btn-copy:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-/* Upload Form */
-.upload-form {
-    margin-top: 1.5rem;
-}
-
-.form-group-dash {
-    margin-bottom: 1.25rem;
-}
-
-.form-group-dash label {
-    display: block;
-    font-weight: 700;
-    color: #001D5F;
-    margin-bottom: 0.5rem;
-}
-
-.form-control-dash {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 2px solid #E8EBF3;
-    border-radius: 12px;
-    font-size: 1rem;
-    transition: all 0.3s;
-}
-
-.form-control-dash:focus {
-    outline: none;
-    border-color: #001D5F;
-    box-shadow: 0 0 0 3px rgba(0, 29, 95, 0.1);
-}
-
-.btn-upload {
-    width: 100%;
-    padding: 1rem;
-    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.btn-upload:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
-}
-
-/* Status Messages */
-.status-message {
-    padding: 1rem 1.5rem;
-    border-radius: 12px;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.status-message i {
-    font-size: 1.5rem;
-}
-
-.status-message.success {
-    background: #D1FAE5;
-    color: #059669;
-    border: 2px solid #10B981;
-}
-
-.status-message.info {
-    background: #DBEAFE;
-    color: #2563EB;
-    border: 2px solid #3B82F6;
-}
-
-.status-message.warning {
-    background: #FEF3C7;
-    color: #F59E0B;
-    border: 2px solid #F59E0B;
-}
-
-/* Contact CS Sticky */
-.contact-cs-sticky {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 999;
-}
-
-.btn-wa {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 1.5rem;
-    background: #25D366;
-    color: white;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 700;
-    box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
-    transition: all 0.3s;
-}
-
-.btn-wa:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(37, 211, 102, 0.5);
-    color: white;
-}
-
-.btn-wa i {
-    font-size: 1.5rem;
-}
-
-/* Alpine.js Modal Styles */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 29, 95, 0.6);
-    backdrop-filter: blur(5px);
-    z-index: 1050;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-}
-
-.modal-container {
-    background: white;
-    border-radius: 24px;
-    max-width: 800px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-}
-
-.modal-header-custom {
-    background: linear-gradient(135deg, #001D5F 0%, #002B8F 100%);
-    color: white;
-    padding: 1.5rem 2rem;
-    border-radius: 24px 24px 0 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.modal-header-custom h3 {
-    margin: 0;
-    font-weight: 700;
-    font-size: 1.25rem;
-}
-
-.modal-close {
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    color: white;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-}
-
-.modal-close:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-.modal-body-custom {
-    padding: 2rem;
-}
-
-/* Document Upload Card */
-.doc-upload-card {
-    background: #F8F9FF;
-    border: 2px dashed #E8EBF3;
-    border-radius: 16px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    transition: all 0.3s;
-}
-
-.doc-upload-card:hover {
-    border-color: #001D5F;
-}
-
-.doc-upload-card.uploaded {
-    background: #D1FAE5;
-    border-color: #10B981;
-    border-style: solid;
-}
-
-.doc-upload-card .doc-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.doc-upload-card .doc-title {
-    font-weight: 700;
-    color: #001D5F;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.doc-upload-card .doc-title i {
-    color: #D4AF37;
-}
-
-.doc-upload-card .doc-status {
-    font-size: 0.85rem;
-    padding: 0.25rem 0.75rem;
-    border-radius: 50px;
-}
-
-.doc-upload-card .doc-status.pending {
-    background: #FEF3C7;
-    color: #F59E0B;
-}
-
-.doc-upload-card .doc-status.uploaded {
-    background: #D1FAE5;
-    color: #059669;
-}
-
-.doc-upload-input {
-    display: none;
-}
-
-.doc-upload-label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    cursor: pointer;
-    border: 2px dashed #CBD5E1;
-    border-radius: 12px;
-    transition: all 0.3s;
-    background: white;
-}
-
-.doc-upload-label:hover {
-    border-color: #001D5F;
-    background: #F8F9FF;
-}
-
-.doc-upload-label i {
-    font-size: 2.5rem;
-    color: #CBD5E1;
-    margin-bottom: 0.5rem;
-}
-
-.doc-upload-label span {
-    color: #6B7280;
-    font-size: 0.9rem;
-}
-
-.doc-preview {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    background: white;
-    border-radius: 12px;
-}
-
-.doc-preview img {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.doc-preview .doc-info {
-    flex: 1;
-}
-
-.doc-preview .doc-name {
-    font-weight: 600;
-    color: #001D5F;
-    font-size: 0.9rem;
-}
-
-.doc-preview .doc-size {
-    color: #6B7280;
-    font-size: 0.8rem;
-}
-
-.doc-preview .btn-remove {
-    background: #FEE2E2;
-    color: #EF4444;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 50px;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.doc-preview .btn-remove:hover {
-    background: #EF4444;
-    color: white;
-}
-
-/* Passport Option */
-.passport-option {
-    background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
-    border: 2px solid #F59E0B;
-    border-radius: 16px;
-    padding: 1.5rem;
-    margin-top: 1.5rem;
-}
-
-.passport-option h4 {
-    color: #001D5F;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.passport-option p {
-    color: #6B7280;
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-}
-
-.passport-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    cursor: pointer;
-}
-
-.passport-checkbox input[type="checkbox"] {
-    width: 24px;
-    height: 24px;
-    accent-color: #001D5F;
-}
-
-.passport-checkbox span {
-    font-weight: 600;
-    color: #001D5F;
-}
-
-/* Modal Footer */
-.modal-footer-custom {
-    padding: 1.5rem 2rem;
-    border-top: 2px solid #E8EBF3;
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-}
-
-.btn-cancel {
-    padding: 0.75rem 1.5rem;
-    background: #E8EBF3;
-    color: #6B7280;
-    border: none;
-    border-radius: 50px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.btn-cancel:hover {
-    background: #CBD5E1;
-}
-
-.btn-submit {
-    padding: 0.75rem 2rem;
-    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.btn-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
-}
-
-.btn-submit:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-}
-
-/* Document List in Card */
-.doc-list-mini {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
-    margin-top: 1rem;
-}
-
-.doc-mini-item {
-    background: #F8F9FF;
-    padding: 0.75rem;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.85rem;
-}
-
-.doc-mini-item i {
-    color: #10B981;
-}
-
-.doc-mini-item.pending i {
-    color: #F59E0B;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .action-grid {
-        grid-template-columns: 1fr;
-    }
+    /* Dashboard Styles - Consistent with Mahira Theme */
+    [x-cloak] { display: none !important; }
     
+    /* Reuse global variables but ensure dashboard scope */
+    .dashboard-section {
+        --dash-primary: var(--primary);
+        --dash-accent: var(--accent);
+        --dash-bg: var(--bg-main);
+        
+        background-color: var(--dash-bg);
+        min-height: 100vh;
+        padding: 120px 0 80px 0;
+    }
+
     .dashboard-header {
-        padding: 2rem 1.5rem;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--light-navy) 100%);
+        color: white;
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 29, 95, 0.15);
     }
     
     .dashboard-header h1 {
-        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        font-size: 1.8rem;
     }
     
     .dashboard-header .reg-number {
+        background: rgba(255, 255, 255, 0.1);
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-family: monospace;
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    /* Cards */
+    .action-card, .progress-section {
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05); /* Softer shadow */
+        border: 1px solid var(--border);
+    }
+
+    .action-card h3, .progress-header h3 {
+        color: var(--primary);
+        font-weight: 700;
         font-size: 1.2rem;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
     
-    .doc-list-mini {
-        grid-template-columns: 1fr;
+    .action-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--border);
     }
-}
+    
+    /* Buttons */
+    .btn-jamaah, .btn-upload, .btn-submit {
+        background: var(--primary);
+        color: white;
+        border-radius: 8px;
+        padding: 10px 20px;
+        border: none;
+        transition: all 0.3s;
+    }
+    
+    .btn-jamaah:hover, .btn-upload:hover, .btn-submit:hover {
+        background: var(--light-navy);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    /* Badges */
+    .badge-status {
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+    }
+    .badge-pending { background: #fee2e2; color: #dc2626; }
+    .badge-waiting { background: #e0f2fe; color: #0284c7; }
+    .badge-complete { background: #dcfce7; color: #16a34a; }
+
+    /* Hide Global WA */
+    .floating-whatsapp { display: none !important; }
+
+    .deadline {
+        background: #fff1f2;
+        color: var(--danger);
+        padding: 8px 16px;
+        border-radius: 50px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 12px;
+    }
+
+    /* Typography & Headers */
+    .action-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .action-card-header h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-main);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0;
+    }
+
+    .action-card-header i {
+        color: var(--accent);
+        font-size: 1.25rem;
+    }
+
+    /* Modern Badges */
+    .badge-status {
+        padding: 6px 12px;
+        border-radius: 6px; /* Pill -> Rounded Rect */
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    
+    .badge-pending { background: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
+    .badge-complete { background: #ecfdf5; color: #047857; border: 1px solid #d1fae5; }
+    .badge-waiting { background: #eff6ff; color: #1d4ed8; border: 1px solid #dbeafe; }
+
+    /* Jamaah List - Clean Row */
+    .jamaah-item {
+        background: #fff;
+        border: 1px solid var(--border-color);
+        border-radius: 12px; /* Smooth corners */
+        padding: 16px;
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: border-color 0.2s;
+    }
+
+    .jamaah-item:hover {
+        border-color: var(--accent);
+    }
+
+    .jamaah-item h4 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-main);
+        margin: 0 0 4px 0;
+    }
+
+    .jamaah-item small {
+        color: var(--text-muted);
+        font-size: 0.875rem;
+    }
+
+    /* Modern Buttons */
+    .btn-jamaah, .btn-upload, .btn-submit {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px; /* Consistent rounded corners */
+        font-weight: 500;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 2px 4px rgba(15, 23, 42, 0.1);
+    }
+
+    .btn-jamaah:hover, .btn-upload:hover, .btn-submit:hover {
+        background: var(--primary-light);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(15, 23, 42, 0.15);
+    }
+
+    .btn-jamaah.complete {
+        background: #fff;
+        color: var(--text-main);
+        border: 1px solid var(--border-color);
+        box-shadow: none;
+    }
+    .btn-jamaah.complete:hover {
+        background: #f8fafc;
+        border-color: #cbd5e1;
+    }
+
+    /* Bank Info - Clean Card */
+    .bank-info {
+        background: #f8fafc; /* Very light slate */
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 24px;
+        margin: 20px 0;
+    }
+    
+    .bank-info p {
+        color: var(--text-muted);
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+        font-weight: 700;
+        margin-bottom: 16px;
+    }
+
+    .bank-account {
+        font-family: 'Monaco', monospace;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-main); /* Dark text for readability */
+        letter-spacing: -0.5px;
+    }
+
+    .btn-copy {
+        background: #fff;
+        color: var(--text-muted);
+        border: 1px solid var(--border-color);
+        padding: 8px;
+        border-radius: 6px;
+        transition: all 0.2s;
+    }
+    
+    .btn-copy:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: #eff6ff;
+    }
+
+    /* Form Inputs */
+    .form-control-dash, .doc-upload-label, select.form-control-dash {
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 10px 14px; /* Slightly tighter padding */
+        font-size: 0.95rem;
+        color: var(--text-main);
+        background: #fff;
+        transition: all 0.2s;
+        width: 100%;
+        display: block; /* Ensure block level */
+        box-sizing: border-box; /* Fix padding issues */
+    }
+
+    .form-control-dash:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        outline: none;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+        color: var(--primary);
+    }
+    
+    /* Modal Footer */
+    .modal-footer-custom {
+        padding: 24px;
+        border-top: 1px solid var(--border-color);
+        display: flex;
+        justify-content: flex-end; /* Align right */
+        gap: 12px;
+        background: #f8fafc;
+        border-radius: 0 0 24px 24px;
+    }
+    
+    .modal-close {
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        opacity: 0.8;
+        transition: opacity 0.2s;
+    }
+    .modal-close:hover { opacity: 1; }
+
+    /* Alpine.js Modal Styles */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(15, 23, 42, 0.85); /* Darker overlay */
+        backdrop-filter: blur(4px);
+        z-index: 3000;
+        display: flex;
+        align-items: flex-start; /* Start from top on mobile */
+        justify-content: center;
+        padding: 20px;
+        overflow-y: auto; /* Allow scrolling overlay */
+    }
+
+    .modal-container {
+        background: #ffffff !important;
+        border-radius: 16px; /* Slightly smaller radius */
+        width: 100%;
+        max-width: 700px; /* Constrain width */
+        margin: auto; /* Center vertically if flex aligns center */
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+        border: 1px solid var(--border-color);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .modal-header-custom {
+        background: var(--primary); /* Solid color, no gradient */
+        color: white;
+        padding: 20px 24px;
+        border-radius: 16px 16px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-shrink: 0;
+    }
+
+    .modal-body-custom {
+        padding: 24px;
+        background: #ffffff;
+        color: var(--text-main);
+        overflow-y: visible; /* Let content flow */
+    }
+
+    .doc-upload-label {
+        border: 2px dashed var(--border-color);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        cursor: pointer;
+        background: #f8fafc;
+        text-align: center;
+    }
+
+
+    /* Status Messages */
+    .status-message {
+        padding: 16px;
+        border-radius: 8px;
+        display: flex;
+        gap: 12px;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 16px;
+    }
+    .status-message.info {
+        background: #eff6ff;
+        color: #1e40af;
+        border: 1px solid #dbeafe;
+    }
+    .status-message.warning {
+        background: #fffbeb;
+        color: #92400e;
+        border: 1px solid #fde68a;
+    }
+    
+    /* Sticky Button */
+    .contact-cs-sticky {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 50;
+    }
+    .btn-wa {
+        background: #25D366;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 50px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        transition: transform 0.2s;
+        text-decoration: none;
+    }
+    .btn-wa:hover {
+        transform: translateY(-2px);
+        color: white;
+    }
+
+    /* PROGRESS BAR */
+    .progress-bar-container {
+        height: 8px;
+        background: #e2e8f0;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .progress-bar-fill {
+        background: var(--success);
+        height: 100%;
+        border-radius: 10px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .dashboard-section { padding-top: 20px; padding-bottom: 100px; }
+        .dashboard-header { padding: 20px; border-left-width: 4px; }
+        .dashboard-header h1 { font-size: 1.25rem; }
+        .action-card { padding: 20px; border-radius: 12px; }
+        .bank-info { padding: 16px; }
+        
+        .jamaah-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .btn-jamaah { width: 100%; text-align: center; }
+        
+        /* Bank Mobile */
+        .bank-account { font-size: 1.25rem; }
+        .bank-info .d-flex { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+        .bank-info img { height: 24px !important; margin-bottom: 4px; }
+        .bank-info .btn-copy { width: 100%; margin: 8px 0 0 0 !important; text-align: center; }
+        
+        .action-grid { grid-template-columns: 1fr; gap: 20px; }
+    }
+
+
+    /* Toast Notification */
+    .toast-container {
+        position: fixed;
+        top: 24px;
+        right: 24px;
+        z-index: 1100;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        pointer-events: none;
+    }
+
+    .toast-modern {
+        background: white;
+        color: var(--text-main);
+        padding: 16px 24px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transform: translateX(100%);
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        pointer-events: auto;
+        border-left: 4px solid var(--success);
+        min-width: 300px;
+    }
+
+    .toast-modern.show {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    .toast-icon {
+        color: var(--success);
+        font-size: 1.25rem;
+    }
+
+    /* Adjusted Padding for Navbar */
+    .dashboard-section {
+        min-height: 100vh;
+        padding: 120px 0 80px 0; /* Increased top padding */
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-section { padding-top: 100px; padding-bottom: 100px; }
+        .toast-container {
+            left: 20px;
+            right: 20px;
+            top: 20px;
+            align-items: center;
+        }
+        .toast-modern {
+            width: 100%;
+            min-width: auto;
+            justify-content: center;
+        }
+    }
 </style>
 @endpush
 
 @section('content')
 <section class="dashboard-section" x-data="dashboardApp()">
+    
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
     <div class="container dashboard-container">
         
         <!-- Success Message -->
@@ -820,15 +643,42 @@
                         </div>
                     </div>
                     
-                @elseif($dpPayment && $dpPayment->proof_path)
-                    <!-- DP Uploaded, Waiting Verification -->
+                @elseif($dpPayment && ($dpPayment->proof_path || $dpPayment->status === 'pending'))
+                    <!-- DP Uploaded/Confirmed Cash, Waiting Verification -->
                     <div class="status-message info">
                         <i class="bi bi-clock-fill"></i>
                         <div>
-                            <strong>Bukti DP Sudah Diupload</strong><br>
-                            <small>Menunggu verifikasi admin (1x24 jam)</small>
+                            <strong>
+                                @if($dpPayment->payment_method === 'cash')
+                                    Menunggu Pembayaran Cash
+                                @else
+                                    Bukti DP Sudah Diupload
+                                @endif
+                            </strong><br>
+                            <small>
+                                @if($dpPayment->payment_method === 'cash')
+                                    Silakan datang ke kantor untuk melakukan pembayaran.
+                                @else
+                                    Menunggu verifikasi admin (1x24 jam)
+                                @endif
+                            </small>
                         </div>
                     </div>
+
+                    @if($dpPayment->payment_method === 'cash')
+                        <div class="mt-3 text-center">
+                            <a href="https://wa.me/6282184515310?text=Assalamu'alaikum%20Admin,%20saya%20{{ urlencode($registration->full_name) }}%20(Reg:%20{{ $registration->registration_number }})%20ingin%20melakukan%20pembayaran%20DP%20secara%20Cash%20di%20kantor.%20Mohon%20infonya." 
+                               class="btn btn-success rounded-pill fw-bold" 
+                               target="_blank">
+                                <i class="bi bi-whatsapp me-2"></i> Konfirmasi Janji Temu via WA
+                            </a>
+                            <div class="mt-2">
+                                <a href="https://www.google.com/maps/place/Travel+Umroh+Mahira+Tour/@-2.050239,101.3896565,15z" target="_blank" class="text-decoration-none small">
+                                    <i class="bi bi-geo-alt-fill text-danger"></i> Lihat Lokasi Kantor di Google Maps
+                                </a>
+                            </div>
+                        </div>
+                    @endif
                     
                 @else
                     <!-- Need to Upload DP -->
@@ -840,40 +690,66 @@
                     </div>
                     
                     <div class="bank-info">
-                        <p style="margin: 0; opacity: 0.9;">Bank BNI</p>
-                        <div class="bank-account">1234 5678 9012</div>
-                        <p style="margin: 0;">a.n. <strong>PT Mahira Tour & Travel</strong></p>
-                        <button class="btn-copy" @click="copyAccount('123456789012')">
-                            <i class="bi bi-clipboard"></i> Copy Nomor Rekening
-                        </button>
+                        <p style="margin: 0; opacity: 0.9;"><strong>PT. Makkah Madinah Berkah Bersama</strong></p>
+                        <div style="margin-top: 15px;">
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/68/BANK_BRI_logo.svg" alt="BRI" style="height: 30px; width: auto; margin-right: 15px;">
+                                <div class="bank-account" style="margin: 0; font-size: 1.1rem;">0117 0100 4252 303</div>
+                                <button class="btn-copy ms-3" @click="copyAccount('011701004252303')" style="padding: 4px 10px;">
+                                    <i class="bi bi-clipboard"></i>
+                                </button>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Bank_Syariah_Indonesia.svg" alt="BSI" style="height: 30px; width: auto; margin-right: 15px;">
+                                <div class="bank-account" style="margin: 0; font-size: 1.1rem;">7256 7665 79</div>
+                                <button class="btn-copy ms-3" @click="copyAccount('7256766579')" style="padding: 4px 10px;">
+                                    <i class="bi bi-clipboard"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     
                     <form action="{{ route('register.payment', $registration->id) }}" 
                           method="POST" 
                           enctype="multipart/form-data" 
-                          class="upload-form">
+                          class="upload-form"
+                          x-data="{ method: 'transfer' }">
                         @csrf
                         
                         <div class="form-group-dash">
                             <label>Metode Pembayaran</label>
-                            <select name="payment_method" class="form-control-dash" required>
+                            <select name="payment_method" class="form-control-dash" x-model="method" required>
                                 <option value="transfer">Transfer Bank</option>
                                 <option value="cash">Cash di Kantor</option>
                             </select>
                         </div>
                         
-                        <div class="form-group-dash">
+                        <div x-show="method === 'transfer'" class="form-group-dash">
                             <label>Upload Bukti Transfer</label>
                             <input type="file" 
                                    name="payment_proof" 
                                    class="form-control-dash" 
-                                   accept="image/*,application/pdf" 
-                                   required>
+                                   accept="image/*,application/pdf"
+                                   :required="method === 'transfer'">
                             <small style="color: #6B7280; font-size: 0.85rem;">JPG, PNG, PDF (Max 2MB)</small>
+                        </div>
+
+                        <div x-show="method === 'cash'" class="alert alert-info d-flex align-items-start mb-3">
+                            <i class="bi bi-info-circle-fill me-2 fs-4 mt-1"></i>
+                            <div>
+                                <strong>Pembayaran Cash</strong><br>
+                                Silakan lakukan pembayaran di kantor kami. Klik tombol di bawah untuk konfirmasi.
+                                <div class="mt-2">
+                                    <a href="https://www.google.com/maps/place/Travel+Umroh+Mahira+Tour/@-2.050239,101.3896565,15z" target="_blank" class="text-decoration-none fw-bold">
+                                        <i class="bi bi-map-fill text-danger"></i> Lihat Lokasi Kantor
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                         
                         <button type="submit" class="btn-upload">
-                            <i class="bi bi-cloud-upload-fill"></i> Upload Bukti DP
+                            <i class="bi" :class="method === 'transfer' ? 'bi-cloud-upload-fill' : 'bi-check-circle-fill'"></i> 
+                            <span x-text="method === 'transfer' ? 'Upload Bukti DP' : 'Konfirmasi Pembayaran Cash'"></span>
                         </button>
                     </form>
                 @endif
@@ -925,14 +801,42 @@
                         <small>Deadline: <strong class="text-danger">{{ $registration->pelunasan_deadline?->format('d M Y') }}</strong></small>
                     </div>
                     
-                    @if($pelunasan && $pelunasan->status === 'pending')
+                    @if($pelunasan && ($pelunasan->status === 'pending' || $pelunasan->proof_path))
                         <div class="status-message info">
                             <i class="bi bi-clock-fill"></i>
                             <div>
-                                <strong>Bukti pelunasan sudah diupload</strong><br>
-                                <small>Menunggu verifikasi admin (1x24 jam)</small>
+                                <strong>
+                                    @if($pelunasan->payment_method === 'cash')
+                                        Menunggu Pelunasan Cash
+                                    @else
+                                        Bukti Pelunasan Sudah Diupload
+                                    @endif
+                                </strong><br>
+                                <small>
+                                    @if($pelunasan->payment_method === 'cash')
+                                        Silakan datang ke kantor untuk melakukan pelunasan.
+                                    @else
+                                        Menunggu verifikasi admin (1x24 jam)
+                                    @endif
+                                </small>
                             </div>
                         </div>
+
+                        @if($pelunasan->payment_method === 'cash')
+                            <div class="mt-3 text-center">
+                                <a href="https://wa.me/6282184515310?text=Assalamu'alaikum%20Admin,%20saya%20{{ urlencode($registration->full_name) }}%20(Reg:%20{{ $registration->registration_number }})%20ingin%20melakukan%20PELUNASAN%20secara%20Cash%20di%20kantor.%20Mohon%20infonya." 
+                                   class="btn btn-success rounded-pill fw-bold" 
+                                   target="_blank">
+                                    <i class="bi bi-whatsapp me-2"></i> Konfirmasi Janji Temu via WA
+                                </a>
+                                <div class="mt-2">
+                            <div class="mt-2">
+                                    <a href="https://www.google.com/maps/place/Travel+Umroh+Mahira+Tour/@-2.050239,101.3896565,15z" target="_blank" class="text-decoration-none small">
+                                        <i class="bi bi-geo-alt-fill text-danger"></i> Lihat Lokasi Kantor di Google Maps
+                                    </a>
+                                </div>
+                            </div>
+                        @endif
                     @elseif($pelunasan && $pelunasan->status === 'rejected')
                         <div class="status-message warning">
                             <i class="bi bi-exclamation-triangle-fill"></i>
@@ -943,9 +847,23 @@
                         </div>
                     @else
                         <div class="bank-info">
-                            <p style="margin: 0; opacity: 0.9;">Bank BCA</p>
-                            <div class="bank-account">1234 5678 9012</div>
-                            <p style="margin: 0;">a.n. <strong>PT Mahira Tour</strong></p>
+                            <p style="margin: 0; opacity: 0.9;"><strong>PT. Makkah Madinah Berkah Bersama</strong></p>
+                            <div style="margin-top: 15px;">
+                                <div class="d-flex align-items-center mb-3">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/68/BANK_BRI_logo.svg" alt="BRI" style="height: 30px; width: auto; margin-right: 15px;">
+                                    <div class="bank-account" style="margin: 0; font-size: 1.1rem;">0117 0100 4252 303</div>
+                                    <button class="btn-copy ms-3" @click="copyAccount('011701004252303')" style="padding: 4px 10px;">
+                                        <i class="bi bi-clipboard"></i>
+                                    </button>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Bank_Syariah_Indonesia.svg" alt="BSI" style="height: 30px; width: auto; margin-right: 15px;">
+                                    <div class="bank-account" style="margin: 0; font-size: 1.1rem;">7256 7665 79</div>
+                                    <button class="btn-copy ms-3" @click="copyAccount('7256766579')" style="padding: 4px 10px;">
+                                        <i class="bi bi-clipboard"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     <!-- Tambahkan di section pelunasan sebelum form upload -->
                         @if($needsPelunasan && !$pelunasan)
@@ -963,21 +881,37 @@
                         <form action="{{ route('registration.submit-pelunasan', $registration->id) }}" 
                               method="POST" 
                               enctype="multipart/form-data" 
-                              class="upload-form">
+                              class="upload-form"
+                              x-data="{ method: 'transfer' }">
                             @csrf
                             <div class="form-group-dash">
                                 <label>Metode Pembayaran</label>
-                                <select name="payment_method" class="form-control-dash" required>
+                                <select name="payment_method" class="form-control-dash" x-model="method" required>
                                     <option value="transfer">Transfer Bank</option>
                                     <option value="cash">Cash</option>
                                 </select>
                             </div>
-                            <div class="form-group-dash">
+                            <div x-show="method === 'transfer'" class="form-group-dash">
                                 <label>Upload Bukti Pelunasan</label>
-                                <input type="file" name="payment_proof" class="form-control-dash" accept="image/*,.pdf" required>
+                                <input type="file" name="payment_proof" class="form-control-dash" accept="image/*,.pdf" :required="method === 'transfer'">
                             </div>
+
+                            <div x-show="method === 'cash'" class="alert alert-info d-flex align-items-start mb-3">
+                                <i class="bi bi-info-circle-fill me-2 fs-4 mt-1"></i>
+                                <div>
+                                    <strong>Pembayaran Cash</strong><br>
+                                    Silakan lakukan pelunasan di kantor kami. Klik tombol di bawah untuk konfirmasi.
+                                    <div class="mt-2">
+                                        <a href="https://www.google.com/maps/place/Travel+Umroh+Mahira+Tour/@-2.050239,101.3896565,15z" target="_blank" class="text-decoration-none fw-bold">
+                                            <i class="bi bi-map-fill text-danger"></i> Lihat Lokasi Kantor
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
                             <button type="submit" class="btn-upload">
-                                <i class="bi bi-cloud-upload-fill"></i> Upload Bukti Pelunasan
+                                <i class="bi" :class="method === 'transfer' ? 'bi-cloud-upload-fill' : 'bi-check-circle-fill'"></i>
+                                <span x-text="method === 'transfer' ? 'Upload Bukti Pelunasan' : 'Konfirmasi Pelunasan Cash'"></span>
                             </button>
                         </form>
                     @endif
@@ -1035,6 +969,7 @@
     <!-- MODAL: Edit Data Jamaah (Alpine.js) -->
     <!-- ========================================== -->
     <div x-show="showJamaahModal" 
+         x-cloak
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
@@ -1042,8 +977,7 @@
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
          class="modal-overlay"
-         @click.self="showJamaahModal = false"
-         style="display: none;">
+         @click.self="showJamaahModal = false">
         <div class="modal-container" @click.stop>
             <div class="modal-header-custom">
                 <h3><i class="bi bi-person-fill-gear"></i> Lengkapi Data Jamaah <span x-text="jamaahNumber"></span></h3>
@@ -1205,6 +1139,7 @@
     <!-- MODAL: Upload Dokumen (Alpine.js) -->
     <!-- ========================================== -->
     <div x-show="showDocModal" 
+         x-cloak
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
@@ -1212,8 +1147,7 @@
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
          class="modal-overlay"
-         @click.self="showDocModal = false"
-         style="display: none;">
+         @click.self="showDocModal = false">
         <div class="modal-container" @click.stop>
             <div class="modal-header-custom">
                 <h3><i class="bi bi-file-earmark-arrow-up"></i> Upload Dokumen - <span x-text="docJamaahName"></span></h3>
@@ -1494,7 +1428,32 @@ function dashboardApp() {
         // Methods
         copyAccount(text) {
             navigator.clipboard.writeText(text);
-            alert('✅ Nomor rekening berhasil dicopy!');
+            this.showToast('Nomor rekening berhasil dicopy!', 'success');
+        },
+
+        showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast-modern';
+            toast.innerHTML = `
+                <i class="bi bi-check-circle-fill toast-icon"></i>
+                <span>${message}</span>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Trigger animation
+            requestAnimationFrame(() => {
+                toast.classList.add('show');
+            });
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 400);
+            }, 3000);
         },
         
         async openEditJamaah(id, number) {

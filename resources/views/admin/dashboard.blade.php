@@ -1,439 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin Panel - Mahira Tour</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <style>
-        body {
-            background: #f8f9fa;
-            font-family: 'Inter', -apple-system, system-ui, sans-serif;
-        }
-        
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 260px;
-            height: 100vh;
-            background: linear-gradient(135deg, #001D5F 0%, #003087 100%);
-            color: white;
-            padding: 30px 20px;
-            overflow-y: auto;
-            z-index: 1000;
-            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
-        }
-        
-        .sidebar h4 {
-            font-weight: 700;
-            margin-bottom: 30px;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .admin-info {
-            background: rgba(255,255,255,0.1);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .sidebar nav a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 15px;
-            color: rgba(255,255,255,0.8);
-            text-decoration: none;
-            border-radius: 8px;
-            margin-bottom: 5px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        
-        .sidebar nav a:hover {
-            background: rgba(255,255,255,0.15);
-            color: white;
-            transform: translateX(5px);
-        }
-        
-        .sidebar nav a.active {
-            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-            color: white;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
-        }
-        
-        .main-content {
-            margin-left: 260px;
-            padding: 30px;
-            min-height: 100vh;
-        }
-        
-        .page-header {
-            background: white;
-            padding: 25px 30px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-        }
-        
-        .page-header h1 {
-            margin: 0;
-            font-weight: 700;
-            color: #1a1a1a;
-            font-size: 1.8rem;
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            border-left: 4px solid #001D5F;
-            transition: transform 0.2s;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
-        }
-        
-        .stat-card h6 {
-            color: #6B7280;
-            font-size: 0.875rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 10px;
-        }
-        
-        .stat-card h2 {
-            color: #001D5F;
-            font-weight: 700;
-            margin: 0;
-            font-size: 2rem;
-        }
-        
-        .stat-card.pending { border-left-color: #F59E0B; }
-        .stat-card.success { border-left-color: #10B981; }
-        .stat-card.revenue { border-left-color: #3B82F6; }
-        
-        .card {
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            margin-bottom: 20px;
-        }
-        
-        .nav-tabs-custom {
-            border-bottom: 2px solid #E8EBF3;
-            margin-bottom: 2rem;
-            background: white;
-            padding: 0 20px;
-            border-radius: 12px 12px 0 0;
-        }
-        
-        .nav-tabs-custom .nav-link {
-            border: none;
-            border-bottom: 3px solid transparent;
-            color: #6B7280;
-            font-weight: 600;
-            padding: 1rem 1.5rem;
-            margin-bottom: -2px;
-            transition: all 0.3s;
-        }
-        
-        .nav-tabs-custom .nav-link:hover {
-            color: #001D5F;
-            background: rgba(0, 29, 95, 0.05);
-        }
-        
-        .nav-tabs-custom .nav-link.active {
-            border-bottom-color: #001D5F;
-            color: #001D5F;
-            background: transparent;
-        }
-        
-        .payment-card, .doc-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            border-left: 4px solid #E8EBF3;
-            transition: all 0.3s;
-        }
-        
-        .payment-card:hover, .doc-card:hover {
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            transform: translateX(5px);
-        }
-        
-        .payment-card.pending { border-left-color: #F59E0B; }
-        .doc-card.pending { border-left-color: #F59E0B; }
-        .doc-card.verified { border-left-color: #10B981; }
-        
-        .badge {
-            padding: 6px 12px;
-            font-weight: 600;
-            border-radius: 6px;
-            font-size: 0.75rem;
-        }
-        
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 0.813rem;
-            border-radius: 6px;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        
-        .btn-sm:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-        
-        .btn-xs {
-            padding: 4px 8px;
-            font-size: 0.75rem;
-            border-radius: 4px;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        
-        .btn-xs:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-        }
-        
-        .alert {
-            border: none;
-            border-radius: 10px;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-        }
-        
-        .jamaah-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #E8EBF3;
-        }
-        
-        .jamaah-name {
-            font-weight: 700;
-            color: #001D5F;
-            font-size: 1.1rem;
-        }
-        
-        .doc-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .doc-item {
-            background: #F8F9FF;
-            border-radius: 10px;
-            padding: 1rem;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        
-        .doc-item:hover {
-            background: #E8EBF3;
-            transform: scale(1.05);
-        }
-        
-        .doc-item img {
-            width: 100%;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-        }
-        
-        .doc-icon {
-            width: 100%;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #E8EBF3;
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-        }
-        
-        .doc-icon i { 
-            font-size: 2rem; 
-            color: #6B7280; 
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #6c757d;
-        }
-        
-        .empty-state i {
-            font-size: 4rem;
-            opacity: 0.3;
-            margin-bottom: 20px;
-        }
-        
-        .modal-content {
-            border: none;
-            border-radius: 12px;
-        }
-        
-        .modal-header {
-            background: linear-gradient(135deg, #001D5F 0%, #003087 100%);
-            color: white;
-            border-radius: 12px 12px 0 0;
-            padding: 20px 25px;
-        }
-        
-        .modal-body {
-            padding: 25px;
-        }
+@extends('layouts.admin')
 
-        /* Mobile Responsive Styles */
-        .sidebar-toggle {
-            display: none;
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1001;
-            padding: 10px 15px;
-            border-radius: 8px;
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border: none;
-            color: #001D5F;
-        }
+@section('title', 'Dashboard')
 
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 999;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-            
-            .sidebar.show {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0;
-                padding: 20px;
-                padding-top: 80px; /* Space for toggle button */
-            }
-
-            .sidebar-toggle {
-                display: block;
-            }
-
-            .sidebar-overlay.show {
-                display: block;
-                opacity: 1;
-            }
-            
-            .stat-card, .payment-card, .doc-card {
-                margin-bottom: 15px;
-            }
-            
-            .nav-tabs-custom {
-                padding: 0 10px;
-                overflow-x: auto;
-                flex-wrap: nowrap;
-                white-space: nowrap;
-            }
-            
-            .nav-tabs-custom .nav-link {
-                padding: 1rem;
-            }
-        }
-    </style>
-</head>
-<body x-data="adminApp()">
-
-<!-- Mobile Sidebar Toggle -->
-<button class="sidebar-toggle" @click="toggleSidebar()">
-    <i class="bi bi-list fs-4"></i>
-</button>
-
-<!-- Sidebar Overlay -->
-<div class="sidebar-overlay" :class="{ 'show': sidebarOpen }" @click="toggleSidebar()"></div>
-
-<!-- Sidebar -->
-<div class="sidebar" :class="{ 'show': sidebarOpen }">
-    <h4>
-        <i class="bi bi-shield-check"></i>
-        Admin Panel
-    </h4>
-    
-    <div class="admin-info">
-        <div style="font-weight: 600;">
-            <i class="bi bi-person-circle"></i> {{ session('admin_name', 'Admin') }}
-        </div>
-        <small style="opacity: 0.8;">{{ session('admin_email') }}</small>
-    </div>
-    
-    <hr style="border-color: rgba(255,255,255,0.2);">
-    
-
-    <nav class="nav flex-column">
-        <a class="nav-link active" href="{{ route('admin.dashboard') }}">
-            <i class="bi bi-speedometer2 me-2"></i> Dashboard
-        </a>
-        <a class="nav-link" href="{{ route('admin.registrations.index') }}">
-            <i class="bi bi-people me-2"></i> Semua Pendaftaran
-        </a>
-        <a class="nav-link" href="{{ route('admin.pelunasan.index') }}">
-            <i class="bi bi-wallet2 me-2"></i> Perlu Pelunasan
-            @php
-                $countPelunasan = \App\Models\Registration::where('status', 'confirmed')
-                    ->where('is_lunas', false)
-                    ->whereHas('payments', function($q) {
-                        $q->where('payment_type', 'dp')->where('status', 'verified');
-                    })
-                    ->count();
-            @endphp
-            @if($countPelunasan > 0)
-                <span class="badge bg-danger ms-auto">{{ $countPelunasan }}</span>
-            @endif
-        </a>
-        <a class="nav-link" href="{{ route('admin.galleries.index') }}">
-            <i class="bi bi-images me-2"></i> Kelola Galeri
-        </a>
-        <a class="nav-link" href="{{ route('admin.schedules.index') }}">
-            <i class="bi bi-calendar-event me-2"></i> Kelola Jadwal
-        </a>
-        <a class="nav-link text-danger" href="{{ route('admin.logout') }}">
-            <i class="bi bi-box-arrow-right me-2"></i> Logout
-        </a>
-    </nav>
-</div>
-
-<!-- Main Content -->
-<div class="col-md-9 col-lg-10 p-4 main-content">
+@section('content')
+<div x-data="adminApp">
     <!-- Header -->
     <div class="page-header">
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -448,14 +18,6 @@
             </div>
         </div>
     </div>
-    
-    @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show">
-        <i class="bi bi-check-circle-fill me-2"></i>
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-    @endif
     
     <!-- Stats -->
     <div class="row mb-4">
@@ -669,112 +231,320 @@
             @endforelse
         </div>
     </div>
-</div>
 
-<!-- Modal Reject -->
-<div class="modal fade" id="rejectModal" tabindex="-1" x-ref="rejectModal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <form :action="rejectAction" method="POST">
-                @csrf
-                <input type="hidden" name="action" value="reject">
-                <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title">Tolak Pembayaran</h5>
+    <!-- Modal Reject -->
+    <div class="modal fade" id="rejectModal" tabindex="-1" x-ref="rejectModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form :action="rejectAction" method="POST">
+                    @csrf
+                    <input type="hidden" name="action" value="reject">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title">Tolak Pembayaran</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Apakah Anda yakin ingin menolak pembayaran ini?</p>
+                        <div class="mb-3">
+                            <label class="form-label">Alasan Penolakan <span class="text-danger">*</span></label>
+                            <textarea name="notes" class="form-control" rows="3" required placeholder="Contoh: Bukti transfer buram, Nominal tidak sesuai..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-danger">Tolak Pembayaran</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Preview -->
+    <div class="modal fade" id="previewModal" tabindex="-1" x-ref="previewModal">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" x-text="previewTitle"></h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
-                    <p>Apakah Anda yakin ingin menolak pembayaran ini?</p>
-                    <div class="mb-3">
-                        <label class="form-label">Alasan Penolakan <span class="text-danger">*</span></label>
-                        <textarea name="notes" class="form-control" rows="3" required placeholder="Contoh: Bukti transfer buram, Nominal tidak sesuai..."></textarea>
-                    </div>
+                <div class="modal-body text-center">
+                    <template x-if="previewType === 'image'">
+                        <img :src="previewUrl" class="img-fluid" style="max-height: 70vh; border-radius: 8px;">
+                    </template>
+                    <template x-if="previewType === 'pdf'">
+                        <iframe :src="previewUrl" style="width:100%; height:70vh; border:none;"></iframe>
+                    </template>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-danger">Tolak Pembayaran</button>
+                    <a :href="previewUrl" download class="btn btn-success">
+                        <i class="bi bi-download"></i> Download
+                    </a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                 </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Preview -->
-<div class="modal fade" id="previewModal" tabindex="-1" x-ref="previewModal">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" x-text="previewTitle"></h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body text-center">
-                <template x-if="previewType === 'image'">
-                    <img :src="previewUrl" class="img-fluid" style="max-height: 70vh; border-radius: 8px;">
-                </template>
-                <template x-if="previewType === 'pdf'">
-                    <iframe :src="previewUrl" style="width:100%; height:70vh; border:none;"></iframe>
-                </template>
-            </div>
-            <div class="modal-footer">
-                <a :href="previewUrl" download class="btn btn-success">
-                    <i class="bi bi-download"></i> Download
-                </a>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>
-</div>
+    </div>
+@endsection
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-function adminApp() {
-    return {
-        sidebarOpen: false,
-        previewUrl: '',
-        previewTitle: '',
-        previewType: 'image',
-        rejectAction: '',
+@push('styles')
+<style>
+    .page-header {
+        background: white;
+        padding: 25px 30px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        margin-bottom: 30px;
+    }
+    
+    .page-header h1 {
+        margin: 0;
+        font-weight: 700;
+        color: #1a1a1a;
+        font-size: 1.8rem;
+    }
+    
+    .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        border-left: 4px solid #001D5F;
+        transition: transform 0.2s;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    }
+    
+    .stat-card h6 {
+        color: #6B7280;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+    }
+    
+    .stat-card h2 {
+        color: #001D5F;
+        font-weight: 700;
+        margin: 0;
+        font-size: 2rem;
+    }
+    
+    .stat-card.pending { border-left-color: #F59E0B; }
+    .stat-card.success { border-left-color: #10B981; }
+    .stat-card.revenue { border-left-color: #3B82F6; }
+    
+    .nav-tabs-custom {
+        border-bottom: 2px solid #E8EBF3;
+        margin-bottom: 2rem;
+        background: white;
+        padding: 0 20px;
+        border-radius: 12px 12px 0 0;
+    }
+    
+    .nav-tabs-custom .nav-link {
+        border: none;
+        border-bottom: 3px solid transparent;
+        color: #6B7280;
+        font-weight: 600;
+        padding: 1rem 1.5rem;
+        margin-bottom: -2px;
+        transition: all 0.3s;
+    }
+    
+    .nav-tabs-custom .nav-link:hover {
+        color: #001D5F;
+        background: rgba(0, 29, 95, 0.05);
+    }
+    
+    .nav-tabs-custom .nav-link.active {
+        border-bottom-color: #001D5F;
+        color: #001D5F;
+        background: transparent;
+    }
+    
+    .payment-card, .doc-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        border-left: 4px solid #E8EBF3;
+        transition: all 0.3s;
+    }
+    
+    .payment-card:hover, .doc-card:hover {
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        transform: translateX(5px);
+    }
+    
+    .payment-card.pending { border-left-color: #F59E0B; }
+    .doc-card.pending { border-left-color: #F59E0B; }
+    .doc-card.verified { border-left-color: #10B981; }
+    
+    .badge {
+        padding: 6px 12px;
+        font-weight: 600;
+        border-radius: 6px;
+        font-size: 0.75rem;
+    }
+    
+    .btn-sm {
+        padding: 6px 12px;
+        font-size: 0.813rem;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+    
+    .btn-sm:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    .jamah-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #E8EBF3;
+    }
+    
+    .jamaah-name {
+        font-weight: 700;
+        color: #001D5F;
+        font-size: 1.1rem;
+    }
+    
+    .doc-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .doc-item {
+        background: #F8F9FF;
+        border-radius: 10px;
+        padding: 1rem;
+        text-align: center;
+        transition: all 0.3s;
+    }
+    
+    .doc-item:hover {
+        background: #E8EBF3;
+        transform: scale(1.05);
+    }
+    
+    .doc-item img {
+        width: 100%;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .doc-icon {
+        width: 100%;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #E8EBF3;
+        border-radius: 8px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .doc-icon i { 
+        font-size: 2rem; 
+        color: #6B7280; 
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #6c757d;
+    }
+    
+    .empty-state i {
+        font-size: 4rem;
+        opacity: 0.3;
+        margin-bottom: 20px;
+    }
+    
+    @media (max-width: 768px) {
+        .stat-card, .payment-card, .doc-card {
+            margin-bottom: 15px;
+        }
         
-        init() {
-            // Tab Persistence Logic
-            const urlParams = new URLSearchParams(window.location.search);
-            const tabParam = urlParams.get('tab');
-            if(tabParam) {
-                const tabEl = document.querySelector(`button[data-bs-target="#tab-${tabParam}"]`);
-                if(tabEl) {
-                    const tab = new bootstrap.Tab(tabEl);
-                    tab.show();
-                }
-            }
-
-            // Update URL on tab click
-            const tabLinks = document.querySelectorAll('button[data-bs-toggle="tab"]');
-            tabLinks.forEach(link => {
-                link.addEventListener('shown.bs.tab', event => {
-                    const targetId = event.target.getAttribute('data-bs-target').replace('#tab-', '');
-                    const newUrl = new URL(window.location);
-                    newUrl.searchParams.set('tab', targetId);
-                    window.history.pushState({}, '', newUrl);
-                });
-            });
-        },
-
-        toggleSidebar() {
-            this.sidebarOpen = !this.sidebarOpen;
-        },
+        .nav-tabs-custom {
+            padding: 0 10px;
+            overflow-x: auto;
+            flex-wrap: nowrap;
+            white-space: nowrap;
+        }
         
-        openPreview(url, title) {
-            this.previewUrl = url;
-            this.previewTitle = title;
-            this.previewType = url.toLowerCase().endsWith('.pdf') ? 'pdf' : 'image';
-            new bootstrap.Modal(this.$refs.previewModal).show();
-        },
-        
-        rejectPayment(id) {
-            this.rejectAction = `/admin/verify-payment/${id}`;
-            new bootstrap.Modal(this.$refs.rejectModal).show();
+        .nav-tabs-custom .nav-link {
+            padding: 1rem;
         }
     }
-}
+</style>
+@endpush
+
+@push('scripts')
+<script>
+    function adminApp() {
+        return {
+            previewUrl: '',
+            previewTitle: '',
+            previewType: 'image',
+            rejectAction: '',
+            
+            init() {
+                // Tab Persistence Logic
+                const urlParams = new URLSearchParams(window.location.search);
+                const tabParam = urlParams.get('tab');
+                if(tabParam) {
+                    const tabEl = document.querySelector(`button[data-bs-target="#tab-${tabParam}"]`);
+                    if(tabEl) {
+                        const tab = new bootstrap.Tab(tabEl);
+                        tab.show();
+                    }
+                }
+
+                // Update URL on tab click
+                const tabLinks = document.querySelectorAll('button[data-bs-toggle="tab"]');
+                tabLinks.forEach(link => {
+                    link.addEventListener('shown.bs.tab', event => {
+                        const targetId = event.target.getAttribute('data-bs-target').replace('#tab-', '');
+                        const newUrl = new URL(window.location);
+                        newUrl.searchParams.set('tab', targetId);
+                        window.history.pushState({}, '', newUrl);
+                    });
+                });
+            },
+            
+            openPreview(url, title) {
+                this.previewUrl = url;
+                this.previewTitle = title;
+                this.previewType = url.toLowerCase().endsWith('.pdf') ? 'pdf' : 'image';
+                new bootstrap.Modal(this.$refs.previewModal).show();
+            },
+            
+            rejectPayment(id) {
+                this.rejectAction = `/admin/verify-payment/${id}`;
+                new bootstrap.Modal(this.$refs.rejectModal).show();
+            }
+        }
+    }
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('adminApp', adminApp);
+    });
 </script>
-</body>
-</html>
+@endpush

@@ -124,8 +124,8 @@ class RegistrationController extends Controller
     public function submitPayment(Request $request, $registrationId)
     {
         $validated = $request->validate([
-            'payment_proof' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
-            'payment_method' => 'required|in:transfer,cash'
+            'payment_method' => 'required|in:transfer,cash',
+            'payment_proof' => 'required_if:payment_method,transfer|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
         
         DB::beginTransaction();
@@ -134,14 +134,17 @@ class RegistrationController extends Controller
             $registration = Registration::findOrFail($registrationId);
             $dpPayment = $registration->payments()->where('payment_type', 'dp')->firstOrFail();
             
-            // Upload file
-            $file = $request->file('payment_proof');
-            $filename = 'dp_' . 
-                $registration->registration_number . '_' . 
-                uniqid() . '_' . 
-                time() . '.' . 
-                $file->extension();
-            $path = $file->storeAs('payments', $filename, 'secure');
+            // Upload file if exists
+            $path = null;
+            if ($request->hasFile('payment_proof')) {
+                $file = $request->file('payment_proof');
+                $filename = 'dp_' . 
+                    $registration->registration_number . '_' . 
+                    uniqid() . '_' . 
+                    time() . '.' . 
+                    $file->extension();
+                $path = $file->storeAs('payments', $filename, 'secure');
+            }
             
             // Update payment record
             $dpPayment->update([
@@ -183,8 +186,8 @@ class RegistrationController extends Controller
 public function submitPelunasan(Request $request, $registrationId)
 {
     $validated = $request->validate([
-        'payment_proof' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
-        'payment_method' => 'required|in:transfer,cash'
+        'payment_method' => 'required|in:transfer,cash',
+        'payment_proof' => 'required_if:payment_method,transfer|file|mimes:jpg,jpeg,png,pdf|max:2048',
     ]);
     
     DB::beginTransaction();
@@ -197,25 +200,33 @@ public function submitPelunasan(Request $request, $registrationId)
             throw new \Exception('Pendaftaran ini tidak perlu pelunasan');
         }
         
-        // Upload file
-        $file = $request->file('payment_proof');
-        $filename = 'pelunasan_' . 
-            $registration->registration_number . '_' . 
-            uniqid() . '_' . 
-            time() . '.' . 
-            $file->extension();
-        $path = $file->storeAs('payments', $filename, 'secure');
+        // Upload file if exists
+        $path = null;
+        if ($request->hasFile('payment_proof')) {
+            $file = $request->file('payment_proof');
+            $filename = 'pelunasan_' . 
+                $registration->registration_number . '_' . 
+                uniqid() . '_' . 
+                time() . '.' . 
+                $file->extension();
+            $path = $file->storeAs('payments', $filename, 'secure');
+        }
         
         // Cek apakah sudah ada payment pelunasan
         $pelunasan = $registration->pelunasanPayment();
         
         if ($pelunasan) {
             // Update existing
-            $pelunasan->update([
-                'proof_path' => $path,
+            $updateData = [
                 'payment_method' => $validated['payment_method'],
                 'status' => 'pending'
-            ]);
+            ];
+            
+            if ($path) {
+                $updateData['proof_path'] = $path;
+            }
+            
+            $pelunasan->update($updateData);
         } else {
             // Create new
             $pelunasan = Payment::create([

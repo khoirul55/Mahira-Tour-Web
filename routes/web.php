@@ -180,6 +180,13 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function() {
     Route::get('/secure-file', [App\Http\Controllers\PrivateFileController::class, 'show'])
         ->name('admin.secure.file');
 
+    // Admin Profile & Password
+    Route::prefix('profile')->name('admin.profile.')->group(function() {
+        Route::get('/', [App\Http\Controllers\AdminProfileController::class, 'index'])->name('index');
+        Route::put('/', [App\Http\Controllers\AdminProfileController::class, 'update'])->name('update');
+        Route::put('/password', [App\Http\Controllers\AdminProfileController::class, 'updatePassword'])->name('password');
+    });
+
 });
 
 // ============================================

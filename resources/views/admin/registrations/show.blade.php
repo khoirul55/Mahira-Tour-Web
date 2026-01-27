@@ -1,324 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Detail Pendaftaran - Admin Mahira Tour</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <style>
-        body {
-            background: #f8f9fa;
-            font-family: 'Inter', -apple-system, system-ui, sans-serif;
-        }
-        
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 260px;
-            height: 100vh;
-            background: linear-gradient(135deg, #001D5F 0%, #003087 100%);
-            color: white;
-            padding: 30px 20px;
-            overflow-y: auto;
-            z-index: 1000;
-            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
-        }
-        
-        .sidebar h4 {
-            font-weight: 700;
-            margin-bottom: 30px;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .admin-info {
-            background: rgba(255,255,255,0.1);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .sidebar nav a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 15px;
-            color: rgba(255,255,255,0.8);
-            text-decoration: none;
-            border-radius: 8px;
-            margin-bottom: 5px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        
-        .sidebar nav a:hover {
-            background: rgba(255,255,255,0.15);
-            color: white;
-            transform: translateX(5px);
-        }
-        
-        .main-content {
-            margin-left: 260px;
-            padding: 30px;
-            min-height: 100vh;
-        }
-        
-        .page-header {
-            background: white;
-            padding: 25px 30px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-        }
-        
-        .detail-card {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-        }
-        
-        .detail-card h5 {
-            color: #001D5F;
-            font-weight: 700;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #E8EBF3;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .detail-card h5 i { 
-            color: #3B82F6;
-            font-size: 1.3rem;
-        }
-        
-        .info-row {
-            display: flex;
-            padding: 12px 0;
-            border-bottom: 1px solid #F3F4F6;
-        }
-        
-        .info-row:last-child { border-bottom: none; }
-        
-        .info-label {
-            min-width: 180px;
-            color: #6B7280;
-            font-weight: 600;
-            font-size: 0.875rem;
-        }
-        
-        .info-value {
-            flex: 1;
-            color: #111827;
-            font-weight: 600;
-        }
-        
-        .jamaah-card {
-            background: #F8F9FF;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-left: 4px solid #E8EBF3;
-            transition: all 0.3s;
-        }
-        
-        .jamaah-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transform: translateX(5px);
-        }
-        
-        .jamaah-card.complete {
-            background: #D1FAE5;
-            border-left-color: #10B981;
-        }
-        
-        .doc-thumb {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        
-        .doc-thumb:hover {
-            transform: scale(1.1);
-        }
-        
-        .doc-item {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            margin-right: 20px;
-            text-align: center;
-        }
-        
-        .badge-status {
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.875rem;
-        }
-        
-        .badge-draft { background: #E5E7EB; color: #374151; }
-        .badge-pending { background: #FEF3C7; color: #D97706; }
-        .badge-confirmed { background: #D1FAE5; color: #059669; }
-        .badge-verified { background: #D1FAE5; color: #059669; }
-        .badge-rejected { background: #FEE2E2; color: #DC2626; }
-        
-        .timeline {
-            position: relative;
-            padding-left: 30px;
-        }
-        
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 10px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: #E8EBF3;
-        }
-        
-        .timeline-item {
-            position: relative;
-            padding-bottom: 20px;
-        }
-        
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -24px;
-            top: 4px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #10B981;
-            border: 2px solid white;
-            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
-        }
-        
-        .timeline-item.pending::before { 
-            background: #F59E0B; 
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
-        }
-        
-        .btn-action {
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        
-        .btn-action:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        
-        /* New styles for payment alerts */
-        .payment-alert {
-            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
-            border-left: 4px solid #F59E0B;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-        
-        .payment-alert.danger {
-            background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
-            border-left-color: #DC2626;
-        }
-        
-        .payment-alert.success {
-            background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
-            border-left-color: #10B981;
-        }
-        
-        .payment-breakdown {
-            background: #F8F9FA;
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 10px;
-        }
-        
-        .payment-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px dashed #E5E7EB;
-        }
-        
-        .payment-item:last-child {
-            border-bottom: none;
-            font-weight: 700;
-            color: #001D5F;
-            font-size: 1.1rem;
-        }
-        
-        .wa-template-box {
-            background: #F0FDF4;
-            border: 2px dashed #10B981;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-size: 0.85rem;
-            line-height: 1.6;
-        }
-        
-        .copy-btn {
-            font-size: 0.75rem;
-            padding: 4px 10px;
-        }
-    </style>
-</head>
-<body>
+@extends('layouts.admin')
 
-<!-- Sidebar -->
-<div class="sidebar">
-    <h4>
-        <i class="bi bi-shield-check"></i>
-        Admin Panel
-    </h4>
-    
-    <div class="admin-info">
-        <div style="font-weight: 600;">
-            <i class="bi bi-person-circle"></i> {{ Auth::guard('admin')->user()->name ?? 'Admin' }}
-        </div>
-        <small style="opacity: 0.8;">{{ Auth::guard('admin')->user()->email ?? '' }}</small>
-    </div>
-    
-    <hr style="border-color: rgba(255,255,255,0.2);">
-    
-    <nav>
-        <a href="{{ route('admin.dashboard') }}">
-            <i class="bi bi-house"></i> Dashboard
-        </a>
-        <a href="{{ route('admin.registrations.index') }}">
-            <i class="bi bi-file-earmark-text"></i> Semua Pendaftaran
-        </a>
-        <a href="{{ route('admin.pelunasan.index') }}">
-            <i class="bi bi-wallet"></i> Perlu Pelunasan
-        </a>
-        <a href="{{ route('admin.galleries.index') }}">
-            <i class="bi bi-images"></i> Kelola Galeri
-        </a>
-        <a href="{{ route('admin.schedules.index') }}">
-            <i class="bi bi-calendar-event"></i> Kelola Jadwal
-        </a>
-        <a href="{{ route('admin.logout') }}">
-            <i class="bi bi-box-arrow-right"></i> Logout
-        </a>
-    </nav>
-</div>
+@section('title', 'Detail Pendaftaran')
 
-<!-- Main Content -->
-<div class="main-content">
+@section('content')
     <!-- Header -->
     <div class="page-header">
         <div class="d-flex justify-content-between align-items-center">
@@ -782,32 +466,215 @@ Sisa: Rp {{ number_format($remaining, 0, ',', '.') }}</div>
         </div>
     </div>
 </div>
-                <!-- Additional Actions -->
-                <div class="d-grid gap-2">
-                    <a href="{{ route('registration.dashboard', ['reg' => $registration->registration_number, 'token' => $registration->access_token]) }}" 
-                       target="_blank" 
-                       class="btn btn-outline-secondary btn-action">
-                        <i class="bi bi-box-arrow-up-right"></i> Buka Dashboard User
-                    </a>
-                    
-                    @if(!$isLunas && $remaining > 0)
-                    <button class="btn btn-outline-warning btn-action" onclick="copyToClipboard('paymentInfo')">
-                        <i class="bi bi-clipboard-check"></i> Copy Info Pembayaran
-                    </button>
-                    <div id="paymentInfo" style="display: none;">Total: Rp {{ number_format($registration->total_price, 0, ',', '.') }}
-Sudah Dibayar: Rp {{ number_format($totalPaid, 0, ',', '.') }}
-Sisa: Rp {{ number_format($remaining, 0, ',', '.') }}</div>
-                    @endif
-                </div>
-            </div>
         </div>
     </div>
-</div>
+@endsection
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+@push('styles')
+<style>
+    .page-header {
+        background: white;
+        padding: 25px 30px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        margin-bottom: 30px;
+    }
+    
+    .detail-card {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    
+    .detail-card h5 {
+        color: #001D5F;
+        font-weight: 700;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #E8EBF3;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .detail-card h5 i { 
+        color: #3B82F6;
+        font-size: 1.3rem;
+    }
+    
+    .info-row {
+        display: flex;
+        padding: 12px 0;
+        border-bottom: 1px solid #F3F4F6;
+        align-items: center; /* Added for alignment */
+    }
+    
+    .info-row:last-child { border-bottom: none; }
+    
+    .info-label {
+        min-width: 180px;
+        color: #6B7280;
+        font-weight: 600;
+        font-size: 0.875rem;
+    }
+    
+    .info-value {
+        flex: 1;
+        color: #111827;
+        font-weight: 600;
+    }
+    
+    .jamaah-card {
+        background: #F8F9FF;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-left: 4px solid #E8EBF3;
+        transition: all 0.3s;
+    }
+    
+    .jamaah-card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transform: translateX(5px);
+    }
+    
+    .jamaah-card.complete {
+        background: #D1FAE5;
+        border-left-color: #10B981;
+    }
+    
+    .doc-thumb {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.3s;
+    }
+    
+    .doc-thumb:hover {
+        transform: scale(1.1);
+    }
+    
+    .doc-item {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        margin-right: 20px;
+        text-align: center;
+    }
+    
+    .badge-status {
+        padding: 8px 16px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.875rem;
+    }
+    
+    .badge-draft { background: #E5E7EB; color: #374151; }
+    .badge-pending { background: #FEF3C7; color: #D97706; }
+    .badge-confirmed { background: #D1FAE5; color: #059669; }
+    .badge-verified { background: #D1FAE5; color: #059669; }
+    .badge-rejected { background: #FEE2E2; color: #DC2626; }
+    
+    .timeline {
+        position: relative;
+        padding-left: 30px;
+    }
+    
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 10px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #E8EBF3;
+    }
+    
+    .timeline-item {
+        position: relative;
+        padding-bottom: 20px;
+    }
+    
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -24px;
+        top: 4px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #10B981;
+        border: 2px solid white;
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+    }
+    
+    .timeline-item.pending::before { 
+        background: #F59E0B; 
+        box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+    }
+    
+    .btn-action {
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+    
+    .btn-action:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .payment-alert {
+        background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+        border-left: 4px solid #F59E0B;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+    
+    .payment-alert.danger {
+        background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+        border-left-color: #DC2626;
+    }
+    
+    .payment-alert.success {
+        background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+        border-left-color: #10B981;
+    }
+    
+    .payment-breakdown {
+        background: #F8F9FA;
+        padding: 12px;
+        border-radius: 6px;
+        margin-top: 10px;
+    }
+    
+    .payment-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px dashed #E5E7EB;
+    }
+    
+    .payment-item:last-child {
+        border-bottom: none;
+        font-weight: 700;
+        color: #001D5F;
+        font-size: 1.1rem;
+    }
+</style>
+@endpush
+
+@push('scripts')
 <script>
 function copyToClipboard(elementId) {
     const element = document.getElementById(elementId);
+    if (!element) return;
     const text = element.innerText || element.textContent;
     
     const textarea = document.createElement('textarea');
@@ -822,35 +689,39 @@ function copyToClipboard(elementId) {
     document.body.removeChild(textarea);
     
     const button = event.target.closest('button');
-    const originalHTML = button.innerHTML;
-    button.innerHTML = '<i class="bi bi-check"></i> Copied!';
-    button.classList.add('btn-success');
-    button.classList.remove('btn-outline-warning');
-    
-    setTimeout(() => {
-        button.innerHTML = originalHTML;
-        button.classList.remove('btn-success');
-        button.classList.add('btn-outline-warning');
-    }, 2000);
+    if (button) {
+        const originalHTML = button.innerHTML;
+        button.innerHTML = '<i class="bi bi-check"></i> Copied!';
+        button.classList.add('btn-success');
+        button.classList.remove('btn-outline-warning');
+        
+        setTimeout(() => {
+            button.innerHTML = originalHTML;
+            button.classList.remove('btn-success');
+            button.classList.add('btn-outline-warning');
+        }, 2000);
+    }
 }
 
 function copyText(elementId) {
     const element = document.getElementById(elementId);
+    if (!element) return;
     element.select();
     document.execCommand('copy');
     
     const button = event.target;
-    const originalHTML = button.innerHTML;
-    button.innerHTML = '<i class="bi bi-check"></i> Copied!';
-    button.classList.add('btn-success');
-    button.classList.remove('btn-secondary', 'btn-outline-secondary');
-    
-    setTimeout(() => {
-        button.innerHTML = originalHTML;
-        button.classList.remove('btn-success');
-        button.classList.add('btn-secondary');
-    }, 2000);
+    if (button) {
+        const originalHTML = button.innerHTML;
+        button.innerHTML = '<i class="bi bi-check"></i> Copied!';
+        button.classList.add('btn-success');
+        button.classList.remove('btn-secondary', 'btn-outline-secondary');
+        
+        setTimeout(() => {
+            button.innerHTML = originalHTML;
+            button.classList.remove('btn-success');
+            button.classList.add('btn-secondary');
+        }, 2000);
+    }
 }
 </script>
-</body>
-</html>
+@endpush
