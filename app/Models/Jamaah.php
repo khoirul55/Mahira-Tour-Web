@@ -108,12 +108,19 @@ class Jamaah extends Model
         }
 
         // Check documents
-        $requiredDocs = ['ktp', 'kk', 'photo'];
-        $uploadedDocs = $this->documents()->whereIn('document_type', $requiredDocs)->count();
+        // Mandatory: KTP, KK
+        // Select One: Ijazah OR Buku Nikah OR Akta
+        $mandatoryDocs = ['ktp', 'kk'];
+        $selectOneDocs = ['ijazah', 'buku_nikah', 'akta_kelahiran'];
+        
+        $uploadedTypes = $this->documents()->pluck('document_type')->toArray();
+        
+        $hasMandatory = count(array_intersect($mandatoryDocs, $uploadedTypes)) === count($mandatoryDocs);
+        $hasSelectOne = count(array_intersect($selectOneDocs, $uploadedTypes)) > 0;
 
-        if ($filledCount === count($requiredFields) && $uploadedDocs >= 3) {
+        if ($filledCount === count($requiredFields) && $hasMandatory && $hasSelectOne) {
             $this->completion_status = 'complete';
-        } elseif ($filledCount > 0 || $uploadedDocs > 0) {
+        } elseif ($filledCount > 0 || count($uploadedTypes) > 0) {
             $this->completion_status = 'partial';
         } else {
             $this->completion_status = 'empty';
@@ -138,10 +145,15 @@ class Jamaah extends Model
      */
     public function hasAllRequiredDocuments()
     {
-        $requiredDocs = ['ktp', 'kk', 'photo'];
+        $mandatoryDocs = ['ktp', 'kk'];
+        $selectOneDocs = ['ijazah', 'buku_nikah', 'akta_kelahiran'];
+        
         $uploadedTypes = $this->documents()->pluck('document_type')->toArray();
         
-        return count(array_intersect($requiredDocs, $uploadedTypes)) === count($requiredDocs);
+        $hasMandatory = count(array_intersect($mandatoryDocs, $uploadedTypes)) === count($mandatoryDocs);
+        $hasSelectOne = count(array_intersect($selectOneDocs, $uploadedTypes)) > 0;
+        
+        return $hasMandatory && $hasSelectOne;
     }
 
     /**

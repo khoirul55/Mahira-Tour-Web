@@ -88,9 +88,10 @@
     }
     
     .btn-jamaah:hover, .btn-upload:hover, .btn-submit:hover {
-        background: var(--light-navy);
+        background: var(--primary-dark);
         color: white;
         transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(0, 29, 95, 0.2);
     }
 
     /* Badges */
@@ -109,8 +110,9 @@
     .floating-whatsapp { display: none !important; }
 
     .deadline {
-        background: #fff1f2;
-        color: var(--danger);
+        background: #FEF2F2;
+        color: #991B1B;
+        border: 1px solid #FCA5A5;
         padding: 8px 16px;
         border-radius: 50px;
         font-size: 0.875rem;
@@ -119,6 +121,7 @@
         align-items: center;
         gap: 8px;
         margin-top: 12px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
     /* Typography & Headers */
@@ -543,7 +546,7 @@
         @endif
         
         <!-- Dashboard Header -->
-        <div class="dashboard-header">
+        <div class="dashboard-header" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);">
             <h1>Dashboard Pendaftaran</h1>
             <div class="reg-number">{{ $registration->registration_number }}</div>
             <div>
@@ -553,8 +556,8 @@
             </div>
             @if($registration->payment_deadline)
             <div class="deadline">
-                <i class="bi bi-clock-fill"></i>
-                Deadline Upload DP: {{ $registration->payment_deadline->format('d M Y') }}
+                <i class="bi bi-calendar-event-fill"></i>
+                Jatuh Tempo DP: {{ $registration->payment_deadline->format('d M Y') }}
             </div>
             @endif
         </div>
@@ -1160,193 +1163,154 @@
                 <form id="formUploadDoc" @submit.prevent="submitDocuments">
                     <input type="hidden" x-model="docJamaahId">
                     
-                    <!-- KTP -->
-                    <div class="doc-upload-card" :class="{ 'uploaded': documents.ktp.file }">
-                        <div class="doc-header">
-                            <div class="doc-title">
-                                <i class="bi bi-card-heading"></i>
-                                KTP <span class="text-danger">*</span>
-                            </div>
-                            <span class="doc-status" :class="documents.ktp.file ? 'uploaded' : 'pending'">
-                                <span x-text="documents.ktp.file ? 'Siap Upload' : 'Belum Upload'"></span>
-                            </span>
-                        </div>
+                    <!-- KTP & KK (Wajib Mutlak) -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold text-primary mb-3"><i class="bi bi-star-fill text-warning"></i> Dokumen Wajib</h6>
                         
-                        <template x-if="!documents.ktp.file">
-                            <label class="doc-upload-label">
-                                <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'ktp')">
-                                <i class="bi bi-cloud-upload"></i>
-                                <span>Klik untuk upload KTP</span>
-                                <small style="color: #9CA3AF; font-size: 0.8rem;">JPG, PNG, PDF (Max 2MB)</small>
-                            </label>
-                        </template>
-                        
-                        <template x-if="documents.ktp.file">
-                            <div class="doc-preview">
-                                <img :src="documents.ktp.preview || '/images/doc-icon.png'" alt="KTP Preview">
-                                <div class="doc-info">
-                                    <div class="doc-name" x-text="documents.ktp.file.name"></div>
-                                    <div class="doc-size" x-text="formatFileSize(documents.ktp.file.size)"></div>
-                                </div>
-                                <button type="button" class="btn-remove" @click="removeFile('ktp')">
-                                    <i class="bi bi-trash"></i> Hapus
-                                </button>
-                            </div>
-                        </template>
-                    </div>
-                    
-                    <!-- Kartu Keluarga -->
-                    <div class="doc-upload-card" :class="{ 'uploaded': documents.kk.file }">
-                        <div class="doc-header">
-                            <div class="doc-title">
-                                <i class="bi bi-people"></i>
-                                Kartu Keluarga (KK) <span class="text-danger">*</span>
-                            </div>
-                            <span class="doc-status" :class="documents.kk.file ? 'uploaded' : 'pending'">
-                                <span x-text="documents.kk.file ? 'Siap Upload' : 'Belum Upload'"></span>
-                            </span>
-                        </div>
-                        
-                        <template x-if="!documents.kk.file">
-                            <label class="doc-upload-label">
-                                <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'kk')">
-                                <i class="bi bi-cloud-upload"></i>
-                                <span>Klik untuk upload Kartu Keluarga</span>
-                                <small style="color: #9CA3AF; font-size: 0.8rem;">JPG, PNG, PDF (Max 2MB)</small>
-                            </label>
-                        </template>
-                        
-                        <template x-if="documents.kk.file">
-                            <div class="doc-preview">
-                                <img :src="documents.kk.preview || '/images/doc-icon.png'" alt="KK Preview">
-                                <div class="doc-info">
-                                    <div class="doc-name" x-text="documents.kk.file.name"></div>
-                                    <div class="doc-size" x-text="formatFileSize(documents.kk.file.size)"></div>
-                                </div>
-                                <button type="button" class="btn-remove" @click="removeFile('kk')">
-                                    <i class="bi bi-trash"></i> Hapus
-                                </button>
-                            </div>
-                        </template>
-                    </div>
-                    
-                    <!-- Foto -->
-                    <div class="doc-upload-card" :class="{ 'uploaded': documents.photo.file }">
-                        <div class="doc-header">
-                            <div class="doc-title">
-                                <i class="bi bi-camera"></i>
-                                Pas Foto 4x6 <span class="text-danger">*</span>
-                            </div>
-                            <span class="doc-status" :class="documents.photo.file ? 'uploaded' : 'pending'">
-                                <span x-text="documents.photo.file ? 'Siap Upload' : 'Belum Upload'"></span>
-                            </span>
-                        </div>
-                        
-                        <template x-if="!documents.photo.file">
-                            <label class="doc-upload-label">
-                                <input type="file" class="doc-upload-input" accept="image/*" @change="handleFileSelect($event, 'photo')">
-                                <i class="bi bi-cloud-upload"></i>
-                                <span>Klik untuk upload Pas Foto</span>
-                                <small style="color: #9CA3AF; font-size: 0.8rem;">JPG, PNG (Max 2MB) - Background putih</small>
-                            </label>
-                        </template>
-                        
-                        <template x-if="documents.photo.file">
-                            <div class="doc-preview">
-                                <img :src="documents.photo.preview || '/images/doc-icon.png'" alt="Photo Preview">
-                                <div class="doc-info">
-                                    <div class="doc-name" x-text="documents.photo.file.name"></div>
-                                    <div class="doc-size" x-text="formatFileSize(documents.photo.file.size)"></div>
-                                </div>
-                                <button type="button" class="btn-remove" @click="removeFile('photo')">
-                                    <i class="bi bi-trash"></i> Hapus
-                                </button>
-                            </div>
-                        </template>
-                    </div>
-                    
-                    <!-- Buku Nikah (Opsional) -->
-                    <div class="doc-upload-card" :class="{ 'uploaded': documents.buku_nikah.file }">
-                        <div class="doc-header">
-                            <div class="doc-title">
-                                <i class="bi bi-heart"></i>
-                                Buku Nikah <small class="text-muted">(Jika sudah menikah)</small>
-                            </div>
-                            <span class="doc-status" :class="documents.buku_nikah.file ? 'uploaded' : 'pending'">
-                                <span x-text="documents.buku_nikah.file ? 'Siap Upload' : 'Opsional'"></span>
-                            </span>
-                        </div>
-                        
-                        <template x-if="!documents.buku_nikah.file">
-                            <label class="doc-upload-label">
-                                <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'buku_nikah')">
-                                <i class="bi bi-cloud-upload"></i>
-                                <span>Klik untuk upload Buku Nikah</span>
-                                <small style="color: #9CA3AF; font-size: 0.8rem;">JPG, PNG, PDF (Max 2MB)</small>
-                            </label>
-                        </template>
-                        
-                        <template x-if="documents.buku_nikah.file">
-                            <div class="doc-preview">
-                                <img :src="documents.buku_nikah.preview || '/images/doc-icon.png'" alt="Buku Nikah Preview">
-                                <div class="doc-info">
-                                    <div class="doc-name" x-text="documents.buku_nikah.file.name"></div>
-                                    <div class="doc-size" x-text="formatFileSize(documents.buku_nikah.file.size)"></div>
-                                </div>
-                                <button type="button" class="btn-remove" @click="removeFile('buku_nikah')">
-                                    <i class="bi bi-trash"></i> Hapus
-                                </button>
-                            </div>
-                        </template>
-                    </div>
-                    
-                    <!-- Passport Option -->
-                    <div class="passport-option">
-                        <h4><i class="bi bi-passport"></i> Passport</h4>
-                        <p>Jika Anda belum memiliki passport, tim Mahira Tour dapat membantu pembuatan passport Anda.</p>
-                        
-                        <div class="doc-upload-card" :class="{ 'uploaded': documents.passport.file }" x-show="!noPassport" style="margin-bottom: 1rem;">
+                        <!-- KTP -->
+                        <div class="doc-upload-card mb-3" :class="{ 'uploaded': documents.ktp.file }">
                             <div class="doc-header">
-                                <div class="doc-title">
-                                    <i class="bi bi-passport-fill"></i>
-                                    Upload Passport
-                                </div>
-                                <span class="doc-status" :class="documents.passport.file ? 'uploaded' : 'pending'">
-                                    <span x-text="documents.passport.file ? 'Siap Upload' : 'Belum Upload'"></span>
+                                <div class="doc-title">KTP <span class="text-danger">*</span></div>
+                                <span class="badge-status" :class="documents.ktp.file ? 'uploaded' : 'pending'">
+                                    <span x-text="documents.ktp.file ? 'Siap Upload' : 'Belum Upload'"></span>
                                 </span>
                             </div>
                             
-                            <template x-if="!documents.passport.file">
+                            <template x-if="!documents.ktp.file">
                                 <label class="doc-upload-label">
-                                    <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'passport')">
+                                    <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'ktp')">
                                     <i class="bi bi-cloud-upload"></i>
-                                    <span>Klik untuk upload Passport</span>
-                                    <small style="color: #9CA3AF; font-size: 0.8rem;">JPG, PNG, PDF (Max 2MB)</small>
+                                    <span>Klik untuk upload KTP</span>
+                                    <small class="text-muted">JPG, PNG, PDF (Max 2MB)</small>
                                 </label>
                             </template>
                             
-                            <template x-if="documents.passport.file">
+                            <template x-if="documents.ktp.file">
                                 <div class="doc-preview">
-                                    <img :src="documents.passport.preview || '/images/doc-icon.png'" alt="Passport Preview">
                                     <div class="doc-info">
-                                        <div class="doc-name" x-text="documents.passport.file.name"></div>
-                                        <div class="doc-size" x-text="formatFileSize(documents.passport.file.size)"></div>
+                                        <i class="bi bi-file-earmark-check-fill text-success fs-4"></i>
+                                        <span x-text="documents.ktp.file.name"></span>
                                     </div>
-                                    <button type="button" class="btn-remove" @click="removeFile('passport')">
-                                        <i class="bi bi-trash"></i> Hapus
-                                    </button>
+                                    <button type="button" class="btn-remove" @click="removeFile('ktp')"><i class="bi bi-trash"></i></button>
                                 </div>
                             </template>
                         </div>
                         
-                        <label class="passport-checkbox">
-                            <input type="checkbox" x-model="noPassport" @change="if(noPassport) removeFile('passport')">
-                            <span>Saya belum punya passport, mohon dibuatkan oleh tim Mahira Tour</span>
-                        </label>
+                        <!-- Kartu Keluarga -->
+                        <div class="doc-upload-card" :class="{ 'uploaded': documents.kk.file }">
+                            <div class="doc-header">
+                                <div class="doc-title">Kartu Keluarga (KK) <span class="text-danger">*</span></div>
+                                <span class="badge-status" :class="documents.kk.file ? 'uploaded' : 'pending'">
+                                    <span x-text="documents.kk.file ? 'Siap Upload' : 'Belum Upload'"></span>
+                                </span>
+                            </div>
+                            
+                            <template x-if="!documents.kk.file">
+                                <label class="doc-upload-label">
+                                    <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'kk')">
+                                    <i class="bi bi-cloud-upload"></i>
+                                    <span>Klik untuk upload KK</span>
+                                    <small class="text-muted">JPG, PNG, PDF (Max 2MB)</small>
+                                </label>
+                            </template>
+                            
+                            <template x-if="documents.kk.file">
+                                <div class="doc-preview">
+                                    <div class="doc-info">
+                                        <i class="bi bi-file-earmark-check-fill text-success fs-4"></i>
+                                        <span x-text="documents.kk.file.name"></span>
+                                    </div>
+                                    <button type="button" class="btn-remove" @click="removeFile('kk')"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Dokumen Pendukung (Pilih Satu) -->
+                    <div class="mb-4 p-3 bg-light rounded border">
+                        <h6 class="fw-bold text-primary mb-2">
+                            <i class="bi bi-check-circle-fill text-success"></i> Dokumen Pendukung (Wajib Pilih Salah Satu)
+                        </h6>
+                        <small class="d-block mb-3 text-muted">Silakan upload minimal satu dari dokumen berikut:</small>
                         
-                        <div x-show="noPassport" class="status-message info" style="margin-top: 1rem;">
-                            <i class="bi bi-info-circle-fill"></i>
-                            <small>Tim kami akan menghubungi Anda untuk proses pembuatan passport. Pastikan dokumen KTP & KK sudah di-upload.</small>
+                        <div class="d-flex gap-2 mb-3">
+                            <button type="button" class="btn btn-sm" :class="activeTab === 'ijazah' ? 'btn-primary' : 'btn-outline-primary'" @click="activeTab = 'ijazah'">Ijazah</button>
+                            <button type="button" class="btn btn-sm" :class="activeTab === 'buku_nikah' ? 'btn-primary' : 'btn-outline-primary'" @click="activeTab = 'buku_nikah'">Buku Nikah</button>
+                            <button type="button" class="btn btn-sm" :class="activeTab === 'akta' ? 'btn-primary' : 'btn-outline-primary'" @click="activeTab = 'akta'">Akta Lahir</button>
+                        </div>
+
+                        <!-- Ijazah Upload -->
+                        <div x-show="activeTab === 'ijazah'" x-transition>
+                            <label class="doc-upload-label">
+                                <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'ijazah')">
+                                <i class="bi bi-cloud-upload"></i>
+                                <span x-text="documents.ijazah.file ? documents.ijazah.file.name : 'Upload Ijazah Terakhir'"></span>
+                            </label>
+                            <div class="mt-2 text-end" x-show="documents.ijazah.file">
+                                <span class="badge bg-success">Siap Upload</span>
+                                <button type="button" class="btn btn-sm btn-link text-danger" @click="removeFile('ijazah')">Hapus</button>
+                            </div>
+                        </div>
+
+                        <!-- Buku Nikah Upload -->
+                        <div x-show="activeTab === 'buku_nikah'" x-transition>
+                            <label class="doc-upload-label">
+                                <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'buku_nikah')">
+                                <i class="bi bi-cloud-upload"></i>
+                                <span x-text="documents.buku_nikah.file ? documents.buku_nikah.file.name : 'Upload Buku Nikah'"></span>
+                            </label>
+                            <div class="mt-2 text-end" x-show="documents.buku_nikah.file">
+                                <span class="badge bg-success">Siap Upload</span>
+                                <button type="button" class="btn btn-sm btn-link text-danger" @click="removeFile('buku_nikah')">Hapus</button>
+                            </div>
+                        </div>
+
+                        <!-- Akta Upload -->
+                        <div x-show="activeTab === 'akta'" x-transition>
+                            <label class="doc-upload-label">
+                                <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'akta_kelahiran')">
+                                <i class="bi bi-cloud-upload"></i>
+                                <span x-text="documents.akta_kelahiran.file ? documents.akta_kelahiran.file.name : 'Upload Akta Kelahiran'"></span>
+                            </label>
+                            <div class="mt-2 text-end" x-show="documents.akta_kelahiran.file">
+                                <span class="badge bg-success">Siap Upload</span>
+                                <button type="button" class="btn btn-sm btn-link text-danger" @click="removeFile('akta_kelahiran')">Hapus</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Passport Section (Optional) -->
+                    <div class="mt-4 border-top pt-3">
+                         <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="fw-bold mb-0"><i class="bi bi-passport"></i> Passport (Opsional)</h6>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="hasPassport" x-model="showPassportUpload">
+                                <label class="form-check-label" for="hasPassport">Saya sudah punya passport</label>
+                            </div>
+                        </div>
+
+                        <div x-show="showPassportUpload" x-transition>
+                            <div class="doc-upload-card" :class="{ 'uploaded': documents.passport.file }">
+                                <div class="doc-header">
+                                    <div class="doc-title">Upload Passport</div>
+                                    <span class="badge-status" :class="documents.passport.file ? 'uploaded' : 'pending'">
+                                        <span x-text="documents.passport.file ? 'Siap Upload' : 'Belum Upload'"></span>
+                                    </span>
+                                </div>
+                                <template x-if="!documents.passport.file">
+                                    <label class="doc-upload-label">
+                                        <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'passport')">
+                                        <i class="bi bi-cloud-upload"></i>
+                                        <span>Klik untuk upload Passport</span>
+                                    </label>
+                                </template>
+                                <template x-if="documents.passport.file">
+                                    <div class="doc-preview">
+                                        <div class="doc-info"><span x-text="documents.passport.file.name"></span></div>
+                                        <button type="button" class="btn-remove" @click="removeFile('passport')"><i class="bi bi-trash"></i></button>
+                                    </div>
+                                </template>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -1407,12 +1371,14 @@ function dashboardApp() {
         // Document Data
         docJamaahId: null,
         docJamaahName: '',
+        activeTab: 'ijazah',
         documents: {
-            ktp: { file: null, preview: null },
-            kk: { file: null, preview: null },
-            photo: { file: null, preview: null },
-            buku_nikah: { file: null, preview: null },
-            passport: { file: null, preview: null }
+            ktp: { file: null, preview: null, exists: false },
+            kk: { file: null, preview: null, exists: false },
+            ijazah: { file: null, preview: null, exists: false },
+            akta_kelahiran: { file: null, preview: null, exists: false },
+            buku_nikah: { file: null, preview: null, exists: false },
+            passport: { file: null, preview: null, exists: false }
         },
         noPassport: false,
         
@@ -1524,11 +1490,17 @@ function dashboardApp() {
             this.docJamaahId = jamaahId;
             this.docJamaahName = jamaahName;
             
+            // Reset state
+            this.activeTab = 'ijazah';
+            this.showPassportUpload = false;
+            this.noPassport = false;
+
             // Reset documents
             this.documents = {
                 ktp: { file: null, preview: null, exists: false },
                 kk: { file: null, preview: null, exists: false },
-                photo: { file: null, preview: null, exists: false },
+                ijazah: { file: null, preview: null, exists: false },
+                akta_kelahiran: { file: null, preview: null, exists: false },
                 buku_nikah: { file: null, preview: null, exists: false },
                 passport: { file: null, preview: null, exists: false }
             };
@@ -1548,6 +1520,13 @@ function dashboardApp() {
                             this.documents[type].file = { name: data.documents[type].file_name, size: 0 }; 
                         }
                     });
+
+                    // Set active tab based on existing docs
+                    if (this.documents.buku_nikah.exists) this.activeTab = 'buku_nikah';
+                    else if (this.documents.akta_kelahiran.exists) this.activeTab = 'akta';
+                    else if (this.documents.ijazah.exists) this.activeTab = 'ijazah';
+                    
+                    if (this.documents.passport.exists) this.showPassportUpload = true;
                 }
                 
                 if (data.need_passport) {
@@ -1600,20 +1579,30 @@ function dashboardApp() {
         
         async submitDocuments() {
             // Check if required docs are present (either existing or new file)
-            // Note: KTP, KK, Photo are required
+            // Note: KTP, KK are always required
             const ktpOk = this.documents.ktp.file;
             const kkOk = this.documents.kk.file;
-            const photoOk = this.documents.photo.file;
             
-            if (!ktpOk || !kkOk || !photoOk) {
-                alert('❌ Mohon upload/lengkapi dokumen wajib: KTP, KK, dan Pas Foto');
+            if (!ktpOk || !kkOk) {
+                alert('❌ Mohon upload dokumen wajib: KTP dan Kartu Keluarga');
+                return;
+            }
+
+            // Check One of Three (Ijazah / Buku Nikah / Akta)
+            const hasIjazah = this.documents.ijazah.file;
+            const hasBukuNikah = this.documents.buku_nikah.file;
+            const hasAkta = this.documents.akta_kelahiran.file;
+            
+            if (!hasIjazah && !hasBukuNikah && !hasAkta) {
+                alert('❌ Wajib upload salah satu: Ijazah / Buku Nikah / Akta Kelahiran');
                 return;
             }
             
             this.isUploading = true;
+            this.showToast('Sedang mengupload dokumen...', 'info');
             
             try {
-                const docTypes = ['ktp', 'kk', 'photo', 'buku_nikah', 'passport'];
+                const docTypes = ['ktp', 'kk', 'ijazah', 'akta_kelahiran', 'buku_nikah', 'passport'];
                 let uploadCount = 0;
                 
                 for (const docType of docTypes) {

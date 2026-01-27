@@ -282,7 +282,7 @@ public function submitPelunasan(Request $request, $registrationId)
     {
         $validated = $request->validate([
             'jamaah_id' => 'required|exists:jamaah,id',
-            'document_type' => 'required|in:ktp,kk,photo,buku_nikah',
+            'document_type' => 'required|in:ktp,kk,photo,buku_nikah,akta_kelahiran,ijazah,passport',
             'document' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048'
         ]);
         
