@@ -135,6 +135,15 @@ class RegistrationService
             } catch (\Exception $e) {
                 Log::error('WhatsApp failed to dispatch: ' . $e->getMessage());
             }
+
+            // ADMIN NOTIFICATION (Queued)
+            try {
+                // Send to Admin Email (taken from config or hardcoded for now)
+                $adminEmail = config('mail.from.address'); // e.g. info@mahiratour.id
+                Mail::to($adminEmail)->send(new \App\Mail\AdminRegistrationNotification($registration));
+            } catch (\Exception $e) {
+                Log::error('Admin Email failed to queue: ' . $e->getMessage());
+            }
             
             return $registration;
         });
