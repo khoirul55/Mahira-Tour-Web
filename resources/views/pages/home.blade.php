@@ -1,7 +1,7 @@
 {{-- resources/views/pages/home.blade.php --}}
 @extends('layouts.app')
 
-@section('title', 'Mahira Tour - Travel Umrah & Haji Resmi Jambi & Padang')
+@section('title', 'Mahira Tour | Travel Umrah & Haji Resmi, Aman & Terpercaya')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/home.css?v=2.1') }}">
