@@ -398,18 +398,16 @@
     
     <hr style="border-color: rgba(255,255,255,0.2);">
     
-    <nav>
-        <a href="{{ route('admin.dashboard') }}" class="active">
-            <i class="bi bi-house"></i>
-            <span>Dashboard</span>
+
+    <nav class="nav flex-column">
+        <a class="nav-link active" href="{{ route('admin.dashboard') }}">
+            <i class="bi bi-speedometer2 me-2"></i> Dashboard
         </a>
-        <a href="{{ route('admin.registrations.index') }}">
-            <i class="bi bi-file-earmark-text"></i>
-            <span>Semua Pendaftaran</span>
+        <a class="nav-link" href="{{ route('admin.registrations.index') }}">
+            <i class="bi bi-people me-2"></i> Semua Pendaftaran
         </a>
-        <a href="{{ route('admin.pelunasan.index') }}">
-            <i class="bi bi-wallet"></i>
-            <span>Perlu Pelunasan</span>
+        <a class="nav-link" href="{{ route('admin.pelunasan.index') }}">
+            <i class="bi bi-wallet2 me-2"></i> Perlu Pelunasan
             @php
                 $countPelunasan = \App\Models\Registration::where('status', 'confirmed')
                     ->where('is_lunas', false)
@@ -422,29 +420,26 @@
                 <span class="badge bg-danger ms-auto">{{ $countPelunasan }}</span>
             @endif
         </a>
-        <a href="{{ route('admin.galleries.index') }}">
-            <i class="bi bi-images"></i>
-            <span>Kelola Galeri</span>
+        <a class="nav-link" href="{{ route('admin.galleries.index') }}">
+            <i class="bi bi-images me-2"></i> Kelola Galeri
         </a>
-        <a href="{{ route('admin.schedules.index') }}">
-            <i class="bi bi-calendar-event"></i>
-            <span>Kelola Jadwal</span>
+        <a class="nav-link" href="{{ route('admin.schedules.index') }}">
+            <i class="bi bi-calendar-event me-2"></i> Kelola Jadwal
         </a>
-        <a href="{{ route('admin.logout') }}">
-            <i class="bi bi-box-arrow-right"></i>
-            <span>Logout</span>
+        <a class="nav-link text-danger" href="{{ route('admin.logout') }}">
+            <i class="bi bi-box-arrow-right me-2"></i> Logout
         </a>
     </nav>
 </div>
 
 <!-- Main Content -->
-<div class="main-content">
+<div class="col-md-9 col-lg-10 p-4 main-content">
     <!-- Header -->
     <div class="page-header">
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <h1 class="mb-1">Dashboard Admin</h1>
-                <p class="text-muted mb-0">Selamat datang, <strong>{{ session('admin_name', 'Admin') }}</strong> 👋</p>
+                <p class="text-muted mb-0">Selamat datang, <strong>{{ Auth::guard('admin')->user()->name ?? 'Admin' }}</strong> 👋</p>
             </div>
             <div class="text-end">
                 <small class="text-muted">

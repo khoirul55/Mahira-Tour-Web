@@ -189,9 +189,9 @@
     
     <div class="admin-info">
         <div style="font-weight: 600;">
-            <i class="bi bi-person-circle"></i> {{ session('admin_name', 'Admin') }}
+            <i class="bi bi-person-circle"></i> {{ Auth::guard('admin')->user()->name ?? 'Admin' }}
         </div>
-        <small style="opacity: 0.8;">{{ session('admin_email') }}</small>
+        <small style="opacity: 0.8;">{{ Auth::guard('admin')->user()->email ?? '' }}</small>
     </div>
     
     <hr style="border-color: rgba(255,255,255,0.2);">
