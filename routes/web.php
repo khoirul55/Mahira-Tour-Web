@@ -45,8 +45,7 @@ Route::post('/kontak', function () {
         ->with('success', 'Terima kasih! Pesan Anda telah terkirim. Tim Mahira Tour akan segera menghubungi Anda.');
 })->name('contact.submit'); // TODO: Move to ContactController
 
-// Newsletter Subscribe
-Route::post('/newsletter/subscribe', [App\Http\Controllers\NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+
 
 // DEBUG EMAIL ROUTE (Will be removed later)
 Route::get('/test-email', function() {

@@ -101,19 +101,7 @@
                 </div>
             </div>
             
-            <!-- Newsletter -->
-            <div class="row mt-4">
-                <div class="col-lg-6">
-                    <div class="footer-newsletter">
-                        <h4>Berlangganan Newsletter</h4>
-                        <p>Dapatkan info promo, tips umrah, dan update jadwal terbaru</p>
-                        <form class="newsletter-form" id="newsletterForm">
-                            <input type="email" placeholder="Email Anda" required>
-                            <button type="submit">Subscribe</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
     
@@ -145,55 +133,7 @@
 </div>
 
 <script>
-    // Simple newsletter form handler
-    // Newsletter form handler
-    document.getElementById('newsletterForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const form = this;
-        const input = form.querySelector('input[type="email"]');
-        const button = form.querySelector('button');
-        const originalText = button.textContent;
-        const email = input.value;
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-        // Disable button interactions
-        button.disabled = true;
-        button.textContent = 'Memproses...';
-
-        fetch('{{ route("newsletter.subscribe") }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken
-            },
-            body: JSON.stringify({ email: email })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                button.textContent = 'Berhasil!';
-                button.style.background = '#10B981';
-                input.value = ''; // Clear input
-                
-                // Reset after 3 seconds
-                setTimeout(() => {
-                    button.disabled = false;
-                    button.textContent = originalText;
-                    button.style.background = '#D4AF37'; // Gold
-                }, 3000);
-            } else {
-                alert(data.message || 'Terjadi kesalahan.');
-                button.textContent = originalText;
-                button.disabled = false;
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Terjadi kesalahan koneksi. Silakan coba lagi.');
-            button.textContent = originalText;
-            button.disabled = false;
-        });
-    });
     
     // Smooth scroll for footer links
     document.querySelectorAll('.footer-links a[href^="#"]').forEach(anchor => {
