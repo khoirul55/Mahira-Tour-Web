@@ -113,13 +113,13 @@ class RegistrationService
             $dashboardUrl = route('registration.dashboard', ['reg' => $registration->registration_number, 'token' => $token]);
             
             try {
+                // Modified to use Queue (because Mailable implements ShouldQueue)
                 Mail::to($registration->email)->send(new RegistrationCreated($registration, $dashboardUrl));
             } catch (\Exception $e) {
-                Log::error('Email failed: ' . $e->getMessage());
-                // Don't rollback transaction just for email fail
+                Log::error('Email failed to queue: ' . $e->getMessage());
             }
 
-            // WHATSAPP NOTIFICATION
+            // WHATSAPP NOTIFICATION (Queued)
             try {
                 $message = "Assalamu'alaikum *{$registration->full_name}*,\n\n";
                 $message .= "Alhamdulillah, pendaftaran Umrah Anda berhasil diterima.\n";
@@ -129,9 +129,11 @@ class RegistrationService
                 $message .= "{$dashboardUrl}\n\n";
                 $message .= "Terima kasih,\n*Mahira Tour Indonesia*";
                 
-                $this->whatsAppService->sendMessage($registration->phone, $message);
+                // Dispatch Job
+                \App\Jobs\SendWhatsAppNotification::dispatch($registration->phone, $message);
+                
             } catch (\Exception $e) {
-                Log::error('WhatsApp failed: ' . $e->getMessage());
+                Log::error('WhatsApp failed to dispatch: ' . $e->getMessage());
             }
             
             return $registration;
