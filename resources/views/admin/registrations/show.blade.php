@@ -288,9 +288,9 @@
     
     <div class="admin-info">
         <div style="font-weight: 600;">
-            <i class="bi bi-person-circle"></i> {{ session('admin_name', 'Admin') }}
+            <i class="bi bi-person-circle"></i> {{ Auth::guard('admin')->user()->name ?? 'Admin' }}
         </div>
-        <small style="opacity: 0.8;">{{ session('admin_email') }}</small>
+        <small style="opacity: 0.8;">{{ Auth::guard('admin')->user()->email ?? '' }}</small>
     </div>
     
     <hr style="border-color: rgba(255,255,255,0.2);">
@@ -455,7 +455,7 @@
                         @foreach($jamaah->documents as $doc)
                         <div class="doc-item">
                             @if(in_array(pathinfo($doc->file_path, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']))
-                                <img src="{{ Storage::url($doc->file_path) }}" class="doc-thumb" alt="{{ $doc->document_type }}">
+                                <img src="{{ route('admin.secure.file', ['path' => $doc->file_path]) }}" class="doc-thumb" alt="{{ $doc->document_type }}">
                             @else
                                 <div class="doc-thumb d-flex align-items-center justify-content-center bg-light">
                                     <i class="bi bi-file-pdf text-danger" style="font-size: 2rem;"></i>
@@ -554,10 +554,10 @@
                     
                     @if($payment->proof_path)
                     <div class="d-flex gap-2 mt-2">
-                        <a href="{{ Storage::url($payment->proof_path) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                        <a href="{{ route('admin.secure.file', ['path' => $payment->proof_path]) }}" target="_blank" class="btn btn-sm btn-outline-primary">
                             <i class="bi bi-eye"></i> Lihat Bukti
                         </a>
-                        <a href="{{ Storage::url($payment->proof_path) }}" download class="btn btn-sm btn-outline-success">
+                        <a href="{{ route('admin.secure.file', ['path' => $payment->proof_path]) }}" download class="btn btn-sm btn-outline-success">
                             <i class="bi bi-download"></i> Download
                         </a>
                     </div>

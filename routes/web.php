@@ -176,8 +176,8 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function() {
     });
     
     // Secure File Access
-    Route::get('/secure-file/{path}', [App\Http\Controllers\PrivateFileController::class, 'show'])
-        ->where('path', '.*')
+    // Secure File Access (Via Query String untuk menghindari Nginx Static File 404)
+    Route::get('/secure-file', [App\Http\Controllers\PrivateFileController::class, 'show'])
         ->name('admin.secure.file');
 
 });

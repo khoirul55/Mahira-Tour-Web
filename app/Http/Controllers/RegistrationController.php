@@ -159,6 +159,15 @@ class RegistrationController extends Controller
             
             DB::commit();
 
+            // NOTIFIKASI ADMIN (New)
+            try {
+                $adminEmail = config('mail.from.address');
+                \Illuminate\Support\Facades\Mail::to($adminEmail)->queue(new \App\Mail\PaymentProofUploaded($dpPayment, $registration));
+            } catch (\Exception $e) {
+                // Silent error agar user tidak terganggu jika email gagal
+                Log::error('Admin Notif Error: ' . $e->getMessage());
+            }
+
             return back()->with('success', 'Bukti pembayaran berhasil diunggah. Menunggu verifikasi dari admin.');
         
         } catch (\Exception $e) {
@@ -209,7 +218,7 @@ public function submitPelunasan(Request $request, $registrationId)
             ]);
         } else {
             // Create new
-            Payment::create([
+            $pelunasan = Payment::create([
                 'registration_id' => $registration->id,
                 'payment_type' => 'pelunasan',
                 'amount' => $registration->sisaPelunasan(),
@@ -220,6 +229,14 @@ public function submitPelunasan(Request $request, $registrationId)
         }
         
         DB::commit();
+
+        // NOTIFIKASI ADMIN (New)
+        try {
+            $adminEmail = config('mail.from.address');
+            \Illuminate\Support\Facades\Mail::to($adminEmail)->queue(new \App\Mail\PaymentProofUploaded($pelunasan, $registration));
+        } catch (\Exception $e) {
+            Log::error('Admin Notif Error: ' . $e->getMessage());
+        }
         
         return back()->with('success', 'Bukti pelunasan berhasil diupload. Menunggu verifikasi admin.');
         

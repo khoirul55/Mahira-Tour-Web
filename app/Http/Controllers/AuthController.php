@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
+use Illuminate\Support\Facades\Auth;
+
 class AuthController extends Controller
 {
     /**
@@ -15,7 +17,7 @@ class AuthController extends Controller
     public function showLoginForm()
     {
         // Jika sudah login, redirect ke dashboard
-        if (session('admin_logged_in')) {
+        if (Auth::guard('admin')->check()) {
             return redirect()->route('admin.dashboard');
         }
         
@@ -32,20 +34,10 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
         
-        // Cari admin berdasarkan email
-        $admin = Admin::where('email', $validated['email'])->first();
-        
-        // Validasi password
-        if ($admin && Hash::check($validated['password'], $admin->password)) {
-            session([
-                'admin_logged_in' => true,
-                'admin_id' => $admin->id,
-                'admin_name' => $admin->name,
-                'admin_email' => $admin->email
-            ]);
-            
+        if (Auth::guard('admin')->attempt($validated, $request->remember)) {
+            $request->session()->regenerate();
             return redirect()->route('admin.dashboard')
-                ->with('success', 'Login berhasil! Selamat datang, ' . $admin->name);
+                ->with('success', 'Login berhasil! Selamat datang, ' . Auth::guard('admin')->user()->name);
         }
         
         return back()->withErrors(['email' => 'Email atau password salah'])->withInput();
@@ -54,9 +46,12 @@ class AuthController extends Controller
     /**
      * Process Logout Admin
      */
-    public function logout()
+    public function logout(Request $request)
     {
-        session()->flush();
+        Auth::guard('admin')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        
         return redirect()->route('admin.login')->with('success', 'Logout berhasil');
     }
 }

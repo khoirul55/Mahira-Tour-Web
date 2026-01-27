@@ -9,11 +9,22 @@ use App\Models\Payment;
 
 class PrivateFileController extends Controller
 {
-    public function show(Request $request, $path)
+    public function show(Request $request)
     {
-        // 1. Check if file exists
+        // Ambil path dari Query String (?path=...)
+        $path = $request->query('path');
+
+        if (!$path) {
+            abort(404, 'Path not provided');
+        }
+        
+        // Fix: Pastikan path tidak double slash atau salah root
+        // Path di database: "payments/namafile.jpg"
+        // Disk secure root: "storage/app/secure"
+        // Jadi real path: "storage/app/secure/payments/namafile.jpg"
+        
         if (!Storage::disk('secure')->exists($path)) {
-            // Fallback to public
+            // Coba cek di folder public (siapa tahu file lama)
             if (Storage::disk('public')->exists($path)) {
                  return response()->file(Storage::disk('public')->path($path));
             }
@@ -23,7 +34,8 @@ class PrivateFileController extends Controller
         $file = Storage::disk('secure')->path($path);
 
         // 2. ADMIN AUTH
-        if (auth()->guard('admin_web')->check()) {
+        // Menggunakan standard Auth Guard 'admin'
+        if (auth()->guard('admin')->check()) {
             return response()->file($file);
         }
 
@@ -42,8 +54,6 @@ class PrivateFileController extends Controller
             if ($payment && $payment->registration->validateAccessToken($token)) {
                 return response()->file($file);
             }
-            
-            // Check ownership via Passport (if stored separately, but usually in Document)
         }
 
         abort(403, 'Unauthorized access');
