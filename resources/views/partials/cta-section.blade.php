@@ -23,7 +23,7 @@
         {{-- Right: Dual Vertical Images --}}
         <div class="split-image-side">
             <div class="split-img-wrapper img-tall">
-                <img src="{{ asset('images/hero/hero-about.webp') }}" alt="Ka'bah" class="split-img">
+                <img src="{{ asset('images/hero/kabah.webp') }}" alt="Ka'bah" class="split-img">
             </div>
             <div class="split-img-wrapper img-short">
                 <img src="{{ asset('images/hero/masjid-nabawi.webp') }}" alt="Masjid Nabawi" class="split-img">

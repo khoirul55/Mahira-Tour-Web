@@ -205,11 +205,17 @@
                     </div>
                     <h3 class="why-title">Berizin Resmi Kemenag</h3>
                     <p class="why-text">
-                        PPIU No: 21062301498960002 dengan audit rutin dan standar pelayanan tertinggi.
+                        PPIU No: 21062301498960002 
                     </p>
+                {{-- Button Lihat Surat Izin --}}
+                <div class="text-center mt-4">
+                    <button class="btn-view-legalitas" onclick="openPpiuModal()">
+                        <i class="bi bi-file-earmark-text"></i> Lihat Surat Izin PPIU
+                    </button>
                 </div>
+                        </div>
             </div>
-            
+
             <!-- Card 3: Experience -->
             <div class="col-lg-4 col-md-6">
                 <div class="why-card">
@@ -218,7 +224,7 @@
                     </div>
                     <h3 class="why-title">Berpengalaman Sejak 2023</h3>
                     <p class="why-text">
-                        Telah melayani 5000+ jamaah dengan testimoni yang nyata.
+                        Telah melayani 2000+ jamaah dengan testimoni yang nyata.
                     </p>
                 </div>
             </div>
@@ -287,73 +293,36 @@
     <div class="container">
         <div class="section-header">
             <div class="section-badge">Paket Istimewa</div>
-            <h2 class="section-title">Pilih Paket Sesuai Kebutuhan Anda</h2>
+            <h2 class="section-title">Pilih Paket Sesuai Kebutuhan Anda di Tahun 2026</h2>
             <p class="section-subtitle">
                 Setiap paket dirancang dengan perhatian penuh untuk kenyamanan dan kekhusyukan ibadah Anda
             </p>
         </div>
         
         <div class="package-grid">
-            <!-- Package 1: Umrah Januari -->
-            <div class="package-card">
-                <div class="package-image">
-                    <img src="{{ asset('images/hero/umrah-januari.webp') }}" alt="Paket Umrah Januari" loading="lazy">
-                </div>
-                
-                <div class="quick-info">
-                    <h3 class="package-title">Umrah Januari 2026</h3>
-                    
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <div class="info-icon">
-                                <i class="bi bi-calendar-event"></i>
-                            </div>
-                            <span class="info-text">24 Januari 2026 • <span class="info-highlight">12 Hari</span></span>
-                        </div>
-                        
-                        <div class="info-item">
-                            <div class="info-icon">
-                                <i class="bi bi-geo-alt"></i>
-                            </div>
-                            <span class="info-text">Padang - Kuala Lumpur - Jeddah</span>
-                        </div>
-                        
-                        <div class="info-divider"></div>
-                        
-                        <div class="info-item">
-                            <div class="info-icon">
-                                <i class="bi bi-tag"></i>
-                            </div>
-                            <span class="info-text">Mulai dari <span class="info-highlight">Rp 28,9 juta</span></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Package 2: Umrah Ramadhan (Featured) -->
+            <!-- Package 1: Umrah Awal Musim -->
             <div class="package-card featured">
-                <div class="featured-badge">Paling Diminati</div>
                 
                 <div class="package-image">
-                    <img src="{{ asset('images/hero/umrah-ramadhan.webp') }}" alt="Paket Umrah Ramadhan" loading="lazy">
+                    <img src="{{ asset('images/packages/umrah-awal-musim-juli2026.jpg') }}" alt="Paket Umrah Awal Musim Juli 2026" loading="lazy">
                 </div>
                 
                 <div class="quick-info">
-                    <h3 class="package-title">Umrah Awal Ramadhan</h3>
+                    <h3 class="package-title">Paket Umrah Awal Musim </h3>
                     
                     <div class="info-grid">
                         <div class="info-item">
                             <div class="info-icon">
                                 <i class="bi bi-calendar-event"></i>
                             </div>
-                            <span class="info-text">23 Februari 2026 • <span class="info-highlight">12 Hari</span></span>
+                            <span class="info-text">30 Juli 2026 • <span class="info-highlight">12 Hari</span></span>
                         </div>
                         
                         <div class="info-item">
                             <div class="info-icon">
-                                <i class="bi bi-geo-alt"></i>
+                                <i class="bi bi-airplane"></i>
                             </div>
-                            <span class="info-text">Padang - Jeddah</span>
+                            <span class="info-text">Lion Air (Langsung PDG-JED)</span>
                         </div>
                         
                         <div class="info-divider"></div>
@@ -362,34 +331,34 @@
                             <div class="info-icon">
                                 <i class="bi bi-tag"></i>
                             </div>
-                            <span class="info-text">Mulai dari <span class="info-highlight">Rp 38,9 juta</span></span>
+                            <span class="info-text">Rp 28,9 Juta <span class="text-muted" style="font-size: 0.8em;">(Paket Reguler)</span></span>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Package 3: Umrah Syawal -->
+            <!-- Package 2: Umrah Super Hemat -->
             <div class="package-card">
                 <div class="package-image">
-                    <img src="{{ asset('images/hero/umrah-syawal.webp') }}" alt="Paket Umrah Syawal" loading="lazy">
+                    <img src="{{ asset('images/packages/umrah-super-hemat-agustus2026.jpg') }}" alt="Paket Umrah Super Hemat Agustus 2026" loading="lazy">
                 </div>
                 
                 <div class="quick-info">
-                    <h3 class="package-title">Umrah Keberangkatan Syawal</h3>
+                    <h3 class="package-title">Paket Umrah Super Hemat</h3>
                     
                     <div class="info-grid">
                         <div class="info-item">
                             <div class="info-icon">
                                 <i class="bi bi-calendar-event"></i>
                             </div>
-                            <span class="info-text">23 Februari 2026 • <span class="info-highlight">12 Hari</span></span>
+                            <span class="info-text">24 Agustus 2026 • <span class="info-highlight">12 Hari</span></span>
                         </div>
                         
                         <div class="info-item">
                             <div class="info-icon">
-                                <i class="bi bi-geo-alt"></i>
+                                <i class="bi bi-airplane"></i>
                             </div>
-                            <span class="info-text">Padang - Kuala Lumpur</span>
+                            <span class="info-text">Lion Air (Langsung PDG-JED)</span>
                         </div>
                         
                         <div class="info-divider"></div>
@@ -398,7 +367,7 @@
                             <div class="info-icon">
                                 <i class="bi bi-tag"></i>
                             </div>
-                            <span class="info-text">Mulai dari <span class="info-highlight">Rp 29,9 juta</span></span>
+                            <span class="info-text">Rp 25,9 Juta <span class="text-muted" style="font-size: 0.8em;">(Terbatas)</span></span>
                         </div>
                     </div>
                 </div>
@@ -706,12 +675,7 @@
             </div>
         </div>
         
-        {{-- Button Lihat Surat Izin --}}
-        <div class="text-center mt-4">
-            <button class="btn-view-legalitas" onclick="openPpiuModal()">
-                <i class="bi bi-file-earmark-text"></i> Lihat Surat Izin PPIU
-            </button>
-        </div>
+
     </div>
 </section>
 
@@ -736,16 +700,7 @@
 <!-- ==================== CTA SECTION ==================== -->
 @include('partials.cta-section')
 
-<!-- ==================== FLOATING WHATSAPP BUTTON ==================== -->
-<div class="floating-whatsapp">
-    <a href="https://wa.me/6282184515310?text=Assalamualaikum%20Mahira%20Tour%2C%20saya%20ingin%20konsultasi%20paket%20umrah" 
-       class="whatsapp-button" 
-       target="_blank"
-       rel="noopener noreferrer"
-       aria-label="Chat via WhatsApp">
-        <i class="bi bi-whatsapp"></i>
-    </a>
-</div>
+
 
 @endsection
 
