@@ -160,7 +160,7 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.95);
+        background: rgba(0, 0, 0, 0.85); /* Lighter background as requested */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -396,13 +396,104 @@
     }
     
     /* Modal Updates */
+    .modal-info {
+        text-align: center;
+        margin-top: 20px;
+        width: 100%;
+        animation: fadeInUp 0.5s ease 0.2s backwards;
+    }
+
+    .modal-title {
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        font-family: 'Lora', serif;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
     .modal-category {
         background: #B89230; /* Gold Badge */
+        padding: 6px 16px;
+        border-radius: 50px;
+        color: white;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: inline-block;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
+
+    /* Fixed Navigation Buttons */
+    .gallery-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 60px;
+        height: 60px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        cursor: pointer;
+        z-index: 100000;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(5px);
+    }
+
+    .gallery-nav.prev { left: 30px; }
+    .gallery-nav.next { right: 30px; }
     
     .gallery-nav:hover {
         background: white;
         color: #B89230; /* Gold hover */
+        transform: translateY(-50%) scale(1.1);
+        box-shadow: 0 0 20px rgba(184, 146, 48, 0.4);
+        border-color: white;
+    }
+
+    /* Improved Modal Content - Prevent Cropping */
+    .gallery-modal-content {
+        max-width: 95vw; /* Use viewport width */
+        max-height: 95vh; /* Use viewport height */
+        width: auto;
+        height: auto;
+        position: relative;
+        animation: zoomIn 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .gallery-modal-content img {
+        max-width: 100%;
+        max-height: 90vh; /* Increased height usage */
+        width: auto;
+        height: auto;
+        object-fit: contain; /* CRITICAL: Ensures image is never cropped */
+        border-radius: 4px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Responsive adjustments for modal */
+    @media (max-width: 768px) {
+        .gallery-nav {
+            width: 45px;
+            height: 45px;
+            font-size: 20px;
+            background: rgba(0,0,0,0.5); /* Stronger contrast on mobile */
+        }
+        
+        .gallery-nav.prev { left: 10px; }
+        .gallery-nav.next { right: 10px; }
+        
+        .gallery-modal-content img {
+            max-height: 70vh; /* Smaller max-height on mobile to fit controls */
+        }
     }
 
     /* Responsive Masonry */
