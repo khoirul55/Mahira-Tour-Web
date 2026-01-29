@@ -58,10 +58,7 @@ class ScheduleController extends Controller
             'departure_route' => 'required|string|max:100',
             'airline' => 'required|string|max:100',
             'duration' => 'required|string|max:50',
-            'price' => 'required|numeric|min:0', // Used as Quad/Base
-            'price_triple' => 'nullable|numeric|min:0',
-            'price_double' => 'nullable|numeric|min:0',
-            'price_child' => 'nullable|numeric|min:0',
+            'price' => 'required|numeric|min:0', // Used as Fixed Price
             'quota' => 'required|integer|min:1',
             'flyer_image' => 'required|image|mimes:jpeg,jpg,png,webp|max:10240', // 10MB
             'status' => 'required|in:active,full,cancelled',
@@ -116,9 +113,6 @@ class ScheduleController extends Controller
                 'airline' => $validated['airline'],
                 'duration' => $validated['duration'],
                 'price' => $validated['price'],
-                'price_triple' => $validated['price_triple'] ?? null,
-                'price_double' => $validated['price_double'] ?? null,
-                'price_child' => $validated['price_child'] ?? null,
                 'quota' => $validated['quota'],
                 'seats_taken' => 0,
                 'flyer_image' => $flyerPath,
@@ -172,9 +166,6 @@ class ScheduleController extends Controller
             'airline' => 'required|string|max:100',
             'duration' => 'required|string|max:50',
             'price' => 'required|numeric|min:0',
-            'price_triple' => 'nullable|numeric|min:0',
-            'price_double' => 'nullable|numeric|min:0',
-            'price_child' => 'nullable|numeric|min:0',
             'quota' => 'required|integer|min:' . $schedule->seats_taken, // Quota minimal = seats yang sudah diambil
             'flyer_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:10240',
             'status' => 'required|in:active,full,cancelled',

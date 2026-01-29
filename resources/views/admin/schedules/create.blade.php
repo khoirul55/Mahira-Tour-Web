@@ -100,45 +100,15 @@
 
                             <!-- Price -->
                             <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label required">Harga Quad/Base</label>
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label required">Harga Paket</label>
                                     <div class="input-group">
                                         <span class="input-group-text">Rp</span>
                                         <input type="number" name="price" class="form-control" 
                                                placeholder="28000000"
                                                value="{{ old('price') }}" min="0" step="100000" required>
                                     </div>
-                                    <small class="text-muted">Untuk sekamar ber-4</small>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Harga Triple</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">Rp</span>
-                                        <input type="number" name="price_triple" class="form-control" 
-                                               placeholder="29000000"
-                                               value="{{ old('price_triple') }}" min="0" step="100000">
-                                    </div>
-                                    <small class="text-muted">Untuk sekamar ber-3</small>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Harga Double</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">Rp</span>
-                                        <input type="number" name="price_double" class="form-control" 
-                                               placeholder="30000000"
-                                               value="{{ old('price_double') }}" min="0" step="100000">
-                                    </div>
-                                    <small class="text-muted">Untuk sekamar ber-2</small>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Harga Child (Opsional)</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">Rp</span>
-                                        <input type="number" name="price_child" class="form-control" 
-                                               placeholder="25000000"
-                                               value="{{ old('price_child') }}" min="0" step="100000">
-                                    </div>
-                                    <small class="text-muted">Harga khusus anak (jika ada)</small>
+                                    <small class="text-muted">Harga per pax</small>
                                 </div>
                             </div>
 

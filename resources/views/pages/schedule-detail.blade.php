@@ -49,20 +49,11 @@
             <div class="col-lg-4 hero-right-gold">
                 <div class="pricing-content">
                     
-                    <!-- QUAD SHARING (Base Price) - Added -->
-                    <div class="price-group">
-                        <span class="price-label">QUAD SHARING (Sekamar 4)</span>
-                        <h3 class="price-value">Rp {{ number_format($schedule->price, 0, ',', '.') }}</h3>
-                    </div>
-
-                    <div class="price-group">
-                        <span class="price-label">TRIPLE SHARING (Sekamar 3)</span>
-                        <h3 class="price-value">Rp {{ number_format($schedule->price_triple ?? ($schedule->price + 1000000), 0, ',', '.') }}</h3>
-                    </div>
-
-                    <div class="price-group">
-                        <span class="price-label">DOUBLE SHARING (Sekamar 2)</span>
-                        <h3 class="price-value">Rp {{ number_format($schedule->price_double ?? ($schedule->price + 2000000), 0, ',', '.') }}</h3>
+                    <!-- Fixed Price Display -->
+                    <div class="price-group text-center">
+                        <span class="price-label mb-2 d-block">HARGA PAKET</span>
+                        <h1 class="price-value display-4 fw-bold">Rp {{ number_format($schedule->price, 0, ',', '.') }}</h1>
+                        <p class="text-white-50 mt-2 mb-0">Per Orang / Pax</p>
                     </div>
 
                     <div class="action-area mt-4 w-100">

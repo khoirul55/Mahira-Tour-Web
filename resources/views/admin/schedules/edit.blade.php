@@ -162,37 +162,14 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label required">Harga Quad/Base</label>
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label required">Harga Paket</label>
                                     <div class="input-group">
                                         <span class="input-group-text">Rp</span>
                                         <input type="number" name="price" class="form-control" 
                                                value="{{ old('price', $schedule->price) }}" min="0" required>
                                     </div>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Harga Triple</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">Rp</span>
-                                        <input type="number" name="price_triple" class="form-control" 
-                                               value="{{ old('price_triple', $schedule->price_triple) }}" min="0">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Harga Double</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">Rp</span>
-                                        <input type="number" name="price_double" class="form-control" 
-                                               value="{{ old('price_double', $schedule->price_double) }}" min="0">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Harga Child</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">Rp</span>
-                                        <input type="number" name="price_child" class="form-control" 
-                                               value="{{ old('price_child', $schedule->price_child) }}" min="0">
-                                    </div>
+                                    <small class="text-muted">Harga per pax</small>
                                 </div>
                             </div>
 
