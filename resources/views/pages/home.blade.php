@@ -470,22 +470,7 @@
 
 <section class="gallery-section" 
     x-data="{
-        galleries: [
-            { src: '{{ asset('images/gallery/gallery-1.webp') }}', alt: 'Jamaah Mahira Tour' },
-            { src: '{{ asset('images/gallery/gallery-2.webp') }}', alt: 'Jamaah Mahira Tour' },
-            { src: '{{ asset('images/gallery/gallery-3.webp') }}', alt: 'Jamaah Mahira Tour' },
-            { src: '{{ asset('images/gallery/gallery-4.webp') }}', alt: 'Jamaah Mahira Tour' },
-            { src: '{{ asset('images/gallery/gallery-5.webp') }}', alt: 'Jamaah Mahira Tour' },
-            { src: '{{ asset('images/gallery/gallery-6.webp') }}', alt: 'Jamaah Mahira Tour' },
-            { src: '{{ asset('images/gallery/gallery-7.webp') }}', alt: 'Jamaah Mahira Tour' },
-            { src: '{{ asset('images/gallery/gallery-8.webp') }}', alt: 'Jamaah Mahira Tour' },
-            { src: '{{ asset('images/gallery/gallery-9.webp') }}', alt: 'Jamaah Mahira Tour' },
-            { src: '{{ asset('images/gallery/gallery-10.webp') }}', alt: 'Jamaah Mahira Tour' },
-            { src: '{{ asset('images/gallery/gallery-11.webp') }}', alt: 'Jamaah Mahira Tour' },
-            { src: '{{ asset('images/gallery/gallery-12.webp') }}', alt: 'Jamaah Mahira Tour' },
-            { src: '{{ asset('images/gallery/gallery-13.webp') }}', alt: 'Jamaah Mahira Tour' },
-            { src: '{{ asset('images/gallery/gallery-14.webp') }}', alt: 'Jamaah Mahira Tour' }
-        ],
+        galleries: {{ json_encode($galleries) }},
         currentIndex: 0,
         modalOpen: false,
         

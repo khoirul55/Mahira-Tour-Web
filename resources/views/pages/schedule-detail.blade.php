@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', $schedule->package_name . ' - Mahira Tour')
+@section('meta_description', 'Paket Umrah ' . $schedule->package_name . ' keberangkatan ' . $schedule->departure_date->format('d M Y') . '. Harga Rp ' . number_format($schedule->price, 0, ',', '.') . '. Seat terbatas!')
+@section('og_image', $schedule->flyer_image ? Storage::url($schedule->flyer_image) : asset('images/hero/hero-schedule.webp'))
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/schedule-detail.css') }}">

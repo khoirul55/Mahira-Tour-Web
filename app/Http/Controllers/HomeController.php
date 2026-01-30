@@ -5,10 +5,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Gallery;
+
 class HomeController extends Controller
 {
     public function index()
     {
+        // 1. Data Gallery (Ambil dari database)
+        $galleries = Gallery::active()
+            ->ordered()
+            ->limit(10) // Tampilkan 10 foto terbaru di home
+            ->get()
+            ->map(function($item) {
+                return [
+                    'src' => $item->image_url,
+                    'alt' => $item->title ?? 'Jamaah Mahira Tour'
+                ];
+            });
+
         // Data Jadwal Keberangkatan
         $schedules = [
             [
@@ -159,6 +173,6 @@ $features = [
     ]
 ];
 
-        return view('pages.home', compact('schedules', 'features'));
+        return view('pages.home', compact('schedules', 'features', 'galleries'));
     }
 }

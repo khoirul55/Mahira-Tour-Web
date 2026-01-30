@@ -11,6 +11,12 @@ use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SitemapController;
+
+// Sitemap XML Route
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+
+
 
 /**
  * ========================================
