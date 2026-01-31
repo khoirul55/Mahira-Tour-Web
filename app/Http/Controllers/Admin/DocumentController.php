@@ -15,19 +15,73 @@ class DocumentController extends Controller
     /**
      * Verify Document
      */
+    /**
+     * Verify or Reject Document
+     */
     public function verify(Request $request, $id)
     {
-        $document = Document::findOrFail($id);
+        $document = Document::with(['jamaah.registration'])->findOrFail($id);
         
-        $document->update([
-            'is_verified' => true,
-            'verified_at' => now(),
-            'verification_notes' => $request->notes
-        ]);
+        // Cek action: approve / reject
+        // Jika tidak ada action di request, default ke 'approve' (maintain backward compatibility)
+        $action = $request->input('action', 'approve'); 
         
-        $document->jamaah->updateCompletionStatus();
+        if ($action === 'reject') {
+            $document->update([
+                'is_verified' => false,
+                'verification_notes' => $request->notes, // Alasan penolakan
+                'verified_at' => null
+            ]);
+            
+            $messageStatus = 'Ditolak';
+            
+            // WA Notification: REJECT
+            try {
+                $reg = $document->jamaah->registration;
+                $waMessage = "Assalamu'alaikum *{$reg->full_name}*,\n\n";
+                $waMessage .= "⚠️ *DOKUMEN DITOLAK*\n";
+                $waMessage .= "Dokumen jamaah atas nama *{$document->jamaah->full_name}* tidak valid.\n\n";
+                $waMessage .= "Jenis: " . strtoupper($document->document_type) . "\n";
+                $waMessage .= "Alasan: _{$request->notes}_\n\n";
+                $waMessage .= "Mohon segera upload ulang dokumen yang jelas/valid melalui Dashboard Jamaah.\n";
+                $waMessage .= "*Mahira Tour*";
+
+                \App\Jobs\SendWhatsAppNotification::dispatch($reg->phone, $waMessage);
+            } catch (\Exception $e) {
+                // Silent fail
+            }
+
+        } else {
+            // Approve Logic
+            $document->update([
+                'is_verified' => true,
+                'verified_at' => now(),
+                'verification_notes' => $request->notes
+            ]);
+            
+            $document->jamaah->updateCompletionStatus();
+            $messageStatus = 'Diverifikasi';
+
+            // WA Notification: APPROVED
+            try {
+                $reg = $document->jamaah->registration;
+                // Cek apakah semua dokumen jamaah ini sudah complete?
+                // Logic simple: Notif per dokumen verified
+                $waMessage = "Assalamu'alaikum *{$reg->full_name}*,\n\n";
+                $waMessage .= "✅ *DOKUMEN DIVERIFIKASI*\n";
+                $waMessage .= "Dokumen jamaah atas nama *{$document->jamaah->full_name}* telah kami setujui.\n\n";
+                $waMessage .= "Jenis: " . strtoupper($document->document_type) . "\n";
+                $waMessage .= "Status: *VALID*\n\n";
+                $waMessage .= "Terima kasih telah melengkapi data administrasi.\n";
+                $waMessage .= "*Mahira Tour*";
+
+                \App\Jobs\SendWhatsAppNotification::dispatch($reg->phone, $waMessage);
+            } catch (\Exception $e) {
+                // Silent fail
+            }
+        }
         
-        return back()->with('success', 'Dokumen berhasil diverifikasi!');
+        return back()->with('success', 'Dokumen berhasil ' . $messageStatus);
     }
     
     /**
@@ -83,13 +137,32 @@ class DocumentController extends Controller
      */
     public function processPassport(Request $request, $jamaahId)
     {
-        $jamaah = Jamaah::findOrFail($jamaahId);
+        $jamaah = Jamaah::with('registration')->findOrFail($jamaahId);
         
         $jamaah->update([
             'passport_processed' => true,
             'passport_processed_at' => now(),
             'passport_notes' => $request->notes
         ]);
+        
+        // WA Notification: PASSPORT PROCESSING
+        try {
+            $reg = $jamaah->registration;
+            $waMessage = "Assalamu'alaikum *{$reg->full_name}*,\n\n";
+            $waMessage .= "📢 *UPDATE PENGURUSAN PASPOR*\n";
+            $waMessage .= "Permohonan pembuatan paspor untuk jamaah *{$jamaah->full_name}* sedang kami proses.\n\n";
+            $waMessage .= "Status: ⏳ *SEDANG DIURUS TIM*\n\n";
+            $waMessage .= "Mohon Siapkan Dokumen Asli:\n";
+            $waMessage .= "1. KTP & KK Asli\n";
+            $waMessage .= "2. Akta Lahir / Buku Nikah Asli\n";
+            $waMessage .= "3. Ijazah Terakhir (Opsional)\n\n";
+            $waMessage .= "_Tim kami akan menghubungi Anda segera untuk jadwal FOTO & WAWANCARA di Kantor Imigrasi._\n\n";
+            $waMessage .= "*Mahira Tour*";
+
+            \App\Jobs\SendWhatsAppNotification::dispatch($reg->phone, $waMessage);
+        } catch (\Exception $e) {
+            // Log::error('WA Passport failed: ' . $e->getMessage());
+        }
         
         return back()->with('success', 'Request passport untuk ' . $jamaah->full_name . ' sedang diproses!');
     }
