@@ -122,12 +122,17 @@ class RegistrationService
             // WHATSAPP NOTIFICATION (Queued)
             try {
                 $message = "Assalamu'alaikum *{$registration->full_name}*,\n\n";
-                $message .= "Alhamdulillah, pendaftaran Umrah Anda berhasil diterima.\n";
-                $message .= "No. Registrasi: *{$registration->registration_number}*\n";
-                $message .= "Paket: {$schedule->package_name}\n\n";
-                $message .= "Silakan lengkapi data jamaah dan upload bukti pembayaran melalui Dashboard User:\n";
+                $message .= "✅ *PENDAFTARAN BERHASIL*\n";
+                $message .= "Alhamdulillah, registrasi Umrah Anda telah admin terima.\n\n";
+                $message .= "📋 *Detail Pendaftaran:*\n";
+                $message .= "• No. Registrasi: *{$registration->registration_number}*\n";
+                $message .= "• Paket: {$schedule->package_name}\n\n";
+                $message .= "Langkah Selanjutnya:\n";
+                $message .= "Silakan lengkapi data jamaah & upload bukti pembayaran melalui link dashboard di bawah ini:\n\n";
+                $message .= "🔗 *Link Dashboard Jamaah:*\n";
                 $message .= "{$dashboardUrl}\n\n";
-                $message .= "Terima kasih,\n*Mahira Tour Indonesia*";
+                $message .= "_Terima kasih telah mempercayakan ibadah Anda bersama Mahira Tour._\n";
+                $message .= "*Mahira Tour*";
                 
                 // Dispatch Job
                 \App\Jobs\SendWhatsAppNotification::dispatch($registration->phone, $message);
