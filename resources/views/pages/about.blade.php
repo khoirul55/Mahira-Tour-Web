@@ -156,7 +156,7 @@
             </div>
             <div class="col-lg-6 order-1 order-lg-2">
                 <div class="zigzag-image-wrapper">
-                    <img src="{{ asset('images/hero/jamaah2.webp') }}" alt="Sejarah Mahira Tour" class="zigzag-img">
+                    <img src="{{ asset('images/hero/story1.jpeg') }}" alt="Sejarah Mahira Tour" class="zigzag-img">
                 </div>
             </div>
         </div>
@@ -165,7 +165,7 @@
         <div class="row align-items-center zigzag-row reversed">
             <div class="col-lg-6 order-1">
                 <div class="zigzag-image-wrapper">
-                    <img src="{{ asset('images/hero/video-poster.webp') }}" alt="Profesionalitas Mahira Tour" class="zigzag-img">
+                    <img src="{{ asset('images/hero/story2.jpeg') }}" alt="Profesionalitas Mahira Tour" class="zigzag-img">
                 </div>
             </div>
             <div class="col-lg-6 order-2">
@@ -203,7 +203,7 @@
             </div>
             <div class="col-lg-6 order-1 order-lg-2">
                 <div class="zigzag-image-wrapper">
-                    <img src="{{ asset('images/hero/umrah-ramadhan.webp') }}" alt="Visi Misi Mahira Tour" class="zigzag-img">
+                    <img src="{{ asset('images/hero/story3.jpeg') }}" alt="Visi Misi Mahira Tour" class="zigzag-img">
                 </div>
             </div>
         </div>
