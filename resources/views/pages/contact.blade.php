@@ -125,7 +125,7 @@
                         <strong>Senin - Jumat</strong><br>
                         {{ $contactInfo['hours']['weekday'] }}<br>
                         <strong>Sabtu</strong><br>
-                        {{ $contactInfo['hours']['saturday'] }}
+                        {{ $contactInfo['hours']['saturday'] ?? '08:00 - 17:00 WIB' }}
                     </div>
                 </div>
             </div>

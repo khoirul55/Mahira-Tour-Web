@@ -24,19 +24,16 @@
                         </p>
                         
                         <div class="social-links">
-                            <a href="https://facebook.com/mahiratour" class="social-link" target="_blank" aria-label="Facebook">
-                                <i class="fa-brands fa-facebook-f"></i>
-                            </a>
-                            <a href="https://instagram.com/mahiratour" class="social-link" target="_blank" aria-label="Instagram">
+                            <a href="https://www.instagram.com/mahiratourofficial/" class="social-link" target="_blank" aria-label="Instagram">
                                 <i class="fa-brands fa-instagram"></i>
                             </a>
-                            <a href="https://youtube.com/@mahiratour" class="social-link" target="_blank" aria-label="YouTube">
+                            <a href="https://web.facebook.com/profile.php?id=100092693246095" class="social-link" target="_blank" aria-label="Facebook">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+                            <a href="https://www.youtube.com/@MahiraTourIndonesia" class="social-link" target="_blank" aria-label="YouTube">
                                 <i class="fa-brands fa-youtube"></i>
                             </a>
-                            <a href="https://twitter.com/mahiratour" class="social-link" target="_blank" aria-label="Twitter">
-                                <i class="fa-brands fa-x-twitter"></i>
-                            </a>
-                            <a href="https://tiktok.com/@mahiratour" class="social-link" target="_blank" aria-label="TikTok">
+                            <a href="https://www.tiktok.com/@mahiratour.id" class="social-link" target="_blank" aria-label="TikTok">
                                 <i class="fa-brands fa-tiktok"></i>
                             </a>
                         </div>
@@ -85,7 +82,7 @@
                             <i class="fa-solid fa-envelope"></i>
                         </div>
                         <div>
-                            <a href="mailto:admin@mahiratour.id">admin@mahiratour.id</a>
+                            <a href="mailto:admin@mahiratour.id">info@mahiratour.id</a>
                         </div>
                     </div>
                     
@@ -111,7 +108,6 @@
             <div class="footer-bottom-content">
                 <p class="footer-copyright">
                     &copy; {{ date('Y') }} <strong>Mahira Tour</strong>. All Rights Reserved. 
-                    Made with <i class="fa-solid fa-heart text-danger"></i> in Indonesia
                 </p>
                 <div class="footer-license">
                     <i class="fa-solid fa-certificate"></i>

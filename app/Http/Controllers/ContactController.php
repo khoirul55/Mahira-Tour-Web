@@ -14,13 +14,13 @@ class ContactController extends Controller
         'main_office' => 'Jl. Muradi, Desa Koto Keras, Kecamatan Pesisir Bukit, Kota Sungai Penuh',
         'phone' => '0821 8451 5310',
         'whatsapp' => '6282184515310',
-        'website' => 'www.mahiratour.co.id',
+        'website' => 'www.mahiratour.id',
         'instagram' => '@mahiratourofficial',
         'facebook' => 'Mahira Umrah',
-        'email' => 'info@mahiratour.co.id',
+        'email' => 'info@mahiratour.id',
         'hours' => [
-            'weekday' => 'Senin - Jumat: 08.00 - 17.00 WIB',
-            'saturday' => 'Sabtu: 08.00 - 14.00 WIB',
+            'weekday' => '08:00 - 17:00 WIB',
+            'saturday' => '08:00 - 17:00 WIB',
             'sunday' => 'Minggu: Libur'
         ]
     ];
