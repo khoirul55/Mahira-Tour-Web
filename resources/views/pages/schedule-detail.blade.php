@@ -4,70 +4,70 @@
 @section('meta_description', 'Paket Umrah ' . $schedule->package_name . ' keberangkatan ' . $schedule->departure_date->format('d M Y') . '. Harga Rp ' . number_format($schedule->price, 0, ',', '.') . '. Seat terbatas!')
 @section('og_image', $schedule->flyer_image ? Storage::url($schedule->flyer_image) : asset('images/hero/hero-schedule.webp'))
 
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/schedule-detail.css') }}">
-<link rel="stylesheet" href="{{ asset('css/schedule-detail-additions.css') }}">
-@endpush
-
 @section('content')
 
-<!-- Alpine x-data context -->
 <div x-data="{ showFlyer: false }">
 
-    <!-- HERO SECTION: Split Layout (Image Left, Gold Price Right) -->
-    <section class="hagel-hero">
-        <div class="row g-0 h-100">
-            <!-- LEFT: Image & Title -->
-            <div class="col-lg-8 position-relative hero-left">
-                <div class="hero-bg-wrapper">
-                    <!-- Gunakan gambar generic yang bersih agar teks terbaca -->
-                    <img src="{{ asset('images/hero/hero-schedule.webp') }}" alt="Background Umrah" class="hero-bg-img">
-                    <div class="hero-gradient-overlay"></div>
+    {{-- ==================== HERO SECTION: Split Layout ==================== --}}
+    <section class="relative overflow-hidden" style="height: 85vh; max-height: 700px; min-height: 500px;">
+        <div class="grid grid-cols-1 lg:grid-cols-[2fr_1fr] h-full">
+            {{-- LEFT: Image & Title --}}
+            <div class="relative h-[400px] lg:h-full">
+                <div class="absolute inset-0">
+                    <img src="{{ asset('images/hero/hero-schedule.webp') }}" alt="Background Umrah" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 z-[1]" style="background: rgba(0,0,0,0.4);"></div>
                 </div>
-                
-                <div class="hero-text-content">
-                    <h4 class="sub-title">PAKET UMRAH PREMIUM</h4>
-                    <h1 class="main-title">{{ $schedule->package_name }}</h1>
-                    <div class="hero-dates">
-                        <i class="bi bi-calendar-check"></i>
+                <div class="relative z-[2] h-full flex flex-col justify-center px-[8%] lg:px-[8%] text-white text-center lg:text-left"
+                     style="text-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+                    <h4 class="text-lg font-semibold uppercase tracking-widest mb-2.5" style="letter-spacing: 2px;">PAKET UMRAH PREMIUM</h4>
+                    <h1 class="text-[3.5rem] lg:text-[3rem] md:text-[2.2rem] font-extrabold font-serif leading-[1.1] mb-5 uppercase">{{ $schedule->package_name }}</h1>
+                    <div class="text-2xl md:text-xl font-semibold flex items-center gap-2 justify-center lg:justify-start flex-wrap">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
                         {{ $schedule->departure_date->format('d M') }} - {{ $schedule->return_date->format('d M Y') }}
-                        <span class="duration-badge">({{ $schedule->duration }})</span>
+                        <span class="text-base px-2.5 py-0.5 rounded ml-2.5 align-middle" style="background: #C5A036; color: white;">({{ $schedule->duration }})</span>
                     </div>
-                    <!-- Route Info Added -->
-                    <div class="hero-route mt-2 text-white">
-                        <i class="bi bi-geo-alt-fill text-gold"></i> start {{ $schedule->departure_route }}
+                    <div class="mt-2 text-white flex items-center gap-1.5 justify-center lg:justify-start">
+                        <svg class="w-4 h-4" style="color: #C5A036;" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+                        start {{ $schedule->departure_route }}
                     </div>
-                    
-                    <!-- View Flyer Button (Modal Trigger) -->
                     <div class="mt-4">
-                        <button @click="showFlyer = true" class="btn btn-outline-light rounded-pill px-4">
-                            <i class="bi bi-eye"></i> Lihat Brosur/Flyer
+                        <button @click="showFlyer = true"
+                                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-sm text-white cursor-pointer transition-all duration-300 hover:-translate-y-0.5"
+                                style="background: transparent; border: 2px solid rgba(255,255,255,0.6);"
+                                onmouseover="this.style.background='rgba(255,255,255,0.15)';"
+                                onmouseout="this.style.background='transparent';">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            Lihat Brosur/Flyer
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- RIGHT: Gold Pricing Panel -->
-            <div class="col-lg-4 hero-right-gold">
-                <div class="pricing-content">
-                    
-                    <!-- Fixed Price Display -->
-                    <div class="price-group text-center">
-                        <span class="price-label mb-2 d-block">HARGA PAKET</span>
-                        <h1 class="price-value display-4 fw-bold">Rp {{ number_format($schedule->price, 0, ',', '.') }}</h1>
-                        <p class="text-white-50 mt-2 mb-0">Per Orang / Pax</p>
+            {{-- RIGHT: Gold Pricing Panel --}}
+            <div class="flex flex-col justify-center items-center text-center p-10 lg:p-10" style="background-color: #C5A036; color: #001D5F;">
+                <div class="w-full max-w-[350px]">
+                    <div class="mb-6">
+                        <span class="block font-bold text-sm uppercase tracking-wide mb-1" style="letter-spacing: 1px;">HARGA PAKET</span>
+                        <h1 class="text-[2.8rem] md:text-[2rem] font-bold font-serif m-0 text-white" style="text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+                            Rp {{ number_format($schedule->price, 0, ',', '.') }}
+                        </h1>
+                        <p class="text-white/50 mt-2 mb-0">Per Orang / Pax</p>
                     </div>
-
-                    <div class="action-area mt-4 w-100">
+                    <div class="mt-4 w-full">
                         @if($schedule->status !== 'full')
-                        <a href="{{ route('register', ['schedule_id' => $schedule->id]) }}" 
-                           class="btn btn-light w-100 py-3 rounded-pill fw-bold text-uppercase" 
-                           style="color: var(--hagel-gold);">
-                            <i class="bi bi-pencil-square"></i> Daftar Sekarang
+                        <a href="{{ route('register', ['schedule_id' => $schedule->id]) }}"
+                           class="block w-full py-3.5 rounded-full font-bold uppercase text-center no-underline transition-all duration-300 hover:-translate-y-0.5"
+                           style="background: white; color: #C5A036;"
+                           onmouseover="this.style.boxShadow='0 8px 25px rgba(0,0,0,0.2)';"
+                           onmouseout="this.style.boxShadow='none';">
+                            <svg class="w-5 h-5 inline-block mr-1 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                            Daftar Sekarang
                         </a>
                         @else
-                        <button class="btn btn-secondary w-100 py-3 rounded-pill fw-bold text-uppercase" disabled>
-                            <i class="bi bi-x-circle"></i> Paket Penuh
+                        <button disabled class="block w-full py-3.5 rounded-full font-bold uppercase cursor-not-allowed opacity-70"
+                                style="background: #9E9E9E; color: white; border: none;">
+                            <svg class="w-5 h-5 inline-block mr-1 -mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                            Paket Penuh
                         </button>
                         @endif
                     </div>
@@ -76,232 +76,207 @@
         </div>
     </section>
 
-    <!-- CONTENT SECTION: White Background, 2 Columns -->
-    <section class="hagel-content container py-5">
-        <div class="row">
-            <!-- LEFT COLUMN -->
-            <div class="col-lg-6 mb-5">
-                <!-- ACCOMMODATION -->
-                <div class="content-block mb-5">
-                    <h3 class="section-heading text-center mb-4">Accomodation</h3>
-                    <div class="hotel-gallery row g-3">
-                        <div class="col-6">
-                             <div class="hotel-card">
-                                <div class="hotel-img-wrapper">
-                                    <img src="{{ $schedule->hotel_makkah_image ? Storage::url($schedule->hotel_makkah_image) : 'https://placehold.co/400x300/f5f5f5/001D5F?text=Hotel+Makkah' }}" 
-                                         alt="Hotel Makkah" class="hotel-img">
-                                    <span class="hotel-badge">MAKKAH</span>
-                                </div>
-                                <h5 class="hotel-title mt-2">{{ $schedule->hotel_makkah ?? 'Anjum Hotel / Setaraf' }}</h5>
-                             </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="hotel-card">
-                                <div class="hotel-img-wrapper">
-                                    <img src="{{ $schedule->hotel_madinah_image ? Storage::url($schedule->hotel_madinah_image) : 'https://placehold.co/400x300/f5f5f5/001D5F?text=Hotel+Madinah' }}" 
-                                         alt="Hotel Madinah" class="hotel-img">
-                                    <span class="hotel-badge">MADINAH</span>
-                                </div>
-                                <h5 class="hotel-title mt-2">{{ $schedule->hotel_madinah ?? 'Rove Hotel / Setaraf' }}</h5>
+    {{-- ==================== CONTENT SECTION ==================== --}}
+    <section class="container-main py-16">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {{-- LEFT COLUMN --}}
+            <div>
+                {{-- ACCOMMODATION --}}
+                <div class="mb-12">
+                    <h3 class="text-center text-2xl font-extrabold mb-6" style="color: #001D5F;">Accomodation</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="text-center group">
+                            <div class="relative rounded-xl overflow-hidden h-[250px]" style="background: #f0f0f0;">
+                                <img src="{{ $schedule->hotel_makkah_image ? Storage::url($schedule->hotel_makkah_image) : 'https://placehold.co/400x300/f5f5f5/001D5F?text=Hotel+Makkah' }}"
+                                     alt="Hotel Makkah" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                                <span class="absolute bottom-0 left-0 w-full text-center py-2 text-white text-sm font-bold tracking-wide"
+                                      style="background: rgba(0,29,95,0.8); backdrop-filter: blur(4px); letter-spacing: 1px;">MAKKAH</span>
                             </div>
+                            <h5 class="font-bold text-base mt-2.5 text-center" style="color: #001D5F;">{{ $schedule->hotel_makkah ?? 'Anjum Hotel / Setaraf' }}</h5>
+                        </div>
+                        <div class="text-center group">
+                            <div class="relative rounded-xl overflow-hidden h-[250px]" style="background: #f0f0f0;">
+                                <img src="{{ $schedule->hotel_madinah_image ? Storage::url($schedule->hotel_madinah_image) : 'https://placehold.co/400x300/f5f5f5/001D5F?text=Hotel+Madinah' }}"
+                                     alt="Hotel Madinah" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                                <span class="absolute bottom-0 left-0 w-full text-center py-2 text-white text-sm font-bold tracking-wide"
+                                      style="background: rgba(0,29,95,0.8); backdrop-filter: blur(4px); letter-spacing: 1px;">MADINAH</span>
+                            </div>
+                            <h5 class="font-bold text-base mt-2.5 text-center" style="color: #001D5F;">{{ $schedule->hotel_madinah ?? 'Rove Hotel / Setaraf' }}</h5>
                         </div>
                     </div>
-                    <p class="text-center text-muted mt-2 fst-italic small">*Accomodation as above or similar.</p>
+                    <p class="text-center text-sm italic mt-2" style="color: #6B7280;">*Accomodation as above or similar.</p>
                 </div>
 
-                <!-- PACKAGE INCLUDES -->
-                <div class="content-block mb-5">
-                    <h3 class="section-heading-left">Package Includes</h3>
-                    <ul class="hagel-list">
+                {{-- PACKAGE INCLUDES --}}
+                <div class="mb-12">
+                    <h3 class="text-2xl font-extrabold mb-6" style="color: #001D5F;">Package Includes</h3>
+                    <ul class="space-y-3 list-none p-0">
                         @if($schedule->features)
                             @foreach(explode(',', $schedule->features) as $feature)
-                                 <li>{{ trim($feature) }}</li>
+                            <li class="relative pl-5 text-base leading-relaxed" style="color: #333;">
+                                <span class="absolute left-0 top-[-2px] font-bold text-lg" style="color: #333;">•</span>
+                                {{ trim($feature) }}
+                            </li>
                             @endforeach
                         @else
-                            <li>Visa Saudi</li>
-                            <li>Ziarah kota Makkah & Madinah</li>
-                            <li>1x Ziarah Raudha/Maqam</li>
-                            <li>Tiket Pesawat Ekonomi PP</li>
-                            <li>Makan 3x Sehari (Asian/Indo Buffet)</li>
-                            <li>Air Zamzam 5 Liter (Jika diizinkan)</li>
-                            <li>Asuransi Perjalanan</li>
-                            <li>Transportasi Bus AC Eksklusif</li>
-                            <li>Muthawif Berpengalaman</li>
+                            @foreach(['Visa Saudi', 'Ziarah kota Makkah & Madinah', '1x Ziarah Raudha/Maqam', 'Tiket Pesawat Ekonomi PP', 'Makan 3x Sehari (Asian/Indo Buffet)', 'Air Zamzam 5 Liter (Jika diizinkan)', 'Asuransi Perjalanan', 'Transportasi Bus AC Eksklusif', 'Muthawif Berpengalaman'] as $feature)
+                            <li class="relative pl-5 text-base leading-relaxed" style="color: #333;">
+                                <span class="absolute left-0 top-[-2px] font-bold text-lg" style="color: #333;">•</span>
+                                {{ $feature }}
+                            </li>
+                            @endforeach
                         @endif
                     </ul>
                 </div>
-                
-                <!-- PACKAGE EXCLUDES -->
-                <div class="content-block">
-                    <h3 class="section-heading-left">Package Excludes</h3>
-                    <ul class="hagel-list">
+
+                {{-- PACKAGE EXCLUDES --}}
+                <div>
+                    <h3 class="text-2xl font-extrabold mb-6" style="color: #001D5F;">Package Excludes</h3>
+                    <ul class="space-y-3 list-none p-0">
                         @if($schedule->excludes)
                             @foreach(explode(',', $schedule->excludes) as $exclude)
-                                 <li>{{ trim($exclude) }}</li>
+                            <li class="relative pl-5 text-base leading-relaxed" style="color: #333;">
+                                <span class="absolute left-0 top-[-2px] font-bold text-lg" style="color: #333;">•</span>
+                                {{ trim($exclude) }}
+                            </li>
                             @endforeach
                         @else
-                            <li>Pembuatan Paspor</li>
-                            <li>Vaksin Meningitis (Jika ada)</li>
-                            <li>Kelebihan Bagasi (Excess Baggage)</li>
-                            <li>Pengeluaran Pribadi (Laundry, Telp, dll)</li>
-                            <li>Tour Tambahan di luar program</li>
+                            @foreach(['Pembuatan Paspor', 'Vaksin Meningitis (Jika ada)', 'Kelebihan Bagasi (Excess Baggage)', 'Pengeluaran Pribadi (Laundry, Telp, dll)', 'Tour Tambahan di luar program'] as $exclude)
+                            <li class="relative pl-5 text-base leading-relaxed" style="color: #333;">
+                                <span class="absolute left-0 top-[-2px] font-bold text-lg" style="color: #333;">•</span>
+                                {{ $exclude }}
+                            </li>
+                            @endforeach
                         @endif
                     </ul>
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN -->
-            <div class="col-lg-6">
-                <!-- FLIGHT -->
-                <div class="content-block mb-5 text-center">
-                    <h3 class="section-heading text-center mb-4">Flight</h3>
-                    <div class="airline-display">
-                        <h2 class="airline-name">{{ $schedule->airline }}</h2>
-                       <div class="flight-icon">
-                           <i class="bi bi-airplane-engines"></i>
-                       </div>
-                       <p class="text-muted">Direct Flight / Transit sesuai program</p>
+            {{-- RIGHT COLUMN --}}
+            <div>
+                {{-- FLIGHT --}}
+                <div class="mb-12 text-center">
+                    <h3 class="text-center text-2xl font-extrabold mb-6" style="color: #001D5F;">Flight</h3>
+                    <div>
+                        <h2 class="font-bold font-serif" style="color: #001D5F;">{{ $schedule->airline }}</h2>
+                        <div class="my-2.5">
+                            <svg class="w-16 h-16 mx-auto" style="color: #C5A036;" fill="currentColor" viewBox="0 0 24 24"><path d="M22 16.21v-1.895l-1.5-1.5v-7.396c0-.854-.552-1.609-1.368-1.873L12.66 1.356c-.427-.139-.89-.139-1.317 0L4.868 3.546c-.816.264-1.368 1.02-1.368 1.873v7.396l-1.5 1.5v1.895h2v1.79h16v-1.79h2zm-10-14l5.664 1.837L12 5.892 6.336 4.047 12 2.21z"/></svg>
+                        </div>
+                        <p style="color: #6B7280;">Direct Flight / Transit sesuai program</p>
                     </div>
                 </div>
 
-                <!-- ITINERARY -->
-                <div class="content-block mb-5 text-center">
-                    <h3 class="section-heading text-center mb-4">Itinerary</h3>
-                    <div class="itinerary-box">
+                {{-- ITINERARY --}}
+                <div class="mb-12 text-center">
+                    <h3 class="text-center text-2xl font-extrabold mb-6" style="color: #001D5F;">Itinerary</h3>
+                    <div>
                         @if($schedule->itinerary_pdf)
-                        <a href="{{ Storage::url($schedule->itinerary_pdf) }}" target="_blank" class="btn-download-itinerary">
-                            DOWNLOAD ITINERARY PDF <i class="bi bi-file-earmark-pdf"></i>
+                        <a href="{{ Storage::url($schedule->itinerary_pdf) }}" target="_blank"
+                           class="inline-block px-8 py-4 font-bold text-sm tracking-wide text-white no-underline transition-all duration-300 hover:-translate-y-0.5"
+                           style="background: #001D5F; letter-spacing: 1px;"
+                           onmouseover="this.style.background='#00154a'; this.style.boxShadow='0 4px 15px rgba(0,29,95,0.3)';"
+                           onmouseout="this.style.background='#001D5F'; this.style.boxShadow='none';">
+                            DOWNLOAD ITINERARY PDF
+                            <svg class="w-5 h-5 inline-block ml-1 -mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"/></svg>
                         </a>
                         @else
-                        <button class="btn-download-itinerary" disabled style="opacity:0.6; cursor:not-allowed">
-                            PDF BELUM TERSEDIA <i class="bi bi-file-earmark-x"></i>
+                        <button disabled class="inline-block px-8 py-4 font-bold text-sm tracking-wide text-white opacity-60 cursor-not-allowed border-0"
+                                style="background: #001D5F; letter-spacing: 1px;">
+                            PDF BELUM TERSEDIA
+                            <svg class="w-5 h-5 inline-block ml-1 -mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
                         </button>
                         @endif
-                        
-                        <div class="mt-3 small text-muted">
-                            *Program perjalanan dapat berubah sewaktu-waktu
-                        </div>
-                        
+                        <div class="mt-3 text-sm" style="color: #6B7280;">*Program perjalanan dapat berubah sewaktu-waktu</div>
                         @if($schedule->itinerary)
-                        <div class="itinerary-preview mt-4 text-start p-4 bg-light rounded">
+                        <div class="mt-4 text-left p-4 rounded-lg text-sm" style="background: #F9FAFB;">
                             {!! nl2br(e(Str::limit($schedule->itinerary, 300))) !!}
                         </div>
                         @endif
                     </div>
                 </div>
 
-                <!-- UMRAH GIFTS -->
-                <div class="content-block mb-5">
-                    <h3 class="section-heading-left">Umrah Gifts</h3>
-                    <ul class="hagel-list">
+                {{-- UMRAH GIFTS --}}
+                <div class="mb-12">
+                    <h3 class="text-2xl font-extrabold mb-6" style="color: #001D5F;">Umrah Gifts</h3>
+                    <ul class="space-y-3 list-none p-0">
                         @if($schedule->gifts)
                             @foreach(explode(',', $schedule->gifts) as $gift)
-                                 <li>{{ trim($gift) }}</li>
+                            <li class="relative pl-5 text-base leading-relaxed" style="color: #333;">
+                                <span class="absolute left-0 top-[-2px] font-bold text-lg" style="color: #333;">•</span>
+                                {{ trim($gift) }}
+                            </li>
                             @endforeach
                         @else
-                            <li>Koper Besar (Cabin Bag)</li>
-                            <li>Tas Selempang (Sling Bag)</li>
-                            <li>Kain Ihram (Pria) / Mukena (Wanita)</li>
-                            <li>Buku Panduan Doa</li>
-                            <li>ID Card & Syal Mahira</li>
-                            <li>Air Zamzam 5L</li>
+                            @foreach(['Koper Besar (Cabin Bag)', 'Tas Selempang (Sling Bag)', 'Kain Ihram (Pria) / Mukena (Wanita)', 'Buku Panduan Doa', 'ID Card & Syal Mahira', 'Air Zamzam 5L'] as $gift)
+                            <li class="relative pl-5 text-base leading-relaxed" style="color: #333;">
+                                <span class="absolute left-0 top-[-2px] font-bold text-lg" style="color: #333;">•</span>
+                                {{ $gift }}
+                            </li>
+                            @endforeach
                         @endif
                     </ul>
                 </div>
 
-                <!-- ADDITIONAL INFO -->
-                 <div class="content-block">
-                    <h3 class="section-heading-left">Additional Information</h3>
-                    <ul class="hagel-list">
+                {{-- ADDITIONAL INFO --}}
+                <div>
+                    <h3 class="text-2xl font-extrabold mb-6" style="color: #001D5F;">Additional Information</h3>
+                    <ul class="space-y-3 list-none p-0">
                         @if($schedule->additional_info)
                             @foreach(explode(',', $schedule->additional_info) as $info)
-                                 <li>{{ trim($info) }}</li>
+                            <li class="relative pl-5 text-base leading-relaxed" style="color: #333;">
+                                <span class="absolute left-0 top-[-2px] font-bold text-lg" style="color: #333;">•</span>
+                                {{ trim($info) }}
+                            </li>
                             @endforeach
                         @else
-                            <li>Harga paket dapat berubah sewaktu-waktu mengikuti kebijakan maskapai dan hotel.</li>
-                            <li>Jadwal keberangkatan bisa bergeser 1-2 hari.</li>
-                            <li>Pendaftaran wajib menyertakan DP minimal Rp 5.000.000.</li>
-                            <li>Pelunasan maksimal H-30 keberangkatan.</li>
+                            @foreach(['Harga paket dapat berubah sewaktu-waktu mengikuti kebijakan maskapai dan hotel.', 'Jadwal keberangkatan bisa bergeser 1-2 hari.', 'Pendaftaran wajib menyertakan DP minimal Rp 5.000.000.', 'Pelunasan maksimal H-30 keberangkatan.'] as $info)
+                            <li class="relative pl-5 text-base leading-relaxed" style="color: #333;">
+                                <span class="absolute left-0 top-[-2px] font-bold text-lg" style="color: #333;">•</span>
+                                {{ $info }}
+                            </li>
+                            @endforeach
                         @endif
                     </ul>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <!-- Sticky Register Button (Mobile) -->
-    <div class="d-lg-none sticky-bottom-nav">
-        <div class="row g-0">
-            <div class="col-6 bg-white p-2 d-flex align-items-center justify-content-center border-top">
-                <span class="text-gold fw-bold">Rp {{ number_format($schedule->price, 0, ',', '.') }}</span>
+    {{-- Sticky Register Button (Mobile) --}}
+    <div class="lg:hidden fixed bottom-0 left-0 right-0 z-[1000]" style="box-shadow: 0 -4px 10px rgba(0,0,0,0.1);">
+        <div class="grid grid-cols-2">
+            <div class="flex items-center justify-center p-3 bg-white" style="border-top: 1px solid #E5E7EB;">
+                <span class="font-bold" style="color: #C5A036;">Rp {{ number_format($schedule->price, 0, ',', '.') }}</span>
             </div>
-            <div class="col-6">
-                <a href="{{ route('register', ['schedule_id' => $schedule->id]) }}" class="btn btn-primary w-100 h-100 rounded-0 d-flex align-items-center justify-content-center">
-                    Daftar Sekarang
-                </a>
-            </div>
+            <a href="{{ route('register', ['schedule_id' => $schedule->id]) }}"
+               class="flex items-center justify-center h-full no-underline text-white font-bold"
+               style="background: #001D5F;">
+                Daftar Sekarang
+            </a>
         </div>
     </div>
 
-    <!-- FLYER MODAL / LIGHTBOX -->
-    <div x-show="showFlyer" 
-         x-cloak
-         class="flyer-modal-overlay"
+    {{-- FLYER MODAL / LIGHTBOX --}}
+    <div x-show="showFlyer" x-cloak x-transition.opacity
          @click="showFlyer = false"
-         x-transition.opacity>
-        
-        <div class="flyer-modal-content" @click.stop>
-            <button class="flyer-close-btn" @click="showFlyer = false">
-                <i class="bi bi-x-lg"></i>
+         class="fixed inset-0 z-[9999] flex items-center justify-center p-5"
+         style="background: rgba(0,0,0,0.9);">
+        <div class="relative max-w-[90%] max-h-[90vh]" @click.stop>
+            <button @click="showFlyer = false"
+                    class="absolute -top-10 right-0 bg-transparent border-0 text-white text-2xl cursor-pointer">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
-            <img src="{{ Storage::url($schedule->flyer_image) }}" alt="Brosur Paket" class="flyer-img-full">
+            <img src="{{ Storage::url($schedule->flyer_image) }}" alt="Brosur Paket" class="max-w-full max-h-[80vh] rounded-lg" style="box-shadow: 0 0 20px rgba(0,0,0,0.5);">
             <div class="text-center mt-3">
-                <a href="{{ Storage::url($schedule->flyer_image) }}" download class="btn btn-sm btn-outline-light">
-                    <i class="bi bi-download"></i> Download Brosur
+                <a href="{{ Storage::url($schedule->flyer_image) }}" download
+                   class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm text-white no-underline transition-all duration-300 hover:opacity-80"
+                   style="border: 1px solid rgba(255,255,255,0.5);">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    Download Brosur
                 </a>
             </div>
         </div>
     </div>
-
 </div>
-
-<!-- Styles for Modal -->
-<style>
-    .flyer-modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.9);
-        z-index: 9999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-    }
-    .flyer-modal-content {
-        position: relative;
-        max-width: 90%;
-        max-height: 90vh;
-    }
-    .flyer-img-full {
-        max-width: 100%;
-        max-height: 80vh;
-        border-radius: 8px;
-        box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    }
-    .flyer-close-btn {
-        position: absolute;
-        top: -40px;
-        right: 0;
-        background: none;
-        border: none;
-        color: white;
-        font-size: 1.5rem;
-        cursor: pointer;
-    }
-</style>
 
 @endsection

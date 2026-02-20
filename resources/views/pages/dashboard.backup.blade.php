@@ -2,300 +2,762 @@
 
 @section('title', 'Dashboard Pendaftaran - Mahira Tour')
 
-@extends('layouts.app')
+@push('styles')
+<!-- Alpine.js -->
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-@section('title', 'Dashboard Pendaftaran - Mahira Tour')
+<style>
+
+    /* Dashboard Styles - Consistent with Mahira Theme */
+    [x-cloak] { display: none !important; }
+    
+    /* Reuse global variables but ensure dashboard scope */
+    .dashboard-section {
+        --dash-primary: var(--primary);
+        --dash-accent: var(--accent);
+        --dash-bg: var(--bg-main);
+        
+        background-color: var(--dash-bg);
+        min-height: 100vh;
+        padding: 120px 0 80px 0;
+    }
+
+    .dashboard-header {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--light-navy) 100%);
+        color: white;
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 29, 95, 0.15);
+    }
+    
+    .dashboard-header h1 {
+        font-weight: 700;
+        margin-bottom: 10px;
+        font-size: 1.8rem;
+    }
+    
+    .dashboard-header .reg-number {
+        background: rgba(255, 255, 255, 0.1);
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-family: monospace;
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    /* Cards */
+    .action-card, .progress-section {
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05); /* Softer shadow */
+        border: 1px solid var(--border);
+    }
+
+    .action-card h3, .progress-header h3 {
+        color: var(--primary);
+        font-weight: 700;
+        font-size: 1.2rem;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .action-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--border);
+    }
+    
+    /* Buttons */
+    .btn-jamaah, .btn-upload, .btn-submit {
+        background: var(--primary);
+        color: white;
+        border-radius: 8px;
+        padding: 10px 20px;
+        border: none;
+        transition: all 0.3s;
+    }
+    
+    .btn-jamaah:hover, .btn-upload:hover, .btn-submit:hover {
+        background: var(--primary-dark);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(0, 29, 95, 0.2);
+    }
+
+    /* Badges */
+    .badge-status {
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+    }
+    .badge-pending { background: #fee2e2; color: #dc2626; }
+    .badge-waiting { background: #e0f2fe; color: #0284c7; }
+    .badge-complete { background: #dcfce7; color: #16a34a; }
+
+    /* Hide Global WA */
+    .floating-whatsapp { display: none !important; }
+
+    .deadline {
+        background: #FEF2F2;
+        color: #991B1B;
+        border: 1px solid #FCA5A5;
+        padding: 8px 16px;
+        border-radius: 50px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 12px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    /* Typography & Headers */
+    .action-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .action-card-header h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-main);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0;
+    }
+
+    .action-card-header i {
+        color: var(--accent);
+        font-size: 1.25rem;
+    }
+
+    /* Modern Badges */
+    .badge-status {
+        padding: 6px 12px;
+        border-radius: 6px; /* Pill -> Rounded Rect */
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    
+    .badge-pending { background: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
+    .badge-complete { background: #ecfdf5; color: #047857; border: 1px solid #d1fae5; }
+    .badge-waiting { background: #eff6ff; color: #1d4ed8; border: 1px solid #dbeafe; }
+
+    /* Jamaah List - Clean Row */
+    .jamaah-item {
+        background: #fff;
+        border: 1px solid var(--border-color);
+        border-radius: 12px; /* Smooth corners */
+        padding: 16px;
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: border-color 0.2s;
+    }
+
+    .jamaah-item:hover {
+        border-color: var(--accent);
+    }
+
+    .jamaah-item h4 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-main);
+        margin: 0 0 4px 0;
+    }
+
+    .jamaah-item small {
+        color: var(--text-muted);
+        font-size: 0.875rem;
+    }
+
+    /* Modern Buttons */
+    .btn-jamaah, .btn-upload, .btn-submit {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px; /* Consistent rounded corners */
+        font-weight: 500;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 2px 4px rgba(15, 23, 42, 0.1);
+    }
+
+    .btn-jamaah:hover, .btn-upload:hover, .btn-submit:hover {
+        background: var(--primary-light);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(15, 23, 42, 0.15);
+    }
+
+    .btn-jamaah.complete {
+        background: #fff;
+        color: var(--text-main);
+        border: 1px solid var(--border-color);
+        box-shadow: none;
+    }
+    .btn-jamaah.complete:hover {
+        background: #f8fafc;
+        border-color: #cbd5e1;
+    }
+
+    /* Bank Info - Clean Card */
+    .bank-info {
+        background: #f8fafc; /* Very light slate */
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 24px;
+        margin: 20px 0;
+    }
+    
+    .bank-info p {
+        color: var(--text-muted);
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+        font-weight: 700;
+        margin-bottom: 16px;
+    }
+
+    .bank-account {
+        font-family: 'Monaco', monospace;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-main); /* Dark text for readability */
+        letter-spacing: -0.5px;
+    }
+
+    .btn-copy {
+        background: #fff;
+        color: var(--text-muted);
+        border: 1px solid var(--border-color);
+        padding: 8px;
+        border-radius: 6px;
+        transition: all 0.2s;
+    }
+    
+    .btn-copy:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: #eff6ff;
+    }
+
+    /* Form Inputs */
+    .form-control-dash, .doc-upload-label, select.form-control-dash {
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 10px 14px; /* Slightly tighter padding */
+        font-size: 0.95rem;
+        color: var(--text-main);
+        background: #fff;
+        transition: all 0.2s;
+        width: 100%;
+        display: block; /* Ensure block level */
+        box-sizing: border-box; /* Fix padding issues */
+    }
+
+    .form-control-dash:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        outline: none;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+        color: var(--primary);
+    }
+    
+    /* Modal Footer */
+    .modal-footer-custom {
+        padding: 24px;
+        border-top: 1px solid var(--border-color);
+        display: flex;
+        justify-content: flex-end; /* Align right */
+        gap: 12px;
+        background: #f8fafc;
+        border-radius: 0 0 24px 24px;
+    }
+    
+    .modal-close {
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        opacity: 0.8;
+        transition: opacity 0.2s;
+    }
+    .modal-close:hover { opacity: 1; }
+
+    /* Alpine.js Modal Styles */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(15, 23, 42, 0.85); /* Darker overlay */
+        backdrop-filter: blur(4px);
+        z-index: 3000;
+        display: flex;
+        align-items: flex-start; /* Start from top on mobile */
+        justify-content: center;
+        padding: 20px;
+        overflow-y: auto; /* Allow scrolling overlay */
+    }
+
+    .modal-container {
+        background: #ffffff !important;
+        border-radius: 16px; /* Slightly smaller radius */
+        width: 100%;
+        max-width: 700px; /* Constrain width */
+        margin: auto; /* Center vertically if flex aligns center */
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+        border: 1px solid var(--border-color);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .modal-header-custom {
+        background: var(--primary); /* Solid color, no gradient */
+        color: white;
+        padding: 20px 24px;
+        border-radius: 16px 16px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-shrink: 0;
+    }
+
+    .modal-body-custom {
+        padding: 24px;
+        background: #ffffff;
+        color: var(--text-main);
+        overflow-y: visible; /* Let content flow */
+    }
+
+    .doc-upload-label {
+        border: 2px dashed var(--border-color);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        cursor: pointer;
+        background: #f8fafc;
+        text-align: center;
+    }
+
+
+    /* Status Messages */
+    .status-message {
+        padding: 16px;
+        border-radius: 8px;
+        display: flex;
+        gap: 12px;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 16px;
+    }
+    .status-message.info {
+        background: #eff6ff;
+        color: #1e40af;
+        border: 1px solid #dbeafe;
+    }
+    .status-message.warning {
+        background: #fffbeb;
+        color: #92400e;
+        border: 1px solid #fde68a;
+    }
+    
+    /* Sticky Button */
+    .contact-cs-sticky {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 50;
+    }
+    .btn-wa {
+        background: #25D366;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 50px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        transition: transform 0.2s;
+        text-decoration: none;
+    }
+    .btn-wa:hover {
+        transform: translateY(-2px);
+        color: white;
+    }
+
+    /* PROGRESS BAR */
+    .progress-bar-container {
+        height: 8px;
+        background: #e2e8f0;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .progress-bar-fill {
+        background: var(--success);
+        height: 100%;
+        border-radius: 10px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .dashboard-section { padding-top: 20px; padding-bottom: 100px; }
+        .dashboard-header { padding: 20px; border-left-width: 4px; }
+        .dashboard-header h1 { font-size: 1.25rem; }
+        .action-card { padding: 20px; border-radius: 12px; }
+        .bank-info { padding: 16px; }
+        
+        .jamaah-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .btn-jamaah { width: 100%; text-align: center; }
+        
+        /* Bank Mobile */
+        .bank-account { font-size: 1.25rem; }
+        .bank-info .d-flex { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+        .bank-info img { height: 24px !important; margin-bottom: 4px; }
+        .bank-info .btn-copy { width: 100%; margin: 8px 0 0 0 !important; text-align: center; }
+        
+        .action-grid { grid-template-columns: 1fr; gap: 20px; }
+    }
+
+
+    /* Toast Notification */
+    .toast-container {
+        position: fixed;
+        top: 24px;
+        right: 24px;
+        z-index: 1100;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        pointer-events: none;
+    }
+
+    .toast-modern {
+        background: white;
+        color: var(--text-main);
+        padding: 16px 24px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transform: translateX(100%);
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        pointer-events: auto;
+        border-left: 4px solid var(--success);
+        min-width: 300px;
+    }
+
+    .toast-modern.show {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    .toast-icon {
+        color: var(--success);
+        font-size: 1.25rem;
+    }
+
+    /* Adjusted Padding for Navbar */
+    .dashboard-section {
+        min-height: 100vh;
+        padding: 120px 0 80px 0; /* Increased top padding */
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-section { padding-top: 100px; padding-bottom: 100px; }
+        .toast-container {
+            left: 20px;
+            right: 20px;
+            top: 20px;
+            align-items: center;
+        }
+        .toast-modern {
+            width: 100%;
+            min-width: auto;
+            justify-content: center;
+        }
+    }
+</style>
+@endpush
 
 @section('content')
-<section class="bg-[#F9FAFB] min-h-screen pt-32 pb-24" x-data="dashboardApp()">
+<section class="dashboard-section" x-data="dashboardApp()">
     
     <!-- Toast Container -->
-    <div class="fixed top-24 md:top-6 right-6 z-50 flex flex-col gap-3 pointer-events-none w-full md:w-auto px-4 md:px-0" id="toast-container"></div>
+    <div class="toast-container" id="toast-container"></div>
 
-    <div class="container-main">
+    <div class="container dashboard-container">
         
         <!-- Success Message -->
         @if(session('success'))
-        <div class="rounded-xl p-4 mb-6 flex items-start gap-3 shadow-sm border border-emerald-100 bg-emerald-50 text-emerald-800" role="alert">
-            <svg class="w-5 h-5 shrink-0 text-emerald-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        <div class="status-message success">
+            <i class="bi bi-check-circle-fill"></i>
             <div>{{ session('success') }}</div>
         </div>
         @endif
         
         @if(session('error'))
-        <div class="rounded-xl p-4 mb-6 flex items-start gap-3 shadow-sm border border-red-100 bg-red-50 text-red-800" role="alert">
-            <svg class="w-5 h-5 shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+        <div class="status-message warning">
+            <i class="bi bi-exclamation-triangle-fill"></i>
             <div>{{ session('error') }}</div>
         </div>
         @endif
         
         <!-- Dashboard Header -->
-        <div class="rounded-2xl p-6 md:p-8 mb-8 shadow-xl relative overflow-hidden text-white" 
-             style="background: linear-gradient(135deg, #001D5F 0%, #001440 100%);">
-            
-            {{-- Background Decoration --}}
-            <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
-
-            <div class="relative z-10">
-                <h1 class="text-2xl md:text-3xl font-bold mb-4 font-serif">Dashboard Pendaftaran</h1>
-                
-                <div class="inline-block bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 rounded-lg font-mono text-lg mb-4">
-                    {{ $registration->registration_number }}
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-white/90">
-                    <div>
-                        <strong class="block text-white/60 text-sm uppercase tracking-wider mb-1">Paket</strong>
-                        {{ $registration->schedule->package_name }}
-                    </div>
-                    <div>
-                        <strong class="block text-white/60 text-sm uppercase tracking-wider mb-1">Jamaah</strong>
-                        {{ $registration->num_people }} orang
-                    </div>
-                    <div>
-                        <strong class="block text-white/60 text-sm uppercase tracking-wider mb-1">Total Biaya</strong>
-                        Rp {{ number_format($registration->total_price, 0, ',', '.') }}
-                    </div>
-                </div>
-
-                @if($registration->payment_deadline)
-                <div class="mt-6 inline-flex items-center gap-2 bg-red-50/10 border border-red-200/30 text-red-50 px-4 py-2 rounded-full text-sm font-semibold backdrop-blur-sm">
-                    <svg class="w-4 h-4 text-red-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
-                    Jatuh Tempo DP: {{ $registration->payment_deadline->format('d M Y') }}
-                </div>
-                @endif
+        <div class="dashboard-header" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);">
+            <h1>Dashboard Pendaftaran</h1>
+            <div class="reg-number">{{ $registration->registration_number }}</div>
+            <div>
+                <strong>Paket:</strong> {{ $registration->schedule->package_name }}<br>
+                <strong>Jamaah:</strong> {{ $registration->num_people }} orang<br>
+                <strong>Total:</strong> Rp {{ number_format($registration->total_price, 0, ',', '.') }}
             </div>
+            @if($registration->payment_deadline)
+            <div class="deadline">
+                <i class="bi bi-calendar-event-fill"></i>
+                Jatuh Tempo DP: {{ $registration->payment_deadline->format('d M Y') }}
+            </div>
+            @endif
         </div>
         
-        <div id="toast-container" class="fixed top-24 right-4 z-[100] flex flex-col items-end gap-2 pointer-events-none"></div>
-
         <!-- Progress Section -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
-                    <svg class="w-5 h-5 text-blue-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                    Progress Pendaftaran
-                </h3>
-                <div class="text-xl font-bold text-blue-900">{{ $completion }}%</div>
+        <div class="progress-section">
+            <div class="progress-header">
+                <h3><i class="bi bi-graph-up"></i> Progress Pendaftaran</h3>
+                <div class="progress-percentage">{{ $completion }}%</div>
             </div>
-            
-            <div class="w-full h-3 bg-gray-100 rounded-full overflow-hidden mb-2">
-                <div class="h-full bg-emerald-500 rounded-full transition-all duration-1000 ease-out" style="width: {{ $completion }}%"></div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" style="width: {{ $completion }}%"></div>
             </div>
-            
-            <p class="text-sm text-gray-500">
+            <small style="color: #6B7280; margin-top: 0.5rem; display: block;">
                 {{ $completion < 100 ? 'Lengkapi data untuk melanjutkan proses pendaftaran' : 'Pendaftaran lengkap! Menunggu keberangkatan' }}
-            </p>
+            </small>
         </div>
         
         <!-- Action Cards Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-24">
+        <div class="action-grid">
             
             <!-- Card 1: Data Jamaah -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-full">
-                <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                    <h3 class="font-bold text-gray-800 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-[#D4AF37]" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>
-                        Data Jamaah
-                    </h3>
-                    <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide {{ $registration->jamaah->every(fn($j) => $j->completion_status === 'complete') ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' : 'bg-orange-50 text-orange-700 border border-orange-100' }}">
+            <div class="action-card">
+                <div class="action-card-header">
+                    <h3><i class="bi bi-people-fill"></i> Data Jamaah</h3>
+                    <span class="badge-status {{ $registration->jamaah->every(fn($j) => $j->completion_status === 'complete') ? 'badge-complete' : 'badge-pending' }}">
                         {{ $registration->jamaah->where('completion_status', 'complete')->count() }} / {{ $registration->num_people }} Lengkap
                     </span>
                 </div>
                 
-                <div class="p-6 flex-1">
-                    @foreach($registration->jamaah as $index => $jamaah)
-                    <div class="p-4 border rounded-xl mb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all duration-200 hover:border-blue-300 hover:shadow-sm {{ $jamaah->completion_status === 'complete' ? 'bg-emerald-50/30 border-emerald-100' : 'bg-white border-gray-200' }}">
-                        <div>
-                            <h4 class="font-bold text-gray-800 mb-1">
-                                @if($jamaah->isPlaceholder())
-                                    Jamaah {{ $index + 1 }} <span class="text-xs font-normal text-gray-500 bg-gray-100 px-2 py-0.5 rounded ml-2">Belum Dilengkapi</span>
-                                @else
-                                    {{ $jamaah->display_name }}
-                                @endif
-                            </h4>
-                            <div class="text-sm flex items-center gap-1.5">
-                                @if($jamaah->completion_status === 'complete')
-                                    <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                                    <span class="text-emerald-700 font-medium">Data Lengkap</span>
-                                @elseif($jamaah->completion_status === 'partial')
-                                    <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
-                                    <span class="text-amber-700 font-medium">Sebagian Lengkap</span>
-                                @else
-                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"></circle></svg>
-                                    <span class="text-gray-500">Belum Dilengkapi</span>
-                                @endif
-                            </div>
-                        </div>
-                        <button class="inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 {{ $jamaah->completion_status === 'complete' ? 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300' : 'bg-[#001D5F] text-white hover:bg-[#001440] hover:shadow-md' }}" 
-                                @click="openEditJamaah({{ $jamaah->id }}, {{ $index + 1 }})">
-                            {{ $jamaah->completion_status === 'complete' ? 'Edit Data' : 'Lengkapi Data' }}
-                        </button>
+                @foreach($registration->jamaah as $index => $jamaah)
+                <div class="jamaah-item {{ $jamaah->completion_status === 'complete' ? 'complete' : '' }}">
+                    <div class="jamaah-info">
+                        <h4>
+                            @if($jamaah->isPlaceholder())
+                                Jamaah {{ $index + 1 }} <small>(Belum Dilengkapi)</small>
+                            @else
+                                {{ $jamaah->display_name }}
+                            @endif
+                        </h4>
+                        <small>
+                            @if($jamaah->completion_status === 'complete')
+                                <i class="bi bi-check-circle-fill text-success"></i> Data Lengkap
+                            @elseif($jamaah->completion_status === 'partial')
+                                <i class="bi bi-exclamation-circle-fill text-warning"></i> Sebagian Lengkap
+                            @else
+                                <i class="bi bi-circle"></i> Belum Dilengkapi
+                            @endif
+                        </small>
                     </div>
-                    @endforeach
-                    
-                    <div class="mt-4 flex items-start gap-3 p-3 bg-blue-50 text-blue-800 rounded-lg text-sm border border-blue-100">
-                        <svg class="w-5 h-5 shrink-0 text-blue-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
-                        <p class="leading-relaxed">Mohon lengkapi data seluruh jamaah untuk memudahkan proses administrasi keberangkatan.</p>
-                    </div>
+                    <button class="btn-jamaah {{ $jamaah->completion_status === 'complete' ? 'complete' : '' }}" 
+                            @click="openEditJamaah({{ $jamaah->id }}, {{ $index + 1 }})">
+                        {{ $jamaah->completion_status === 'complete' ? 'Edit' : 'Lengkapi' }}
+                    </button>
+                </div>
+                @endforeach
+                
+                <div class="status-message info" style="margin-top: 1rem;">
+                    <i class="bi bi-info-circle-fill"></i>
+                    <small>Lengkapi data semua jamaah untuk melanjutkan ke tahap berikutnya</small>
                 </div>
             </div>
             
             <!-- Card 2: Pembayaran DP -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-full">
-                <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-                    <h3 class="font-bold text-gray-800 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-[#D4AF37]" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/><path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/></svg>
-                        Pembayaran DP
-                    </h3>
-                    @php
-                        $dpStatusClass = 'bg-gray-100 text-gray-600 border-gray-200';
-                        $dpStatusText = 'Belum Upload';
-                        if($dpPayment && $dpPayment->status === 'verified') {
-                            $dpStatusClass = 'bg-emerald-50 text-emerald-700 border-emerald-100';
-                            $dpStatusText = 'Verified';
-                        } elseif($dpPayment && $dpPayment->proof_path) {
-                            $dpStatusClass = 'bg-blue-50 text-blue-700 border-blue-100';
-                            $dpStatusText = 'Menunggu Verifikasi';
-                        }
-                    @endphp
-                    <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border {{ $dpStatusClass }}">
-                        {{ $dpStatusText }}
+            <div class="action-card">
+                <div class="action-card-header">
+                    <h3><i class="bi bi-credit-card-fill"></i> Pembayaran DP</h3>
+                    <span class="badge-status {{ $dpPayment && $dpPayment->status === 'verified' ? 'badge-complete' : ($dpPayment && $dpPayment->proof_path ? 'badge-waiting' : 'badge-pending') }}">
+                        @if($dpPayment && $dpPayment->status === 'verified')
+                            Verified
+                        @elseif($dpPayment && $dpPayment->proof_path)
+                            Menunggu Verifikasi
+                        @else
+                            Belum Upload
+                        @endif
                     </span>
                 </div>
                 
                 @if($dpPayment && $dpPayment->status === 'verified')
                     <!-- DP Verified -->
-                    <div class="p-6 flex-1 flex flex-col">
-                        <div class="rounded-xl p-4 flex gap-3 text-sm bg-emerald-50 text-emerald-800 border border-emerald-100 items-start">
-                            <svg class="w-5 h-5 shrink-0 text-emerald-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                            <div>
-                                <strong class="block font-semibold mb-1">DP Sudah Diverifikasi!</strong>
-                                <span class="text-emerald-700/80">Verified pada {{ $dpPayment->verified_at->format('d M Y, H:i') }}</span>
-                            </div>
+                    <div class="status-message success">
+                        <i class="bi bi-check-circle-fill"></i>
+                        <div>
+                            <strong>DP Sudah Diverifikasi!</strong><br>
+                            <small>Verified pada {{ $dpPayment->verified_at->format('d M Y, H:i') }}</small>
                         </div>
                     </div>
                     
-                @elseif($dpPayment && ($dpPayment->proof_path || $dpPayment->status === 'bg-gray-100 text-gray-500 border-gray-200'))
+                @elseif($dpPayment && ($dpPayment->proof_path || $dpPayment->status === 'pending'))
                     <!-- DP Uploaded/Confirmed Cash, Waiting Verification -->
-                    <div class="p-6 flex-1 flex flex-col">
-                        <div class="rounded-xl p-4 flex gap-3 text-sm bg-blue-50 text-blue-800 border border-blue-100 mb-4 items-start">
-                            <svg class="w-5 h-5 shrink-0 text-blue-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
-                            <div>
-                                <strong class="block font-semibold mb-1">
-                                    @if($dpPayment->payment_method === 'cash')
-                                        Menunggu Pembayaran Cash
-                                    @else
-                                        Bukti DP Sudah Diupload
-                                    @endif
-                                </strong>
-                                <span class="text-blue-700/80">
-                                    @if($dpPayment->payment_method === 'cash')
-                                        Silakan datang ke kantor untuk melakukan pembayaran.
-                                    @else
-                                        Menunggu verifikasi admin (1x24 jam)
-                                    @endif
-                                </span>
+                    <div class="status-message info">
+                        <i class="bi bi-clock-fill"></i>
+                        <div>
+                            <strong>
+                                @if($dpPayment->payment_method === 'cash')
+                                    Menunggu Pembayaran Cash
+                                @else
+                                    Bukti DP Sudah Diupload
+                                @endif
+                            </strong><br>
+                            <small>
+                                @if($dpPayment->payment_method === 'cash')
+                                    Silakan datang ke kantor untuk melakukan pembayaran.
+                                @else
+                                    Menunggu verifikasi admin (1x24 jam)
+                                @endif
+                            </small>
+                        </div>
+                    </div>
+
+                    @if($dpPayment->payment_method === 'cash')
+                        <div class="mt-3 text-center">
+                            <a href="https://wa.me/6282184515310?text=Assalamu'alaikum%20Admin,%20saya%20{{ urlencode($registration->full_name) }}%20(Reg:%20{{ $registration->registration_number }})%20ingin%20melakukan%20pembayaran%20DP%20secara%20Cash%20di%20kantor.%20Mohon%20infonya." 
+                               class="btn btn-success rounded-pill fw-bold" 
+                               target="_blank">
+                                <i class="bi bi-whatsapp me-2"></i> Konfirmasi Janji Temu via WA
+                            </a>
+                            <div class="mt-2">
+                                <a href="https://www.google.com/maps/place/Travel+Umroh+Mahira+Tour/@-2.050239,101.3896565,15z" target="_blank" class="text-decoration-none small">
+                                    <i class="bi bi-geo-alt-fill text-danger"></i> Lihat Lokasi Kantor di Google Maps
+                                </a>
                             </div>
                         </div>
-
-                        @if($dpPayment->payment_method === 'cash')
-                            <div class="mt-auto text-center">
-                                <a href="https://wa.me/6282184515310?text=Assalamu'alaikum%20Admin,%20saya%20{{ urlencode($registration->full_name) }}%20(Reg:%20{{ $registration->registration_number }})%20ingin%20melakukan%20pembayaran%20DP%20secara%20Cash%20di%20kantor.%20Mohon%20infonya." 
-                                   class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[#25D366] text-white rounded-full font-bold hover:bg-[#20bd5a] transition-colors shadow-sm w-full sm:w-auto" 
-                                   target="_blank">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
-                                    Konfirmasi Janji Temu via WA
-                                </a>
-                                <div class="mt-3">
-                                    <a href="https://www.google.com/maps/place/Travel+Umroh+Mahira+Tour/@-2.050239,101.3896565,15z" target="_blank" class="text-sm text-gray-500 hover:text-[#001D5F] hover:underline flex items-center justify-center gap-1">
-                                        <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
-                                        Lihat Lokasi Kantor di Google Maps
-                                    </a>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
+                    @endif
                     
                 @else
                     <!-- Need to Upload DP -->
-                    <div class="p-6 flex-1 flex flex-col">
-                        <div class="text-center mb-6 mt-4">
-                        <h4 class="text-gray-500 font-medium mb-1">Transfer DP 30%</h4>
-                        <p class="text-2xl font-bold text-[#001D5F]">
-                            Rp {{ number_format($registration->dp_amount, 0, ',', '.') }}
+                    <div class="payment-instructions">
+                        <h4>Transfer DP 30%</h4>
+                        <p style="margin: 0; color: #6B7280;">
+                            <strong style="font-size: 1.5rem; color: #001D5F;">Rp {{ number_format($registration->dp_amount, 0, ',', '.') }}</strong>
                         </p>
                     </div>
                     
-                    <div class="bg-gray-50 rounded-xl p-4 border border-gray-100 mb-6 space-y-3">
-                        <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200">
-                            <div class="flex items-center gap-3">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/68/BANK_BRI_logo.svg" alt="BRI" class="h-6 w-auto">
-                                <span class="font-mono text-lg font-bold text-gray-700">0117 0100 4252 303</span>
+                    <div class="bank-info">
+                        <p style="margin: 0; opacity: 0.9;"><strong>PT. Makkah Madinah Berkah Bersama</strong></p>
+                        <div style="margin-top: 15px;">
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/68/BANK_BRI_logo.svg" alt="BRI" style="height: 30px; width: auto; margin-right: 15px;">
+                                <div class="bank-account" style="margin: 0; font-size: 1.1rem;">0117 0100 4252 303</div>
+                                <button class="btn-copy ms-3" @click="copyAccount('011701004252303')" style="padding: 4px 10px;">
+                                    <i class="bi bi-clipboard"></i>
+                                </button>
                             </div>
-                            <button @click="copyAccount('011701004252303')" class="text-gray-400 hover:text-blue-600 p-2 rounded-md hover:bg-blue-50 transition-colors" title="Salin">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                            </button>
-                        </div>
-                        <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200">
-                            <div class="flex items-center gap-3">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Bank_Syariah_Indonesia.svg" alt="BSI" class="h-6 w-auto">
-                                <span class="font-mono text-lg font-bold text-gray-700">7256 7665 79</span>
+                            <div class="d-flex align-items-center">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Bank_Syariah_Indonesia.svg" alt="BSI" style="height: 30px; width: auto; margin-right: 15px;">
+                                <div class="bank-account" style="margin: 0; font-size: 1.1rem;">7256 7665 79</div>
+                                <button class="btn-copy ms-3" @click="copyAccount('7256766579')" style="padding: 4px 10px;">
+                                    <i class="bi bi-clipboard"></i>
+                                </button>
                             </div>
-                            <button @click="copyAccount('7256766579')" class="text-gray-400 hover:text-blue-600 p-2 rounded-md hover:bg-blue-50 transition-colors" title="Salin">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                            </button>
                         </div>
-                        <p class="text-xs text-center text-gray-400 uppercase tracking-widest font-bold mt-2">PT. Makkah Madinah Berkah Bersama</p>
                     </div>
                     
                     <form action="{{ route('register.payment', $registration->id) }}" 
                           method="POST" 
                           enctype="multipart/form-data" 
-                          class="space-y-4"
+                          class="upload-form"
                           x-data="{ method: 'transfer' }">
                         @csrf
                         
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-1">Metode Pembayaran</label>
-                            <select name="payment_method" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-700 bg-white" x-model="method" required>
+                        <div class="form-group-dash">
+                            <label>Metode Pembayaran</label>
+                            <select name="payment_method" class="form-control-dash" x-model="method" required>
                                 <option value="transfer">Transfer Bank</option>
                                 <option value="cash">Cash di Kantor</option>
                             </select>
                         </div>
                         
-                        <div x-show="method === 'transfer'" class="space-y-2">
-                            <label class="block text-sm font-semibold text-gray-700 mb-1">Upload Bukti Transfer</label>
+                        <div x-show="method === 'transfer'" class="form-group-dash">
+                            <label>Upload Bukti Transfer</label>
                             <input type="file" 
                                    name="payment_proof" 
-                                   class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition-all text-sm text-gray-500" 
+                                   class="form-control-dash" 
                                    accept="image/*,application/pdf"
                                    :required="method === 'transfer'">
-                            <p class="text-xs text-gray-500">JPG, PNG, PDF (Max 2MB)</p>
+                            <small style="color: #6B7280; font-size: 0.85rem;">JPG, PNG, PDF (Max 2MB)</small>
                         </div>
 
-                        <div x-show="method === 'cash'" class="rounded-lg bg-blue-50 p-4 border border-blue-100 flex gap-3 text-sm text-blue-800">
-                            <svg class="w-5 h-5 shrink-0 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                        <div x-show="method === 'cash'" class="alert alert-info d-flex align-items-start mb-3">
+                            <i class="bi bi-info-circle-fill me-2 fs-4 mt-1"></i>
                             <div>
-                                <strong class="block mb-1">Pembayaran Cash</strong>
+                                <strong>Pembayaran Cash</strong><br>
                                 Silakan lakukan pembayaran di kantor kami. Klik tombol di bawah untuk konfirmasi.
                                 <div class="mt-2">
-                                    <a href="https://www.google.com/maps/place/Travel+Umroh+Mahira+Tour/@-2.050239,101.3896565,15z" target="_blank" class="text-blue-700 hover:underline flex items-center gap-1 font-semibold">
-                                        <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
-                                        Lihat Lokasi Kantor
+                                    <a href="https://www.google.com/maps/place/Travel+Umroh+Mahira+Tour/@-2.050239,101.3896565,15z" target="_blank" class="text-decoration-none fw-bold">
+                                        <i class="bi bi-map-fill text-danger"></i> Lihat Lokasi Kantor
                                     </a>
                                 </div>
                             </div>
                         </div>
                         
-                        <button type="submit" class="w-full bg-[#001D5F] text-white py-2.5 rounded-lg font-semibold hover:bg-[#001440] transition-colors shadow-lg shadow-blue-900/10 flex justify-center items-center gap-2">
-                            <svg class="w-5 h-5" :class="method === 'transfer' ? '' : 'hidden'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                            <svg class="w-5 h-5" :class="method === 'transfer' ? 'hidden' : ''" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                        <button type="submit" class="btn-upload">
+                            <i class="bi" :class="method === 'transfer' ? 'bi-cloud-upload-fill' : 'bi-check-circle-fill'"></i> 
                             <span x-text="method === 'transfer' ? 'Upload Bukti DP' : 'Konfirmasi Pembayaran Cash'"></span>
                         </button>
                     </form>
-                    </div>
                 @endif
+            </div>
+            
             </div>
             
             <!-- ✅ TAMBAHKAN KODE PELUNASAN DI SINI -->
@@ -306,12 +768,12 @@
 
             @if($registration->is_lunas)
                 <!-- STATUS LUNAS -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-full mb-6">
-                    <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                <div class="action-card">
+                    <div class="action-card-header">
                         <h3><i class="bi bi-check-circle-fill"></i> Status Pembayaran</h3>
-                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border badge-complete">LUNAS</span>
+                        <span class="badge-status badge-complete">LUNAS</span>
                     </div>
-                    <div class="rounded-xl p-4 flex gap-3 text-sm bg-emerald-50 text-emerald-800 border border-emerald-100 mb-4 items-start">
+                    <div class="status-message success">
                         <i class="bi bi-check-circle-fill"></i>
                         <div>
                             <strong>Pembayaran Lengkap! ✅</strong><br>
@@ -322,11 +784,11 @@
 
             @elseif($needsPelunasan)
                 <!-- CARD PELUNASAN -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-full mb-6">
-                    <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                <div class="action-card">
+                    <div class="action-card-header">
                         <h3><i class="bi bi-wallet"></i> Pelunasan</h3>
-                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border {{ $pelunasan && $pelunasan->status === 'bg-gray-100 text-gray-500 border-gray-200' ? 'bg-blue-50 text-blue-700 border-blue-100' : 'bg-amber-50 text-amber-700 border-amber-100' }}">
-                            @if($pelunasan && $pelunasan->status === 'bg-gray-100 text-gray-500 border-gray-200')
+                        <span class="badge-status {{ $pelunasan && $pelunasan->status === 'pending' ? 'badge-waiting' : 'badge-pending' }}">
+                            @if($pelunasan && $pelunasan->status === 'pending')
                                 Menunggu Verifikasi
                             @else
                                 Belum Bayar
@@ -334,7 +796,7 @@
                         </span>
                     </div>
                     
-                    <div class="text-center mb-6 mt-4">
+                    <div class="payment-instructions">
                         <h4>Sisa Pelunasan</h4>
                         <p style="margin: 0; color: #6B7280;">
                             <strong style="font-size: 1.8rem; color: #DC2626;">Rp {{ number_format($registration->sisaPelunasan(), 0, ',', '.') }}</strong>
@@ -342,8 +804,8 @@
                         <small>Deadline: <strong class="text-danger">{{ $registration->pelunasan_deadline?->format('d M Y') }}</strong></small>
                     </div>
                     
-                    @if($pelunasan && ($pelunasan->status === 'bg-gray-100 text-gray-500 border-gray-200' || $pelunasan->proof_path))
-                        <div class="rounded-xl p-4 flex gap-3 text-sm bg-blue-50 text-blue-800 border border-blue-100 mb-4 items-start">
+                    @if($pelunasan && ($pelunasan->status === 'pending' || $pelunasan->proof_path))
+                        <div class="status-message info">
                             <i class="bi bi-clock-fill"></i>
                             <div>
                                 <strong>
@@ -379,7 +841,7 @@
                             </div>
                         @endif
                     @elseif($pelunasan && $pelunasan->status === 'rejected')
-                        <div class="rounded-xl p-4 flex gap-3 text-sm bg-amber-50 text-amber-800 border border-amber-100 mb-4 items-start">
+                        <div class="status-message warning">
                             <i class="bi bi-exclamation-triangle-fill"></i>
                             <div>
                                 <strong>Bukti ditolak!</strong><br>
@@ -387,7 +849,7 @@
                             </div>
                         </div>
                     @else
-                        <div class="bg-gray-50 rounded-xl p-4 border border-gray-100 mb-6 space-y-3">
+                        <div class="bank-info">
                             <p style="margin: 0; opacity: 0.9;"><strong>PT. Makkah Madinah Berkah Bersama</strong></p>
                             <div style="margin-top: 15px;">
                                 <div class="d-flex align-items-center mb-3">
@@ -411,7 +873,7 @@
                         <div style="margin-bottom: 1.5rem;">
                             <a href="https://wa.me/6282184515310?text=Halo%20Admin%20Mahira%20Tour,%0A%0ASaya%20ingin%20melakukan%20pelunasan:%0ANo.%20Registrasi:%20{{ $registration->registration_number }}%0ANama:%20{{ $registration->full_name }}%0ASisa%20Pelunasan:%20Rp%20{{ number_format($registration->sisaPelunasan(), 0, ',', '.') }}%0A%0AMohon%20info%20rekening.%20Terima%20kasih!" 
                             target="_blank"
-                            class="flex items-center gap-2 px-5 py-3 bg-[#25D366] text-white rounded-full font-bold shadow-lg hover:bg-[#20bd5a] transition-all transform hover:scale-105"
+                            class="btn-wa"
                             style="display: inline-flex; width: 100%; justify-content: center; align-items: center; gap: 0.5rem; padding: 1rem; background: #25D366; color: white; border-radius: 50px; text-decoration: none; font-weight: 600; margin-bottom: 1rem;">
                                 <i class="bi bi-whatsapp" style="font-size: 1.5rem;"></i>
                                 Bayar via WhatsApp Admin
@@ -425,16 +887,16 @@
                               class="upload-form"
                               x-data="{ method: 'transfer' }">
                             @csrf
-                            <div class="mb-4">
+                            <div class="form-group-dash">
                                 <label>Metode Pembayaran</label>
-                                <select name="payment_method" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" x-model="method" required>
+                                <select name="payment_method" class="form-control-dash" x-model="method" required>
                                     <option value="transfer">Transfer Bank</option>
                                     <option value="cash">Cash</option>
                                 </select>
                             </div>
                             <div x-show="method === 'transfer'" class="form-group-dash">
                                 <label>Upload Bukti Pelunasan</label>
-                                <input type="file" name="payment_proof" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" accept="image/*,.pdf" :required="method === 'transfer'">
+                                <input type="file" name="payment_proof" class="form-control-dash" accept="image/*,.pdf" :required="method === 'transfer'">
                             </div>
 
                             <div x-show="method === 'cash'" class="alert alert-info d-flex align-items-start mb-3">
@@ -450,7 +912,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="w-full bg-[#001D5F] text-white py-2.5 rounded-lg font-semibold hover:bg-[#001440] transition-colors shadow-lg shadow-blue-900/10 flex justify-center items-center gap-2">
+                            <button type="submit" class="btn-upload">
                                 <i class="bi" :class="method === 'transfer' ? 'bi-cloud-upload-fill' : 'bi-check-circle-fill'"></i>
                                 <span x-text="method === 'transfer' ? 'Upload Bukti Pelunasan' : 'Konfirmasi Pelunasan Cash'"></span>
                             </button>
@@ -463,14 +925,14 @@
             <!-- Card 3: Upload Dokumen -->
 
             <!-- Card 3: Upload Dokumen -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-full mb-6">
-                <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+            <div class="action-card">
+                <div class="action-card-header">
                     <h3><i class="bi bi-file-earmark-check-fill"></i> Upload Dokumen</h3>
                     @php
                         $totalDocs = $registration->jamaah->sum(fn($j) => $j->documents->count());
                         $requiredDocs = $registration->num_people * 3; // KTP, KK, Foto per jamaah
                     @endphp
-                    <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border {{ $totalDocs >= $requiredDocs ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-amber-50 text-amber-700 border-amber-100' }}">
+                    <span class="badge-status {{ $totalDocs >= $requiredDocs ? 'badge-complete' : 'badge-pending' }}">
                         {{ $totalDocs }} / {{ $requiredDocs }} Dokumen
                     </span>
                 </div>
@@ -482,20 +944,20 @@
                     </div>
                     
                     @foreach($registration->jamaah as $index => $jamaah)
-                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors border border-gray-200 mb-3">
-                        <div class="">
+                    <div class="jamaah-item">
+                        <div class="jamaah-info">
                             <h4>{{ $jamaah->isPlaceholder() ? 'Jamaah ' . ($index + 1) : $jamaah->display_name }}</h4>
                             <small>
                                 <i class="bi bi-file-earmark"></i> {{ $jamaah->documents->count() }} dokumen diupload
                             </small>
                         </div>
-                        <button class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600 transition-colors shadow-sm" @click="openDocumentModal({{ $jamaah->id }}, '{{ $jamaah->isPlaceholder() ? 'Jamaah ' . ($index + 1) : $jamaah->display_name }}', {{ $index + 1 }})">
+                        <button class="btn-jamaah" @click="openDocumentModal({{ $jamaah->id }}, '{{ $jamaah->isPlaceholder() ? 'Jamaah ' . ($index + 1) : $jamaah->display_name }}', {{ $index + 1 }})">
                             <i class="bi bi-cloud-upload"></i> Upload
                         </button>
                     </div>
                     @endforeach
                 @else
-                    <div class="rounded-xl p-4 flex gap-3 text-sm bg-amber-50 text-amber-800 border border-amber-100 mb-4 items-start">
+                    <div class="status-message warning">
                         <i class="bi bi-lock-fill"></i>
                         <small>Upload dokumen dapat dilakukan setelah DP diverifikasi admin</small>
                     </div>
@@ -517,10 +979,10 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
+         class="modal-overlay"
          @click.self="showJamaahModal = false">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col" @click.stop>
-            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+        <div class="modal-container" @click.stop>
+            <div class="modal-header-custom">
                 <h3><i class="bi bi-person-fill-gear"></i> Lengkapi Data Jamaah <span x-text="jamaahNumber"></span></h3>
                 <button class="modal-close" @click="showJamaahModal = false">
                     <i class="bi bi-x-lg"></i>
@@ -539,7 +1001,7 @@
                     <div class="row g-3">
                         <div class="col-md-3">
                             <label class="form-label fw-bold">Gelar <span class="text-danger">*</span></label>
-                            <select x-model="jamaahData.title" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required>
+                            <select x-model="jamaahData.title" class="form-control-dash" required>
                                 <option value="">Pilih</option>
                                 <option value="Tn.">Tn.</option>
                                 <option value="Ny.">Ny.</option>
@@ -548,18 +1010,18 @@
                         </div>
                         <div class="col-md-9">
                             <label class="form-label fw-bold">Nama Lengkap (Sesuai KTP) <span class="text-danger">*</span></label>
-                            <input type="text" x-model="jamaahData.full_name" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required>
+                            <input type="text" x-model="jamaahData.full_name" class="form-control-dash" required>
                         </div>
                     </div>
                     
                     <div class="row g-3 mt-2">
                         <div class="col-md-6">
                             <label class="form-label fw-bold">NIK <span class="text-danger">*</span></label>
-                            <input type="text" x-model="jamaahData.nik" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" maxlength="16" required>
+                            <input type="text" x-model="jamaahData.nik" class="form-control-dash" maxlength="16" required>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-bold">Jenis Kelamin <span class="text-danger">*</span></label>
-                            <select x-model="jamaahData.gender" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required>
+                            <select x-model="jamaahData.gender" class="form-control-dash" required>
                                 <option value="">Pilih</option>
                                 <option value="L">Laki-laki</option>
                                 <option value="P">Perempuan</option>
@@ -567,7 +1029,7 @@
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-bold">Gol. Darah</label>
-                            <select x-model="jamaahData.blood_type" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                            <select x-model="jamaahData.blood_type" class="form-control-dash">
                                 <option value="">-</option>
                                 <option value="A">A</option>
                                 <option value="B">B</option>
@@ -580,18 +1042,18 @@
                     <div class="row g-3 mt-2">
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Tempat Lahir <span class="text-danger">*</span></label>
-                            <input type="text" x-model="jamaahData.birth_place" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required>
+                            <input type="text" x-model="jamaahData.birth_place" class="form-control-dash" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Tanggal Lahir <span class="text-danger">*</span></label>
-                            <input type="date" x-model="jamaahData.birth_date" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required>
+                            <input type="date" x-model="jamaahData.birth_date" class="form-control-dash" required>
                         </div>
                     </div>
                     
                     <div class="row g-3 mt-2">
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Status Pernikahan <span class="text-danger">*</span></label>
-                            <select x-model="jamaahData.marital_status" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required>
+                            <select x-model="jamaahData.marital_status" class="form-control-dash" required>
                                 <option value="">Pilih</option>
                                 <option value="single">Belum Menikah</option>
                                 <option value="married">Menikah</option>
@@ -601,7 +1063,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Nama Ayah Kandung <span class="text-danger">*</span></label>
-                            <input type="text" x-model="jamaahData.father_name" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required>
+                            <input type="text" x-model="jamaahData.father_name" class="form-control-dash" required>
                             <small class="text-muted">Untuk keperluan passport</small>
                         </div>
                     </div>
@@ -609,7 +1071,7 @@
                     <div class="row g-3 mt-2">
                         <div class="col-12">
                             <label class="form-label fw-bold">Pekerjaan <span class="text-danger">*</span></label>
-                            <input type="text" x-model="jamaahData.occupation" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required>
+                            <input type="text" x-model="jamaahData.occupation" class="form-control-dash" required>
                         </div>
                     </div>
                     
@@ -621,18 +1083,18 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label fw-bold">Alamat Lengkap <span class="text-danger">*</span></label>
-                            <textarea x-model="jamaahData.address" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" rows="2" required></textarea>
+                            <textarea x-model="jamaahData.address" class="form-control-dash" rows="2" required></textarea>
                         </div>
                     </div>
                     
                     <div class="row g-3 mt-2">
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Provinsi</label>
-                            <input type="text" x-model="jamaahData.province" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                            <input type="text" x-model="jamaahData.province" class="form-control-dash">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Kota/Kabupaten</label>
-                            <input type="text" x-model="jamaahData.city" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                            <input type="text" x-model="jamaahData.city" class="form-control-dash">
                         </div>
                     </div>
                     
@@ -644,11 +1106,11 @@
                     <div class="row g-3">
                         <div class="col-md-4">
                             <label class="form-label fw-bold">Nama <span class="text-danger">*</span></label>
-                            <input type="text" x-model="jamaahData.emergency_name" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required>
+                            <input type="text" x-model="jamaahData.emergency_name" class="form-control-dash" required>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label fw-bold">Hubungan <span class="text-danger">*</span></label>
-                            <select x-model="jamaahData.emergency_relation" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required>
+                            <select x-model="jamaahData.emergency_relation" class="form-control-dash" required>
                                 <option value="">Pilih</option>
                                 <option value="ayah">Ayah</option>
                                 <option value="ibu">Ibu</option>
@@ -660,15 +1122,15 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label fw-bold">No. Telepon <span class="text-danger">*</span></label>
-                            <input type="tel" x-model="jamaahData.emergency_phone" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required>
+                            <input type="tel" x-model="jamaahData.emergency_phone" class="form-control-dash" required>
                         </div>
                     </div>
                 </form>
             </div>
             
-            <div class="p-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50">
-                <button type="button" class="px-4 py-2 text-gray-600 font-medium hover:bg-gray-100 rounded-lg transition-colors" @click="showJamaahModal = false">Batal</button>
-                <button type="button" class="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm flex items-center gap-2" @click="submitJamaahForm" :disabled="isSubmitting">
+            <div class="modal-footer-custom">
+                <button type="button" class="btn-cancel" @click="showJamaahModal = false">Batal</button>
+                <button type="button" class="btn-submit" @click="submitJamaahForm" :disabled="isSubmitting">
                     <span x-show="!isSubmitting"><i class="bi bi-save"></i> Simpan Data</span>
                     <span x-show="isSubmitting"><i class="bi bi-hourglass-split"></i> Menyimpan...</span>
                 </button>
@@ -687,10 +1149,10 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
+         class="modal-overlay"
          @click.self="showDocModal = false">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col" @click.stop>
-            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+        <div class="modal-container" @click.stop>
+            <div class="modal-header-custom">
                 <h3><i class="bi bi-file-earmark-arrow-up"></i> Upload Dokumen - <span x-text="docJamaahName"></span></h3>
                 <button class="modal-close" @click="showDocModal = false">
                     <i class="bi bi-x-lg"></i>
@@ -706,17 +1168,17 @@
                         <h6 class="fw-bold text-primary mb-3"><i class="bi bi-star-fill text-warning"></i> Dokumen Wajib</h6>
                         
                         <!-- KTP -->
-                        <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 transition-colors mb-3 mb-3" :class="{ 'bg-emerald-50 text-emerald-700 border-emerald-100': documents.ktp.file }">
-                            <div class="flex justify-between items-center mb-2">
-                                <div class="font-bold text-gray-700">KTP <span class="text-danger">*</span></div>
-                                <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border" :class="documents.ktp.file ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-gray-100 text-gray-500 border-gray-200'">
+                        <div class="doc-upload-card mb-3" :class="{ 'uploaded': documents.ktp.file }">
+                            <div class="doc-header">
+                                <div class="doc-title">KTP <span class="text-danger">*</span></div>
+                                <span class="badge-status" :class="documents.ktp.file ? 'uploaded' : 'pending'">
                                     <span x-text="documents.ktp.file ? 'Siap Upload' : 'Belum Upload'"></span>
                                 </span>
                             </div>
                             
                             <template x-if="!documents.ktp.file">
-                                <label class="mt-2 cursor-pointer flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-center gap-2">
-                                    <input type="file" class="hidden" accept="image/*,.pdf" @change="handleFileSelect($event, 'ktp')">
+                                <label class="doc-upload-label">
+                                    <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'ktp')">
                                     <i class="bi bi-cloud-upload"></i>
                                     <span>Klik untuk upload KTP</span>
                                     <small class="text-muted">JPG, PNG, PDF (Max 2MB)</small>
@@ -724,28 +1186,28 @@
                             </template>
                             
                             <template x-if="documents.ktp.file">
-                                <div class="flex justify-between items-center p-3 bg-white rounded border border-gray-200 mt-2">
-                                    <div class="flex items-center gap-2 text-sm text-gray-600 truncate">
+                                <div class="doc-preview">
+                                    <div class="doc-info">
                                         <i class="bi bi-file-earmark-check-fill text-success fs-4"></i>
                                         <span x-text="documents.ktp.file.name"></span>
                                     </div>
-                                    <button type="button" class="text-red-500 hover:text-red-700 p-1" @click="removeFile('ktp')"><i class="bi bi-trash"></i></button>
+                                    <button type="button" class="btn-remove" @click="removeFile('ktp')"><i class="bi bi-trash"></i></button>
                                 </div>
                             </template>
                         </div>
                         
                         <!-- Kartu Keluarga -->
-                        <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 transition-colors mb-3" :class="{ 'bg-emerald-50 text-emerald-700 border-emerald-100': documents.kk.file }">
-                            <div class="flex justify-between items-center mb-2">
-                                <div class="font-bold text-gray-700">Kartu Keluarga (KK) <span class="text-danger">*</span></div>
-                                <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border" :class="documents.kk.file ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-gray-100 text-gray-500 border-gray-200'">
+                        <div class="doc-upload-card" :class="{ 'uploaded': documents.kk.file }">
+                            <div class="doc-header">
+                                <div class="doc-title">Kartu Keluarga (KK) <span class="text-danger">*</span></div>
+                                <span class="badge-status" :class="documents.kk.file ? 'uploaded' : 'pending'">
                                     <span x-text="documents.kk.file ? 'Siap Upload' : 'Belum Upload'"></span>
                                 </span>
                             </div>
                             
                             <template x-if="!documents.kk.file">
-                                <label class="mt-2 cursor-pointer flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-center gap-2">
-                                    <input type="file" class="hidden" accept="image/*,.pdf" @change="handleFileSelect($event, 'kk')">
+                                <label class="doc-upload-label">
+                                    <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'kk')">
                                     <i class="bi bi-cloud-upload"></i>
                                     <span>Klik untuk upload KK</span>
                                     <small class="text-muted">JPG, PNG, PDF (Max 2MB)</small>
@@ -753,12 +1215,12 @@
                             </template>
                             
                             <template x-if="documents.kk.file">
-                                <div class="flex justify-between items-center p-3 bg-white rounded border border-gray-200 mt-2">
-                                    <div class="flex items-center gap-2 text-sm text-gray-600 truncate">
+                                <div class="doc-preview">
+                                    <div class="doc-info">
                                         <i class="bi bi-file-earmark-check-fill text-success fs-4"></i>
                                         <span x-text="documents.kk.file.name"></span>
                                     </div>
-                                    <button type="button" class="text-red-500 hover:text-red-700 p-1" @click="removeFile('kk')"><i class="bi bi-trash"></i></button>
+                                    <button type="button" class="btn-remove" @click="removeFile('kk')"><i class="bi bi-trash"></i></button>
                                 </div>
                             </template>
                         </div>
@@ -779,8 +1241,8 @@
 
                         <!-- Ijazah Upload -->
                         <div x-show="activeTab === 'ijazah'" x-transition>
-                            <label class="mt-2 cursor-pointer flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-center gap-2">
-                                <input type="file" class="hidden" accept="image/*,.pdf" @change="handleFileSelect($event, 'ijazah')">
+                            <label class="doc-upload-label">
+                                <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'ijazah')">
                                 <i class="bi bi-cloud-upload"></i>
                                 <span x-text="documents.ijazah.file ? documents.ijazah.file.name : 'Upload Ijazah Terakhir'"></span>
                             </label>
@@ -792,8 +1254,8 @@
 
                         <!-- Buku Nikah Upload -->
                         <div x-show="activeTab === 'buku_nikah'" x-transition>
-                            <label class="mt-2 cursor-pointer flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-center gap-2">
-                                <input type="file" class="hidden" accept="image/*,.pdf" @change="handleFileSelect($event, 'buku_nikah')">
+                            <label class="doc-upload-label">
+                                <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'buku_nikah')">
                                 <i class="bi bi-cloud-upload"></i>
                                 <span x-text="documents.buku_nikah.file ? documents.buku_nikah.file.name : 'Upload Buku Nikah'"></span>
                             </label>
@@ -805,8 +1267,8 @@
 
                         <!-- Akta Upload -->
                         <div x-show="activeTab === 'akta'" x-transition>
-                            <label class="mt-2 cursor-pointer flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-center gap-2">
-                                <input type="file" class="hidden" accept="image/*,.pdf" @change="handleFileSelect($event, 'akta_kelahiran')">
+                            <label class="doc-upload-label">
+                                <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'akta_kelahiran')">
                                 <i class="bi bi-cloud-upload"></i>
                                 <span x-text="documents.akta_kelahiran.file ? documents.akta_kelahiran.file.name : 'Upload Akta Kelahiran'"></span>
                             </label>
@@ -828,24 +1290,24 @@
                         </div>
 
                         <div x-show="showPassportUpload" x-transition>
-                            <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 transition-colors mb-3" :class="{ 'bg-emerald-50 text-emerald-700 border-emerald-100': documents.passport.file }">
-                                <div class="flex justify-between items-center mb-2">
-                                    <div class="font-bold text-gray-700">Upload Passport</div>
-                                    <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border" :class="documents.passport.file ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-gray-100 text-gray-500 border-gray-200'">
+                            <div class="doc-upload-card" :class="{ 'uploaded': documents.passport.file }">
+                                <div class="doc-header">
+                                    <div class="doc-title">Upload Passport</div>
+                                    <span class="badge-status" :class="documents.passport.file ? 'uploaded' : 'pending'">
                                         <span x-text="documents.passport.file ? 'Siap Upload' : 'Belum Upload'"></span>
                                     </span>
                                 </div>
                                 <template x-if="!documents.passport.file">
-                                    <label class="mt-2 cursor-pointer flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-center gap-2">
-                                        <input type="file" class="hidden" accept="image/*,.pdf" @change="handleFileSelect($event, 'passport')">
+                                    <label class="doc-upload-label">
+                                        <input type="file" class="doc-upload-input" accept="image/*,.pdf" @change="handleFileSelect($event, 'passport')">
                                         <i class="bi bi-cloud-upload"></i>
                                         <span>Klik untuk upload Passport</span>
                                     </label>
                                 </template>
                                 <template x-if="documents.passport.file">
-                                    <div class="flex justify-between items-center p-3 bg-white rounded border border-gray-200 mt-2">
-                                        <div class="flex items-center gap-2 text-sm text-gray-600 truncate"><span x-text="documents.passport.file.name"></span></div>
-                                        <button type="button" class="text-red-500 hover:text-red-700 p-1" @click="removeFile('passport')"><i class="bi bi-trash"></i></button>
+                                    <div class="doc-preview">
+                                        <div class="doc-info"><span x-text="documents.passport.file.name"></span></div>
+                                        <button type="button" class="btn-remove" @click="removeFile('passport')"><i class="bi bi-trash"></i></button>
                                     </div>
                                 </template>
                             </div>
@@ -854,9 +1316,9 @@
                 </form>
             </div>
             
-            <div class="p-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50">
-                <button type="button" class="px-4 py-2 text-gray-600 font-medium hover:bg-gray-100 rounded-lg transition-colors" @click="showDocModal = false">Batal</button>
-                <button type="button" class="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm flex items-center gap-2" @click="submitDocuments" :disabled="isUploading || !canSubmitDocs">
+            <div class="modal-footer-custom">
+                <button type="button" class="btn-cancel" @click="showDocModal = false">Batal</button>
+                <button type="button" class="btn-submit" @click="submitDocuments" :disabled="isUploading || !canSubmitDocs">
                     <span x-show="!isUploading"><i class="bi bi-cloud-upload"></i> Upload Dokumen</span>
                     <span x-show="isUploading"><i class="bi bi-hourglass-split"></i> Mengupload...</span>
                 </button>
@@ -866,9 +1328,9 @@
 </section>
 
 <!-- Contact CS Sticky -->
-<div class="fixed bottom-6 right-6 z-40">
+<div class="contact-cs-sticky">
     <a href="https://wa.me/6282184515310?text=Halo%20Mahira%20Tour,%20saya%20butuh%20bantuan.%20Nomor%20Registrasi:%20{{ $registration->registration_number }}" 
-       class="flex items-center gap-2 px-5 py-3 bg-[#25D366] text-white rounded-full font-bold shadow-lg hover:bg-[#20bd5a] transition-all transform hover:scale-105" 
+       class="btn-wa" 
        target="_blank">
         <i class="bi bi-whatsapp"></i>
         <span>Butuh Bantuan?</span>
@@ -937,34 +1399,26 @@ function dashboardApp() {
 
         showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
-            if (!container) return;
             const toast = document.createElement('div');
-            
-            // Tailwind classes
-            const bgColor = type === 'success' ? 'bg-emerald-50 text-emerald-800 border-emerald-100' : 'bg-red-50 text-red-800 border-red-100';
-            const iconColor = type === 'success' ? 'text-emerald-500' : 'text-red-500';
-            const iconClass = type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-circle-fill';
-            
-            toast.className = `${bgColor} border shadow-lg rounded-xl p-4 flex items-center gap-3 transform transition-all duration-300 translate-x-10 opacity-0 pointer-events-auto min-w-[300px]`;
-            
+            toast.className = 'toast-modern';
             toast.innerHTML = `
-                <i class="bi ${iconClass} ${iconColor} text-xl"></i>
-                <div class="font-medium text-sm">${message}</div>
+                <i class="bi bi-check-circle-fill toast-icon"></i>
+                <span>${message}</span>
             `;
             
             container.appendChild(toast);
             
             // Trigger animation
             requestAnimationFrame(() => {
-                toast.classList.remove('translate-x-10', 'opacity-0');
+                toast.classList.add('show');
             });
             
             // Remove after 3 seconds
             setTimeout(() => {
-                toast.classList.add('translate-x-10', 'opacity-0');
+                toast.classList.remove('show');
                 setTimeout(() => {
                     toast.remove();
-                }, 300);
+                }, 400);
             }, 3000);
         },
         

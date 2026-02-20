@@ -2,59 +2,57 @@
 
 @section('title', 'Jadwal Keberangkatan - Mahira Tour')
 
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/schedule.css') }}">
-@endpush
-
 @section('content')
-<!-- Hero Section -->
-<!-- Hero Section -->
-<section class="page-hero">
-    <div class="page-hero-background">
-        <img src="{{ asset('images/hero/hero-schedule.webp') }}" 
-             alt="Jadwal Keberangkatan Mahira Tour" 
-             fetchpriority="high"
-             loading="eager">
+{{-- ==================== HERO SECTION ==================== --}}
+<section class="relative h-[450px] md:h-[400px] sm:h-[350px] overflow-hidden flex items-center justify-center">
+    <div class="absolute inset-0 z-[1]">
+        <img src="{{ asset('images/hero/hero-schedule.webp') }}" alt="Jadwal Keberangkatan Mahira Tour" fetchpriority="high" loading="eager"
+             class="w-full h-full object-cover object-center" style="animation: heroKenBurns 20s ease-in-out infinite alternate;">
     </div>
-    
-    <div class="page-hero-overlay"></div>
-    
-    <div class="page-hero-content">
-        <div class="hero-breadcrumb">
-            <a href="{{ route('home') }}">
-                <i class="bi bi-house-door-fill"></i> Beranda
+    <div class="absolute inset-0 z-[2]" style="background: rgba(0, 29, 95, 0.75);"></div>
+    <div class="relative z-[3] text-center max-w-[900px] px-5 pt-10">
+        <div class="inline-flex items-center gap-2 px-6 py-2 rounded-full mb-6 text-[0.9rem]"
+             style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);">
+            <a href="{{ route('home') }}" class="text-white no-underline font-medium hover:opacity-80 transition-opacity">
+                <svg class="w-4 h-4 inline-block mr-1 -mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+                Beranda
             </a>
-            <span>/</span>
-            <span>Jadwal Keberangkatan</span>
+            <span style="color: rgba(255,255,255,0.7);">/</span>
+            <span style="color: rgba(255,255,255,0.7);">Jadwal Keberangkatan</span>
         </div>
-        <h1>
-            <span class="hero-text-line slide-left">Jadwal</span> 
-            <span class="hero-text-line slide-right">Keberangkatan</span>
+        <h1 class="text-[3.5rem] md:text-[2.5rem] sm:text-[2rem] font-bold font-serif text-white mb-4 leading-tight"
+            style="text-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+            <span class="inline-block mx-1 opacity-0" style="animation: slideInLeft 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.3s forwards;">Jadwal</span>
+            <span class="inline-block mx-1 opacity-0" style="animation: slideInRight 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.5s forwards;">Keberangkatan</span>
         </h1>
-        <p class="hero-tagline">UMRAH BERSAMA, BERKAH BERSAMA</p>
-        <p class="hero-desc">Pilih jadwal yang sesuai dengan rencana perjalanan spiritual Anda</p>
+        <p class="font-semibold text-[0.9rem] uppercase tracking-wider mb-2" style="color: #D4AF37;">UMRAH BERSAMA, BERKAH BERSAMA</p>
+        <p class="text-sm md:text-base max-w-[700px] mx-auto leading-relaxed" style="color: rgba(255,255,255,0.9);">
+            Pilih jadwal yang sesuai dengan rencana perjalanan spiritual Anda
+        </p>
     </div>
 </section>
 
-
-<section class="filter-section">
-    <div class="container">
-        <div x-data="{ activeFilter: 'all' }" class="d-flex gap-2 justify-content-center flex-wrap">
-            <button @click="activeFilter = 'all'; 
-                    document.querySelectorAll('.col-lg-4').forEach(el => el.style.display = 'block')"
+{{-- ==================== FILTER SECTION ==================== --}}
+<section class="sticky top-[76px] z-[999] py-5" style="background: white; box-shadow: 0 4px 20px rgba(0,29,95,0.08);"
+         x-data="{ activeFilter: 'all' }">
+    <div class="container-main">
+        <div class="flex gap-2 justify-center flex-wrap">
+            <button @click="activeFilter = 'all'; document.querySelectorAll('[data-schedule-card]').forEach(el => el.style.display = '')"
                     :class="{ 'active': activeFilter === 'all' }"
-                    class="filter-btn">
+                    class="px-8 py-3 rounded-full font-semibold text-[15px] cursor-pointer transition-all duration-300"
+                    :style="activeFilter === 'all' ? 'border: 2px solid #001D5F; background: #001D5F; color: white; box-shadow: 0 8px 25px rgba(0,29,95,0.25);' : 'border: 2px solid #E8EBF3; background: white; color: #6B7280;'">
                 Semua Jadwal
             </button>
-            
+
             @foreach($departure_routes as $route)
             <button @click="activeFilter = '{{ $route }}';
-                    document.querySelectorAll('.col-lg-4').forEach(el => {
+                    document.querySelectorAll('[data-schedule-card]').forEach(el => {
                         const card = el.querySelector('[data-route]');
-                        el.style.display = card?.dataset.route === '{{ $route }}' ? 'block' : 'none';
+                        el.style.display = card?.dataset.route === '{{ $route }}' ? '' : 'none';
                     })"
                     :class="{ 'active': activeFilter === '{{ $route }}' }"
-                    class="filter-btn">
+                    class="px-8 py-3 rounded-full font-semibold text-[15px] cursor-pointer transition-all duration-300"
+                    :style="activeFilter === '{{ $route }}' ? 'border: 2px solid #001D5F; background: #001D5F; color: white; box-shadow: 0 8px 25px rgba(0,29,95,0.25);' : 'border: 2px solid #E8EBF3; background: white; color: #6B7280;'">
                 {{ $route }}
             </button>
             @endforeach
@@ -62,10 +60,10 @@
     </div>
 </section>
 
-<!-- Schedule Grid with Modal Trigger -->
-<section class="py-5" style="padding: 80px 0; background: var(--white);">
-    <div class="container">
-        <div class="row g-4">
+{{-- ==================== SCHEDULE GRID ==================== --}}
+<section class="py-20" style="background: white;">
+    <div class="container-main">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($schedules as $schedule)
             @php
                 $statusClass = match($schedule['status']) {
@@ -74,118 +72,117 @@
                     'full' => 'full',
                     default => 'available'
                 };
-                
+
                 $statusText = match($schedule['status']) {
                     'available' => 'Tersedia',
                     'almost_full' => 'Hampir Penuh',
                     'full' => 'Penuh',
                     default => 'Tersedia'
                 };
-                
-                $badgeClass = match($schedule['status']) {
-                    'available' => 'badge-available',
-                    'almost_full' => 'badge-almost-full',
-                    'full' => 'badge-full',
-                    default => 'badge-available'
-                };
             @endphp
-            
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ ($loop->index + 1) * 50 }}">
- <div class="flyer-card" 
-     data-route="{{ $schedule['departure_route'] }}"
-     data-schedule-id="{{ $schedule['id'] }}"
-     data-departure-date="{{ $schedule['departure_date'] }}"
-     data-return-date="{{ $schedule['return_date'] }}"
-     data-airline="{{ $schedule['airline'] }}"
-     data-price="{{ $schedule['price'] }}"
-     data-duration="{{ $schedule['duration'] }}"
-     data-status="{{ $schedule['status'] }}"
-     data-quota="{{ $schedule['quota'] }}"
-     data-seats-taken="{{ $schedule['seats_taken'] }}">
-    
-    {{-- Flyer Image --}}
-    <a href="{{ route('schedule.detail', ['id' => $schedule['id'], 'slug' => \Illuminate\Support\Str::slug($schedule['package_name'])]) }}" class="flyer-image-container">
-        <img src="{{ Storage::url($schedule['flyer_image']) }}" 
-             alt="{{ $schedule['package_name'] }}" 
-             class="flyer-image"
-             loading="lazy">
-        
-        <span class="flyer-badge {{ $badgeClass }}">
-            <i class="bi bi-{{ $schedule['status'] === 'full' ? 'x-circle-fill' : 'check-circle-fill' }}"></i>
-            {{ $statusText }}
-        </span>
-        
-        <div class="flyer-click-hint">
-            <i class="bi bi-eye"></i>
-            Lihat Detail
-        </div>
-        </a>
-    
-    {{-- Card Info --}}
-    <div class="flyer-info">
-        <h3 class="flyer-title">{{ $schedule['package_name'] }}</h3>
-        
-        <div class="flyer-meta">
-            <div class="meta-item">
-                <i class="bi bi-calendar-event"></i>
-                <span>{{ date('d M Y', strtotime($schedule['departure_date'])) }}</span>
-            </div>
-            <div class="meta-item">
-                <i class="bi bi-geo-alt-fill"></i>
-                <span>{{ $schedule['departure_route'] }}</span>
-            </div>
-            <div class="meta-item">
-                <i class="bi bi-airplane-fill"></i>
-                <span>{{ $schedule['airline'] }}</span>
-            </div>
-            <div class="meta-item price">
-                <i class="bi bi-tag-fill"></i>
-                <span>Rp {{ number_format($schedule['price'], 0, ',', '.') }}</span>
-            </div>
-        </div>
-        
-        {{-- 2 Button Actions --}}
-        <div class="flyer-actions">
-            @if($schedule['status'] !== 'full')
-            <a href="{{ route('register', ['schedule_id' => $schedule['id']]) }}" 
-               class="btn-register-direct">
-                <i class="bi bi-pencil-square"></i> Daftar
-            </a>
-            @else
-            <button class="btn-register-direct" disabled>
-                <i class="bi bi-x-circle"></i> Penuh
-            </button>
-            @endif
-            
-            <a href="{{ route('schedule.detail', ['id' => $schedule['id'], 'slug' => \Illuminate\Support\Str::slug($schedule['package_name'])]) }}" 
-               class="btn-view-detail">
-                <i class="bi bi-info-circle"></i> Detail
-            </a>
-        </div>
-    </div>
-</div>
+
+            <div data-schedule-card>
+                <div class="rounded-2xl overflow-hidden h-full flex flex-col transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl group"
+                     data-route="{{ $schedule['departure_route'] }}"
+                     data-schedule-id="{{ $schedule['id'] }}"
+                     style="background: white; box-shadow: 0 4px 15px rgba(0,29,95,0.08);">
+                    
+                    {{-- Flyer Image --}}
+                    <a href="{{ route('schedule.detail', ['id' => $schedule['id'], 'slug' => \Illuminate\Support\Str::slug($schedule['package_name'])]) }}" 
+                       class="block relative h-[350px] overflow-hidden cursor-pointer no-underline" style="background: #f5f5f5;">
+                        <img src="{{ Storage::url($schedule['flyer_image']) }}" 
+                             alt="{{ $schedule['package_name'] }}" 
+                             class="w-full h-full object-contain object-center transition-transform duration-400 group-hover:scale-105"
+                             loading="lazy" style="background: white;">
+                        
+                        {{-- Status Badge --}}
+                        <span class="absolute top-3 right-3 z-10 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full font-bold text-xs"
+                              style="background: linear-gradient(135deg, #D4AF37, #F4D03F); color: #001D5F; box-shadow: 0 4px 12px rgba(212,175,55,0.4);">
+                            @if($schedule['status'] === 'full')
+                                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                            @else
+                                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                            @endif
+                            {{ $statusText }}
+                        </span>
+                        
+                        {{-- Hover Hint --}}
+                        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full text-white text-xs font-semibold flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-[2]"
+                             style="background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            Lihat Detail
+                        </div>
+                    </a>
+                    
+                    {{-- Card Info --}}
+                    <div class="p-5 flex-1 flex flex-col gap-3.5 relative z-[5]">
+                        <h3 class="text-xl font-bold leading-snug m-0" style="color: #001D5F;">{{ $schedule['package_name'] }}</h3>
+                        
+                        <div class="flex flex-wrap gap-2">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold" style="background: #E8EBF3; color: #001D5F;">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                {{ date('d M Y', strtotime($schedule['departure_date'])) }}
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold" style="background: #E8EBF3; color: #001D5F;">
+                                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+                                {{ $schedule['departure_route'] }}
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold" style="background: #E8EBF3; color: #001D5F;">
+                                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M22 16.21v-1.895l-1.5-1.5v-7.396c0-.854-.552-1.609-1.368-1.873L12.66 1.356c-.427-.139-.89-.139-1.317 0L4.868 3.546c-.816.264-1.368 1.02-1.368 1.873v7.396l-1.5 1.5v1.895h2v1.79h16v-1.79h2zm-10-14l5.664 1.837L12 5.892 6.336 4.047 12 2.21z"/></svg>
+                                {{ $schedule['airline'] }}
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold text-white" style="background: #D4AF37;">
+                                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>
+                                Rp {{ number_format($schedule['price'], 0, ',', '.') }}
+                            </span>
+                        </div>
+                        
+                        {{-- Action Buttons --}}
+                        <div class="flex gap-2 mt-auto">
+                            @if($schedule['status'] !== 'full')
+                            <a href="{{ route('register', ['schedule_id' => $schedule['id']]) }}" 
+                               class="flex-1 inline-flex items-center justify-center gap-2.5 py-4 rounded-lg text-[15px] font-semibold no-underline transition-all duration-300 hover:-translate-y-0.5"
+                               style="background: #001D5F; color: white; border: 2px solid #001D5F;"
+                               onmouseover="this.style.background='#D4AF37'; this.style.borderColor='#D4AF37'; this.style.boxShadow='0 8px 25px rgba(212,175,55,0.3)';"
+                               onmouseout="this.style.background='#001D5F'; this.style.borderColor='#001D5F'; this.style.boxShadow='none';">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                Daftar
+                            </a>
+                            @else
+                            <button disabled class="flex-1 inline-flex items-center justify-center gap-2.5 py-4 rounded-lg text-[15px] font-semibold transition-all duration-300 cursor-not-allowed opacity-70"
+                                    style="background: #9E9E9E; color: white; border: 2px solid #9E9E9E;">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                                Penuh
+                            </button>
+                            @endif
+
+                            <a href="{{ route('schedule.detail', ['id' => $schedule['id'], 'slug' => \Illuminate\Support\Str::slug($schedule['package_name'])]) }}" 
+                               class="flex-1 inline-flex items-center justify-center gap-2.5 py-4 rounded-lg text-[15px] font-semibold no-underline transition-all duration-300 hover:-translate-y-0.5"
+                               style="background: white; color: #001D5F; border: 2px solid #001D5F;"
+                               onmouseover="this.style.background='#D4AF37'; this.style.borderColor='#D4AF37'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(212,175,55,0.3)';"
+                               onmouseout="this.style.background='white'; this.style.borderColor='#001D5F'; this.style.color='#001D5F'; this.style.boxShadow='none';">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Detail
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
             @endforeach
         </div>
-        
+
         @if(count($schedules) === 0)
-        <div class="empty-state">
-            <i class="bi bi-calendar-x empty-icon"></i>
-            <h4 style="color: var(--primary-navy); font-weight: 700;">Belum Ada Jadwal Tersedia</h4>
-            <p class="text-muted">Silakan hubungi kami untuk informasi jadwal terbaru</p>
+        <div class="text-center py-20">
+            <svg class="w-16 h-16 mx-auto mb-4" style="color: #E5E7EB;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            <h4 class="text-xl font-bold mb-2" style="color: #001D5F;">Belum Ada Jadwal Tersedia</h4>
+            <p class="text-base" style="color: #6B7280;">Silakan hubungi kami untuk informasi jadwal terbaru</p>
         </div>
         @endif
     </div>
 </section>
 
-
-
-
 @include('partials.cta-section')
 
 @endsection
-
-@push('scripts')
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script src="{{ asset('js/schedule.js') }}"></script>
-@endpush

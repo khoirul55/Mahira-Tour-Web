@@ -10,8 +10,8 @@ const branchesWithCoords = [
 
 // Initialize map with interaction disabled initially
 const map = L.map('map', {
-    scrollWheelZoom: false, // Disable scroll zoom
-    dragging: !L.Browser.mobile, // Disable dragging on mobile initially
+    scrollWheelZoom: false,
+    dragging: !L.Browser.mobile,
     tap: false
 }).setView([-1.5, 102], 6);
 
@@ -29,22 +29,35 @@ map.on('click', function() {
     map.scrollWheelZoom.enable();
 });
 
-// Disable interaction when mouse leaves map (optional, good for UX)
 map.on('mouseout', function() {
     map.scrollWheelZoom.disable();
 });
 
 const markers = {};
 
+// SVG icons (no Bootstrap Icons dependency)
+const svgIcons = {
+    building: '<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd"/></svg>',
+    pin: '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>',
+    phone: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>',
+    map: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12 1.586l-4 4v12.828l4-4V1.586zM3.707 3.293A1 1 0 002 4v10a1 1 0 00.293.707L6 18.414V5.586L3.707 3.293zM17.707 5.293L14 1.586v12.828l2.293 2.293A1 1 0 0018 16V6a1 1 0 00-.293-.707z" clip-rule="evenodd"/></svg>'
+};
+
 function createCustomIcon(isMain) {
+    const size = isMain ? 44 : 36;
+    const bg = isMain ? '#D4AF37' : '#10B981';
     return L.divIcon({
-        className: 'custom-div-icon',
-        html: `<div class="custom-marker ${isMain ? 'main' : ''}">
-                <i class="bi bi-${isMain ? 'building-fill' : 'geo-alt-fill'}"></i>
-              </div>`,
-        iconSize: isMain ? [50, 50] : [40, 40],
-        iconAnchor: isMain ? [25, 50] : [20, 40],
-        popupAnchor: [0, isMain ? -50 : -40]
+        className: '',
+        html: `<div style="
+            width:${size}px; height:${size}px;
+            background:${bg}; border-radius:50%;
+            display:flex; align-items:center; justify-content:center;
+            color:white; box-shadow:0 4px 12px rgba(0,0,0,0.3);
+            border:3px solid white;
+        ">${isMain ? svgIcons.building : svgIcons.pin}</div>`,
+        iconSize: [size, size],
+        iconAnchor: [size/2, size],
+        popupAnchor: [0, -size]
     });
 }
 
@@ -52,23 +65,20 @@ function createPopupContent(branch) {
     const mapUrl = branch.mapLink ? branch.mapLink : `https://www.google.com/maps/dir/?api=1&destination=${branch.coordinates[0]},${branch.coordinates[1]}`;
     
     return `
-        <div class="popup-header ${branch.isMain ? 'featured' : ''}">
-            ${branch.isMain ? '<div class="popup-badge">Kantor Pusat</div>' : ''}
-            <h4>${branch.name}</h4>
-        </div>
-        <div class="popup-body">
-            <div class="popup-info">
-                <i class="bi bi-geo-alt-fill"></i>
-                <span>${branch.address}</span>
-            </div>
-            <div class="popup-actions">
+        <div style="padding:12px 14px; min-width:220px;">
+            ${branch.isMain ? '<div style="display:inline-block; background:#D4AF37; color:white; padding:2px 10px; border-radius:50px; font-size:0.7rem; font-weight:700; margin-bottom:8px; text-transform:uppercase;">Kantor Pusat</div>' : ''}
+            <h4 style="margin:0 0 4px 0; font-size:1.1rem; font-weight:700; color:#001D5F;">${branch.name}</h4>
+            <p style="margin:0 0 10px 0; font-size:0.85rem; color:#6B7280; display:flex; align-items:flex-start; gap:6px; line-height:1.5;">
+                ${svgIcons.pin} ${branch.address}
+            </p>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
                 ${branch.phone ? `
-                    <a href="tel:${branch.phone}" class="popup-btn primary">
-                        <i class="bi bi-telephone-fill"></i> Hubungi
+                    <a href="tel:${branch.phone}" style="display:inline-flex; align-items:center; gap:5px; padding:6px 14px; background:#001D5F; color:white; border-radius:6px; text-decoration:none; font-size:0.8rem; font-weight:600; transition:all 0.3s;">
+                        ${svgIcons.phone} Hubungi
                     </a>
                 ` : ''}
-                <a href="${mapUrl}" target="_blank" class="popup-btn ${branch.phone ? 'secondary' : 'primary'}">
-                    <i class="bi bi-map-fill"></i> Google Maps
+                <a href="${mapUrl}" target="_blank" style="display:inline-flex; align-items:center; gap:5px; padding:6px 14px; background:${branch.phone ? '#F3F4F6' : '#001D5F'}; color:${branch.phone ? '#001D5F' : 'white'}; border-radius:6px; text-decoration:none; font-size:0.8rem; font-weight:600; transition:all 0.3s;">
+                    ${svgIcons.map} Google Maps
                 </a>
             </div>
         </div>
@@ -89,31 +99,45 @@ branchesWithCoords.forEach(branch => {
     markers[branch.id] = marker;
 });
 
-// Render branch cards
+// Render branch cards with Tailwind styles
 function renderBranchCards() {
     const container = document.getElementById('branchCardsContainer');
     if (!container) return;
     
-    const cardsHTML = branchesWithCoords.map(branch => `
-        <div class="branch-card ${branch.isMain ? 'main' : ''}" onclick="focusBranch(${branch.id})">
-            <div class="branch-card-header">
-                <div class="branch-card-icon">
-                    <i class="bi bi-${branch.isMain ? 'building-fill' : 'geo-alt-fill'}"></i>
+    const cardsHTML = branchesWithCoords.map(branch => {
+        const isMain = branch.isMain;
+        const cardBg = isMain ? 'background: linear-gradient(135deg, #D4AF37 0%, #C5A028 100%); color: white;' : 'background: white;';
+        const borderHover = isMain ? '#D4AF37' : '#10B981';
+        const iconBg = isMain ? 'rgba(255,255,255,0.2)' : 'rgba(16,185,129,0.15)';
+        const iconColor = isMain ? 'white' : '#10B981';
+        const titleColor = isMain ? 'white' : '#1F2937';
+        const regionColor = isMain ? 'rgba(255,255,255,0.9)' : '#6B7280';
+        const addressColor = isMain ? 'rgba(255,255,255,0.95)' : '#6B7280';
+        const borderTopColor = isMain ? 'rgba(255,255,255,0.2)' : '#E5E7EB';
+        
+        return `
+        <div class="branch-card" data-id="${branch.id}" onclick="focusBranch(${branch.id})"
+             style="min-width:280px; ${cardBg} border-radius:16px; padding:20px; cursor:pointer; transition:all 0.3s; border:2px solid transparent; box-shadow:0 4px 15px rgba(0,29,95,0.08);"
+             onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='${borderHover}'; this.style.boxShadow='0 8px 25px rgba(0,29,95,0.12)';"
+             onmouseout="this.style.transform=''; this.style.borderColor='transparent'; this.style.boxShadow='0 4px 15px rgba(0,29,95,0.08)';">
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+                <div style="width:48px; height:48px; background:${iconBg}; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:${iconColor};">
+                    ${isMain ? svgIcons.building : svgIcons.pin}
                 </div>
-                <div class="branch-card-title">
-                    <h4>${branch.name}</h4>
-                    <p>${branch.region}</p>
+                <div>
+                    <h4 style="font-size:1.1rem; font-weight:700; color:${titleColor}; margin:0 0 2px 0;">${branch.name}</h4>
+                    <p style="font-size:0.8rem; color:${regionColor}; margin:0;">${branch.region}</p>
                 </div>
             </div>
-            <div class="branch-card-body">
-                <div class="branch-card-address">
-                    <i class="bi bi-geo-alt-fill"></i>
+            <div style="padding-top:12px; border-top:1px solid ${borderTopColor};">
+                <div style="font-size:0.85rem; color:${addressColor}; line-height:1.5; display:flex; gap:8px;">
+                    <span style="color:${isMain ? 'white' : '#10B981'}; flex-shrink:0; margin-top:2px;">${svgIcons.pin}</span>
                     <span>${branch.address}</span>
                 </div>
-                ${branch.isMain ? '<div class="branch-badge-card">Kantor Pusat</div>' : ''}
+                ${isMain ? `<div style="display:inline-block; background:rgba(255,255,255,0.3); color:white; padding:4px 12px; border-radius:50px; font-size:0.7rem; font-weight:700; text-transform:uppercase; margin-top:10px;">Kantor Pusat</div>` : ''}
             </div>
-        </div>
-    `).join('');
+        </div>`;
+    }).join('');
     
     container.innerHTML = cardsHTML;
 }
@@ -125,16 +149,17 @@ function focusBranch(branchId) {
     
     map.flyTo(branch.coordinates, 13, {duration: 1.5});
     
-    // Highlight card
+    // Reset all cards
     document.querySelectorAll('.branch-card').forEach(card => {
         card.style.transform = '';
         card.style.borderColor = 'transparent';
     });
     
+    // Highlight clicked card
     const clickedCard = event.target.closest('.branch-card');
     if (clickedCard) {
         clickedCard.style.transform = 'translateY(-5px)';
-        clickedCard.style.borderColor = branch.isMain ? 'var(--accent)' : 'var(--success)';
+        clickedCard.style.borderColor = branch.isMain ? '#D4AF37' : '#10B981';
     }
     
     setTimeout(() => {
@@ -149,18 +174,6 @@ renderBranchCards();
 setTimeout(() => {
     focusBranch(1);
 }, 1000);
-
-// Lazy load backgrounds
-const lazyBackgrounds = document.querySelectorAll('.lazy-bg');
-const bgObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('loaded');
-            bgObserver.unobserve(entry.target);
-        }
-    });
-});
-lazyBackgrounds.forEach(bg => bgObserver.observe(bg));
 
 // Section fade animation
 const sections = document.querySelectorAll('section');
