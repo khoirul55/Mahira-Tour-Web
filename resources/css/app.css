@@ -1,11 +1,40 @@
 @import 'tailwindcss';
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+@source '../views/**/*.blade.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    /* ===== Brand Colors ===== */
+    --color-primary: #001D5F;
+    --color-primary-dark: #001440;
+    --color-primary-light: #002B8F;
+    --color-primary-lighter: #E8EBF3;
+    --color-gold: #D4AF37;
+    --color-gold-dark: #B89230;
+    --color-gold-light: #F4D03F;
+    --color-cream: #F5F1E8;
+    --color-taupe: #8B7F6E;
+    --color-success: #10B981;
+
+    /* ===== Typography ===== */
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Lora', ui-serif, Georgia, serif;
+
+    /* ===== Custom Shadows ===== */
+    --shadow-card: 0 2px 20px rgba(0, 29, 95, 0.06);
+    --shadow-card-hover: 0 12px 40px rgba(0, 29, 95, 0.12);
+    --shadow-nav: 0 2px 20px rgba(0, 29, 95, 0.08);
+    --shadow-hero: 0 20px 60px rgba(0, 0, 0, 0.15);
+
+    /* ===== Border Radius ===== */
+    --radius-card: 16px;
+    --radius-button: 50px;
+    --radius-action: 12px;
+}
+
+/* ===== Custom Utilities ===== */
+@utility container-main {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: clamp(16px, 5vw, 40px);
 }

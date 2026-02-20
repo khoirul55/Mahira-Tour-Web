@@ -5,7 +5,6 @@
 @push('styles')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <link rel="stylesheet" href="{{ asset('css/about.css') }}">
-<link rel="stylesheet" href="{{ asset('css/cta.css') }}">
     <style>
         .story-section-title { font-family: 'Lora', serif; margin-bottom: 2rem; line-height: 1.3; }
         

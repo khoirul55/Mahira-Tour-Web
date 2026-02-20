@@ -4,7 +4,6 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
-<link rel="stylesheet" href="{{ asset('css/cta.css') }}">
 @endpush
 
 @section('content')

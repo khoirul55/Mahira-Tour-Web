@@ -51,15 +51,10 @@
     
     <!-- Global CSS Variables -->
     <link rel="stylesheet" href="{{ asset('css/variables.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/animations.css') }}">
     
-    <!-- Navbar CSS - Load before Vite -->
-    <!-- Navbar CSS - Load before Vite -->
-    <!-- Navbar CSS - Load before Vite -->
-    <link rel="stylesheet" href="{{ asset('css/navbar.css?v=2.0') }}">
+    <!-- Page-specific shared CSS -->
     <link rel="stylesheet" href="{{ asset('css/page-hero.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/floating-wa.css') }}">
     
     <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -76,16 +71,7 @@
         @yield('content')
     </main>
     
-    <!-- ==================== FLOATING WHATSAPP BUTTON ==================== -->
-    <div class="floating-whatsapp">
-        <a href="https://wa.me/6282184515310?text=Assalamualaikum%20Mahira%20Tour%2C%20saya%20ingin%20konsultasi%20paket%20umrah" 
-           class="whatsapp-button" 
-           target="_blank"
-           rel="noopener noreferrer"
-           aria-label="Chat via WhatsApp">
-            <i class="bi bi-whatsapp"></i>
-        </a>
-    </div>
+    {{-- Floating WhatsApp is now inside footer.blade.php --}}
 
     @include('partials.footer')
     
@@ -93,7 +79,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- Page-specific scripts -->
-    <script src="{{ asset('js/navbar.js') }}"></script>
     @stack('scripts')
 </body>
 </html>
