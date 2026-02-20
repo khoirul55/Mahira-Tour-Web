@@ -80,9 +80,9 @@
                     </a>
                     
                     {{-- Path B: Explore Packages (Secondary, softer language) --}}
-                    <a href="#packages" class="btn-outline">
+                    <a href="{{ route('schedule') }}" class="btn-outline">
                         <i class="bi bi-compass"></i>
-                        Jelajahi Paket Umrah
+                        Jelajahi Paket
                     </a>
                 </div>
                 
