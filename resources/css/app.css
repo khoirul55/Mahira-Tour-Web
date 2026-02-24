@@ -47,6 +47,18 @@
     }
 }
 
+/* ===== Button Link Reset ===== */
+/* Tailwind v4 preflight adds underline to all <a> tags.
+   This removes it from links styled as buttons. */
+a[class*="rounded"] {
+    text-decoration: none;
+}
+
+/* Remove underline from footer & nav links */
+a[class*="hover:text-"] {
+    text-decoration: none;
+}
+
 /* ===== Keyframes ===== */
 @keyframes heroKenBurns {
     0% { transform: scale(1); }
