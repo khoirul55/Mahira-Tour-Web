@@ -78,7 +78,7 @@
             <div class="row g-0">
                 <!-- Flyer Image -->
                 <div class="col-md-2">
-                    <div style="height: 100%; overflow: hidden;">
+                    <div class="h-100 admin-overflow-hidden">
                         <img src="{{ Storage::url($schedule->flyer_image) }}" 
                              alt="{{ $schedule->package_name }}" 
                              class="flyer-img"
@@ -157,7 +157,7 @@
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body text-center">
-                        <img :src="previewUrl" class="img-fluid" style="max-height: 70vh; border-radius: 8px;">
+                        <img :src="previewUrl" class="img-fluid admin-modal-img">
                     </div>
                     <div class="modal-footer">
                         <a :href="previewUrl" download class="btn btn-success">
@@ -171,11 +171,11 @@
     </div>
 
     <!-- Hidden Forms -->
-    <form id="toggleForm" method="POST" style="display: none;">
+    <form id="toggleForm" method="POST" class="admin-hidden-form">
         @csrf
     </form>
 
-    <form id="deleteForm" method="POST" style="display: none;">
+    <form id="deleteForm" method="POST" class="admin-hidden-form">
         @csrf
         @method('DELETE')
     </form>

@@ -89,7 +89,7 @@
                             <h5 class="card-title mb-3">Preview Foto</h5>
                             <div class="preview-container">
                                 <div x-show="!imagePreview" class="text-muted">
-                                    <i class="bi bi-image" style="font-size: 3rem;"></i>
+                                    <i class="bi bi-image admin-icon-xl"></i>
                                     <p class="mt-2">Belum ada foto dipilih</p>
                                 </div>
                                 <img x-show="imagePreview" 

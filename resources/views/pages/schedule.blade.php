@@ -20,8 +20,8 @@
             <span class="text-white/70">Jadwal Keberangkatan</span>
         </div>
         <h1 class="text-[3.5rem] md:text-[2.5rem] sm:text-[2rem] font-bold font-serif text-white mb-4 leading-tight [text-shadow:0_4px_20px_rgba(0,0,0,0.3)]">
-            <span class="inline-block mx-1 opacity-0 animate-[slideInLeft_1s_cubic-bezier(0.215,0.610,0.355,1.000)_0.3s_forwards]">Jadwal</span>
-            <span class="inline-block mx-1 opacity-0 animate-[slideInRight_1s_cubic-bezier(0.215,0.610,0.355,1.000)_0.5s_forwards]">Keberangkatan</span>
+            <span class="inline-block mx-1" style="opacity: 0; animation: slideInLeft 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.3s forwards;">Jadwal</span>
+            <span class="inline-block mx-1" style="opacity: 0; animation: slideInRight 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.5s forwards;">Keberangkatan</span>
         </h1>
         <p class="font-semibold text-[0.9rem] uppercase tracking-wider mb-2 text-[#D4AF37]">UMRAH BERSAMA, BERKAH BERSAMA</p>
         <p class="text-sm md:text-base max-w-[700px] mx-auto leading-relaxed text-white/90">

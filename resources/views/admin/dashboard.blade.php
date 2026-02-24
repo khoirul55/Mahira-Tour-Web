@@ -84,7 +84,7 @@
                         </small>
                     </div>
                     <div class="col-md-2">
-                        <strong style="font-size: 1.1rem;">Rp {{ number_format($payment->amount, 0, ',', '.') }}</strong><br>
+                        <strong class="admin-icon-sm">Rp {{ number_format($payment->amount, 0, ',', '.') }}</strong><br>
                         <small class="text-muted">{{ ucfirst($payment->payment_method) }}</small>
                     </div>
                     <div class="col-md-3">
@@ -149,7 +149,7 @@
                         @foreach($jamaah->documents as $doc)
                         <div class="doc-item">
                             @if(in_array(pathinfo($doc->file_path, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']))
-                                <img src="{{ route('admin.secure.file', ['path' => $doc->file_path]) }}" alt="{{ $doc->document_type }}" style="cursor: pointer;" @click="openPreview('{{ route('admin.secure.file', ['path' => $doc->file_path]) }}', '{{ $doc->document_type }}')">
+                                <img src="{{ route('admin.secure.file', ['path' => $doc->file_path]) }}" alt="{{ $doc->document_type }}" class="admin-cursor-pointer" @click="openPreview('{{ route('admin.secure.file', ['path' => $doc->file_path]) }}', '{{ $doc->document_type }}')">
                             @else
                                 <div class="doc-icon"><i class="bi bi-file-pdf text-danger"></i></div>
                             @endif
@@ -269,10 +269,10 @@
                 </div>
                 <div class="modal-body text-center">
                     <template x-if="previewType === 'image'">
-                        <img :src="previewUrl" class="img-fluid" style="max-height: 70vh; border-radius: 8px;">
+                        <img :src="previewUrl" class="img-fluid admin-modal-img">
                     </template>
                     <template x-if="previewType === 'pdf'">
-                        <iframe :src="previewUrl" style="width:100%; height:70vh; border:none;"></iframe>
+                        <iframe :src="previewUrl" class="admin-modal-iframe"></iframe>
                     </template>
                 </div>
                 <div class="modal-footer">

@@ -61,7 +61,7 @@
 <body>
     <div class="login-card">
         <div class="login-header">
-            <i class="bi bi-shield-lock" style="font-size: 3rem; color: #001D5F;"></i>
+            <i class="bi bi-shield-lock admin-icon-xl admin-text-navy"></i>
             <h1>Admin Login</h1>
             <p class="text-muted">Mahira Tour Admin Panel</p>
         </div>
@@ -123,7 +123,7 @@
         </form>
         
         <div class="text-center mt-4">
-            <a href="{{ route('home') }}" class="text-muted" style="text-decoration: none;">
+            <a href="{{ route('home') }}" class="text-muted admin-no-decoration">
                 <i class="bi bi-arrow-left"></i> Kembali ke Home
             </a>
         </div>

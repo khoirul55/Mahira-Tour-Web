@@ -10,7 +10,7 @@
                 <a href="{{ route('admin.registrations.index') }}" class="text-decoration-none text-muted mb-2 d-inline-block">
                     <i class="bi bi-arrow-left"></i> Kembali
                 </a>
-                <h2 class="mb-0"><i class="bi bi-file-text" style="color: #3B82F6;"></i> {{ $registration->registration_number }}</h2>
+                <h2 class="mb-0"><i class="bi bi-file-text admin-text-blue"></i> {{ $registration->registration_number }}</h2>
             </div>
             <div class="d-flex gap-2">
                 <a href="{{ route('admin.registrations.export-single', $registration->id) }}" class="btn btn-success btn-action">
@@ -42,8 +42,8 @@
                 <div class="info-row">
                     <div class="info-label">Progress</div>
                     <div class="info-value">
-                        <div class="progress" style="height: 10px; width: 200px; background: #E8EBF3; border-radius: 50px;">
-                            <div class="progress-bar" style="width: {{ $registration->completion_percentage }}%; background: linear-gradient(90deg, #10B981 0%, #059669 100%);"></div>
+                        <div class="progress admin-progress">
+                            <div class="progress-bar admin-progress-bar" style="width: {{ $registration->completion_percentage }}%;"></div>
                         </div>
                         <small class="text-muted">{{ $registration->completion_percentage }}%</small>
                     </div>
@@ -103,7 +103,7 @@
                 <div class="jamaah-card {{ $jamaah->completion_status === 'complete' ? 'complete' : '' }}">
                     <div class="d-flex justify-content-between align-items-start mb-3">
                         <div>
-                            <strong style="font-size: 1.1rem; color: #001D5F;">Jamaah {{ $index + 1 }}: {{ $jamaah->full_name }}</strong>
+                            <strong class="admin-icon-sm admin-text-navy">Jamaah {{ $index + 1 }}: {{ $jamaah->full_name }}</strong>
                             @if($jamaah->completion_status === 'complete')
                                 <span class="badge bg-success ms-2">✓ Lengkap</span>
                             @elseif($jamaah->completion_status === 'partial')
@@ -119,7 +119,7 @@
                     </div>
                     
                     @if($jamaah->nik !== 'PENDING')
-                    <div class="row" style="font-size: 0.9rem;">
+                    <div class="row admin-font-sm">
                         <div class="col-md-6">
                             <p class="mb-2"><strong>NIK:</strong> {{ $jamaah->nik }}</p>
                             <p class="mb-2"><strong>TTL:</strong> {{ $jamaah->birth_place }}, {{ $jamaah->birth_date?->format('d M Y') }}</p>
@@ -142,7 +142,7 @@
                                 <img src="{{ route('admin.secure.file', ['path' => $doc->file_path]) }}" class="doc-thumb" alt="{{ $doc->document_type }}">
                             @else
                                 <div class="doc-thumb d-flex align-items-center justify-content-center bg-light">
-                                    <i class="bi bi-file-pdf text-danger" style="font-size: 2rem;"></i>
+                                    <i class="bi bi-file-pdf text-danger admin-icon-lg"></i>
                                 </div>
                             @endif
                             <small class="d-block mt-1 fw-bold">{{ strtoupper($doc->document_type) }}</small>
@@ -176,23 +176,23 @@
                 @if(!$isLunas && $dpPayment && $dpPayment->status === 'verified')
                     <div class="payment-alert danger">
                         <div class="d-flex align-items-center gap-2 mb-2">
-                            <i class="bi bi-exclamation-triangle-fill" style="font-size: 1.5rem; color: #DC2626;"></i>
-                            <strong style="color: #DC2626;">Belum Lunas</strong>
+                            <i class="bi bi-exclamation-triangle-fill admin-icon-md admin-text-red"></i>
+                            <strong class="admin-text-red">Belum Lunas</strong>
                         </div>
-                        <small style="color: #991B1B;">Menunggu pembayaran pelunasan sebesar <strong>Rp {{ number_format($remaining, 0, ',', '.') }}</strong></small>
+                        <small class="admin-text-dark-red">Menunggu pembayaran pelunasan sebesar <strong>Rp {{ number_format($remaining, 0, ',', '.') }}</strong></small>
                     </div>
                 @elseif($isLunas)
                     <div class="payment-alert success">
                         <div class="d-flex align-items-center gap-2">
-                            <i class="bi bi-check-circle-fill" style="font-size: 1.5rem; color: #059669;"></i>
-                            <strong style="color: #059669;">Sudah Lunas ✓</strong>
+                            <i class="bi bi-check-circle-fill admin-icon-md admin-text-emerald"></i>
+                            <strong class="admin-text-emerald">Sudah Lunas ✓</strong>
                         </div>
                     </div>
                 @elseif(!$dpPayment || $dpPayment->status !== 'verified')
                     <div class="payment-alert">
                         <div class="d-flex align-items-center gap-2">
-                            <i class="bi bi-clock-fill" style="font-size: 1.5rem; color: #D97706;"></i>
-                            <strong style="color: #D97706;">Menunggu DP</strong>
+                            <i class="bi bi-clock-fill admin-icon-md admin-text-amber"></i>
+                            <strong class="admin-text-amber">Menunggu DP</strong>
                         </div>
                     </div>
                 @endif
@@ -209,11 +209,11 @@
                     </div>
                     <div class="payment-item">
                         <span class="text-muted">Sudah Dibayar</span>
-                        <strong style="color: #10B981;">Rp {{ number_format($totalPaid, 0, ',', '.') }}</strong>
+                        <strong class="admin-text-green">Rp {{ number_format($totalPaid, 0, ',', '.') }}</strong>
                     </div>
                     <div class="payment-item">
                         <span>Sisa Pembayaran</span>
-                        <strong style="color: {{ $remaining > 0 ? '#DC2626' : '#10B981' }};">
+                        <strong class="{{ $remaining > 0 ? 'admin-text-red' : 'admin-text-green' }}">
                             Rp {{ number_format($remaining, 0, ',', '.') }}
                         </strong>
                     </div>
@@ -223,10 +223,10 @@
                 
                 <!-- Detail Pembayaran -->
                 @foreach($registration->payments as $payment)
-                <div class="mb-3 pb-3" style="border-bottom: 1px dashed #E5E7EB;">
+                <div class="mb-3 pb-3 admin-border-dashed">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <div>
-                            <strong style="text-transform: uppercase;">
+                            <strong class="admin-text-uppercase">
                                 {{ $payment->payment_type === 'dp' ? 'Down Payment (DP)' : 'Pelunasan' }}
                             </strong>
                             <div class="text-muted small">Rp {{ number_format($payment->amount, 0, ',', '.') }}</div>
@@ -261,7 +261,7 @@
                 
                 @if($registration->payments->isEmpty())
                 <div class="text-center text-muted py-3">
-                    <i class="bi bi-inbox" style="font-size: 2rem; opacity: 0.3;"></i>
+                    <i class="bi bi-inbox admin-icon-faded"></i>
                     <p class="mb-0 small">Belum ada pembayaran</p>
                 </div>
                 @endif
@@ -403,7 +403,7 @@
         <button class="btn btn-outline-warning btn-action" onclick="copyToClipboard('paymentInfo')">
             <i class="bi bi-clipboard-check"></i> Copy Info Pembayaran
         </button>
-        <div id="paymentInfo" style="display: none;">Total: Rp {{ number_format($registration->total_price, 0, ',', '.') }}
+        <div id="paymentInfo" class="admin-hidden-form">Total: Rp {{ number_format($registration->total_price, 0, ',', '.') }}
 Sudah Dibayar: Rp {{ number_format($totalPaid, 0, ',', '.') }}
 Sisa: Rp {{ number_format($remaining, 0, ',', '.') }}</div>
         @endif

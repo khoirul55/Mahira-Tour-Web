@@ -138,7 +138,7 @@
                                 <td>
                                     <strong>Rp {{ number_format($reg->total_price, 0, ',', '.') }}</strong>
                                 </td>
-                                <td style="min-width: 120px;">
+                                <td class="admin-min-w-120">
                                     <div class="progress progress-mini">
                                         <div class="progress-bar" style="width: {{ $reg->completion_percentage }}%"></div>
                                     </div>

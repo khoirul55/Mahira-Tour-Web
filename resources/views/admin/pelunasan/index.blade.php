@@ -5,7 +5,7 @@
 @section('content')
     <div class="page-header">
         <div class="d-flex align-items-center gap-3">
-            <i class="bi bi-wallet" style="font-size: 2rem; color: #F59E0B;"></i>
+            <i class="bi bi-wallet admin-icon-lg admin-text-gold"></i>
             <div>
                 <h1 class="mb-0">Perlu Pelunasan</h1>
                 <p class="text-muted mb-0">Daftar jamaah dengan status pembayaran pending atau belum lunas</p>
@@ -66,7 +66,7 @@
                                         <strong>Rp {{ number_format($reg->total_price, 0, ',', '.') }}</strong>
                                     </td>
                                     <td>
-                                        <strong class="text-danger" style="font-size: 1.1rem;">
+                                        <strong class="text-danger admin-icon-sm">
                                             Rp {{ number_format($sisa, 0, ',', '.') }}
                                         </strong>
                                     </td>

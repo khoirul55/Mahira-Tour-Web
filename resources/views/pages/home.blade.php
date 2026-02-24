@@ -27,11 +27,11 @@
             <div class="text-center max-w-3xl mx-auto px-6 text-white">
                 
                 {{-- Headline --}}
-                <h1 class="text-4xl md:text-5xl lg:text-[52px] font-semibold leading-tight mb-5 font-serif animate-[fadeInUp_1s_ease_0.2s_both] drop-shadow-2xl tracking-tighter">
-                    <span class="block opacity-0 animate-[slideInLeft_1s_cubic-bezier(0.215,0.610,0.355,1.000)_0.3s_forwards]">
+                <h1 class="text-4xl md:text-5xl lg:text-[52px] font-semibold leading-tight mb-5 font-serif drop-shadow-2xl tracking-tighter">
+                    <span class="block" style="opacity: 0; animation: slideInLeft 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.3s forwards;">
                         Wujudkan Ibadah <span class="text-[#D4AF37] font-bold">Umrah & Haji</span>
                     </span>
-                    <span class="block opacity-0 animate-[slideInRight_1s_cubic-bezier(0.215,0.610,0.355,1.000)_0.5s_forwards]">
+                    <span class="block" style="opacity: 0; animation: slideInRight 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.5s forwards;">
                         Bersama Keluarga
                     </span>
                 </h1>
@@ -42,7 +42,7 @@
                 </p>
                 
                 {{-- Subtitle --}}
-                <p class="text-base md:text-lg leading-relaxed mb-9 opacity-95 animate-[fadeInUp_1s_ease_0.4s_both] drop-shadow-md">
+                <p class="text-base md:text-lg leading-relaxed mb-9 drop-shadow-md" style="opacity: 0; animation: fadeInUp 1s ease 0.6s forwards;">
                     Perjalanan spiritual yang aman, nyaman, dan penuh keberkahan<br>
                     bersama bimbingan profesional dan fasilitas terbaik
                 </p>
@@ -198,7 +198,7 @@
 </section>
 
 {{-- ==================== HADITH SECTION ==================== --}}
-<section class="relative py-20 overflow-hidden bg-[url('/public/images/hero/hero-about.webp')] bg-center bg-cover no-repeat">
+<section class="relative py-24 overflow-hidden bg-center bg-cover bg-no-repeat" style="background-image: url('{{ asset('images/hero/hero-about.webp') }}');">
     <div class="absolute inset-0 bg-[#001D5F]/90"></div>
     <div class="container-main relative z-10">
         <div class="text-center max-w-3xl mx-auto">
@@ -251,9 +251,9 @@
             @endphp
             @foreach($packages as $pkg)
             <div class="rounded-2xl overflow-hidden shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-xl {{ $pkg['featured'] ? 'ring-2 ring-[#D4AF37]' : '' }} bg-white">
-                <div class="relative overflow-hidden h-52">
+                <div class="relative overflow-hidden aspect-[4/5] bg-gray-100">
                     <img src="{{ asset('images/packages/' . $pkg['img']) }}" alt="{{ $pkg['title'] }}" 
-                         class="w-full h-full object-cover" loading="lazy">
+                         class="w-full h-full object-cover object-top" loading="lazy">
                     @if($pkg['featured'])
                     <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-[#D4AF37] text-white">Terpopuler</span>
                     @endif

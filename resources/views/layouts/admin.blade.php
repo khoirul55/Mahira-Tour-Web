@@ -167,6 +167,79 @@
             border-color: #001D5F;
             box-shadow: 0 0 0 0.25rem rgba(0, 29, 95, 0.15);
         }
+
+        /* Admin Utility: Icon Sizes */
+        .admin-icon-sm { font-size: 1.1rem; }
+        .admin-icon-md { font-size: 1.5rem; }
+        .admin-icon-lg { font-size: 2rem; }
+        .admin-icon-xl { font-size: 3rem; }
+        .admin-icon-xxl { font-size: 4rem; }
+
+        /* Admin Utility: Text Colors */
+        .admin-text-navy { color: #001D5F; }
+        .admin-text-blue { color: #3B82F6; }
+        .admin-text-green { color: #10B981; }
+        .admin-text-emerald { color: #059669; }
+        .admin-text-red { color: #DC2626; }
+        .admin-text-dark-red { color: #991B1B; }
+        .admin-text-amber { color: #D97706; }
+        .admin-text-gold { color: #F59E0B; }
+
+        /* Admin Utility: Modal Preview */
+        .admin-modal-img { max-height: 70vh; border-radius: 8px; }
+        .admin-modal-iframe { width: 100%; height: 70vh; border: none; }
+
+        /* Admin Utility: Layout */
+        .admin-overflow-hidden { overflow: hidden; }
+        .admin-hidden-form { display: none; }
+        .admin-font-sm { font-size: 0.9rem; }
+        .admin-text-uppercase { text-transform: uppercase; }
+        .admin-border-dashed { border-bottom: 1px dashed #E5E7EB; }
+        .admin-cursor-pointer { cursor: pointer; }
+        .admin-min-w-120 { min-width: 120px; }
+        .admin-icon-faded { font-size: 2rem; opacity: 0.3; }
+        .admin-no-decoration { text-decoration: none; }
+
+        /* Admin Utility: Progress */
+        .admin-progress { height: 10px; width: 200px; background: #E8EBF3; border-radius: 50px; }
+        .admin-progress-bar { background: linear-gradient(90deg, #10B981 0%, #059669 100%); }
+
+        /* Admin Utility: Avatar (profile) */
+        .admin-avatar-lg {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border: 3px solid #f8f9fa;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .admin-avatar-placeholder {
+            width: 100px;
+            height: 100px;
+            font-size: 3rem;
+        }
+
+        /* Admin Utility: Sidebar Info */
+        .admin-info-name {
+            font-weight: 600;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        .admin-info-email {
+            opacity: 0.8;
+            font-size: 0.75rem;
+            display: block;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        .admin-hr {
+            border-color: rgba(255,255,255,0.2);
+        }
+        .admin-hr-tight {
+            border-color: rgba(255,255,255,0.2);
+            margin: 10px 0;
+        }
     </style>
     @stack('styles')
 </head>
@@ -195,17 +268,17 @@
                     <i class="bi bi-person-fill fs-5"></i>
                 </div>
             @endif
-            <div style="overflow: hidden;">
-                <div style="font-weight: 600; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+            <div class="admin-overflow-hidden">
+                <div class="admin-info-name">
                     {{ Auth::guard('admin')->user()->name ?? 'Admin' }}
                 </div>
-                <small style="opacity: 0.8; font-size: 0.75rem; display: block; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                <small class="admin-info-email">
                     {{ Auth::guard('admin')->user()->email ?? '' }}
                 </small>
             </div>
         </div>
         
-        <hr style="border-color: rgba(255,255,255,0.2);">
+        <hr class="admin-hr">
         
         <nav class="nav flex-column">
             <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
@@ -235,7 +308,7 @@
                 <i class="bi bi-calendar-event me-2"></i> Jadwal
             </a>
             
-            <hr style="border-color: rgba(255,255,255,0.2); margin: 10px 0;">
+            <hr class="admin-hr-tight">
             
             <a class="nav-link {{ request()->routeIs('admin.profile.*') ? 'active' : '' }}" href="{{ route('admin.profile.index') }}">
                 <i class="bi bi-person-gear me-2"></i> Pengaturan Akun

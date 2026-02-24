@@ -94,7 +94,7 @@
             @foreach($galleries as $gallery)
             <div class="col-md-3">
                 <div class="gallery-card">
-                    <div style="overflow: hidden;">
+                    <div class="admin-overflow-hidden">
                         <img src="{{ $gallery->image_url }}" 
                              alt="{{ $gallery->title }}" 
                              class="gallery-img"
@@ -152,7 +152,7 @@
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body text-center">
-                        <img :src="previewUrl" class="img-fluid" style="max-height: 70vh; border-radius: 8px;">
+                        <img :src="previewUrl" class="img-fluid admin-modal-img">
                     </div>
                     <div class="modal-footer">
                         <a :href="previewUrl" download class="btn btn-success">
@@ -166,11 +166,11 @@
     </div>
 
     <!-- Hidden Forms -->
-    <form id="toggleForm" method="POST" style="display: none;">
+    <form id="toggleForm" method="POST" class="admin-hidden-form">
         @csrf
     </form>
 
-    <form id="deleteForm" method="POST" style="display: none;">
+    <form id="deleteForm" method="POST" class="admin-hidden-form">
         @csrf
         @method('DELETE')
     </form>

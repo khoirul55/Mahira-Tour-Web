@@ -28,9 +28,9 @@
                     <div class="d-flex align-items-center mb-4">
                         <div class="me-4">
                             @if($user->avatar)
-                                <img src="{{ Storage::url($user->avatar) }}" alt="Avatar" class="rounded-circle" style="width: 100px; height: 100px; object-fit: cover; border: 3px solid #f8f9fa; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                <img src="{{ Storage::url($user->avatar) }}" alt="Avatar" class="rounded-circle admin-avatar-lg">
                             @else
-                                <div class="rounded-circle bg-light d-flex align-items-center justify-content-center text-primary" style="width: 100px; height: 100px; font-size: 3rem;">
+                                <div class="rounded-circle bg-light d-flex align-items-center justify-content-center text-primary admin-avatar-placeholder">
                                     <i class="bi bi-person-fill"></i>
                                 </div>
                             @endif

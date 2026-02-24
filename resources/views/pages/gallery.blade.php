@@ -26,8 +26,8 @@
             <span class="text-white/70">Galeri</span>
         </div>
         <h1 class="text-[3.5rem] md:text-[2.5rem] sm:text-[2rem] font-bold font-serif text-white mb-4 leading-tight shadow-black/30 text-shadow-lg">
-            <span class="inline-block mx-1 opacity-0 animate-[slideInLeft_1s_cubic-bezier(0.215,0.610,0.355,1.000)_0.3s_forwards]">Galeri</span>
-            <span class="inline-block mx-1 opacity-0 animate-[slideInRight_1s_cubic-bezier(0.215,0.610,0.355,1.000)_0.5s_forwards]">Kegiatan</span>
+            <span class="inline-block mx-1" style="opacity: 0; animation: slideInLeft 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.3s forwards;">Galeri</span>
+            <span class="inline-block mx-1" style="opacity: 0; animation: slideInRight 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.5s forwards;">Kegiatan</span>
         </h1>
         <p class="font-semibold text-[0.9rem] uppercase tracking-wider mb-2 text-[#D4AF37] animate-[heroFadeIn_1s_ease_0.6s_backwards]">
             UMRAH BERSAMA, BERKAH BERSAMA

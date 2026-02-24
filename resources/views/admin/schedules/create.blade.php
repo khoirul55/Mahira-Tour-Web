@@ -155,7 +155,7 @@
 
                             <div class="preview-container">
                                 <div x-show="!imagePreview" class="text-muted">
-                                    <i class="bi bi-file-image" style="font-size: 4rem;"></i>
+                                    <i class="bi bi-file-image admin-icon-xxl"></i>
                                     <p class="mt-3">Belum ada flyer dipilih</p>
                                 </div>
                                 <div x-show="imagePreview" x-cloak>
