@@ -101,3 +101,7 @@ a[class*="hover:text-"] {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
 }
+@keyframes mouseWheel {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(12px); opacity: 0; }
+}

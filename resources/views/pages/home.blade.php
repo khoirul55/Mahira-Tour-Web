@@ -15,7 +15,7 @@
 <section class="relative h-screen min-h-[550px] md:min-h-[650px] overflow-hidden bg-gradient-to-br from-[#001D5F] via-[#1a3a6e] to-[#2d5a8a]">
     
     {{-- Background Video --}}
-    <video class="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover opacity-85 brightness-[0.45] contrast-[1.1]"
+    <video class="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover opacity-85 brightness-[0.6] contrast-[1.1]"
            autoplay muted loop playsinline
            preload="metadata"
            poster="{{ asset('images/hero/video-poster.webp') }}">
@@ -23,63 +23,75 @@
         <source src="{{ asset('videos/kaabah-hero.webm') }}" type="video/webm">
     </video>
     
-    {{-- Gradient Overlay --}}
-    <div class="absolute inset-0 z-[2] bg-gradient-to-br from-[#001D5F]/85 via-[#D4AF37]/20 to-[#001440]/90">
-    </div>
+    {{-- Gradient Overlay (Lebih Elegan & Bersih) --}}
+    {{-- Kita gunakan gradient dark-navy dari bawah ke atas, membiarkan tengah gambar lebih terang --}}
+    <div class="absolute inset-0 z-[2] bg-gradient-to-t from-[#001233] via-[#001233]/60 to-transparent"></div>
+    <div class="absolute inset-0 z-[2] bg-black/20"></div> {{-- Base darkening --}}
     
     {{-- Content --}}
-    <div class="relative z-10 min-h-screen flex items-center justify-center pt-[72px]">
+    <div class="relative z-10 min-h-screen flex items-center justify-center pt-[72px] pb-12">
         <div class="container-main">
-            <div class="text-center max-w-3xl mx-auto px-6 text-white">
+            <div class="text-center max-w-4xl mx-auto px-6 text-white flex flex-col items-center">
                 
-                {{-- Headline --}}
-                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-semibold leading-tight mb-4 md:mb-5 font-serif drop-shadow-2xl tracking-tighter">
-                    <span class="block" style="opacity: 0; animation: slideInLeft 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.3s forwards;">
-                        Wujudkan Ibadah <span class="text-gold font-bold">Umrah & Haji</span>
-                    </span>
-                    <span class="block" style="opacity: 0; animation: slideInRight 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.5s forwards;">
-                        Bersama Keluarga
-                    </span>
+                <div class="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 mb-6 transition-all duration-500 hover:bg-white/10 hover:border-white/20">
+                    <svg class="w-3.5 h-3.5 text-gold-light/90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                    <span class="text-[10px] sm:text-xs font-medium tracking-[0.15em] uppercase text-white/80 text-left leading-tight sm:leading-normal">Terpercaya Sejak 2016 <span class="hidden sm:inline mx-1 text-white/30">|</span><br class="sm:hidden"> Resmi Kemenag RI</span>
+                </div>
+
+                {{-- 2. Headline --}}
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-serif leading-[1.15] mb-6 tracking-tight">
+                    Wujudkan Ibadah <br class="hidden md:block">
+                    <span class="text-gold lg:text-gold-light">Umrah & Haji</span> Bersama Keluarga
                 </h1>
                 
-                {{-- Spiritual Anchor --}}
-                <p class="font-serif text-sm md:text-base italic mb-5 opacity-95 animate-[fadeInUp_1s_ease_0.3s_both] text-gold drop-shadow-lg">
-                    "Dan sempurnakanlah ibadah haji dan umrah karena Allah"
+                {{-- 3. Quote/Sub-headline (Diubah ke font-sans agar kontras dengan judul & warnanya bersih) --}}
+                <p class="text-base sm:text-lg md:text-xl text-white/80 font-sans leading-relaxed max-w-2xl mx-auto mb-10 font-light tracking-wide">
+                    "Dan sempurnakanlah ibadah haji dan umrah karena Allah"<br>
+                    <span class="text-sm opacity-60 mt-2 inline-block font-medium">(QS. Al-Baqarah: 196)</span>
                 </p>
-                
-                {{-- Subtitle - hidden di mobile untuk mengurangi keramaian --}}
-                <p class="hidden md:block text-base md:text-lg leading-relaxed mb-9 drop-shadow-md" style="opacity: 0; animation: fadeInUp 1s ease 0.6s forwards;">
-                    Perjalanan spiritual yang aman, nyaman, dan penuh keberkahan<br>
-                    bersama bimbingan profesional dan fasilitas terbaik
-                </p>
-                
-                {{-- Trust Badge --}}
-                <div class="inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full mb-6 md:mb-8 text-xs md:text-sm font-semibold animate-[fadeInDown_1s_ease_both] bg-black/50 backdrop-blur-md border border-gold/50 shadow-lg">
-                    <svg class="w-4 h-4 text-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
-                    <span>Terpercaya Sejak 2016 • Resmi Kemenag RI</span>
-                </div>
-                
-                {{-- CTAs --}}
-                <div class="flex flex-col sm:flex-row gap-3 sm:gap-3.5 justify-center animate-[fadeInUp_1s_ease_0.5s_both]">
+
+                {{-- 4. Action Buttons (Visual Hierarchy: 1 Solid, 1 Outlined/Glassmorphism) --}}
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto px-4 sm:px-0">
+                    
+                    {{-- Primary Button (Solid Putih - Elegan dan Tenang) --}}
                     <a href="https://wa.me/6282184515310?text=Assalamualaikum,%20saya%20ingin%20konsultasi%20paket%20umrah" 
                        target="_blank" rel="noopener"
-                       class="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full font-semibold text-sm sm:text-[15px] transition-all duration-300 hover:-translate-y-0.5 bg-white text-primary hover:bg-gold hover:text-white shadow-lg hover:shadow-xl hover:shadow-gold/40 no-underline">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                       class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-white text-primary font-semibold text-[15px] transition-all duration-500 hover:scale-[1.02] hover:bg-gray-50 hover:shadow-[0_8px_30px_rgba(255,255,255,0.15)] group">
+                        <i class="bi bi-whatsapp text-lg text-[#25D366] group-hover:scale-110 transition-transform duration-500"></i>
                         Konsultasi Gratis
                     </a>
-                    <a href="{{ route('schedule') }}" 
-                       class="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full font-semibold text-sm sm:text-[15px] transition-all duration-300 hover:-translate-y-0.5 bg-transparent text-white border-2 border-white/60 hover:bg-gold hover:border-gold hover:text-white shadow-lg hover:shadow-xl hover:shadow-gold/40 no-underline">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/></svg>
+
+                    {{-- Secondary Button (Glassmorphism outline) --}}
+                    <a href="#paket" 
+                       class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-white/5 border border-white/30 text-white font-medium text-[15px] backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/50 group">
+                        <svg class="w-5 h-5 text-white/70 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         Jelajahi Paket
                     </a>
                 </div>
+                
             </div>
         </div>
     </div>
+
+    {{-- Scroll Indicator (Modern Style) --}}
+    <a href="#cerita" 
+       class="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center opacity-70 transition-all duration-500 hover:opacity-100 hover:-translate-y-1 group no-underline"
+       aria-label="Scroll ke bawah">
+        
+        {{-- Desktop: Mouse Icon --}}
+        <div class="hidden sm:flex w-[22px] h-[36px] rounded-full border-2 border-white/40 justify-center p-1 box-border">
+            <div class="w-1 h-2 rounded-full bg-white opacity-80 animate-[mouseWheel_1.5s_ease-out_infinite]"></div>
+        </div>
+        
+        {{-- Mobile: Bouncing Arrow --}}
+        <div class="flex sm:hidden items-center justify-center p-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 animate-bounce mt-2">
+            <svg class="w-4 h-4 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+        </div>
+    </a>
 </section>
 
 {{-- ==================== ABOUT SECTION ==================== --}}
-<section class="py-16 lg:py-24 bg-gray-50">
+<section id="cerita" class="py-16 lg:py-24 bg-gray-50">
     <div class="container-main">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
