@@ -65,11 +65,11 @@
         <!-- Progress Section -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-[#001D5F] flex items-center gap-2">
-                    <svg class="w-5 h-5 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                <h3 class="text-lg font-bold text-primary flex items-center gap-2">
+                    <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
                     Progress Pendaftaran
                 </h3>
-                <div class="text-xl font-bold text-[#001D5F]">{{ $completion }}%</div>
+                <div class="text-xl font-bold text-primary">{{ $completion }}%</div>
             </div>
             
             <div class="w-full h-3 bg-gray-100 rounded-full overflow-hidden mb-2">
@@ -88,7 +88,7 @@
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-full">
                 <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
                     <h3 class="font-bold text-gray-800 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-[#D4AF37]" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>
+                        <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>
                         Data Jamaah
                     </h3>
                     <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide {{ $registration->jamaah->every(fn($j) => $j->completion_status === 'complete') ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' : 'bg-orange-50 text-orange-700 border border-orange-100' }}">
@@ -120,7 +120,7 @@
                                 @endif
                             </div>
                         </div>
-                        <button class="inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 {{ $jamaah->completion_status === 'complete' ? 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300' : 'bg-[#001D5F] text-white hover:bg-[#001440] hover:shadow-md' }}" 
+                        <button class="inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 {{ $jamaah->completion_status === 'complete' ? 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300' : 'bg-primary text-white hover:bg-[#001440] hover:shadow-md' }}" 
                                 @click="openEditJamaah({{ $jamaah->id }}, {{ $index + 1 }})">
                             {{ $jamaah->completion_status === 'complete' ? 'Edit Data' : 'Lengkapi Data' }}
                         </button>
@@ -138,7 +138,7 @@
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-full">
                 <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
                     <h3 class="font-bold text-gray-800 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-[#D4AF37]" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/><path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/></svg>
+                        <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/><path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/></svg>
                         Pembayaran DP
                     </h3>
                     @php
@@ -201,7 +201,7 @@
                                     Konfirmasi Janji Temu via WA
                                 </a>
                                 <div class="mt-3">
-                                    <a href="https://www.google.com/maps/place/Travel+Umroh+Mahira+Tour/@-2.050239,101.3896565,15z" target="_blank" class="text-sm text-gray-500 hover:text-[#001D5F] hover:underline flex items-center justify-center gap-1">
+                                    <a href="https://www.google.com/maps/place/Travel+Umroh+Mahira+Tour/@-2.050239,101.3896565,15z" target="_blank" class="text-sm text-gray-500 hover:text-primary hover:underline flex items-center justify-center gap-1">
                                         <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
                                         Lihat Lokasi Kantor di Google Maps
                                     </a>
@@ -215,7 +215,7 @@
                     <div class="p-6 flex-1 flex flex-col">
                         <div class="text-center mb-6 mt-4">
                         <h4 class="text-gray-500 font-medium mb-1">Transfer DP 30%</h4>
-                        <p class="text-2xl font-bold text-[#001D5F]">
+                        <p class="text-2xl font-bold text-primary">
                             Rp {{ number_format($registration->dp_amount, 0, ',', '.') }}
                         </p>
                     </div>
@@ -281,7 +281,7 @@
                             </div>
                         </div>
                         
-                        <button type="submit" class="w-full bg-[#001D5F] text-white py-2.5 rounded-lg font-semibold hover:bg-[#001440] transition-colors shadow-lg shadow-blue-900/10 flex justify-center items-center gap-2">
+                        <button type="submit" class="w-full bg-primary text-white py-2.5 rounded-lg font-semibold hover:bg-[#001440] transition-colors shadow-lg shadow-blue-900/10 flex justify-center items-center gap-2">
                             <svg class="w-5 h-5" :class="method === 'transfer' ? '' : 'hidden'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
                             <svg class="w-5 h-5" :class="method === 'transfer' ? 'hidden' : ''" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
                             <span x-text="method === 'transfer' ? 'Upload Bukti DP' : 'Konfirmasi Pembayaran Cash'"></span>
@@ -301,7 +301,7 @@
                 <!-- STATUS LUNAS -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-full mb-6">
                     <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                        <h3 class="font-bold text-[#001D5F] flex items-center gap-2">
+                        <h3 class="font-bold text-primary flex items-center gap-2">
                             <svg class="w-5 h-5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
                             Status Pembayaran
                         </h3>
@@ -322,8 +322,8 @@
                 <!-- CARD PELUNASAN -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-full mb-6">
                     <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                        <h3 class="font-bold text-[#001D5F] flex items-center gap-2">
-                            <svg class="w-5 h-5 text-[#D4AF37]" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/><path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/></svg>
+                        <h3 class="font-bold text-primary flex items-center gap-2">
+                            <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/><path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/></svg>
                             Pelunasan
                         </h3>
                         <span class="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider border {{ $pelunasan && $pelunasan->status === 'pending' ? 'bg-blue-50 text-blue-700 border-blue-100' : 'bg-amber-50 text-amber-700 border-amber-100' }}">
@@ -370,7 +370,7 @@
                                        target="_blank">
                                         <i class="bi bi-whatsapp"></i> Konfirmasi Janji Temu via WA
                                     </a>
-                                    <a href="https://www.google.com/maps/place/Travel+Umroh+Mahira+Tour/@-2.050239,101.3896565,15z" target="_blank" class="inline-flex items-center justify-center gap-1 text-xs text-gray-500 hover:text-[#001D5F] no-underline">
+                                    <a href="https://www.google.com/maps/place/Travel+Umroh+Mahira+Tour/@-2.050239,101.3896565,15z" target="_blank" class="inline-flex items-center justify-center gap-1 text-xs text-gray-500 hover:text-primary no-underline">
                                         <i class="bi bi-geo-alt-fill text-red-500"></i> Lihat Lokasi Kantor
                                     </a>
                                 </div>
@@ -392,14 +392,14 @@
                                             <img src="https://upload.wikimedia.org/wikipedia/commons/6/68/BANK_BRI_logo.svg" alt="BRI" class="h-6">
                                             <span class="font-mono text-sm font-bold opacity-80">0117 0100 4252 303</span>
                                         </div>
-                                        <button @click="copyAccount('011701004252303')" class="p-2 text-gray-400 hover:text-[#001D5F] hover:bg-white rounded-lg transition-colors cursor-pointer"><i class="bi bi-clipboard"></i></button>
+                                        <button @click="copyAccount('011701004252303')" class="p-2 text-gray-400 hover:text-primary hover:bg-white rounded-lg transition-colors cursor-pointer"><i class="bi bi-clipboard"></i></button>
                                     </div>
                                     <div class="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-xl">
                                         <div class="flex items-center gap-3">
                                             <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Bank_Syariah_Indonesia.svg" alt="BSI" class="h-6">
                                             <span class="font-mono text-sm font-bold opacity-80">7256 7665 79</span>
                                         </div>
-                                        <button @click="copyAccount('7256766579')" class="p-2 text-gray-400 hover:text-[#001D5F] hover:bg-white rounded-lg transition-colors cursor-pointer"><i class="bi bi-clipboard"></i></button>
+                                        <button @click="copyAccount('7256766579')" class="p-2 text-gray-400 hover:text-primary hover:bg-white rounded-lg transition-colors cursor-pointer"><i class="bi bi-clipboard"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -430,7 +430,7 @@
                                 </div>
                                 <div x-show="method === 'transfer'" class="space-y-2">
                                     <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Bukti Pelunasan (JPG/PDF)</label>
-                                    <input type="file" name="payment_proof" class="w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[11px] file:font-bold file:bg-[#001D5F]/10 file:text-[#001D5F] hover:file:bg-[#001D5F]/20" accept="image/*,.pdf" :required="method === 'transfer'">
+                                    <input type="file" name="payment_proof" class="w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[11px] file:font-bold file:bg-primary/10 file:text-primary hover:file:bg-primary/20" accept="image/*,.pdf" :required="method === 'transfer'">
                                 </div>
 
                                 <div x-show="method === 'cash'" class="rounded-xl p-4 flex items-start gap-3 text-sm bg-blue-50 text-blue-800 border border-blue-100">
@@ -446,7 +446,7 @@
                                     </div>
                                 </div>
 
-                                <button type="submit" class="w-full py-3 rounded-xl bg-[#001D5F] text-white font-bold hover:bg-[#001440] transition-all cursor-pointer shadow-lg shadow-[#001D5F]/20 flex justify-center items-center gap-2">
+                                <button type="submit" class="w-full py-3 rounded-xl bg-primary text-white font-bold hover:bg-[#001440] transition-all cursor-pointer shadow-lg shadow-[#001D5F]/20 flex justify-center items-center gap-2">
                                     <i class="bi" :class="method === 'transfer' ? 'bi-cloud-upload-fill' : 'bi-check-circle-fill'"></i>
                                     <span x-text="method === 'transfer' ? 'Upload Bukti Pelunasan' : 'Konfirmasi Pelunasan Cash'"></span>
                                 </button>
@@ -459,8 +459,8 @@
             <!-- Card 3: Upload Dokumen -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-full mb-6">
                 <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                    <h3 class="font-bold text-[#001D5F] flex items-center gap-2">
-                        <svg class="w-5 h-5 text-[#D4AF37]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/></svg>
+                    <h3 class="font-bold text-primary flex items-center gap-2">
+                        <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/></svg>
                         Upload Dokumen
                     </h3>
                     @php
@@ -483,12 +483,12 @@
                         @foreach($registration->jamaah as $index => $jamaah)
                         <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100/80 transition-colors border border-gray-200">
                             <div>
-                                <h4 class="font-bold text-[#001D5F] text-sm">{{ $jamaah->isPlaceholder() ? 'Jamaah ' . ($index + 1) : $jamaah->display_name }}</h4>
+                                <h4 class="font-bold text-primary text-sm">{{ $jamaah->isPlaceholder() ? 'Jamaah ' . ($index + 1) : $jamaah->display_name }}</h4>
                                 <span class="text-xs text-gray-400 flex items-center gap-1 mt-0.5">
                                     <i class="bi bi-file-earmark"></i> {{ $jamaah->documents->count() }} dokumen
                                 </span>
                             </div>
-                            <button class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-[13px] font-bold text-gray-600 hover:text-[#001D5F] hover:border-[#001D5F]/30 transition-colors shadow-sm cursor-pointer" @click="openDocumentModal({{ $jamaah->id }}, '{{ $jamaah->isPlaceholder() ? 'Jamaah ' . ($index + 1) : $jamaah->display_name }}', {{ $index + 1 }})">
+                            <button class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-[13px] font-bold text-gray-600 hover:text-primary hover:border-primary/30 transition-colors shadow-sm cursor-pointer" @click="openDocumentModal({{ $jamaah->id }}, '{{ $jamaah->isPlaceholder() ? 'Jamaah ' . ($index + 1) : $jamaah->display_name }}', {{ $index + 1 }})">
                                 <i class="bi bi-cloud-upload"></i> Upload
                             </button>
                         </div>
@@ -520,8 +520,8 @@
          @click.self="showJamaahModal = false">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col" @click.stop>
             <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                <h3 class="font-bold text-[#001D5F] flex items-center gap-2">
-                    <i class="bi bi-person-fill-gear text-[#D4AF37]"></i> Lengkapi Data Jamaah <span x-text="jamaahNumber"></span>
+                <h3 class="font-bold text-primary flex items-center gap-2">
+                    <i class="bi bi-person-fill-gear text-gold"></i> Lengkapi Data Jamaah <span x-text="jamaahNumber"></span>
                 </h3>
                 <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200 transition-colors text-gray-400 hover:text-gray-600 cursor-pointer" @click="showJamaahModal = false">
                     <i class="bi bi-x-lg"></i>
@@ -533,8 +533,8 @@
                     <input type="hidden" x-model="jamaahId">
                     
                     <!-- Identitas -->
-                    <h6 class="text-[#001D5F] font-bold mb-4 flex items-center gap-2 text-sm">
-                        <i class="bi bi-person-badge text-[#D4AF37]"></i> Identitas
+                    <h6 class="text-primary font-bold mb-4 flex items-center gap-2 text-sm">
+                        <i class="bi bi-person-badge text-gold"></i> Identitas
                     </h6>
                     
                     <div class="grid grid-cols-4 gap-3">
@@ -613,8 +613,8 @@
                     </div>
                     
                     <!-- Alamat -->
-                    <h6 class="text-[#001D5F] font-bold mt-8 mb-4 flex items-center gap-2 text-sm">
-                        <i class="bi bi-geo-alt-fill text-[#D4AF37]"></i> Alamat
+                    <h6 class="text-primary font-bold mt-8 mb-4 flex items-center gap-2 text-sm">
+                        <i class="bi bi-geo-alt-fill text-gold"></i> Alamat
                     </h6>
                     
                     <div>
@@ -634,8 +634,8 @@
                     </div>
                     
                     <!-- Kontak Darurat -->
-                    <h6 class="text-[#001D5F] font-bold mt-8 mb-4 flex items-center gap-2 text-sm">
-                        <i class="bi bi-telephone-fill text-[#D4AF37]"></i> Kontak Darurat
+                    <h6 class="text-primary font-bold mt-8 mb-4 flex items-center gap-2 text-sm">
+                        <i class="bi bi-telephone-fill text-gold"></i> Kontak Darurat
                     </h6>
                     
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -665,7 +665,7 @@
             
             <div class="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50/50">
                 <button type="button" class="px-5 py-2.5 text-gray-500 font-bold hover:bg-gray-100 rounded-xl transition-colors cursor-pointer text-sm" @click="showJamaahModal = false">Batal</button>
-                <button type="button" class="px-5 py-2.5 bg-[#001D5F] text-white font-bold rounded-xl hover:bg-[#001440] transition-colors shadow-lg shadow-[#001D5F]/20 flex items-center gap-2 cursor-pointer text-sm" @click="submitJamaahForm" :disabled="isSubmitting">
+                <button type="button" class="px-5 py-2.5 bg-primary text-white font-bold rounded-xl hover:bg-[#001440] transition-colors shadow-lg shadow-[#001D5F]/20 flex items-center gap-2 cursor-pointer text-sm" @click="submitJamaahForm" :disabled="isSubmitting">
                     <span x-show="!isSubmitting"><i class="bi bi-save"></i> Simpan Data</span>
                     <span x-show="isSubmitting"><i class="bi bi-hourglass-split"></i> Menyimpan...</span>
                 </button>
@@ -686,8 +686,8 @@
          @click.self="showDocModal = false">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col" @click.stop>
             <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                <h3 class="font-bold text-[#001D5F] flex items-center gap-2">
-                    <i class="bi bi-file-earmark-arrow-up text-[#D4AF37]"></i> Upload Dokumen - <span x-text="docJamaahName"></span>
+                <h3 class="font-bold text-primary flex items-center gap-2">
+                    <i class="bi bi-file-earmark-arrow-up text-gold"></i> Upload Dokumen - <span x-text="docJamaahName"></span>
                 </h3>
                 <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200 transition-colors text-gray-400 hover:text-gray-600 cursor-pointer" @click="showDocModal = false">
                     <i class="bi bi-x-lg"></i>
@@ -700,21 +700,21 @@
                     
                     <!-- KTP & KK (Wajib Mutlak) -->
                     <div class="mb-6">
-                        <h6 class="text-[#001D5F] font-bold mb-4 flex items-center gap-2 text-sm">
-                            <i class="bi bi-star-fill text-[#D4AF37]"></i> Dokumen Wajib
+                        <h6 class="text-primary font-bold mb-4 flex items-center gap-2 text-sm">
+                            <i class="bi bi-star-fill text-gold"></i> Dokumen Wajib
                         </h6>
                         
                         <!-- KTP -->
                         <div class="border border-gray-200 rounded-xl p-4 bg-gray-50 transition-colors mb-3" :class="{ 'bg-emerald-50/50 border-emerald-200': documents.ktp.file }">
                             <div class="flex justify-between items-center mb-2">
-                                <div class="font-bold text-[#001D5F] text-sm">KTP <span class="text-red-500">*</span></div>
+                                <div class="font-bold text-primary text-sm">KTP <span class="text-red-500">*</span></div>
                                 <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border" :class="documents.ktp.file ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-gray-100 text-gray-400 border-gray-200'">
                                     <span x-text="documents.ktp.file ? 'Siap Upload' : 'Belum Upload'"></span>
                                 </span>
                             </div>
                             
                             <template x-if="!documents.ktp.file">
-                                <label class="mt-2 cursor-pointer flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-[#001D5F] hover:bg-[#001D5F]/5 transition-all text-center gap-2">
+                                <label class="mt-2 cursor-pointer flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary hover:bg-primary/5 transition-all text-center gap-2">
                                     <input type="file" class="hidden" accept="image/*,.pdf" @change="handleFileSelect($event, 'ktp')">
                                     <i class="bi bi-cloud-upload text-gray-400 text-xl"></i>
                                     <span class="text-sm text-gray-500 font-medium">Klik untuk upload KTP</span>
@@ -736,14 +736,14 @@
                         <!-- Kartu Keluarga -->
                         <div class="border border-gray-200 rounded-xl p-4 bg-gray-50 transition-colors mb-3" :class="{ 'bg-emerald-50/50 border-emerald-200': documents.kk.file }">
                             <div class="flex justify-between items-center mb-2">
-                                <div class="font-bold text-[#001D5F] text-sm">Kartu Keluarga (KK) <span class="text-red-500">*</span></div>
+                                <div class="font-bold text-primary text-sm">Kartu Keluarga (KK) <span class="text-red-500">*</span></div>
                                 <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border" :class="documents.kk.file ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-gray-100 text-gray-400 border-gray-200'">
                                     <span x-text="documents.kk.file ? 'Siap Upload' : 'Belum Upload'"></span>
                                 </span>
                             </div>
                             
                             <template x-if="!documents.kk.file">
-                                <label class="mt-2 cursor-pointer flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-[#001D5F] hover:bg-[#001D5F]/5 transition-all text-center gap-2">
+                                <label class="mt-2 cursor-pointer flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary hover:bg-primary/5 transition-all text-center gap-2">
                                     <input type="file" class="hidden" accept="image/*,.pdf" @change="handleFileSelect($event, 'kk')">
                                     <i class="bi bi-cloud-upload text-gray-400 text-xl"></i>
                                     <span class="text-sm text-gray-500 font-medium">Klik untuk upload KK</span>
@@ -765,20 +765,20 @@
 
                     <!-- Dokumen Pendukung (Pilih Satu) -->
                     <div class="mb-6 p-4 bg-gray-50 rounded-xl border border-gray-100">
-                        <h6 class="text-[#001D5F] font-bold mb-2 flex items-center gap-2 text-sm">
+                        <h6 class="text-primary font-bold mb-2 flex items-center gap-2 text-sm">
                             <i class="bi bi-check-circle-fill text-emerald-500"></i> Dokumen Pendukung (Wajib Pilih Salah Satu)
                         </h6>
                         <p class="text-xs text-gray-400 mb-4">Silakan upload minimal satu dari dokumen berikut:</p>
                         
                         <div class="flex gap-2 mb-4">
-                            <button type="button" class="px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer" :class="activeTab === 'ijazah' ? 'bg-[#001D5F] text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-500 hover:border-[#001D5F] hover:text-[#001D5F]'" @click="activeTab = 'ijazah'">Ijazah</button>
-                            <button type="button" class="px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer" :class="activeTab === 'buku_nikah' ? 'bg-[#001D5F] text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-500 hover:border-[#001D5F] hover:text-[#001D5F]'" @click="activeTab = 'buku_nikah'">Buku Nikah</button>
-                            <button type="button" class="px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer" :class="activeTab === 'akta' ? 'bg-[#001D5F] text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-500 hover:border-[#001D5F] hover:text-[#001D5F]'" @click="activeTab = 'akta'">Akta Lahir</button>
+                            <button type="button" class="px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer" :class="activeTab === 'ijazah' ? 'bg-primary text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-500 hover:border-primary hover:text-primary'" @click="activeTab = 'ijazah'">Ijazah</button>
+                            <button type="button" class="px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer" :class="activeTab === 'buku_nikah' ? 'bg-primary text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-500 hover:border-primary hover:text-primary'" @click="activeTab = 'buku_nikah'">Buku Nikah</button>
+                            <button type="button" class="px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer" :class="activeTab === 'akta' ? 'bg-primary text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-500 hover:border-primary hover:text-primary'" @click="activeTab = 'akta'">Akta Lahir</button>
                         </div>
 
                         <!-- Ijazah Upload -->
                         <div x-show="activeTab === 'ijazah'" x-transition>
-                            <label class="cursor-pointer flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-[#001D5F] hover:bg-[#001D5F]/5 transition-all text-center gap-2">
+                            <label class="cursor-pointer flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary hover:bg-primary/5 transition-all text-center gap-2">
                                 <input type="file" class="hidden" accept="image/*,.pdf" @change="handleFileSelect($event, 'ijazah')">
                                 <i class="bi bi-cloud-upload text-gray-400 text-xl"></i>
                                 <span class="text-sm text-gray-500 font-medium" x-text="documents.ijazah.file ? documents.ijazah.file.name : 'Upload Ijazah Terakhir'"></span>
@@ -791,7 +791,7 @@
 
                         <!-- Buku Nikah Upload -->
                         <div x-show="activeTab === 'buku_nikah'" x-transition>
-                            <label class="cursor-pointer flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-[#001D5F] hover:bg-[#001D5F]/5 transition-all text-center gap-2">
+                            <label class="cursor-pointer flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary hover:bg-primary/5 transition-all text-center gap-2">
                                 <input type="file" class="hidden" accept="image/*,.pdf" @change="handleFileSelect($event, 'buku_nikah')">
                                 <i class="bi bi-cloud-upload text-gray-400 text-xl"></i>
                                 <span class="text-sm text-gray-500 font-medium" x-text="documents.buku_nikah.file ? documents.buku_nikah.file.name : 'Upload Buku Nikah'"></span>
@@ -804,7 +804,7 @@
 
                         <!-- Akta Upload -->
                         <div x-show="activeTab === 'akta'" x-transition>
-                            <label class="cursor-pointer flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-[#001D5F] hover:bg-[#001D5F]/5 transition-all text-center gap-2">
+                            <label class="cursor-pointer flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary hover:bg-primary/5 transition-all text-center gap-2">
                                 <input type="file" class="hidden" accept="image/*,.pdf" @change="handleFileSelect($event, 'akta_kelahiran')">
                                 <i class="bi bi-cloud-upload text-gray-400 text-xl"></i>
                                 <span class="text-sm text-gray-500 font-medium" x-text="documents.akta_kelahiran.file ? documents.akta_kelahiran.file.name : 'Upload Akta Kelahiran'"></span>
@@ -819,12 +819,12 @@
                     <!-- Passport Section (Optional) -->
                     <div class="pt-4 border-t border-gray-200">
                          <div class="flex justify-between items-center mb-4">
-                            <h6 class="text-[#001D5F] font-bold flex items-center gap-2 text-sm">
-                                <i class="bi bi-passport text-[#D4AF37]"></i> Passport (Opsional)
+                            <h6 class="text-primary font-bold flex items-center gap-2 text-sm">
+                                <i class="bi bi-passport text-gold"></i> Passport (Opsional)
                             </h6>
                             <label class="relative inline-flex items-center cursor-pointer gap-2">
                                 <input type="checkbox" class="sr-only peer" id="hasPassport" x-model="showPassportUpload">
-                                <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#001D5F]"></div>
+                                <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                                 <span class="text-xs text-gray-500 font-medium">Sudah punya passport</span>
                             </label>
                         </div>
@@ -832,13 +832,13 @@
                         <div x-show="showPassportUpload" x-transition>
                             <div class="border border-gray-200 rounded-xl p-4 bg-gray-50 transition-colors" :class="{ 'bg-emerald-50/50 border-emerald-200': documents.passport.file }">
                                 <div class="flex justify-between items-center mb-2">
-                                    <div class="font-bold text-[#001D5F] text-sm">Upload Passport</div>
+                                    <div class="font-bold text-primary text-sm">Upload Passport</div>
                                     <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border" :class="documents.passport.file ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-gray-100 text-gray-400 border-gray-200'">
                                         <span x-text="documents.passport.file ? 'Siap Upload' : 'Belum Upload'"></span>
                                     </span>
                                 </div>
                                 <template x-if="!documents.passport.file">
-                                    <label class="mt-2 cursor-pointer flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-[#001D5F] hover:bg-[#001D5F]/5 transition-all text-center gap-2">
+                                    <label class="mt-2 cursor-pointer flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary hover:bg-primary/5 transition-all text-center gap-2">
                                         <input type="file" class="hidden" accept="image/*,.pdf" @change="handleFileSelect($event, 'passport')">
                                         <i class="bi bi-cloud-upload text-gray-400 text-xl"></i>
                                         <span class="text-sm text-gray-500 font-medium">Klik untuk upload Passport</span>
@@ -858,7 +858,7 @@
             
             <div class="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50/50">
                 <button type="button" class="px-5 py-2.5 text-gray-500 font-bold hover:bg-gray-100 rounded-xl transition-colors cursor-pointer text-sm" @click="showDocModal = false">Batal</button>
-                <button type="button" class="px-5 py-2.5 bg-[#001D5F] text-white font-bold rounded-xl hover:bg-[#001440] transition-colors shadow-lg shadow-[#001D5F]/20 flex items-center gap-2 cursor-pointer text-sm" @click="submitDocuments" :disabled="isUploading || !canSubmitDocs">
+                <button type="button" class="px-5 py-2.5 bg-primary text-white font-bold rounded-xl hover:bg-[#001440] transition-colors shadow-lg shadow-[#001D5F]/20 flex items-center gap-2 cursor-pointer text-sm" @click="submitDocuments" :disabled="isUploading || !canSubmitDocs">
                     <span x-show="!isUploading"><i class="bi bi-cloud-upload"></i> Upload Dokumen</span>
                     <span x-show="isUploading"><i class="bi bi-hourglass-split"></i> Mengupload...</span>
                 </button>

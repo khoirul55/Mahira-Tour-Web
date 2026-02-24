@@ -5,7 +5,7 @@
 @section('content')
 
 {{-- ==================== HERO SECTION ==================== --}}
-<section class="relative h-[450px] md:h-[400px] sm:h-[350px] overflow-hidden flex items-center justify-center">
+<section class="relative h-[300px] sm:h-[350px] md:h-[400px] overflow-hidden flex items-center justify-center">
     <div class="absolute inset-0 z-[1]">
         <img src="{{ asset('images/hero/hero-gallery.webp') }}" 
              alt="Galeri Kegiatan Mahira Tour" 
@@ -14,10 +14,10 @@
              class="w-full h-full object-cover object-center animate-[heroKenBurns_20s_ease-in-out_infinite_alternate]">
     </div>
     
-    <div class="absolute inset-0 z-[2] bg-[#001D5F]/75"></div>
+    <div class="absolute inset-0 z-[2] bg-primary/75"></div>
     
     <div class="relative z-[3] text-center max-w-[900px] px-5 pt-10">
-        <div class="inline-flex items-center gap-2 px-6 py-2 rounded-full mb-6 text-[0.9rem] bg-white/15 backdrop-blur-[10px] animate-[heroFadeIn_0.8s_ease_0.2s_backwards]">
+        <div class="inline-flex items-center gap-2 px-4 sm:px-6 py-2 rounded-full mb-4 sm:mb-6 text-xs sm:text-[0.9rem] bg-white/15 backdrop-blur-[10px] animate-[heroFadeIn_0.8s_ease_0.2s_backwards]">
             <a href="{{ route('home') }}" class="text-white no-underline font-medium hover:opacity-80 transition-opacity">
                 <svg class="w-4 h-4 inline-block mr-1 -mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
                 Beranda
@@ -25,11 +25,11 @@
             <span class="text-white/70">/</span>
             <span class="text-white/70">Galeri</span>
         </div>
-        <h1 class="text-[3.5rem] md:text-[2.5rem] sm:text-[2rem] font-bold font-serif text-white mb-4 leading-tight shadow-black/30 text-shadow-lg">
+        <h1 class="text-2xl sm:text-[2.5rem] md:text-[3.5rem] font-bold font-serif text-white mb-4 leading-tight shadow-black/30 text-shadow-lg">
             <span class="inline-block mx-1" style="opacity: 0; animation: slideInLeft 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.3s forwards;">Galeri</span>
             <span class="inline-block mx-1" style="opacity: 0; animation: slideInRight 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.5s forwards;">Kegiatan</span>
         </h1>
-        <p class="font-semibold text-[0.9rem] uppercase tracking-wider mb-2 text-[#D4AF37] animate-[heroFadeIn_1s_ease_0.6s_backwards]">
+        <p class="font-semibold text-[0.9rem] uppercase tracking-wider mb-2 text-gold animate-[heroFadeIn_1s_ease_0.6s_backwards]">
             UMRAH BERSAMA, BERKAH BERSAMA
         </p>
         <p class="text-sm md:text-base max-w-[700px] mx-auto leading-relaxed text-white/90 animate-[heroFadeIn_1s_ease_0.6s_backwards]">
@@ -39,7 +39,7 @@
 </section>
 
 {{-- ==================== GALLERY SECTION ==================== --}}
-<section class="py-12 bg-[#F8F9FA]" x-data="{
+<section class="py-12 bg-gray-50" x-data="{
     activeFilter: 'all',
     galleries: {{ json_encode($galleries) }},
     currentIndex: 0,
@@ -74,7 +74,7 @@
     <div class="container-main">
         
         {{-- Filter Buttons --}}
-        <div class="sticky top-[76px] z-30 py-6 mb-12 bg-[#F8F9FA] border-b border-[#B89230]/10 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+        <div class="sticky top-[76px] z-30 py-6 mb-12 bg-gray-50 border-b border-[#B89230]/10 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
             <div class="container-main">
                 <div class="flex flex-wrap justify-center gap-3">
                     <button 
@@ -116,7 +116,7 @@
                         {{-- Overlay --}}
                         <div class="absolute inset-0 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-all duration-300 md:opacity-100 bg-gradient-to-t from-black/80 to-transparent">
                             <div class="text-white font-bold text-lg font-serif translate-y-2.5 group-hover:translate-y-0 transition-transform duration-300" x-text="gallery.title"></div>
-                            <span class="inline-block text-xs font-bold uppercase tracking-wider translate-y-2.5 group-hover:translate-y-0 transition-transform duration-300 delay-50 text-[#D4AF37]" x-text="gallery.category"></span>
+                            <span class="inline-block text-xs font-bold uppercase tracking-wider translate-y-2.5 group-hover:translate-y-0 transition-transform duration-300 delay-50 text-gold" x-text="gallery.category"></span>
                         </div>
                     </div>
                 </div>
@@ -128,7 +128,7 @@
             <svg class="w-16 h-16 mx-auto mb-4 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
             </svg>
-            <h4 class="text-lg font-semibold mb-2 text-[#001D5F]">Tidak ada foto dalam kategori ini</h4>
+            <h4 class="text-lg font-semibold mb-2 text-primary">Tidak ada foto dalam kategori ini</h4>
             <p class="text-sm text-stone-500">Coba pilih kategori lain</p>
         </div>
     </div>

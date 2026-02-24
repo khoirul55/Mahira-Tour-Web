@@ -4,7 +4,7 @@
 
 @section('content')
     {{-- ==================== HERO SECTION ==================== --}}
-    <section class="relative h-[450px] md:h-[400px] sm:h-[350px] overflow-hidden flex items-center justify-center">
+    <section class="relative h-[300px] sm:h-[350px] md:h-[400px] overflow-hidden flex items-center justify-center">
         <div class="absolute inset-0 z-[1]">
             <img src="{{ asset('images/hero/hero-testimonial.webp') }}" 
                  alt="Testimoni Jamaah Mahira Tour" 
@@ -13,10 +13,10 @@
                  class="w-full h-full object-cover object-center animate-[heroKenBurns_20s_ease-in-out_infinite_alternate]">
         </div>
         
-        <div class="absolute inset-0 z-[2] bg-[#001D5F]/75"></div>
+        <div class="absolute inset-0 z-[2] bg-primary/75"></div>
         
         <div class="relative z-[3] text-center max-w-[900px] px-5 pt-10">
-            <div class="inline-flex items-center gap-2 px-6 py-2 rounded-full mb-6 text-[0.9rem] bg-white/15 backdrop-blur-[10px] animate-[heroFadeIn_0.8s_ease_0.2s_backwards]">
+            <div class="inline-flex items-center gap-2 px-4 sm:px-6 py-2 rounded-full mb-4 sm:mb-6 text-xs sm:text-[0.9rem] bg-white/15 backdrop-blur-[10px] animate-[heroFadeIn_0.8s_ease_0.2s_backwards]">
                 <a href="{{ route('home') }}" class="text-white no-underline font-medium hover:opacity-80 transition-opacity">
                     <svg class="w-4 h-4 inline-block mr-1 -mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
                     Beranda
@@ -24,11 +24,11 @@
                 <span class="text-white/70">/</span>
                 <span class="text-white/70">Testimoni</span>
             </div>
-            <h1 class="text-[3.5rem] md:text-[2.5rem] sm:text-[2rem] font-bold font-serif text-white mb-4 leading-tight shadow-black/30 text-shadow-lg">
+            <h1 class="text-2xl sm:text-[2.5rem] md:text-[3.5rem] font-bold font-serif text-white mb-4 leading-tight shadow-black/30 text-shadow-lg">
                 <span class="inline-block mx-1" style="opacity: 0; animation: slideInLeft 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.3s forwards;">Testimoni</span>
                 <span class="inline-block mx-1" style="opacity: 0; animation: slideInRight 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.5s forwards;">Jamaah</span>
             </h1>
-            <p class="font-semibold text-[0.9rem] uppercase tracking-wider mb-2 text-[#D4AF37] animate-[heroFadeIn_1s_ease_0.6s_backwards]">
+            <p class="font-semibold text-[0.9rem] uppercase tracking-wider mb-2 text-gold animate-[heroFadeIn_1s_ease_0.6s_backwards]">
                 UMRAH BERSAMA, BERKAH BERSAMA
             </p>
             <p class="text-sm md:text-base max-w-[700px] mx-auto leading-relaxed text-white/90 animate-[heroFadeIn_1s_ease_0.6s_backwards]">
@@ -42,7 +42,7 @@
         
         {{-- Video Testimonials Section --}}
         <div class="text-center mt-16 mb-12">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-[#D4AF37] border-b-2 border-[#D4AF37]">Video Testimoni</span>
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-gold border-b-2 border-gold">Video Testimoni</span>
             <h2 class="text-2xl md:text-3xl font-normal mb-3 text-gray-800">Video Testimoni</h2>
             <p class="text-base text-stone-500 font-light">Dengarkan langsung pengalaman jamaah kami</p>
         </div>
@@ -79,7 +79,7 @@
 
         {{-- Text Testimonials Section --}}
         <div class="text-center mb-12">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-[#D4AF37] border-b-2 border-[#D4AF37]">Cerita Jamaah</span>
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-gold border-b-2 border-gold">Cerita Jamaah</span>
             <h2 class="text-2xl md:text-3xl font-normal mb-3 text-gray-800">Apa Kata Mereka</h2>
             <p class="text-base text-stone-500 font-light">Cerita inspiratif dari jamaah yang telah berangkat</p>
         </div>
@@ -89,11 +89,11 @@
             @forelse($testimonials as $testimonial)
                 <article class="relative p-8 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg group bg-white border border-gray-200">
                     {{-- Left accent line on hover --}}
-                    <div class="absolute top-0 left-0 w-0.5 h-0 transition-all duration-300 group-hover:h-full bg-[#001D5F]"></div>
+                    <div class="absolute top-0 left-0 w-0.5 h-0 transition-all duration-300 group-hover:h-full bg-primary"></div>
                     
                     {{-- Rating --}}
                     <div class="flex items-center gap-2 mb-6 text-xs tracking-widest">
-                        <span class="text-[#D4AF37] tracking-[2px]">
+                        <span class="text-gold tracking-[2px]">
                             @for($i = 1; $i <= 5; $i++)
                                 {{ $i <= $testimonial['rating'] ? '★' : '☆' }}
                             @endfor
@@ -107,7 +107,7 @@
                     </blockquote>
                     
                     {{-- Divider --}}
-                    <div class="w-10 h-px my-7 bg-[#001D5F]"></div>
+                    <div class="w-10 h-px my-7 bg-primary"></div>
                     
                     {{-- Author --}}
                     <div class="flex items-center gap-4 mb-5">
