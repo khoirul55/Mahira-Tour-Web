@@ -3,6 +3,10 @@
 
 @section('title', 'Mahira Tour | Travel Umrah & Haji Resmi, Aman & Terpercaya')
 
+@section('preload')
+    <link rel="preload" as="image" href="{{ asset('images/hero/video-poster.webp') }}" fetchpriority="high">
+@endsection
+
 @section('content')
 
 {{-- ==================== HERO SECTION ==================== --}}
@@ -11,10 +15,10 @@
     {{-- Background Video --}}
     <video class="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover opacity-85 brightness-[0.45] contrast-[1.1]"
            autoplay muted loop playsinline
+           preload="metadata"
            poster="{{ asset('images/hero/video-poster.webp') }}">
         <source src="{{ asset('videos/kaabah-hero.mp4') }}" type="video/mp4">
         <source src="{{ asset('videos/kaabah-hero.webm') }}" type="video/webm">
-        <img src="{{ asset('images/hero/video-poster.webp') }}" alt="Ka'bah" fetchpriority="high" />
     </video>
     
     {{-- Gradient Overlay --}}
@@ -78,7 +82,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
                 {{-- Badge --}}
-                <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-gold border-b-2 border-gold tracking-[2px]">Cerita Kami</span>
+                <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-gold-accessible border-b-2 border-gold tracking-[2px]">Cerita Kami</span>
                 
                 {{-- Title --}}
                 <h2 class="text-2xl md:text-4xl font-semibold font-serif leading-snug mb-6 text-primary tracking-tighter">
@@ -101,7 +105,7 @@
                 <div class="grid grid-cols-3 gap-2 sm:gap-4 mb-8">
                     @foreach([['2016', 'Tahun didirikan'], ['2000+', 'Jamaah terlayani'], ['4.9/5', 'Rating testimoni']] as $metric)
                     <div class="text-center p-3 sm:p-4 rounded-xl bg-white border border-gray-200">
-                        <strong class="block text-lg sm:text-xl md:text-2xl font-bold text-gold">{{ $metric[0] }}</strong>
+                        <strong class="block text-lg sm:text-xl md:text-2xl font-bold text-gold-accessible">{{ $metric[0] }}</strong>
                         <span class="text-xs text-taupe">{{ $metric[1] }}</span>
                     </div>
                     @endforeach
@@ -115,8 +119,9 @@
                 </a>
             </div>
             <div class="rounded-2xl overflow-hidden shadow-lg">
-                <img src="{{ asset('images/hero/jamaah2.webp') }}" alt="Tim Mahira Tour bersama jamaah" 
-                     class="w-full h-auto object-cover" loading="lazy">
+                <img src="{{ asset('images/hero/jamaah2.webp') }}" alt="Tim Mahira Tour bersama jamaah"
+                     loading="lazy" width="600" height="400"
+                     class="w-full h-auto object-cover">
             </div>
         </div>
     </div>
@@ -126,7 +131,7 @@
 <section class="py-16 lg:py-24 bg-white" x-data="{ ppiuOpen: false }">
     <div class="container-main">
         <div class="text-center max-w-2xl mx-auto mb-16">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-gold border-b-2 border-gold">Mengapa Pilih Kami</span>
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-gold-accessible border-b-2 border-gold">Mengapa Pilih Kami</span>
             <h2 class="text-2xl md:text-4xl font-semibold font-serif mb-4 text-primary">
                 Komitmen Kami untuk Ibadah Anda
             </h2>
@@ -152,7 +157,8 @@
                 <p class="text-sm leading-relaxed text-[#6B7280]">{{ $feature['desc'] }}</p>
                 @if($feature['btn'] === 'ppiu')
                 <button @click="ppiuOpen = true"
-                        class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold 
+                        aria-label="Lihat Surat Izin PPIU Mahira Tour"
+                        class="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-semibold 
                                transition-all duration-300 cursor-pointer border-0 bg-primary/10 text-primary hover:bg-primary hover:text-white">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                     Lihat Surat Izin PPIU
@@ -177,7 +183,8 @@
          x-init="$watch('ppiuOpen', v => document.body.style.overflow = v ? 'hidden' : '')">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 relative shadow-2xl" @click.stop>
             <button @click="ppiuOpen = false" 
-                    class="absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center border-0 cursor-pointer transition-colors bg-gray-100 text-gray-500 hover:bg-gray-200">
+                    aria-label="Tutup modal surat izin"
+                    class="absolute top-4 right-4 w-11 h-11 rounded-lg flex items-center justify-center border-0 cursor-pointer transition-colors bg-gray-100 text-gray-500 hover:bg-gray-200">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
             <h4 class="text-lg font-bold flex items-center gap-2 mb-4 text-primary">
@@ -185,8 +192,9 @@
                 Surat Izin PPIU
             </h4>
             <div class="rounded-xl overflow-hidden mb-4 border border-gray-200">
-                <img src="{{ Storage::url('surat/suratizin.jpg') }}" alt="Surat Izin PPIU Mahira Tour" 
-                     class="w-full h-auto" loading="lazy">
+                <img src="{{ Storage::url('surat/suratizin.jpg') }}" alt="Surat Izin PPIU Mahira Tour"
+                     loading="lazy" width="500" height="700"
+                     class="w-full h-auto">
             </div>
             <a href="{{ Storage::url('surat/suratizin.jpg') }}" download 
                class="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm transition-all duration-300 bg-primary text-white hover:bg-gold no-underline">
@@ -208,7 +216,7 @@
             </h3>
             <div class="flex items-center justify-center gap-4">
                 <span class="w-8 h-px bg-gold/50"></span>
-                <span class="text-xs font-semibold uppercase tracking-widest text-gold">HR. Tirmidzi</span>
+                <span class="text-xs font-semibold uppercase tracking-widest text-gold-accessible">HR. Tirmidzi</span>
                 <span class="w-8 h-px bg-gold/50"></span>
             </div>
         </div>
@@ -221,7 +229,7 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 -mt-6 md:-mt-10 relative z-20">
             @foreach([['2000+', 'Jamaah Terlayani'], ['10+', 'Tahun Berpengalaman'], ['45+', 'Keberangkatan/Tahun'], ['100%', 'Izin Resmi Kemenag']] as $stat)
             <div class="text-center p-4 md:p-8 rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white border border-gray-200">
-                <div class="text-xl md:text-3xl font-bold mb-2 text-gold">{{ $stat[0] }}</div>
+                <div class="text-xl md:text-3xl font-bold mb-2 text-gold-accessible">{{ $stat[0] }}</div>
                 <div class="text-xs md:text-sm text-taupe">{{ $stat[1] }}</div>
             </div>
             @endforeach
@@ -233,7 +241,7 @@
 <section class="py-16 lg:py-24 bg-gray-50" id="paket">
     <div class="container-main">
         <div class="text-center max-w-2xl mx-auto mb-16">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-gold border-b-2 border-gold">Paket Istimewa</span>
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-gold-accessible border-b-2 border-gold">Paket Istimewa</span>
             <h2 class="text-2xl md:text-4xl font-semibold font-serif mb-4 text-primary">
                 Pilih Paket Sesuai Kebutuhan Anda di Tahun 2026
             </h2>
@@ -296,7 +304,7 @@
 <section class="py-16 lg:py-24 bg-white">
     <div class="container-main">
         <div class="text-center max-w-2xl mx-auto mb-16">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-gold border-b-2 border-gold">Testimoni</span>
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-gold-accessible border-b-2 border-gold">Testimoni</span>
             <h2 class="text-2xl md:text-4xl font-semibold font-serif mb-4 text-primary">
                 Video Testimoni Jamaah
             </h2>
@@ -368,7 +376,7 @@
 
     <div class="container-main">
         <div class="text-center max-w-2xl mx-auto mb-16">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-gold border-b-2 border-gold">Galeri</span>
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-gold-accessible border-b-2 border-gold">Galeri</span>
             <h2 class="text-2xl md:text-4xl font-semibold font-serif text-primary">
                 Dokumentasi Perjalanan Ibadah
             </h2>
@@ -381,12 +389,14 @@
         }">
             {{-- Nav Buttons --}}
             <button @click="scrollLeft()" 
-                    class="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full flex items-center justify-center 
+                    aria-label="Geser galeri ke kiri"
+                    class="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full flex items-center justify-center 
                            opacity-0 group-hover:opacity-100 transition-opacity duration-300 border-0 cursor-pointer shadow-lg bg-white text-primary">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
             </button>
             <button @click="scrollRight()" 
-                    class="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full flex items-center justify-center 
+                    aria-label="Geser galeri ke kanan"
+                    class="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full flex items-center justify-center 
                            opacity-0 group-hover:opacity-100 transition-opacity duration-300 border-0 cursor-pointer shadow-lg bg-white text-primary">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </button>
@@ -421,17 +431,18 @@
          x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
          x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
          @click.self="closeModal()" 
+         role="dialog" aria-modal="true" aria-label="Galeri foto"
          class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/90">
-        <button @click="closeModal()" class="absolute top-4 right-4 text-white text-3xl border-0 bg-transparent cursor-pointer z-10">&times;</button>
+        <button @click="closeModal()" aria-label="Tutup galeri" class="absolute top-4 right-4 w-11 h-11 flex items-center justify-center text-white text-3xl border-0 bg-white/10 rounded-full cursor-pointer z-10 hover:bg-white/20 transition-colors">&times;</button>
         <div class="absolute top-4 left-1/2 -translate-x-1/2 text-white text-sm opacity-70" x-text="`${currentIndex + 1} / ${galleries.length}`"></div>
-        <button @click="changeGallery(-1)" class="absolute left-4 text-white border-0 bg-transparent cursor-pointer z-10">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        <button @click="changeGallery(-1)" aria-label="Foto sebelumnya" class="absolute left-4 w-12 h-12 flex items-center justify-center text-white border-0 bg-white/10 rounded-full cursor-pointer z-10 hover:bg-white/20 transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
         </button>
         <div class="max-w-4xl max-h-[80vh]" @click.stop>
             <img :src="galleries[currentIndex].src" :alt="galleries[currentIndex].alt" class="max-w-full max-h-[80vh] rounded-lg object-contain">
         </div>
-        <button @click="changeGallery(1)" class="absolute right-4 text-white border-0 bg-transparent cursor-pointer z-10">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        <button @click="changeGallery(1)" aria-label="Foto berikutnya" class="absolute right-4 w-12 h-12 flex items-center justify-center text-white border-0 bg-white/10 rounded-full cursor-pointer z-10 hover:bg-white/20 transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
     </div>
 </section>
@@ -440,7 +451,7 @@
 <section class="py-16 lg:py-24 bg-white">
     <div class="container-main">
         <div class="text-center max-w-2xl mx-auto mb-16">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-gold border-b-2 border-gold">Lokasi Kami</span>
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-gold-accessible border-b-2 border-gold">Lokasi Kami</span>
             <h2 class="text-2xl md:text-4xl font-semibold font-serif mb-4 text-primary">
                 Kunjungi Kantor Pusat Mahira Tour
             </h2>
@@ -467,37 +478,33 @@
     </div>
 </section>
 
-{{-- ==================== PARTNERS SECTION ==================== --}}
-<section class="py-16 lg:py-24 bg-gray-50">
+{{-- ==================== MITRA & MASKAPAI ==================== --}}
+<section class="py-12 lg:py-16 bg-[#FDFBF7]">
     <div class="container-main">
-        <div class="text-center max-w-2xl mx-auto mb-16">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-gold border-b-2 border-gold">Berizin Resmi & Terpercaya</span>
-            <h2 class="text-2xl md:text-4xl font-semibold font-serif mb-4 text-primary">
-                Legalitas & Keanggotaan
-            </h2>
-            <p class="text-sm md:text-base text-taupe leading-[1.8]">
-                Terdaftar dan diawasi oleh lembaga resmi pemerintah dan organisasi internasional
-            </p>
-        </div>
+        <p class="text-center text-xs uppercase tracking-[3px] text-gray-400 mb-8 font-semibold">Mitra Resmi & Maskapai Penerbangan</p>
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
-            @php
-                $partners = [
-                    ['img' => 'kemenag.webp', 'name' => 'Kementerian Agama RI', 'desc' => 'PPIU No: 21062301498960002'],
-                    ['img' => 'siskopatuh.webp', 'name' => 'Siskopatuh', 'desc' => 'Sistem Komputerisasi Haji Terpadu'],
-                    ['img' => 'himpuh.webp', 'name' => 'HIMPUH', 'desc' => 'Himpunan Penyelenggara Umrah Haji'],
-                ];
-            @endphp
-            @foreach($partners as $partner)
-            <div class="text-center p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1 bg-white border border-gray-200">
-                <div class="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 p-3 bg-gray-50">
-                    <img src="{{ asset('images/partners/' . $partner['img']) }}" alt="{{ $partner['name'] }}" 
-                         class="max-w-full max-h-full object-contain" loading="lazy">
-                </div>
-                <h4 class="text-sm font-bold mb-1 text-primary">{{ $partner['name'] }}</h4>
-                <p class="text-xs text-taupe">{{ $partner['desc'] }}</p>
+        <div class="relative overflow-hidden" style="mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);">
+            <div class="flex items-center gap-12 sm:gap-16 lg:gap-20 animate-[marqueeScroll_30s_linear_infinite] hover:[animation-play-state:paused] w-max">
+                {{-- Set 1 --}}
+                <img src="{{ asset('images/partners/kemenag.webp') }}" alt="Kemenag RI" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0">
+                <img src="{{ asset('images/partners/himpuh.webp') }}" alt="HIMPUH" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0">
+                <img src="{{ asset('images/partners/siskopatuh.png') }}" alt="Siskopatuh" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0">
+                <img src="{{ asset('images/partners/5pasti.png') }}" alt="5 Pasti" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0">
+                <img src="{{ asset('images/partners/garuda.png') }}" alt="Garuda Indonesia" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0">
+                <img src="{{ asset('images/partners/lionair.png') }}" alt="Lion Air" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0">
+                <img src="{{ asset('images/partners/batikair.png') }}" alt="Batik Air" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0">
+                <img src="{{ asset('images/partners/saudia.png') }}" alt="Saudia Airlines" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0">
+                
+                {{-- Set 2 (duplicate for seamless loop) --}}
+                <img src="{{ asset('images/partners/kemenag.webp') }}" alt="Kemenag RI" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0">
+                <img src="{{ asset('images/partners/himpuh.webp') }}" alt="HIMPUH" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0">
+                <img src="{{ asset('images/partners/siskopatuh.png') }}" alt="Siskopatuh" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0">
+                <img src="{{ asset('images/partners/5pasti.png') }}" alt="5 Pasti" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0">
+                <img src="{{ asset('images/partners/garuda.png') }}" alt="Garuda Indonesia" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0">
+                <img src="{{ asset('images/partners/lionair.png') }}" alt="Lion Air" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0">
+                <img src="{{ asset('images/partners/batikair.png') }}" alt="Batik Air" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0">
+                <img src="{{ asset('images/partners/saudia.png') }}" alt="Saudia Airlines" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0">
             </div>
-            @endforeach
         </div>
     </div>
 </section>

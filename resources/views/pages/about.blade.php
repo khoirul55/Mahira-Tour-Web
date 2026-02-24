@@ -6,6 +6,10 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 @endpush
 
+@section('preload')
+    <link rel="preload" as="image" href="{{ asset('images/hero/hero-about.webp') }}" fetchpriority="high">
+@endsection
+
 @section('content')
 <div x-data="{ ppiuModalOpen: false }">
 
@@ -29,7 +33,7 @@
             <span class="inline-block mx-1" style="opacity: 0; animation: slideInLeft 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.3s forwards;">Tentang</span>
             <span class="inline-block mx-1" style="opacity: 0; animation: slideInRight 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.5s forwards;">Mahira Tour</span>
         </h1>
-        <p class="font-semibold text-[0.9rem] uppercase tracking-wider mb-2 text-gold">{{ $companyInfo['tagline'] }}</p>
+        <p class="font-semibold text-[0.9rem] uppercase tracking-wider mb-2 text-gold-accessible">{{ $companyInfo['tagline'] }}</p>
         <p class="text-sm md:text-base max-w-[700px] mx-auto leading-relaxed text-white/90">
             Mitra terpercaya perjalanan ibadah Anda sejak {{ $companyInfo['founded'] }}
         </p>
@@ -128,7 +132,7 @@
 <section class="py-16 lg:py-24 bg-gray-50">
     <div class="container-main">
         <div class="text-center mb-16">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4 text-gold bg-gold/10 tracking-[2px]">Kepemimpinan</span>
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4 text-gold-accessible bg-gold/10 tracking-[2px]">Kepemimpinan</span>
             <h2 class="text-2xl sm:text-3xl lg:text-[2.5rem] font-extrabold uppercase font-serif text-center mt-0 tracking-wide text-primary">
                 TIM PIMPINAN MAHIRA TOUR
             </h2>
@@ -154,7 +158,7 @@
                 </div>
                 <div class="flex-[1.5]">
                     <h3 class="text-xl sm:text-2xl lg:text-[2rem] font-extrabold mb-1 font-serif text-primary">{{ $leader['name'] }}</h3>
-                    <p class="text-xs sm:text-sm font-bold uppercase tracking-widest mb-6 lg:mb-8 text-gold tracking-[2px]">{{ strtoupper($leader['position']) }}</p>
+                    <p class="text-xs sm:text-sm font-bold uppercase tracking-widest mb-6 lg:mb-8 text-gold-accessible tracking-[2px]">{{ strtoupper($leader['position']) }}</p>
                     <div class="relative pl-8 md:pl-8 md:border-l-[3px] border-t-[2px] md:border-t-0 pt-5 md:pt-0 border-gray-200">
                         <svg class="absolute top-[-10px] left-2.5 w-8 h-8 opacity-20 text-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
                         <p class="text-sm sm:text-base italic leading-relaxed text-gray-500">
@@ -190,7 +194,7 @@
 <section class="py-16 lg:py-24 text-white bg-gradient-to-br from-[#001D5F] to-[#001440]">
     <div class="container-main">
         <div class="text-center mb-10 lg:mb-14">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4 text-gold bg-gold/15 tracking-[2px]">Berizin & Terpercaya</span>
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4 text-gold-accessible bg-gold/15 tracking-[2px]">Berizin & Terpercaya</span>
             <h2 class="text-2xl sm:text-3xl lg:text-[2.5rem] font-extrabold uppercase font-serif text-center text-white mt-0 tracking-wide">
                 LEGALITAS RESMI
             </h2>
@@ -206,15 +210,15 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
                     <div class="flex flex-col gap-1">
                         <span class="text-xs uppercase tracking-wide text-white/70 tracking-[1px]">Nomor Izin</span>
-                        <span class="text-base font-semibold text-gold">{{ $ppiuInfo['number'] }}</span>
+                        <span class="text-base font-semibold text-gold-accessible">{{ $ppiuInfo['number'] }}</span>
                     </div>
                     <div class="flex flex-col gap-1">
                         <span class="text-xs uppercase tracking-wide text-white/70 tracking-[1px]">Tanggal Terbit</span>
-                        <span class="text-base font-semibold text-gold">{{ $ppiuInfo['date'] }}</span>
+                        <span class="text-base font-semibold text-gold-accessible">{{ $ppiuInfo['date'] }}</span>
                     </div>
                     <div class="flex flex-col gap-1">
                         <span class="text-xs uppercase tracking-wide text-white/70 tracking-[1px]">Diterbitkan Oleh</span>
-                        <span class="text-base font-semibold text-gold">{{ $ppiuInfo['issuer'] }}</span>
+                        <span class="text-base font-semibold text-gold-accessible">{{ $ppiuInfo['issuer'] }}</span>
                     </div>
                 </div>
                 <button @click="ppiuModalOpen = true"
@@ -262,7 +266,7 @@
 <section class="py-16 lg:py-24 bg-gray-50">
     <div class="container-main">
         <div class="text-center mb-12 lg:mb-16">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4 text-gold bg-gold/10 tracking-[2px]">{{ count($branches) }} Cabang di Indonesia</span>
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4 text-gold-accessible bg-gold/10 tracking-[2px]">{{ count($branches) }} Cabang di Indonesia</span>
             <h2 class="text-2xl sm:text-3xl lg:text-[2.5rem] font-extrabold uppercase font-serif text-center mt-0 tracking-wide text-primary">
                 LOKASI CABANG KAMI
             </h2>

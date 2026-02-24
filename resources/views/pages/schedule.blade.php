@@ -2,6 +2,10 @@
 
 @section('title', 'Jadwal Keberangkatan - Mahira Tour')
 
+@section('preload')
+    <link rel="preload" as="image" href="{{ asset('images/hero/hero-schedule.webp') }}" fetchpriority="high">
+@endsection
+
 @section('content')
 {{-- ==================== HERO SECTION ==================== --}}
 <section class="relative h-[300px] sm:h-[350px] md:h-[400px] overflow-hidden flex items-center justify-center">
@@ -37,6 +41,7 @@
         <div class="flex gap-2 justify-center flex-wrap">
             <button @click="activeFilter = 'all'; document.querySelectorAll('[data-schedule-card]').forEach(el => el.style.display = '')"
                     :class="{ 'active': activeFilter === 'all' }"
+                    aria-label="Tampilkan semua jadwal"
                     class="px-8 py-3 rounded-full font-semibold text-[15px] cursor-pointer transition-all duration-300 border-2"
                     :class="activeFilter === 'all' ? 'border-primary bg-primary text-white shadow-[0_8px_25px_rgba(0,29,95,0.25)]' : 'border-[#E8EBF3] bg-white text-gray-500'">
                 Semua Jadwal

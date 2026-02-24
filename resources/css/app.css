@@ -11,6 +11,7 @@
     --color-gold: #D4AF37;
     --color-gold-dark: #B89230;
     --color-gold-light: #F4D03F;
+    --color-gold-accessible: #9A7B2C; /* WCAG AA compliant on white (4.54:1) */
     --color-cream: #F5F1E8;
     --color-taupe: #8B7F6E;
     --color-success: #10B981;

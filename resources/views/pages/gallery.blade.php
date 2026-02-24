@@ -2,6 +2,10 @@
 
 @section('title', 'Galeri Kegiatan - Mahira Tour')
 
+@section('preload')
+    <link rel="preload" as="image" href="{{ asset('images/hero/hero-gallery.webp') }}" fetchpriority="high">
+@endsection
+
 @section('content')
 
 {{-- ==================== HERO SECTION ==================== --}}
@@ -29,7 +33,7 @@
             <span class="inline-block mx-1" style="opacity: 0; animation: slideInLeft 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.3s forwards;">Galeri</span>
             <span class="inline-block mx-1" style="opacity: 0; animation: slideInRight 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.5s forwards;">Kegiatan</span>
         </h1>
-        <p class="font-semibold text-[0.9rem] uppercase tracking-wider mb-2 text-gold animate-[heroFadeIn_1s_ease_0.6s_backwards]">
+        <p class="font-semibold text-[0.9rem] uppercase tracking-wider mb-2 text-gold-accessible animate-[heroFadeIn_1s_ease_0.6s_backwards]">
             UMRAH BERSAMA, BERKAH BERSAMA
         </p>
         <p class="text-sm md:text-base max-w-[700px] mx-auto leading-relaxed text-white/90 animate-[heroFadeIn_1s_ease_0.6s_backwards]">
@@ -116,7 +120,7 @@
                         {{-- Overlay --}}
                         <div class="absolute inset-0 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-all duration-300 md:opacity-100 bg-gradient-to-t from-black/80 to-transparent">
                             <div class="text-white font-bold text-lg font-serif translate-y-2.5 group-hover:translate-y-0 transition-transform duration-300" x-text="gallery.title"></div>
-                            <span class="inline-block text-xs font-bold uppercase tracking-wider translate-y-2.5 group-hover:translate-y-0 transition-transform duration-300 delay-50 text-gold" x-text="gallery.category"></span>
+                            <span class="inline-block text-xs font-bold uppercase tracking-wider translate-y-2.5 group-hover:translate-y-0 transition-transform duration-300 delay-50 text-gold-accessible" x-text="gallery.category"></span>
                         </div>
                     </div>
                 </div>
@@ -143,10 +147,12 @@
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
          @click.self="closeModal()" 
+         role="dialog" aria-modal="true" aria-label="Galeri foto"
          class="fixed inset-0 z-[99999] flex items-center justify-center bg-black/85 backdrop-blur-[5px]">
         
         {{-- Close Button --}}
         <button @click="closeModal()" 
+                aria-label="Tutup galeri"
                 class="absolute top-8 right-10 z-[100000] w-[60px] h-[60px] rounded-full flex items-center justify-center text-white text-4xl cursor-pointer transition-all duration-300 border-0 hover:rotate-90 bg-white/10 backdrop-blur-[5px] hover:bg-[#B89230]/90">
             &times;
         </button>
@@ -157,6 +163,7 @@
         
         {{-- Prev Button --}}
         <button @click="changeGallery(-1)" type="button"
+                aria-label="Foto sebelumnya"
                 class="absolute left-8 top-1/2 -translate-y-1/2 w-[60px] h-[60px] rounded-full flex items-center justify-center text-white text-2xl cursor-pointer z-[100000] transition-all duration-300 bg-white/10 border border-white/20 backdrop-blur-[5px] hover:bg-white hover:text-[#B89230] hover:scale-110 hover:shadow-[0_0_20px_rgba(184,146,48,0.4)] hover:border-white">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
         </button>
@@ -178,6 +185,7 @@
         
         {{-- Next Button --}}
         <button @click="changeGallery(1)" type="button"
+                aria-label="Foto berikutnya"
                 class="absolute right-8 top-1/2 -translate-y-1/2 w-[60px] h-[60px] rounded-full flex items-center justify-center text-white text-2xl cursor-pointer z-[100000] transition-all duration-300 bg-white/10 border border-white/20 backdrop-blur-[5px] hover:bg-white hover:text-[#B89230] hover:scale-110 hover:shadow-[0_0_20px_rgba(184,146,48,0.4)] hover:border-white">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>

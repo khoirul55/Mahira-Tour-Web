@@ -2,6 +2,10 @@
 
 @section('title', 'Testimoni Jamaah - Mahira Tour')
 
+@section('preload')
+    <link rel="preload" as="image" href="{{ asset('images/hero/hero-testimonial.webp') }}" fetchpriority="high">
+@endsection
+
 @section('content')
     {{-- ==================== HERO SECTION ==================== --}}
     <section class="relative h-[300px] sm:h-[350px] md:h-[400px] overflow-hidden flex items-center justify-center">
@@ -42,7 +46,7 @@
         
         {{-- Video Testimonials Section --}}
         <div class="text-center mt-16 mb-12">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-gold border-b-2 border-gold">Video Testimoni</span>
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-gold-accessible border-b-2 border-gold">Video Testimoni</span>
             <h2 class="text-2xl md:text-3xl font-normal mb-3 text-gray-800">Video Testimoni</h2>
             <p class="text-base text-stone-500 font-light">Dengarkan langsung pengalaman jamaah kami</p>
         </div>
@@ -79,7 +83,7 @@
 
         {{-- Text Testimonials Section --}}
         <div class="text-center mb-12">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-gold border-b-2 border-gold">Cerita Jamaah</span>
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-gold-accessible border-b-2 border-gold">Cerita Jamaah</span>
             <h2 class="text-2xl md:text-3xl font-normal mb-3 text-gray-800">Apa Kata Mereka</h2>
             <p class="text-base text-stone-500 font-light">Cerita inspiratif dari jamaah yang telah berangkat</p>
         </div>
@@ -93,7 +97,7 @@
                     
                     {{-- Rating --}}
                     <div class="flex items-center gap-2 mb-6 text-xs tracking-widest">
-                        <span class="text-gold tracking-[2px]">
+                        <span class="text-gold-accessible tracking-[2px]">
                             @for($i = 1; $i <= 5; $i++)
                                 {{ $i <= $testimonial['rating'] ? '★' : '☆' }}
                             @endfor
