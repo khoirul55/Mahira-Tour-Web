@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Tentang Kami - Mahira Tour')
+@section('meta_description', 'Kenali Mahira Tour lebih dekat. Berdiri sejak 2016, berizin resmi Kemenag RI, melayani 2000+ jamaah dengan 4 cabang di Indonesia. Dipimpin oleh tim berpengalaman di bidang perjalanan ibadah.')
+@section('og_image', asset('images/hero/hero-about.webp'))
 
 @push('styles')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />

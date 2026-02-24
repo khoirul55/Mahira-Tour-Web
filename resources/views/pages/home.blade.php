@@ -2,6 +2,8 @@
 @extends('layouts.app')
 
 @section('title', 'Mahira Tour | Travel Umrah & Haji Resmi, Aman & Terpercaya')
+@section('meta_description', 'Mahira Tour adalah travel Haji & Umrah berizin resmi Kemenag RI. Melayani 2000+ jamaah sejak 2016 dengan bimbingan ibadah profesional, hotel bintang 5, dan harga transparan. Daftar sekarang!')
+@section('og_image', asset('images/hero/video-poster.webp'))
 
 @section('preload')
     <link rel="preload" as="image" href="{{ asset('images/hero/video-poster.webp') }}" fetchpriority="high">

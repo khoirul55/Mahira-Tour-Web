@@ -52,13 +52,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     
     
-    <!-- Global CSS Variables -->
-    <link rel="stylesheet" href="{{ asset('css/variables.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/animations.css') }}">
-    
-    <!-- Page-specific shared CSS -->
-    <link rel="stylesheet" href="{{ asset('css/page-hero.css') }}">
-    
     <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     

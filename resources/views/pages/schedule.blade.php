@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Jadwal Keberangkatan - Mahira Tour')
+@section('meta_description', 'Jadwal keberangkatan Umrah & Haji 2026 dari Mahira Tour. Pilih paket sesuai budget dan tanggal keberangkatan. Seat terbatas, daftar sekarang!')
+@section('og_image', asset('images/hero/hero-schedule.webp'))
 
 @section('preload')
     <link rel="preload" as="image" href="{{ asset('images/hero/hero-schedule.webp') }}" fetchpriority="high">

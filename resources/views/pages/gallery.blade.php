@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Galeri Kegiatan - Mahira Tour')
+@section('meta_description', 'Lihat dokumentasi perjalanan ibadah Umrah & Haji bersama Mahira Tour. Foto-foto Ka\'bah, Masjid Nabawi, hotel, dan momen spiritual jamaah kami.')
+@section('og_image', asset('images/hero/hero-gallery.webp'))
 
 @section('preload')
     <link rel="preload" as="image" href="{{ asset('images/hero/hero-gallery.webp') }}" fetchpriority="high">
@@ -195,10 +197,3 @@
 @include('partials.cta-section')
 
 @endsection
-
-@push('scripts')
-{{-- Removed inline style since animation is now handled via Tailwind arbitrary class --}}
-<script>
-    console.log('Galleries loaded:', {!! json_encode($galleries) !!});
-</script>
-@endpush

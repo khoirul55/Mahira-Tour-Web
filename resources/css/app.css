@@ -2,6 +2,10 @@
 
 @source '../views/**/*.blade.php';
 
+[x-cloak] { 
+    display: none !important; 
+}
+
 @theme {
     /* ===== Brand Colors ===== */
     --color-primary: #001D5F;

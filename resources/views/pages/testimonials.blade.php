@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Testimoni Jamaah - Mahira Tour')
+@section('meta_description', 'Baca dan tonton testimoni jamaah Mahira Tour. Rating 4.9/5 dari 2000+ jamaah. Pengalaman nyata perjalanan Umrah & Haji bersama kami.')
+@section('og_image', asset('images/hero/hero-testimonial.webp'))
 
 @section('preload')
     <link rel="preload" as="image" href="{{ asset('images/hero/hero-testimonial.webp') }}" fetchpriority="high">

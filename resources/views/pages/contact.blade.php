@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Hubungi Kami - Mahira Tour')
+@section('meta_description', 'Hubungi Mahira Tour untuk konsultasi paket Umrah & Haji. WhatsApp, form online, atau kunjungi kantor kami di Surabaya. Respon cepat dan ramah.')
+@section('og_image', asset('images/hero/hero-contact.webp'))
 
 @section('preload')
     <link rel="preload" as="image" href="{{ asset('images/hero/hero-contact.webp') }}" fetchpriority="high">
