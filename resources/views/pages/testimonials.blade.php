@@ -10,46 +10,41 @@
                  alt="Testimoni Jamaah Mahira Tour" 
                  fetchpriority="high"
                  loading="eager"
-                 class="w-full h-full object-cover object-center"
-                 style="animation: heroKenBurns 20s ease-in-out infinite alternate;">
+                 class="w-full h-full object-cover object-center animate-[heroKenBurns_20s_ease-in-out_infinite_alternate]">
         </div>
         
-        <div class="absolute inset-0 z-[2]" style="background: rgba(0, 29, 95, 0.75);"></div>
+        <div class="absolute inset-0 z-[2] bg-[#001D5F]/75"></div>
         
         <div class="relative z-[3] text-center max-w-[900px] px-5 pt-10">
-            <div class="inline-flex items-center gap-2 px-6 py-2 rounded-full mb-6 text-[0.9rem]"
-                 style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); animation: heroFadeIn 0.8s ease 0.2s backwards;">
+            <div class="inline-flex items-center gap-2 px-6 py-2 rounded-full mb-6 text-[0.9rem] bg-white/15 backdrop-blur-[10px] animate-[heroFadeIn_0.8s_ease_0.2s_backwards]">
                 <a href="{{ route('home') }}" class="text-white no-underline font-medium hover:opacity-80 transition-opacity">
                     <svg class="w-4 h-4 inline-block mr-1 -mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
                     Beranda
                 </a>
-                <span style="color: rgba(255,255,255,0.7);">/</span>
-                <span style="color: rgba(255,255,255,0.7);">Testimoni</span>
+                <span class="text-white/70">/</span>
+                <span class="text-white/70">Testimoni</span>
             </div>
-            <h1 class="text-[3.5rem] md:text-[2.5rem] sm:text-[2rem] font-bold font-serif text-white mb-4 leading-tight"
-                style="text-shadow: 0 4px 20px rgba(0,0,0,0.3);">
-                <span class="inline-block mx-1 opacity-0" style="animation: slideInLeft 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.3s forwards;">Testimoni</span>
-                <span class="inline-block mx-1 opacity-0" style="animation: slideInRight 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.5s forwards;">Jamaah</span>
+            <h1 class="text-[3.5rem] md:text-[2.5rem] sm:text-[2rem] font-bold font-serif text-white mb-4 leading-tight shadow-black/30 text-shadow-lg">
+                <span class="inline-block mx-1 opacity-0 animate-[slideInLeft_1s_cubic-bezier(0.215,0.610,0.355,1.000)_0.3s_forwards]">Testimoni</span>
+                <span class="inline-block mx-1 opacity-0 animate-[slideInRight_1s_cubic-bezier(0.215,0.610,0.355,1.000)_0.5s_forwards]">Jamaah</span>
             </h1>
-            <p class="font-semibold text-[0.9rem] uppercase tracking-wider mb-2" style="color: #D4AF37; animation: heroFadeIn 1s ease 0.6s backwards;">
+            <p class="font-semibold text-[0.9rem] uppercase tracking-wider mb-2 text-[#D4AF37] animate-[heroFadeIn_1s_ease_0.6s_backwards]">
                 UMRAH BERSAMA, BERKAH BERSAMA
             </p>
-            <p class="text-sm md:text-base max-w-[700px] mx-auto leading-relaxed" 
-               style="color: rgba(255,255,255,0.9); animation: heroFadeIn 1s ease 0.6s backwards;">
+            <p class="text-sm md:text-base max-w-[700px] mx-auto leading-relaxed text-white/90 animate-[heroFadeIn_1s_ease_0.6s_backwards]">
                 Pengalaman spiritual dari para jamaah yang telah menunaikan ibadah bersama kami
             </p>
         </div>
     </section>
 
     {{-- ==================== MAIN CONTENT ==================== --}}
-    <main class="max-w-[1200px] mx-auto px-8 pb-16 md:px-6">
+    <main class="container-main pb-16">
         
         {{-- Video Testimonials Section --}}
         <div class="text-center mt-16 mb-12">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1"
-                  style="color: #D4AF37; border-bottom: 2px solid #D4AF37;">Video Testimoni</span>
-            <h2 class="text-2xl md:text-3xl font-normal mb-3" style="color: #1F2937;">Video Testimoni</h2>
-            <p class="text-base" style="color: #78716c; font-weight: 300;">Dengarkan langsung pengalaman jamaah kami</p>
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-[#D4AF37] border-b-2 border-[#D4AF37]">Video Testimoni</span>
+            <h2 class="text-2xl md:text-3xl font-normal mb-3 text-gray-800">Video Testimoni</h2>
+            <p class="text-base text-stone-500 font-light">Dengarkan langsung pengalaman jamaah kami</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
@@ -61,71 +56,67 @@
                 ];
             @endphp
             @foreach($videos as $video)
-            <div class="rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl group"
-                 style="background: white; border: 1px solid #E5E7EB;">
-                <div class="relative w-full" style="padding-bottom: 56.25%;">
+            <div class="rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl group bg-white border border-gray-200">
+                <div class="relative w-full pb-[56.25%]">
                     <div class="youtube-lite absolute inset-0 bg-black cursor-pointer flex items-center justify-center" data-id="{{ $video['id'] }}">
                         <img src="https://img.youtube.com/vi/{{ $video['id'] }}/hqdefault.jpg" alt="Thumbnail Testimoni"
                              class="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity duration-300">
-                        <div class="absolute w-[68px] h-[48px] rounded-xl flex items-center justify-center z-[2] transition-all duration-300 group-hover:scale-110"
-                             style="background-color: rgba(255, 0, 0, 0.9);">
+                        <div class="absolute w-[68px] h-[48px] rounded-xl flex items-center justify-center z-[2] transition-all duration-300 group-hover:scale-110 bg-red-600/90">
                             <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                         </div>
                     </div>
                 </div>
                 <div class="p-5 text-center">
-                    <h4 class="text-sm font-semibold mb-1" style="color: #1F2937;">{{ $video['title'] }}</h4>
-                    <p class="text-xs" style="color: #78716c;">{{ $video['author'] }}</p>
+                    <h4 class="text-sm font-semibold mb-1 text-gray-800">{{ $video['title'] }}</h4>
+                    <p class="text-xs text-stone-500">{{ $video['author'] }}</p>
                 </div>
             </div>
             @endforeach
         </div>
 
         {{-- Divider --}}
-        <div class="w-full h-px my-16" style="background: #E5E7EB;"></div>
+        <div class="w-full h-px my-16 bg-gray-200"></div>
 
         {{-- Text Testimonials Section --}}
         <div class="text-center mb-12">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1"
-                  style="color: #D4AF37; border-bottom: 2px solid #D4AF37;">Cerita Jamaah</span>
-            <h2 class="text-2xl md:text-3xl font-normal mb-3" style="color: #1F2937;">Apa Kata Mereka</h2>
-            <p class="text-base" style="color: #78716c; font-weight: 300;">Cerita inspiratif dari jamaah yang telah berangkat</p>
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-[#D4AF37] border-b-2 border-[#D4AF37]">Cerita Jamaah</span>
+            <h2 class="text-2xl md:text-3xl font-normal mb-3 text-gray-800">Apa Kata Mereka</h2>
+            <p class="text-base text-stone-500 font-light">Cerita inspiratif dari jamaah yang telah berangkat</p>
         </div>
 
         {{-- Testimonials Grid --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             @forelse($testimonials as $testimonial)
-                <article class="relative p-8 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg group"
-                         style="background: white; border: 1px solid #E5E7EB;">
+                <article class="relative p-8 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg group bg-white border border-gray-200">
                     {{-- Left accent line on hover --}}
-                    <div class="absolute top-0 left-0 w-0.5 h-0 transition-all duration-300 group-hover:h-full" style="background: #001D5F;"></div>
+                    <div class="absolute top-0 left-0 w-0.5 h-0 transition-all duration-300 group-hover:h-full bg-[#001D5F]"></div>
                     
                     {{-- Rating --}}
                     <div class="flex items-center gap-2 mb-6 text-xs tracking-widest">
-                        <span style="color: #D4AF37; letter-spacing: 2px;">
+                        <span class="text-[#D4AF37] tracking-[2px]">
                             @for($i = 1; $i <= 5; $i++)
                                 {{ $i <= $testimonial['rating'] ? '★' : '☆' }}
                             @endfor
                         </span>
-                        <span class="font-medium" style="color: #44403c;">{{ $testimonial['rating'] }}.0</span>
+                        <span class="font-medium text-stone-700">{{ $testimonial['rating'] }}.0</span>
                     </div>
                     
                     {{-- Quote --}}
-                    <blockquote class="leading-relaxed mb-7 text-[15px] font-serif" style="color: #44403c; line-height: 1.8;">
+                    <blockquote class="leading-relaxed mb-7 text-[15px] font-serif text-stone-700 leading-[1.8]">
                         "{{ $testimonial['comment'] }}"
                     </blockquote>
                     
                     {{-- Divider --}}
-                    <div class="w-10 h-px my-7" style="background: #001D5F;"></div>
+                    <div class="w-10 h-px my-7 bg-[#001D5F]"></div>
                     
                     {{-- Author --}}
                     <div class="flex items-center gap-4 mb-5">
-                        <div class="w-12 h-12 rounded-full overflow-hidden shrink-0" style="background: #fafaf9; border: 1px solid #E5E7EB;">
+                        <div class="w-12 h-12 rounded-full overflow-hidden shrink-0 bg-stone-50 border border-gray-200">
                             <img src="{{ $testimonial['image'] }}" alt="{{ $testimonial['name'] }}" class="w-full h-full object-cover">
                         </div>
                         <div>
-                            <h4 class="text-[15px] font-medium mb-1" style="color: #1c1917;">{{ $testimonial['name'] }}</h4>
-                            <p class="text-[13px] m-0" style="color: #78716c;">
+                            <h4 class="text-[15px] font-medium mb-1 text-stone-900">{{ $testimonial['name'] }}</h4>
+                            <p class="text-[13px] m-0 text-stone-500">
                                 <svg class="w-3 h-3 inline-block mr-1 -mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
                                 {{ $testimonial['location'] }} · 
                                 {{ \Carbon\Carbon::parse($testimonial['date'])->locale('id')->format('F Y') }}
@@ -134,17 +125,17 @@
                     </div>
                     
                     {{-- Package Badge --}}
-                    <div class="text-[11px] uppercase tracking-wider font-medium py-2" style="color: #44403c;">
+                    <div class="text-[11px] uppercase tracking-wider font-medium py-2 text-stone-700">
                         {{ $testimonial['package'] }}
                     </div>
                 </article>
             @empty
                 <div class="col-span-full text-center py-20">
-                    <svg class="w-12 h-12 mx-auto mb-4" style="color: #E5E7EB;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-12 h-12 mx-auto mb-4 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                     </svg>
-                    <h3 class="text-xl font-normal mb-2" style="color: #78716c;">Belum Ada Testimoni</h3>
-                    <p class="text-[15px]" style="color: #78716c; font-weight: 300;">Testimoni dari jamaah akan ditampilkan di sini</p>
+                    <h3 class="text-xl font-normal mb-2 text-stone-500">Belum Ada Testimoni</h3>
+                    <p class="text-[15px] text-stone-500 font-light">Testimoni dari jamaah akan ditampilkan di sini</p>
                 </div>
             @endforelse
         </div>
@@ -168,12 +159,7 @@
                 iframe.setAttribute('frameborder', '0');
                 iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
                 iframe.setAttribute('allowfullscreen', '1');
-                iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-                iframe.style.position = 'absolute';
-                iframe.style.inset = '0';
-                iframe.style.width = '100%';
-                iframe.style.height = '100%';
-                iframe.style.border = 'none';
+                iframe.classList.add('absolute', 'inset-0', 'w-full', 'h-full', 'border-0');
                 
                 this.parentNode.replaceChild(iframe, this);
             });

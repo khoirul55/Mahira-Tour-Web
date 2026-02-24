@@ -7,39 +7,36 @@
 <section class="relative h-[450px] md:h-[400px] sm:h-[350px] overflow-hidden flex items-center justify-center">
     <div class="absolute inset-0 z-[1]">
         <img src="{{ asset('images/hero/hero-contact.webp') }}" alt="Hubungi Mahira Tour" fetchpriority="high" loading="eager"
-             class="w-full h-full object-cover object-center" style="animation: heroKenBurns 20s ease-in-out infinite alternate;">
+             class="w-full h-full object-cover object-center animate-[heroKenBurns_20s_ease-in-out_infinite_alternate]">
     </div>
-    <div class="absolute inset-0 z-[2]" style="background: rgba(0, 29, 95, 0.75);"></div>
+    <div class="absolute inset-0 z-[2] bg-[#001D5F]/75"></div>
     <div class="relative z-[3] text-center max-w-[900px] px-5 pt-10">
-        <div class="inline-flex items-center gap-2 px-6 py-2 rounded-full mb-6 text-[0.9rem]"
-             style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);">
+        <div class="inline-flex items-center gap-2 px-6 py-2 rounded-full mb-6 text-[0.9rem] bg-white/15 backdrop-blur-[10px] animate-[heroFadeIn_0.8s_ease_0.2s_backwards]">
             <a href="{{ route('home') }}" class="text-white no-underline font-medium hover:opacity-80 transition-opacity">
                 <svg class="w-4 h-4 inline-block mr-1 -mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
                 Beranda
             </a>
-            <span style="color: rgba(255,255,255,0.7);">/</span>
-            <span style="color: rgba(255,255,255,0.7);">Hubungi Kami</span>
+            <span class="text-white/70">/</span>
+            <span class="text-white/70">Hubungi Kami</span>
         </div>
-        <h1 class="text-[3.5rem] md:text-[2.5rem] sm:text-[2rem] font-bold font-serif text-white mb-4 leading-tight"
-            style="text-shadow: 0 4px 20px rgba(0,0,0,0.3);">
-            <span class="inline-block mx-1 opacity-0" style="animation: slideInLeft 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.3s forwards;">Hubungi</span>
-            <span class="inline-block mx-1 opacity-0" style="animation: slideInRight 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.5s forwards;">Kami</span>
+        <h1 class="text-[3.5rem] md:text-[2.5rem] sm:text-[2rem] font-bold font-serif text-white mb-4 leading-tight shadow-black/30 text-shadow-lg">
+            <span class="inline-block mx-1 opacity-0 animate-[slideInLeft_1s_cubic-bezier(0.215,0.610,0.355,1.000)_0.3s_forwards]">Hubungi</span>
+            <span class="inline-block mx-1 opacity-0 animate-[slideInRight_1s_cubic-bezier(0.215,0.610,0.355,1.000)_0.5s_forwards]">Kami</span>
         </h1>
-        <p class="font-semibold text-[0.9rem] uppercase tracking-wider mb-2" style="color: #D4AF37;">UMRAH BERSAMA, BERKAH BERSAMA</p>
-        <p class="text-sm md:text-base max-w-[700px] mx-auto leading-relaxed" style="color: rgba(255,255,255,0.9);">
+        <p class="font-semibold text-[0.9rem] uppercase tracking-wider mb-2 text-[#D4AF37] animate-[heroFadeIn_1s_ease_0.6s_backwards]">UMRAH BERSAMA, BERKAH BERSAMA</p>
+        <p class="text-sm md:text-base max-w-[700px] mx-auto leading-relaxed text-white/90 animate-[heroFadeIn_1s_ease_0.6s_backwards]">
             Kami siap membantu Anda mewujudkan perjalanan spiritual yang berkesan
         </p>
     </div>
 </section>
 
 {{-- ==================== QUICK CONTACT ==================== --}}
-<section class="py-20" style="background: white;">
+<section class="py-20 bg-white">
     <div class="container-main">
         <div class="text-center mb-16">
-            <span class="inline-block text-xs font-bold uppercase tracking-widest px-6 py-2 rounded-full text-white mb-4"
-                  style="background: #001D5F;">Kontak Cepat</span>
-            <h2 class="text-3xl md:text-[2.5rem] font-extrabold mb-4" style="color: #1F2937;">Cara Menghubungi Kami</h2>
-            <p class="text-lg max-w-[600px] mx-auto" style="color: #6B7280;">Pilih metode komunikasi yang paling nyaman untuk Anda</p>
+            <span class="inline-block text-xs font-bold uppercase tracking-widest px-6 py-2 rounded-full text-white mb-4 bg-[#001D5F]">Kontak Cepat</span>
+            <h2 class="text-3xl md:text-[2.5rem] font-extrabold mb-4 text-gray-800">Cara Menghubungi Kami</h2>
+            <p class="text-lg max-w-[600px] mx-auto text-gray-500">Pilih metode komunikasi yang paling nyaman untuk Anda</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -99,22 +96,15 @@
             @endphp
 
             @foreach($contacts as $c)
-            <div class="rounded-2xl p-10 text-center h-full transition-all duration-400 hover:-translate-y-2.5 hover:shadow-xl group"
-                 style="background: white; box-shadow: 0 10px 40px rgba(0,29,95,0.08); border: 2px solid #E8EBF3;"
-                 onmouseover="this.style.borderColor='#D4AF37';"
-                 onmouseout="this.style.borderColor='#E8EBF3';">
-                <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-400 group-hover:scale-110 group-hover:rotate-5"
-                     style="background: linear-gradient(135deg, #001D5F, #002B8F); box-shadow: 0 10px 30px rgba(0,29,95,0.3);">
+            <div class="rounded-2xl p-10 text-center h-full transition-all duration-400 hover:-translate-y-2.5 hover:shadow-xl group bg-white border-2 border-[#E8EBF3] shadow-[0_10px_40px_rgba(0,29,95,0.08)] hover:border-[#D4AF37]">
+                <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-400 group-hover:scale-110 group-hover:rotate-5 bg-gradient-to-br from-[#001D5F] to-[#002B8F] shadow-[0_10px_30px_rgba(0,29,95,0.3)]">
                     <svg class="w-8 h-8 text-white" @if(!empty($c['stroke'])) fill="none" stroke="currentColor" @else fill="currentColor" @endif viewBox="0 0 24 24">{!! $c['icon'] !!}</svg>
                 </div>
-                <h4 class="text-xl font-bold mb-3" style="color: #001D5F;">{{ $c['title'] }}</h4>
-                <div class="leading-relaxed mb-5" style="color: #6B7280;">{!! $c['desc'] !!}</div>
+                <h4 class="text-xl font-bold mb-3 text-[#001D5F]">{{ $c['title'] }}</h4>
+                <div class="leading-relaxed mb-5 text-gray-500">{!! $c['desc'] !!}</div>
                 @if($c['action'])
                 <a href="{{ $c['link'] }}" @if(!empty($c['external'])) target="_blank" rel="noopener noreferrer" @endif
-                   class="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-[15px] no-underline transition-all duration-300 hover:translate-x-1"
-                   style="background: #E8EBF3; color: #001D5F;"
-                   onmouseover="this.style.background='#001D5F'; this.style.color='white';"
-                   onmouseout="this.style.background='#E8EBF3'; this.style.color='#001D5F';">
+                   class="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-[15px] no-underline transition-all duration-300 hover:translate-x-1 bg-[#E8EBF3] text-[#001D5F] hover:bg-[#001D5F] hover:text-white">
                     {{ $c['action'] }}
                 </a>
                 @endif
@@ -125,18 +115,18 @@
 </section>
 
 {{-- ==================== FORM & MAP ==================== --}}
-<section class="py-24" style="background: #E8EBF3;">
+<section class="py-24 bg-[#E8EBF3]">
     <div class="container-main">
         <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-10 max-w-[1400px] mx-auto">
             {{-- Form --}}
-            <div class="rounded-3xl p-12 md:p-8" style="background: white; box-shadow: 0 15px 50px rgba(0,29,95,0.1);">
-                <h3 class="text-2xl lg:text-[2rem] font-bold mb-4" style="color: #001D5F;">Kirim Pesan</h3>
-                <p class="mb-8" style="color: #6B7280;">Isi formulir di bawah dan tim kami akan segera menghubungi Anda</p>
+            <div class="rounded-3xl p-12 md:p-8 bg-white shadow-[0_15px_50px_rgba(0,29,95,0.1)]">
+                <h3 class="text-2xl lg:text-[2rem] font-bold mb-4 text-[#001D5F]">Kirim Pesan</h3>
+                <p class="mb-8 text-gray-500">Isi formulir di bawah dan tim kami akan segera menghubungi Anda</p>
                 
                 @if(session('success'))
-                <div class="flex items-center gap-3 p-4 rounded-xl mb-6" style="background: #ECFDF5; border: 1px solid #A7F3D0;">
-                    <svg class="w-5 h-5 shrink-0" style="color: #10B981;" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                    <span class="text-sm font-medium" style="color: #065F46;">{{ session('success') }}</span>
+                <div class="flex items-center gap-3 p-4 rounded-xl mb-6 bg-emerald-50 border border-emerald-200">
+                    <svg class="w-5 h-5 shrink-0 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                    <span class="text-sm font-medium text-emerald-800">{{ session('success') }}</span>
                 </div>
                 @endif
                 
@@ -144,37 +134,25 @@
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
-                            <label class="block font-semibold text-[15px] mb-2" style="color: #001D5F;">Nama Lengkap *</label>
+                            <label class="block font-semibold text-[15px] mb-2 text-[#001D5F]">Nama Lengkap *</label>
                             <input type="text" name="name" required
-                                   class="w-full px-5 py-3.5 rounded-xl text-[15px] outline-none transition-all duration-300"
-                                   style="border: 2px solid #E8EBF3;"
-                                   onfocus="this.style.borderColor='#001D5F'; this.style.boxShadow='0 0 0 3px rgba(0,29,95,0.15)';"
-                                   onblur="this.style.borderColor='#E8EBF3'; this.style.boxShadow='none';">
+                                   class="w-full px-5 py-3.5 rounded-xl text-[15px] outline-none transition-all duration-300 border-2 border-[#E8EBF3] focus:border-[#001D5F] focus:shadow-[0_0_0_3px_rgba(0,29,95,0.15)]">
                         </div>
                         <div>
-                            <label class="block font-semibold text-[15px] mb-2" style="color: #001D5F;">No. Telepon *</label>
+                            <label class="block font-semibold text-[15px] mb-2 text-[#001D5F]">No. Telepon *</label>
                             <input type="tel" name="phone" required
-                                   class="w-full px-5 py-3.5 rounded-xl text-[15px] outline-none transition-all duration-300"
-                                   style="border: 2px solid #E8EBF3;"
-                                   onfocus="this.style.borderColor='#001D5F'; this.style.boxShadow='0 0 0 3px rgba(0,29,95,0.15)';"
-                                   onblur="this.style.borderColor='#E8EBF3'; this.style.boxShadow='none';">
+                                   class="w-full px-5 py-3.5 rounded-xl text-[15px] outline-none transition-all duration-300 border-2 border-[#E8EBF3] focus:border-[#001D5F] focus:shadow-[0_0_0_3px_rgba(0,29,95,0.15)]">
                         </div>
                     </div>
                     <div>
-                        <label class="block font-semibold text-[15px] mb-2" style="color: #001D5F;">Email *</label>
+                        <label class="block font-semibold text-[15px] mb-2 text-[#001D5F]">Email *</label>
                         <input type="email" name="email" required
-                               class="w-full px-5 py-3.5 rounded-xl text-[15px] outline-none transition-all duration-300"
-                               style="border: 2px solid #E8EBF3;"
-                               onfocus="this.style.borderColor='#001D5F'; this.style.boxShadow='0 0 0 3px rgba(0,29,95,0.15)';"
-                               onblur="this.style.borderColor='#E8EBF3'; this.style.boxShadow='none';">
+                               class="w-full px-5 py-3.5 rounded-xl text-[15px] outline-none transition-all duration-300 border-2 border-[#E8EBF3] focus:border-[#001D5F] focus:shadow-[0_0_0_3px_rgba(0,29,95,0.15)]">
                     </div>
                     <div>
-                        <label class="block font-semibold text-[15px] mb-2" style="color: #001D5F;">Subjek *</label>
+                        <label class="block font-semibold text-[15px] mb-2 text-[#001D5F]">Subjek *</label>
                         <select name="subject" required
-                                class="w-full px-5 py-3.5 rounded-xl text-[15px] outline-none transition-all duration-300 cursor-pointer"
-                                style="border: 2px solid #E8EBF3; appearance: auto;"
-                                onfocus="this.style.borderColor='#001D5F'; this.style.boxShadow='0 0 0 3px rgba(0,29,95,0.15)';"
-                                onblur="this.style.borderColor='#E8EBF3'; this.style.boxShadow='none';">
+                                class="w-full px-5 py-3.5 rounded-xl text-[15px] outline-none transition-all duration-300 cursor-pointer appearance-auto border-2 border-[#E8EBF3] focus:border-[#001D5F] focus:shadow-[0_0_0_3px_rgba(0,29,95,0.15)]">
                             <option value="">Pilih Subjek</option>
                             <option value="Informasi Paket">Informasi Paket</option>
                             <option value="Jadwal Keberangkatan">Jadwal Keberangkatan</option>
@@ -185,18 +163,12 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block font-semibold text-[15px] mb-2" style="color: #001D5F;">Pesan *</label>
+                        <label class="block font-semibold text-[15px] mb-2 text-[#001D5F]">Pesan *</label>
                         <textarea name="message" rows="5" required
-                                  class="w-full px-5 py-3.5 rounded-xl text-[15px] outline-none transition-all duration-300 resize-y"
-                                  style="border: 2px solid #E8EBF3;"
-                                  onfocus="this.style.borderColor='#001D5F'; this.style.boxShadow='0 0 0 3px rgba(0,29,95,0.15)';"
-                                  onblur="this.style.borderColor='#E8EBF3'; this.style.boxShadow='none';"></textarea>
+                                  class="w-full px-5 py-3.5 rounded-xl text-[15px] outline-none transition-all duration-300 resize-y border-2 border-[#E8EBF3] focus:border-[#001D5F] focus:shadow-[0_0_0_3px_rgba(0,29,95,0.15)]"></textarea>
                     </div>
                     <button type="submit"
-                            class="w-full flex items-center justify-center gap-2.5 py-4 rounded-full font-bold text-lg text-white border-0 cursor-pointer transition-all duration-300 hover:-translate-y-1"
-                            style="background: linear-gradient(135deg, #001D5F, #002B8F); box-shadow: 0 8px 25px rgba(0,29,95,0.25);"
-                            onmouseover="this.style.boxShadow='0 12px 35px rgba(0,29,95,0.35)';"
-                            onmouseout="this.style.boxShadow='0 8px 25px rgba(0,29,95,0.25)';">
+                            class="w-full flex items-center justify-center gap-2.5 py-4 rounded-full font-bold text-lg text-white border-0 cursor-pointer transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-[#001D5F] to-[#002B8F] shadow-[0_8px_25px_rgba(0,29,95,0.25)] hover:shadow-[0_12px_35px_rgba(0,29,95,0.35)]">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
                         Kirim Pesan
                     </button>
@@ -204,8 +176,8 @@
             </div>
 
             {{-- Map --}}
-            <div class="rounded-3xl overflow-hidden flex flex-col" style="background: white; box-shadow: 0 15px 50px rgba(0,29,95,0.1);">
-                <div class="px-8 py-7" style="background: linear-gradient(135deg, #001D5F, #002B8F);">
+            <div class="rounded-3xl overflow-hidden flex flex-col bg-white shadow-[0_15px_50px_rgba(0,29,95,0.1)]">
+                <div class="px-8 py-7 bg-gradient-to-br from-[#001D5F] to-[#002B8F]">
                     <h3 class="text-2xl font-bold text-white mb-2.5">Lokasi Kantor Pusat</h3>
                     <p class="text-base text-white/95 leading-relaxed m-0">Jl. Muradi No. 19, RT 000/RW 000, Kel. Koto Lolo, Kec. Pesisir Bukit, Kota Sungai Penuh, Jambi</p>
                 </div>
@@ -216,12 +188,9 @@
                     loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
-                <div class="text-center py-6 px-8" style="border-top: 2px solid #E8EBF3;">
+                <div class="text-center py-6 px-8 border-t-2 border-[#E8EBF3]">
                     <a href="https://www.google.com/maps/place/Travel+Umroh+Mahira+Tour/@-2.050239,101.3896565,15z" target="_blank" rel="noopener noreferrer"
-                       class="inline-flex items-center gap-2.5 px-10 py-4 rounded-full font-bold text-base text-white no-underline transition-all duration-300 hover:-translate-y-1"
-                       style="background: #D4AF37; box-shadow: 0 8px 25px rgba(212,175,55,0.3);"
-                       onmouseover="this.style.background='#C49B2F'; this.style.boxShadow='0 12px 35px rgba(212,175,55,0.5)';"
-                       onmouseout="this.style.background='#D4AF37'; this.style.boxShadow='0 8px 25px rgba(212,175,55,0.3)';">
+                       class="inline-flex items-center gap-2.5 px-10 py-4 rounded-full font-bold text-base text-white no-underline transition-all duration-300 hover:-translate-y-1 bg-[#D4AF37] shadow-[0_8px_25px_rgba(212,175,55,0.3)] hover:bg-[#C49B2F] hover:shadow-[0_12px_35px_rgba(212,175,55,0.5)]">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                         Buka di Google Maps
                     </a>
@@ -232,13 +201,12 @@
 </section>
 
 {{-- ==================== FAQ SECTION ==================== --}}
-<section class="py-24" style="background: white;">
+<section class="py-24 bg-white">
     <div class="container-main">
         <div class="text-center mb-16">
-            <span class="inline-block text-xs font-bold uppercase tracking-widest px-6 py-2 rounded-full text-white mb-4"
-                  style="background: #001D5F;">FAQ</span>
-            <h2 class="text-3xl md:text-[2.5rem] font-extrabold mb-4" style="color: #1F2937;">Pertanyaan yang Sering Diajukan</h2>
-            <p class="text-lg max-w-[600px] mx-auto" style="color: #6B7280;">Temukan jawaban atas pertanyaan umum seputar layanan kami</p>
+            <span class="inline-block text-xs font-bold uppercase tracking-widest px-6 py-2 rounded-full text-white mb-4 bg-[#001D5F]">FAQ</span>
+            <h2 class="text-3xl md:text-[2.5rem] font-extrabold mb-4 text-gray-800">Pertanyaan yang Sering Diajukan</h2>
+            <p class="text-lg max-w-[600px] mx-auto text-gray-500">Temukan jawaban atas pertanyaan umum seputar layanan kami</p>
         </div>
 
         <div class="max-w-[900px] mx-auto space-y-5" x-data="{ activeIndex: null }">
@@ -254,24 +222,18 @@
             @endphp
 
             @foreach($faqs as $i => $faq)
-            <div class="rounded-2xl overflow-hidden transition-all duration-300"
-                 style="border: 2px solid #E8EBF3;"
-                 :class="{ 'border-gold': activeIndex === {{ $i }} }"
-                 :style="activeIndex === {{ $i }} ? 'border-color: #D4AF37' : 'border-color: #E8EBF3'"
-                 onmouseover="if(this.style.borderColor !== 'rgb(212, 175, 55)') this.style.borderColor='#D4AF37';"
-                 onmouseout="if(!this.getAttribute('data-active')) this.style.borderColor='#E8EBF3';">
-                <div class="px-8 py-6 text-lg font-bold cursor-pointer flex justify-between items-center select-none transition-colors duration-300 hover:text-gold"
-                     style="color: #001D5F;"
-                     @click="activeIndex = activeIndex === {{ $i }} ? null : {{ $i }}"
-                     onmouseover="this.style.color='#D4AF37';"
-                     onmouseout="this.style.color='#001D5F';">
+            <div class="rounded-2xl overflow-hidden transition-all duration-300 border-2 border-[#E8EBF3] hover:border-[#D4AF37]"
+                 :class="{ '!border-[#D4AF37]': activeIndex === {{ $i }} }">
+                <div class="px-8 py-6 text-lg font-bold cursor-pointer flex justify-between items-center select-none transition-colors duration-300 hover:text-[#D4AF37] text-[#001D5F]"
+                     :class="{ '!text-[#D4AF37]': activeIndex === {{ $i }} }"
+                     @click="activeIndex = activeIndex === {{ $i }} ? null : {{ $i }}">
                     <span>{{ $faq['q'] }}</span>
                     <svg class="w-5 h-5 shrink-0 transition-transform duration-300" 
                          :class="{ 'rotate-180': activeIndex === {{ $i }} }"
                          fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                 </div>
                 <div x-show="activeIndex === {{ $i }}" x-transition x-cloak>
-                    <div class="px-8 pb-6 leading-relaxed" style="color: #6B7280;">
+                    <div class="px-8 pb-6 leading-relaxed text-gray-500">
                         {{ $faq['a'] }}
                     </div>
                 </div>

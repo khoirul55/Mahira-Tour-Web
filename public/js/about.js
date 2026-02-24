@@ -106,35 +106,40 @@ function renderBranchCards() {
     
     const cardsHTML = branchesWithCoords.map(branch => {
         const isMain = branch.isMain;
-        const cardBg = isMain ? 'background: linear-gradient(135deg, #D4AF37 0%, #C5A028 100%); color: white;' : 'background: white;';
-        const borderHover = isMain ? '#D4AF37' : '#10B981';
-        const iconBg = isMain ? 'rgba(255,255,255,0.2)' : 'rgba(16,185,129,0.15)';
-        const iconColor = isMain ? 'white' : '#10B981';
-        const titleColor = isMain ? 'white' : '#1F2937';
-        const regionColor = isMain ? 'rgba(255,255,255,0.9)' : '#6B7280';
-        const addressColor = isMain ? 'rgba(255,255,255,0.95)' : '#6B7280';
-        const borderTopColor = isMain ? 'rgba(255,255,255,0.2)' : '#E5E7EB';
+        // Tailwind classes based on branch type
+        const cardClasses = isMain 
+            ? 'bg-gradient-to-br from-[#D4AF37] to-[#C5A028] text-white hover:border-white/50' 
+            : 'bg-white hover:border-[#10B981] text-[#1F2937]';
+            
+        const iconContainerClasses = isMain
+            ? 'bg-white/20 text-white'
+            : 'bg-[#10B981]/15 text-[#10B981]';
+            
+        const regionColorClass = isMain ? 'text-white/90' : 'text-gray-500';
+        const addressColorClass = isMain ? 'text-white/95' : 'text-gray-500';
+        const borderColorClass = isMain ? 'border-white/20' : 'border-gray-200';
         
         return `
-        <div class="branch-card" data-id="${branch.id}" onclick="focusBranch(${branch.id})"
-             style="min-width:280px; ${cardBg} border-radius:16px; padding:20px; cursor:pointer; transition:all 0.3s; border:2px solid transparent; box-shadow:0 4px 15px rgba(0,29,95,0.08);"
-             onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='${borderHover}'; this.style.boxShadow='0 8px 25px rgba(0,29,95,0.12)';"
-             onmouseout="this.style.transform=''; this.style.borderColor='transparent'; this.style.boxShadow='0 4px 15px rgba(0,29,95,0.08)';">
-            <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
-                <div style="width:48px; height:48px; background:${iconBg}; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:${iconColor};">
+        <div class="branch-card relative min-w-[280px] rounded-2xl p-5 cursor-pointer transition-all duration-300 border-2 border-transparent shadow-[0_4px_15px_rgba(0,29,95,0.08)] hover:-translate-y-1 hover:shadow-[0_8px_25px_rgba(0,29,95,0.12)] group ${cardClasses}" 
+             data-id="${branch.id}" 
+             onclick="focusBranch(${branch.id})">
+             
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${iconContainerClasses}">
                     ${isMain ? svgIcons.building : svgIcons.pin}
                 </div>
                 <div>
-                    <h4 style="font-size:1.1rem; font-weight:700; color:${titleColor}; margin:0 0 2px 0;">${branch.name}</h4>
-                    <p style="font-size:0.8rem; color:${regionColor}; margin:0;">${branch.region}</p>
+                    <h4 class="text-[1.1rem] font-bold m-0 mb-0.5 leading-tight">${branch.name}</h4>
+                    <p class="text-[0.8rem] m-0 ${regionColorClass}">${branch.region}</p>
                 </div>
             </div>
-            <div style="padding-top:12px; border-top:1px solid ${borderTopColor};">
-                <div style="font-size:0.85rem; color:${addressColor}; line-height:1.5; display:flex; gap:8px;">
-                    <span style="color:${isMain ? 'white' : '#10B981'}; flex-shrink:0; margin-top:2px;">${svgIcons.pin}</span>
+            
+            <div class="pt-3 border-t ${borderColorClass}">
+                <div class="text-[0.85rem] leading-relaxed flex gap-2 ${addressColorClass}">
+                    <span class="shrink-0 mt-0.5 ${isMain ? 'text-white' : 'text-[#10B981]'}">${svgIcons.pin}</span>
                     <span>${branch.address}</span>
                 </div>
-                ${isMain ? `<div style="display:inline-block; background:rgba(255,255,255,0.3); color:white; padding:4px 12px; border-radius:50px; font-size:0.7rem; font-weight:700; text-transform:uppercase; margin-top:10px;">Kantor Pusat</div>` : ''}
+                ${isMain ? `<div class="inline-block bg-white/30 text-white px-3 py-1 rounded-full text-[0.7rem] font-bold uppercase mt-2.5">Kantor Pusat</div>` : ''}
             </div>
         </div>`;
     }).join('');

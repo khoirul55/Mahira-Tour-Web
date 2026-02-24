@@ -6,10 +6,12 @@
 @section('content')
 
 {{-- ==================== HERO SECTION ==================== --}}
-<section class="relative h-screen min-h-[650px] overflow-hidden bg-gradient-to-br from-[#001D5F] via-[#1a3a6e] to-[#2d5a8a]">
+<section class="relative h-screen min-h-[650px] overflow-hidden"
+         style="background: linear-gradient(135deg, #001D5F 0%, #1a3a6e 50%, #2d5a8a 100%);">
     
     {{-- Background Video --}}
-    <video class="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover opacity-85 brightness-[0.45] contrast-[1.1]"
+    <video class="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover opacity-85"
+           style="filter: brightness(0.45) contrast(1.1);"
            autoplay muted loop playsinline
            poster="{{ asset('images/hero/video-poster.webp') }}">
         <source src="{{ asset('videos/kaabah-hero.mp4') }}" type="video/mp4">
@@ -18,51 +20,64 @@
     </video>
     
     {{-- Gradient Overlay --}}
-    <div class="absolute inset-0 z-[2] bg-gradient-to-br from-[#001D5F]/85 via-[#D4AF37]/20 to-[#001440]/90">
+    <div class="absolute inset-0 z-[2]"
+         style="background: linear-gradient(135deg, rgba(0,29,95,0.85) 0%, rgba(212,175,55,0.20) 50%, rgba(0,20,64,0.90) 100%);">
     </div>
     
     {{-- Content --}}
     <div class="relative z-10 min-h-screen flex items-center justify-center pt-[72px]">
         <div class="container-main">
-            <div class="text-center max-w-3xl mx-auto px-6 text-white">
+            <div class="text-center max-w-3xl mx-auto px-6" style="color: white;">
                 
                 {{-- Headline --}}
-                <h1 class="text-4xl md:text-5xl lg:text-[52px] font-semibold leading-tight mb-5 font-serif animate-[fadeInUp_1s_ease_0.2s_both] drop-shadow-2xl tracking-tighter">
-                    <span class="block opacity-0 animate-[slideInLeft_1s_cubic-bezier(0.215,0.610,0.355,1.000)_0.3s_forwards]">
-                        Wujudkan Ibadah <span class="text-[#D4AF37] font-bold">Umrah & Haji</span>
+                <h1 class="text-4xl md:text-5xl lg:text-[52px] font-semibold leading-tight mb-5 font-serif animate-fade-in"
+                    style="text-shadow: 0 4px 20px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.6); letter-spacing: -0.5px;">
+                    <span class="block animate-slide-left">
+                        Wujudkan Ibadah <span style="color: #D4AF37; font-weight: 700;">Umrah & Haji</span>
                     </span>
-                    <span class="block opacity-0 animate-[slideInRight_1s_cubic-bezier(0.215,0.610,0.355,1.000)_0.5s_forwards]">
+                    <span class="block animate-slide-right">
                         Bersama Keluarga
                     </span>
                 </h1>
                 
                 {{-- Spiritual Anchor --}}
-                <p class="font-serif text-sm md:text-base italic mb-5 opacity-95 animate-[fadeInUp_1s_ease_0.3s_both] text-[#D4AF37] drop-shadow-lg">
+                <p class="font-serif text-sm md:text-base italic mb-5 opacity-95 animate-fade-in-delay-1"
+                   style="color: #D4AF37; text-shadow: 0 2px 12px rgba(0,0,0,0.8);">
                     "Dan sempurnakanlah ibadah haji dan umrah karena Allah"
                 </p>
                 
                 {{-- Subtitle --}}
-                <p class="text-base md:text-lg leading-relaxed mb-9 opacity-95 animate-[fadeInUp_1s_ease_0.4s_both] drop-shadow-md">
+                <p class="text-base md:text-lg leading-relaxed mb-9 opacity-95 animate-fade-in-delay-2"
+                   style="text-shadow: 0 2px 12px rgba(0,0,0,0.7);">
                     Perjalanan spiritual yang aman, nyaman, dan penuh keberkahan<br>
                     bersama bimbingan profesional dan fasilitas terbaik
                 </p>
                 
                 {{-- Trust Badge --}}
-                <div class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full mb-8 text-xs md:text-sm font-semibold animate-[fadeInDown_1s_ease_both] bg-black/50 backdrop-blur-md border border-[#D4AF37]/50 shadow-lg">
-                    <svg class="w-4 h-4 text-[#D4AF37]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                <div class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full mb-8 text-xs md:text-sm font-semibold animate-fade-in-down"
+                     style="background: rgba(0,0,0,0.5); backdrop-filter: blur(12px); 
+                            border: 1px solid rgba(212,175,55,0.5); box-shadow: 0 4px 12px rgba(0,0,0,0.4);">
+                    <svg class="w-4 h-4" style="color: #D4AF37;" fill="currentColor" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
                     <span>Terpercaya Sejak 2016 • Resmi Kemenag RI</span>
                 </div>
                 
                 {{-- CTAs --}}
-                <div class="flex gap-3.5 justify-center flex-wrap animate-[fadeInUp_1s_ease_0.5s_both]">
+                <div class="flex gap-3.5 justify-center flex-wrap animate-fade-in-delay-3">
                     <a href="https://wa.me/6282184515310?text=Assalamualaikum,%20saya%20ingin%20konsultasi%20paket%20umrah" 
                        target="_blank" rel="noopener"
-                       class="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-[15px] transition-all duration-300 hover:-translate-y-0.5 bg-white text-[#001D5F] hover:bg-[#D4AF37] hover:text-white shadow-lg hover:shadow-xl hover:shadow-[#D4AF37]/40 no-underline">
+                       class="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-[15px] transition-all duration-300 hover:-translate-y-0.5"
+                       style="background: white; color: #001D5F; text-decoration: none; box-shadow: 0 4px 16px rgba(0,0,0,0.15);"
+                       onmouseover="this.style.background='#D4AF37'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(212,175,55,0.4)';"
+                       onmouseout="this.style.background='white'; this.style.color='#001D5F'; this.style.boxShadow='0 4px 16px rgba(0,0,0,0.15)';">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                         Konsultasi Gratis
                     </a>
                     <a href="{{ route('schedule') }}" 
-                       class="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-[15px] transition-all duration-300 hover:-translate-y-0.5 bg-transparent text-white border-2 border-white/60 hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white shadow-lg hover:shadow-xl hover:shadow-[#D4AF37]/40 no-underline">
+                       class="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-[15px] transition-all duration-300 hover:-translate-y-0.5"
+                       style="background: transparent; color: white; text-decoration: none; 
+                              border: 2px solid rgba(255,255,255,0.6); box-shadow: 0 4px 16px rgba(0,0,0,0.15);"
+                       onmouseover="this.style.background='#D4AF37'; this.style.borderColor='#D4AF37'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(212,175,55,0.4)';"
+                       onmouseout="this.style.background='transparent'; this.style.borderColor='rgba(255,255,255,0.6)'; this.style.color='white'; this.style.boxShadow='0 4px 16px rgba(0,0,0,0.15)';">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/></svg>
                         Jelajahi Paket
                     </a>
@@ -73,26 +88,28 @@
 </section>
 
 {{-- ==================== ABOUT SECTION ==================== --}}
-<section class="py-16 lg:py-24 bg-[#F8F9FA]">
+<section class="py-16 lg:py-24" style="background: #F8F9FA;">
     <div class="container-main">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
                 {{-- Badge --}}
-                <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-[#D4AF37] border-b-2 border-[#D4AF37] tracking-[2px]">Cerita Kami</span>
+                <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1"
+                      style="color: #D4AF37; border-bottom: 2px solid #D4AF37; letter-spacing: 2px;">Cerita Kami</span>
                 
                 {{-- Title --}}
-                <h2 class="text-2xl md:text-4xl font-semibold font-serif leading-snug mb-6 text-[#001D5F] tracking-tighter">
+                <h2 class="text-2xl md:text-4xl font-semibold font-serif leading-snug mb-6"
+                    style="color: #001D5F; letter-spacing: -0.5px;">
                     Dari Mimpi Keluarga Kecil,<br>Kini Melayani Ribuan Jamaah
                 </h2>
                 
                 {{-- Founder Quote --}}
-                <div class="pl-5 mb-8 border-l-4 border-[#D4AF37]">
-                    <p class="text-sm md:text-base italic leading-relaxed mb-2 text-gray-500">
+                <div class="pl-5 mb-8" style="border-left: 3px solid #D4AF37;">
+                    <p class="text-sm md:text-base italic leading-relaxed mb-2" style="color: #6B7280;">
                         "Tahun 2016, kami berangkat umrah pertama kali. 
                         Pengalaman yang mengubah hidup. Dari situ lahir mimpi: 
-                        <strong class="text-gray-800">membantu keluarga Indonesia merasakan momen spiritual yang sama.</strong>"
+                        <strong style="color: #1F2937;">membantu keluarga Indonesia merasakan momen spiritual yang sama.</strong>"
                     </p>
-                    <span class="text-xs font-semibold text-[#8B7F6E]">
+                    <span class="text-xs font-semibold" style="color: #8B7F6E;">
                         — Ust.Khilal Hamdan & Ust. Nadirman Hamdan, Founder Mahira Tour
                     </span>
                 </div>
@@ -100,16 +117,19 @@
                 {{-- Trust Metrics --}}
                 <div class="grid grid-cols-3 gap-4 mb-8">
                     @foreach([['2016', 'Tahun didirikan'], ['2000+', 'Jamaah terlayani'], ['4.9/5', 'Rating testimoni']] as $metric)
-                    <div class="text-center p-4 rounded-xl bg-white border border-gray-200">
-                        <strong class="block text-xl md:text-2xl font-bold text-[#D4AF37]">{{ $metric[0] }}</strong>
-                        <span class="text-xs text-[#8B7F6E]">{{ $metric[1] }}</span>
+                    <div class="text-center p-4 rounded-xl" style="background: white; border: 1px solid #E5E7EB;">
+                        <strong class="block text-xl md:text-2xl font-bold" style="color: #D4AF37;">{{ $metric[0] }}</strong>
+                        <span class="text-xs" style="color: #8B7F6E;">{{ $metric[1] }}</span>
                     </div>
                     @endforeach
                 </div>
                 
                 {{-- CTA --}}
                 <a href="{{ route('about') }}" 
-                   class="inline-flex items-center gap-2.5 px-8 py-4 rounded-lg font-semibold text-[15px] transition-all duration-300 hover:-translate-y-0.5 group bg-[#001D5F] text-white border-2 border-[#001D5F] hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:shadow-lg hover:shadow-[#D4AF37]/30 no-underline">
+                   class="inline-flex items-center gap-2.5 px-8 py-4 rounded-lg font-semibold text-[15px] transition-all duration-300 hover:-translate-y-0.5 group"
+                   style="background: #001D5F; color: white; border: 2px solid #001D5F; text-decoration: none;"
+                   onmouseover="this.style.background='#D4AF37'; this.style.borderColor='#D4AF37'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(212,175,55,0.3)';"
+                   onmouseout="this.style.background='#001D5F'; this.style.borderColor='#001D5F'; this.style.color='white'; this.style.boxShadow='none';">
                     Baca Cerita Lengkap
                     <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
@@ -123,14 +143,15 @@
 </section>
 
 {{-- ==================== WHY CHOOSE US ==================== --}}
-<section class="py-16 lg:py-24 bg-white" x-data="{ ppiuOpen: false }">
+<section class="py-16 lg:py-24" style="background: white;" x-data="{ ppiuOpen: false }">
     <div class="container-main">
         <div class="text-center max-w-2xl mx-auto mb-16">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-[#D4AF37] border-b-2 border-[#D4AF37]">Mengapa Pilih Kami</span>
-            <h2 class="text-2xl md:text-4xl font-semibold font-serif mb-4 text-[#001D5F]">
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1"
+                  style="color: #D4AF37; border-bottom: 2px solid #D4AF37;">Mengapa Pilih Kami</span>
+            <h2 class="text-2xl md:text-4xl font-semibold font-serif mb-4" style="color: #001D5F;">
                 Komitmen Kami untuk Ibadah Anda
             </h2>
-            <p class="text-sm md:text-base text-[#8B7F6E] leading-relaxed">
+            <p class="text-sm md:text-base" style="color: #8B7F6E; line-height: 1.8;">
                 Perjalanan spiritual yang penuh makna dimulai dengan kepercayaan
             </p>
         </div>
@@ -144,16 +165,19 @@
                 ];
             @endphp
             @foreach($features as $feature)
-            <div class="p-8 rounded-2xl text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl bg-[#F8F9FA] border border-gray-200">
-                <div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 bg-[#D4AF37]/10 text-[#D4AF37]">
+            <div class="p-8 rounded-2xl text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+                 style="background: #F8F9FA; border: 1px solid #E5E7EB;">
+                <div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6"
+                     style="background: rgba(212,175,55,0.12); color: #D4AF37;">
                     <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="{{ $feature['icon'] }}"/></svg>
                 </div>
-                <h3 class="text-lg font-bold mb-3 font-serif text-[#001D5F]">{{ $feature['title'] }}</h3>
-                <p class="text-sm leading-relaxed text-[#6B7280]">{{ $feature['desc'] }}</p>
+                <h3 class="text-lg font-bold mb-3 font-serif" style="color: #001D5F;">{{ $feature['title'] }}</h3>
+                <p class="text-sm leading-relaxed" style="color: #6B7280;">{{ $feature['desc'] }}</p>
                 @if($feature['btn'] === 'ppiu')
                 <button @click="ppiuOpen = true"
                         class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold 
-                               transition-all duration-300 cursor-pointer border-0 bg-[#001D5F]/10 text-[#001D5F] hover:bg-[#001D5F] hover:text-white">
+                               transition-all duration-300 cursor-pointer border-0"
+                        style="background: rgba(0,29,95,0.08); color: #001D5F;">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                     Lihat Surat Izin PPIU
                 </button>
@@ -171,25 +195,28 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         @click.self="ppiuOpen = false;"
-         @keydown.escape.window="ppiuOpen = false;"
-         class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+         @click.self="ppiuOpen = false; document.body.style.overflow = ''"
+         @keydown.escape.window="ppiuOpen = false; document.body.style.overflow = ''"
+         class="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+         style="background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);"
          x-init="$watch('ppiuOpen', v => document.body.style.overflow = v ? 'hidden' : '')">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 relative shadow-2xl" @click.stop>
             <button @click="ppiuOpen = false" 
-                    class="absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center border-0 cursor-pointer transition-colors bg-gray-100 text-gray-500 hover:bg-gray-200">
+                    class="absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center border-0 cursor-pointer transition-colors"
+                    style="background: #F3F4F6; color: #6B7280;">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
-            <h4 class="text-lg font-bold flex items-center gap-2 mb-4 text-[#001D5F]">
-                <svg class="w-5 h-5 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <h4 class="text-lg font-bold flex items-center gap-2 mb-4" style="color: #001D5F;">
+                <svg class="w-5 h-5" style="color: #D4AF37;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 Surat Izin PPIU
             </h4>
-            <div class="rounded-xl overflow-hidden mb-4 border border-gray-200">
+            <div class="rounded-xl overflow-hidden mb-4 border" style="border-color: #E5E7EB;">
                 <img src="{{ Storage::url('surat/suratizin.jpg') }}" alt="Surat Izin PPIU Mahira Tour" 
                      class="w-full h-auto" loading="lazy">
             </div>
             <a href="{{ Storage::url('surat/suratizin.jpg') }}" download 
-               class="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm transition-all duration-300 bg-[#001D5F] text-white hover:bg-[#D4AF37] no-underline">
+               class="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm transition-all duration-300"
+               style="background: #001D5F; color: white; text-decoration: none;">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 Download Surat Izin
             </a>
@@ -198,31 +225,33 @@
 </section>
 
 {{-- ==================== HADITH SECTION ==================== --}}
-<section class="relative py-20 overflow-hidden bg-[url('/public/images/hero/hero-about.webp')] bg-center bg-cover no-repeat">
-    <div class="absolute inset-0 bg-[#001D5F]/90"></div>
+<section class="relative py-20 overflow-hidden" 
+         style="background: url('{{ asset('images/hero/hero-about.webp') }}') center/cover no-repeat;">
+    <div class="absolute inset-0" style="background: rgba(0,29,95,0.9);"></div>
     <div class="container-main relative z-10">
         <div class="text-center max-w-3xl mx-auto">
-            <svg class="w-10 h-10 mx-auto mb-6 opacity-60 text-[#D4AF37]" fill="currentColor" viewBox="0 0 24 24"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg>
-            <h3 class="text-xl md:text-2xl font-serif italic leading-relaxed mb-6 text-white">
+            <svg class="w-10 h-10 mx-auto mb-6 opacity-60" style="color: #D4AF37;" fill="currentColor" viewBox="0 0 24 24"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg>
+            <h3 class="text-xl md:text-2xl font-serif italic leading-relaxed mb-6" style="color: white;">
                 "Laksanakanlah haji dan umrah secara berturut-turut, karena keduanya dapat menghilangkan kefakiran dan dosa, sebagaimana api menghilangkan karat pada besi."
             </h3>
             <div class="flex items-center justify-center gap-4">
-                <span class="w-8 h-px bg-[#D4AF37]/50"></span>
-                <span class="text-xs font-semibold uppercase tracking-widest text-[#D4AF37]">HR. Tirmidzi</span>
-                <span class="w-8 h-px bg-[#D4AF37]/50"></span>
+                <span class="w-8 h-px" style="background: rgba(212,175,55,0.5);"></span>
+                <span class="text-xs font-semibold uppercase tracking-widest" style="color: #D4AF37;">HR. Tirmidzi</span>
+                <span class="w-8 h-px" style="background: rgba(212,175,55,0.5);"></span>
             </div>
         </div>
     </div>
 </section>
 
 {{-- ==================== STATS SECTION ==================== --}}
-<section class="py-0 relative z-20 mt-0 bg-white">
+<section class="py-0 relative z-20" style="background: white; margin-top: 0;">
     <div class="container-main">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 -mt-10 relative z-20">
             @foreach([['2000+', 'Jamaah Terlayani'], ['10+', 'Tahun Berpengalaman'], ['45+', 'Paket Keberangkatan/Tahun'], ['100%', 'Izin Resmi Kemenag']] as $stat)
-            <div class="text-center p-6 md:p-8 rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white border border-gray-200">
-                <div class="text-2xl md:text-3xl font-bold mb-2 text-[#D4AF37]">{{ $stat[0] }}</div>
-                <div class="text-xs md:text-sm text-[#8B7F6E]">{{ $stat[1] }}</div>
+            <div class="text-center p-6 md:p-8 rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-1" 
+                 style="background: white; border: 1px solid #E5E7EB;">
+                <div class="text-2xl md:text-3xl font-bold mb-2" style="color: #D4AF37;">{{ $stat[0] }}</div>
+                <div class="text-xs md:text-sm" style="color: #8B7F6E;">{{ $stat[1] }}</div>
             </div>
             @endforeach
         </div>
@@ -230,14 +259,15 @@
 </section>
 
 {{-- ==================== PACKAGE SECTION ==================== --}}
-<section class="py-16 lg:py-24 bg-[#F8F9FA]" id="paket">
+<section class="py-16 lg:py-24" id="paket" style="background: #F8F9FA;">
     <div class="container-main">
         <div class="text-center max-w-2xl mx-auto mb-16">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-[#D4AF37] border-b-2 border-[#D4AF37]">Paket Istimewa</span>
-            <h2 class="text-2xl md:text-4xl font-semibold font-serif mb-4 text-[#001D5F]">
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1"
+                  style="color: #D4AF37; border-bottom: 2px solid #D4AF37;">Paket Istimewa</span>
+            <h2 class="text-2xl md:text-4xl font-semibold font-serif mb-4" style="color: #001D5F;">
                 Pilih Paket Sesuai Kebutuhan Anda di Tahun 2026
             </h2>
-            <p class="text-sm md:text-base text-[#8B7F6E] leading-[1.8]">
+            <p class="text-sm md:text-base" style="color: #8B7F6E; line-height: 1.8;">
                 Setiap paket dirancang dengan perhatian penuh untuk kenyamanan dan kekhusyukan ibadah Anda
             </p>
         </div>
@@ -250,30 +280,32 @@
                 ];
             @endphp
             @foreach($packages as $pkg)
-            <div class="rounded-2xl overflow-hidden shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-xl {{ $pkg['featured'] ? 'ring-2 ring-[#D4AF37]' : '' }} bg-white">
+            <div class="rounded-2xl overflow-hidden shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-xl {{ $pkg['featured'] ? 'ring-2' : '' }}"
+                 style="background: white; {{ $pkg['featured'] ? 'ring-color: #D4AF37;' : '' }}">
                 <div class="relative overflow-hidden h-52">
                     <img src="{{ asset('images/packages/' . $pkg['img']) }}" alt="{{ $pkg['title'] }}" 
                          class="w-full h-full object-cover" loading="lazy">
                     @if($pkg['featured'])
-                    <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-[#D4AF37] text-white">Terpopuler</span>
+                    <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold"
+                          style="background: #D4AF37; color: white;">Terpopuler</span>
                     @endif
                 </div>
                 <div class="p-6">
-                    <h3 class="text-lg font-bold mb-4 font-serif text-[#001D5F]">{{ $pkg['title'] }}</h3>
+                    <h3 class="text-lg font-bold mb-4 font-serif" style="color: #001D5F;">{{ $pkg['title'] }}</h3>
                     <div class="space-y-3">
-                        <div class="flex items-center gap-3 text-sm text-gray-500">
-                            <svg class="w-4 h-4 shrink-0 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                            {{ $pkg['date'] }} • <span class="font-semibold text-[#001D5F]">{{ $pkg['days'] }}</span>
+                        <div class="flex items-center gap-3 text-sm" style="color: #6B7280;">
+                            <svg class="w-4 h-4 shrink-0" style="color: #D4AF37;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            {{ $pkg['date'] }} • <span class="font-semibold" style="color: #001D5F;">{{ $pkg['days'] }}</span>
                         </div>
-                        <div class="flex items-center gap-3 text-sm text-gray-500">
-                            <svg class="w-4 h-4 shrink-0 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                        <div class="flex items-center gap-3 text-sm" style="color: #6B7280;">
+                            <svg class="w-4 h-4 shrink-0" style="color: #D4AF37;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
                             {{ $pkg['airline'] }}
                         </div>
-                        <div class="pt-3 mt-3 border-t border-gray-200">
+                        <div class="pt-3 mt-3" style="border-top: 1px solid #E5E7EB;">
                             <div class="flex items-center gap-3">
-                                <svg class="w-4 h-4 shrink-0 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
-                                <span class="text-sm font-semibold text-[#001D5F]">{{ $pkg['price'] }}</span>
-                                <span class="text-xs text-[#8B7F6E]">({{ $pkg['note'] }})</span>
+                                <svg class="w-4 h-4 shrink-0" style="color: #D4AF37;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+                                <span class="text-sm font-semibold" style="color: #001D5F;">{{ $pkg['price'] }}</span>
+                                <span class="text-xs" style="color: #8B7F6E;">({{ $pkg['note'] }})</span>
                             </div>
                         </div>
                     </div>
@@ -284,7 +316,10 @@
         
         <div class="text-center mt-12">
             <a href="{{ route('schedule') }}" 
-               class="inline-flex items-center gap-2.5 px-8 py-4 rounded-lg font-semibold text-[15px] transition-all duration-300 hover:-translate-y-0.5 group bg-[#001D5F] text-white border-2 border-[#001D5F] hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:shadow-lg hover:shadow-[#D4AF37]/30 no-underline">
+               class="inline-flex items-center gap-2.5 px-8 py-4 rounded-lg font-semibold text-[15px] transition-all duration-300 hover:-translate-y-0.5 group"
+               style="background: #001D5F; color: white; border: 2px solid #001D5F; text-decoration: none;"
+               onmouseover="this.style.background='#D4AF37'; this.style.borderColor='#D4AF37'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(212,175,55,0.3)';"
+               onmouseout="this.style.background='#001D5F'; this.style.borderColor='#001D5F'; this.style.color='white'; this.style.boxShadow='none';">
                 Lihat Semua Paket
                 <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
             </a>
@@ -293,14 +328,15 @@
 </section>
 
 {{-- ==================== TESTIMONIAL SECTION ==================== --}}
-<section class="py-16 lg:py-24 bg-white">
+<section class="py-16 lg:py-24" style="background: white;">
     <div class="container-main">
         <div class="text-center max-w-2xl mx-auto mb-16">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-[#D4AF37] border-b-2 border-[#D4AF37]">Testimoni</span>
-            <h2 class="text-2xl md:text-4xl font-semibold font-serif mb-4 text-[#001D5F]">
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1"
+                  style="color: #D4AF37; border-bottom: 2px solid #D4AF37;">Testimoni</span>
+            <h2 class="text-2xl md:text-4xl font-semibold font-serif mb-4" style="color: #001D5F;">
                 Video Testimoni Jamaah
             </h2>
-            <p class="text-sm md:text-base text-[#8B7F6E] leading-[1.8]">
+            <p class="text-sm md:text-base" style="color: #8B7F6E; line-height: 1.8;">
                 Dengarkan pengalaman jamaah yang telah merasakan ibadah bersama Mahira Tour
             </p>
         </div>
@@ -314,7 +350,8 @@
                 ];
             @endphp
             @foreach($testimonials as $testi)
-            <div class="rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl bg-white border border-gray-200">
+            <div class="rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                 style="background: white; border: 1px solid #E5E7EB;">
                 <div class="aspect-video">
                     <iframe src="https://www.youtube.com/embed/{{ $testi['id'] }}?rel=0&modestbranding=1&playsinline=1&origin={{ request()->getSchemeAndHttpHost() }}" 
                             title="Testimoni Jamaah Mahira Tour"
@@ -326,8 +363,8 @@
                     </iframe>
                 </div>
                 <div class="p-5">
-                    <h4 class="text-sm font-bold mb-1 text-[#001D5F]">{{ $testi['title'] }}</h4>
-                    <p class="text-xs text-[#8B7F6E]">Jamaah Mahira Tour</p>
+                    <h4 class="text-sm font-bold mb-1" style="color: #001D5F;">{{ $testi['title'] }}</h4>
+                    <p class="text-xs" style="color: #8B7F6E;">Jamaah Mahira Tour</p>
                 </div>
             </div>
             @endforeach
@@ -335,7 +372,10 @@
         
         <div class="text-center mt-10">
             <a href="{{ route('testimonials') }}" 
-               class="inline-flex items-center gap-2.5 px-8 py-4 rounded-lg font-semibold text-[15px] transition-all duration-300 hover:-translate-y-0.5 group bg-[#001D5F] text-white border-2 border-[#001D5F] hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:shadow-lg hover:shadow-[#D4AF37]/30 no-underline">
+               class="inline-flex items-center gap-2.5 px-8 py-4 rounded-lg font-semibold text-[15px] transition-all duration-300 hover:-translate-y-0.5 group"
+               style="background: #001D5F; color: white; border: 2px solid #001D5F; text-decoration: none;"
+               onmouseover="this.style.background='#D4AF37'; this.style.borderColor='#D4AF37'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(212,175,55,0.3)';"
+               onmouseout="this.style.background='#001D5F'; this.style.borderColor='#001D5F'; this.style.color='white'; this.style.boxShadow='none';">
                 Lihat Semua Testimoni
                 <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
             </a>
@@ -344,7 +384,7 @@
 </section>
 
 {{-- ==================== GALLERY SECTION ==================== --}}
-<section class="py-16 lg:py-24 bg-[#F8F9FA]"
+<section class="py-16 lg:py-24" style="background: #F8F9FA;"
     x-data="{
         galleries: {{ json_encode($galleries) }},
         currentIndex: 0,
@@ -368,8 +408,9 @@
 
     <div class="container-main">
         <div class="text-center max-w-2xl mx-auto mb-16">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-[#D4AF37] border-b-2 border-[#D4AF37]">Galeri</span>
-            <h2 class="text-2xl md:text-4xl font-semibold font-serif text-[#001D5F]">
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1"
+                  style="color: #D4AF37; border-bottom: 2px solid #D4AF37;">Galeri</span>
+            <h2 class="text-2xl md:text-4xl font-semibold font-serif" style="color: #001D5F;">
                 Dokumentasi Perjalanan Ibadah
             </h2>
         </div>
@@ -382,25 +423,29 @@
             {{-- Nav Buttons --}}
             <button @click="scrollLeft()" 
                     class="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full flex items-center justify-center 
-                           opacity-0 group-hover:opacity-100 transition-opacity duration-300 border-0 cursor-pointer shadow-lg bg-white text-[#001D5F]">
+                           opacity-0 group-hover:opacity-100 transition-opacity duration-300 border-0 cursor-pointer shadow-lg"
+                    style="background: white; color: #001D5F;">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
             </button>
             <button @click="scrollRight()" 
                     class="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full flex items-center justify-center 
-                           opacity-0 group-hover:opacity-100 transition-opacity duration-300 border-0 cursor-pointer shadow-lg bg-white text-[#001D5F]">
+                           opacity-0 group-hover:opacity-100 transition-opacity duration-300 border-0 cursor-pointer shadow-lg"
+                    style="background: white; color: #001D5F;">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </button>
 
             {{-- Slider --}}
             <div class="flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide" 
-                 x-ref="slider">
+                 x-ref="slider"
+                 style="-webkit-overflow-scrolling: touch; scrollbar-width: none;">
                 <template x-for="(item, index) in galleries" :key="index">
                     <div @click="openModal(index)" 
                          class="flex-none w-72 h-52 rounded-xl overflow-hidden cursor-pointer snap-start relative group/item">
                         <img :src="item.src" :alt="item.alt" loading="lazy" 
                              class="w-full h-full object-cover transition-transform duration-500 group-hover/item:scale-110">
-                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 bg-[#001D5F]/40">
-                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover/item:opacity-100 transition-opacity duration-300"
+                             style="background: rgba(0,29,95,0.4);">
+                            <svg class="w-8 h-8" style="color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
                         </div>
                     </div>
                 </template>
@@ -409,7 +454,10 @@
         
         <div class="text-center mt-8">
             <a href="{{ route('gallery') }}" 
-               class="inline-flex items-center gap-2.5 px-8 py-4 rounded-lg font-semibold text-[15px] transition-all duration-300 hover:-translate-y-0.5 group bg-[#001D5F] text-white border-2 border-[#001D5F] hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:shadow-lg hover:shadow-[#D4AF37]/30 no-underline">
+               class="inline-flex items-center gap-2.5 px-8 py-4 rounded-lg font-semibold text-[15px] transition-all duration-300 hover:-translate-y-0.5 group"
+               style="background: #001D5F; color: white; border: 2px solid #001D5F; text-decoration: none;"
+               onmouseover="this.style.background='#D4AF37'; this.style.borderColor='#D4AF37'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(212,175,55,0.3)';"
+               onmouseout="this.style.background='#001D5F'; this.style.borderColor='#001D5F'; this.style.color='white'; this.style.boxShadow='none';">
                 Lihat Galeri Lengkap
                 <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
             </a>
@@ -421,7 +469,8 @@
          x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
          x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
          @click.self="closeModal()" 
-         class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/90">
+         class="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+         style="background: rgba(0,0,0,0.9);">
         <button @click="closeModal()" class="absolute top-4 right-4 text-white text-3xl border-0 bg-transparent cursor-pointer z-10">&times;</button>
         <div class="absolute top-4 left-1/2 -translate-x-1/2 text-white text-sm opacity-70" x-text="`${currentIndex + 1} / ${galleries.length}`"></div>
         <button @click="changeGallery(-1)" class="absolute left-4 text-white border-0 bg-transparent cursor-pointer z-10">
@@ -437,21 +486,22 @@
 </section>
 
 {{-- ==================== LOCATION SECTION ==================== --}}
-<section class="py-16 lg:py-24 bg-white">
+<section class="py-16 lg:py-24" style="background: white;">
     <div class="container-main">
         <div class="text-center max-w-2xl mx-auto mb-16">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-[#D4AF37] border-b-2 border-[#D4AF37]">Lokasi Kami</span>
-            <h2 class="text-2xl md:text-4xl font-semibold font-serif mb-4 text-[#001D5F]">
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1"
+                  style="color: #D4AF37; border-bottom: 2px solid #D4AF37;">Lokasi Kami</span>
+            <h2 class="text-2xl md:text-4xl font-semibold font-serif mb-4" style="color: #001D5F;">
                 Kunjungi Kantor Pusat Mahira Tour
             </h2>
-            <p class="text-sm md:text-base text-[#8B7F6E] leading-[1.8]">
+            <p class="text-sm md:text-base" style="color: #8B7F6E; line-height: 1.8;">
                 Jl. Muradi No. 19, RT 000/RW 000, Kel. Koto Lolo, Kec. Pesisir Bukit, Kota Sungai Penuh, Jambi
             </p>
         </div>
         
         <div class="rounded-2xl overflow-hidden shadow-lg">
             <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7974.528410081892!2d101.3896565!3d-2.050239!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e2da1004b62a7c9%3A0xdebd36e55d2e3189!2sTravel%20Umroh%20Mahira%20Tour!5e0!3m2!1sid!2sid!4v1766545347293!5m2!1sid!2sid" 
-                    class="w-full h-[350px] md:h-[450px] border-0" 
+                    class="w-full h-[350px] md:h-[450px]" style="border:0;" 
                     allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade">
             </iframe>
@@ -459,7 +509,10 @@
         
         <div class="text-center mt-8">
             <a href="https://www.google.com/maps/place/Travel+Umroh+Mahira+Tour/@-2.050239,101.3896565,15z" target="_blank" 
-               class="inline-flex items-center gap-2.5 px-8 py-4 rounded-lg font-semibold text-[15px] transition-all duration-300 hover:-translate-y-0.5 bg-[#001D5F] text-white border-2 border-[#001D5F] hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:shadow-lg hover:shadow-[#D4AF37]/30 no-underline">
+               class="inline-flex items-center gap-2.5 px-8 py-4 rounded-lg font-semibold text-[15px] transition-all duration-300 hover:-translate-y-0.5"
+               style="background: #001D5F; color: white; border: 2px solid #001D5F; text-decoration: none;"
+               onmouseover="this.style.background='#D4AF37'; this.style.borderColor='#D4AF37'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(212,175,55,0.3)';"
+               onmouseout="this.style.background='#001D5F'; this.style.borderColor='#001D5F'; this.style.color='white'; this.style.boxShadow='none';">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                 Buka di Google Maps
             </a>
@@ -468,14 +521,15 @@
 </section>
 
 {{-- ==================== PARTNERS SECTION ==================== --}}
-<section class="py-16 lg:py-24 bg-[#F8F9FA]">
+<section class="py-16 lg:py-24" style="background: #F8F9FA;">
     <div class="container-main">
         <div class="text-center max-w-2xl mx-auto mb-16">
-            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1 text-[#D4AF37] border-b-2 border-[#D4AF37]">Berizin Resmi & Terpercaya</span>
-            <h2 class="text-2xl md:text-4xl font-semibold font-serif mb-4 text-[#001D5F]">
+            <span class="inline-block text-xs font-semibold uppercase tracking-widest mb-4 pb-1"
+                  style="color: #D4AF37; border-bottom: 2px solid #D4AF37;">Berizin Resmi & Terpercaya</span>
+            <h2 class="text-2xl md:text-4xl font-semibold font-serif mb-4" style="color: #001D5F;">
                 Legalitas & Keanggotaan
             </h2>
-            <p class="text-sm md:text-base text-[#8B7F6E] leading-[1.8]">
+            <p class="text-sm md:text-base" style="color: #8B7F6E; line-height: 1.8;">
                 Terdaftar dan diawasi oleh lembaga resmi pemerintah dan organisasi internasional
             </p>
         </div>
@@ -489,13 +543,15 @@
                 ];
             @endphp
             @foreach($partners as $partner)
-            <div class="text-center p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1 bg-white border border-gray-200">
-                <div class="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 p-3 bg-[#F8F9FA]">
+            <div class="text-center p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1" 
+                 style="background: white; border: 1px solid #E5E7EB;">
+                <div class="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 p-3"
+                     style="background: #F8F9FA;">
                     <img src="{{ asset('images/partners/' . $partner['img']) }}" alt="{{ $partner['name'] }}" 
                          class="max-w-full max-h-full object-contain" loading="lazy">
                 </div>
-                <h4 class="text-sm font-bold mb-1 text-[#001D5F]">{{ $partner['name'] }}</h4>
-                <p class="text-xs text-[#8B7F6E]">{{ $partner['desc'] }}</p>
+                <h4 class="text-sm font-bold mb-1" style="color: #001D5F;">{{ $partner['name'] }}</h4>
+                <p class="text-xs" style="color: #8B7F6E;">{{ $partner['desc'] }}</p>
             </div>
             @endforeach
         </div>
@@ -506,3 +562,25 @@
 @include('partials.cta-section')
 
 @endsection
+
+@push('scripts')
+<style>
+    /* Hero Animations */
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-100px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes slideInRight { from { opacity: 0; transform: translateX(100px); } to { opacity: 1; transform: translateX(0); } }
+    
+    .animate-fade-in { animation: fadeInUp 1s ease 0.2s both; }
+    .animate-fade-in-delay-1 { animation: fadeInUp 1s ease 0.3s both; }
+    .animate-fade-in-delay-2 { animation: fadeInUp 1s ease 0.4s both; }
+    .animate-fade-in-delay-3 { animation: fadeInUp 1s ease 0.5s both; }
+    .animate-fade-in-down { animation: fadeInDown 1s ease both; }
+    .animate-slide-left { display: block; opacity: 0; animation: slideInLeft 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.3s forwards; }
+    .animate-slide-right { display: block; opacity: 0; animation: slideInRight 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.5s forwards; }
+    
+    /* Hide scrollbar for gallery */
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+@endpush
