@@ -142,10 +142,10 @@
         </div>
 
         {{-- Executive Profiles --}}
-        <div class="flex flex-col gap-16 lg:gap-24 max-w-[900px] mx-auto">
+        <div class="flex flex-col gap-12 sm:gap-16 lg:gap-24 max-w-[900px] mx-auto">
             @foreach($leadership as $index => $leader)
-            <div class="flex flex-col md:flex-row items-center gap-10 md:gap-16 {{ $index % 2 !== 0 ? 'md:flex-row-reverse' : '' }} text-center md:text-left">
-                <div class="flex-1">
+            <div class="flex flex-col md:flex-row items-center gap-8 md:gap-16 {{ $index % 2 !== 0 ? 'md:flex-row-reverse' : '' }} text-center md:text-left">
+                <div class="flex-1 w-full max-w-[280px] sm:max-w-none mx-auto md:mx-0">
                     <div class="rounded-[200px_200px_20px_20px] overflow-hidden aspect-[3/4] border-2 border-gold shadow-none lg:shadow-[20px_20px_0_rgba(0,29,95,0.1)] group">
                         @if($leader['name'] == 'Khilal Hamdan')
                             <img src="{{ asset('storage/team/direktur.webp') }}" alt="{{ $leader['name'] }}" loading="lazy" class="w-full h-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0">
@@ -160,11 +160,17 @@
                 </div>
                 <div class="flex-[1.5]">
                     <h3 class="text-xl sm:text-2xl lg:text-[2rem] font-extrabold mb-1 font-serif text-primary">{{ $leader['name'] }}</h3>
-                    <p class="text-xs sm:text-sm font-bold uppercase tracking-widest mb-6 lg:mb-8 text-gold-accessible tracking-[2px]">{{ strtoupper($leader['position']) }}</p>
-                    <div class="relative pl-8 md:pl-8 md:border-l-[3px] border-t-[2px] md:border-t-0 pt-5 md:pt-0 border-gray-200">
-                        <svg class="absolute top-[-10px] left-2.5 w-8 h-8 opacity-20 text-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                    <p class="text-xs sm:text-sm font-bold uppercase tracking-widest mb-5 sm:mb-6 lg:mb-8 text-gold-accessible tracking-[2px]">{{ strtoupper($leader['position']) }}</p>
+                    <div class="relative pl-6 sm:pl-8 md:pl-8 border-l-[3px] border-gold/30 md:border-gray-200">
+                        <svg class="absolute -top-2 left-1.5 sm:left-2.5 w-6 h-6 sm:w-8 sm:h-8 opacity-20 text-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
                         <p class="text-sm sm:text-base italic leading-relaxed text-gray-500">
-                            Mengemban amanah untuk melayani tamu-tamu Allah adalah kehormatan tertinggi bagi kami. Kepuasan jamaah adalah prioritas utama.
+                            @if($leader['name'] == 'Khilal Hamdan')
+                                Mengemban amanah untuk melayani tamu-tamu Allah adalah kehormatan tertinggi bagi kami. Kepuasan jamaah adalah prioritas utama, karena setiap perjalanan ibadah harus dirasakan dengan kekhusyukan dan ketenangan hati.
+                            @elseif($leader['name'] == 'Nadirman Hamdan')
+                                Kami membangun Mahira Tour bukan sekadar sebagai bisnis, tetapi sebagai jembatan bagi umat untuk mendekatkan diri kepada Allah. Integritas dan amanah adalah fondasi yang tidak akan pernah kami korbankan.
+                            @else
+                                Melayani dengan sepenuh hati adalah komitmen kami untuk setiap jamaah.
+                            @endif
                         </p>
                     </div>
                 </div>
@@ -238,27 +244,91 @@
     <div class="container-main">
         <p class="text-center text-xs uppercase tracking-[3px] text-gray-400 mb-8 font-semibold">Mitra Resmi & Maskapai Penerbangan</p>
         
-        <div class="relative overflow-hidden" style="mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);">
-            <div class="flex items-center gap-12 sm:gap-16 lg:gap-20 animate-[marqueeScroll_30s_linear_infinite] hover:[animation-play-state:paused] w-max">
+        <div class="relative overflow-hidden" 
+             style="mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);"
+             x-data="{
+                scrollEl: null,
+                isDragging: false,
+                startX: 0,
+                scrollStart: 0,
+                autoInterval: null,
+                
+                init() {
+                    this.scrollEl = this.$refs.track;
+                    this.startAutoScroll();
+                },
+                
+                startAutoScroll() {
+                    clearInterval(this.autoInterval);
+                    this.autoInterval = setInterval(() => {
+                        if (this.isDragging) return;
+                        this.scrollEl.scrollLeft += 1;
+                        // Loop: reset when past halfway
+                        if (this.scrollEl.scrollLeft >= this.scrollEl.scrollWidth / 2) {
+                            this.scrollEl.scrollLeft = 0;
+                        }
+                    }, 20);
+                },
+                
+                pauseAuto() {
+                    clearInterval(this.autoInterval);
+                },
+                
+                resumeAfterDelay() {
+                    clearInterval(this.autoInterval);
+                    setTimeout(() => this.startAutoScroll(), 3000);
+                },
+                
+                onPointerDown(e) {
+                    this.isDragging = true;
+                    this.startX = e.pageX || e.touches[0].pageX;
+                    this.scrollStart = this.scrollEl.scrollLeft;
+                    this.pauseAuto();
+                },
+                
+                onPointerMove(e) {
+                    if (!this.isDragging) return;
+                    e.preventDefault();
+                    const x = e.pageX || e.touches[0].pageX;
+                    const walk = (this.startX - x) * 1.5;
+                    this.scrollEl.scrollLeft = this.scrollStart + walk;
+                },
+                
+                onPointerUp() {
+                    this.isDragging = false;
+                    this.resumeAfterDelay();
+                }
+             }"
+             @mouseenter="pauseAuto()"
+             @mouseleave="resumeAfterDelay()">
+            <div x-ref="track"
+                 class="flex items-center gap-12 sm:gap-16 lg:gap-20 overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing select-none py-2"
+                 @mousedown="onPointerDown($event)"
+                 @mousemove="onPointerMove($event)"
+                 @mouseup="onPointerUp()"
+                 @mouseleave="onPointerUp()"
+                 @touchstart.passive="onPointerDown($event)"
+                 @touchmove="onPointerMove($event)"
+                 @touchend="onPointerUp()">
                 {{-- Set 1 --}}
-                <img src="{{ asset('images/partners/kemenag.webp') }}" alt="Kemenag RI" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0">
-                <img src="{{ asset('images/partners/himpuh.webp') }}" alt="HIMPUH" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0">
-                <img src="{{ asset('images/partners/siskopatuh.png') }}" alt="Siskopatuh" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0">
-                <img src="{{ asset('images/partners/5pasti.png') }}" alt="5 Pasti" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0">
-                <img src="{{ asset('images/partners/garuda.png') }}" alt="Garuda Indonesia" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0">
-                <img src="{{ asset('images/partners/lionair.png') }}" alt="Lion Air" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0">
-                <img src="{{ asset('images/partners/batikair.png') }}" alt="Batik Air" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0">
-                <img src="{{ asset('images/partners/saudia.png') }}" alt="Saudia Airlines" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0">
+                <img src="{{ asset('images/partners/kemenag.webp') }}" alt="Kemenag RI" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0 pointer-events-none" draggable="false">
+                <img src="{{ asset('images/partners/himpuh.webp') }}" alt="HIMPUH" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0 pointer-events-none" draggable="false">
+                <img src="{{ asset('images/partners/siskopatuh.png') }}" alt="Siskopatuh" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0 pointer-events-none" draggable="false">
+                <img src="{{ asset('images/partners/5pasti.png') }}" alt="5 Pasti" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0 pointer-events-none" draggable="false">
+                <img src="{{ asset('images/partners/garuda.png') }}" alt="Garuda Indonesia" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0 pointer-events-none" draggable="false">
+                <img src="{{ asset('images/partners/lionair.png') }}" alt="Lion Air" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0 pointer-events-none" draggable="false">
+                <img src="{{ asset('images/partners/batikair.png') }}" alt="Batik Air" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0 pointer-events-none" draggable="false">
+                <img src="{{ asset('images/partners/saudia.png') }}" alt="Saudia Airlines" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0 pointer-events-none" draggable="false">
                 
                 {{-- Set 2 (duplicate for seamless loop) --}}
-                <img src="{{ asset('images/partners/kemenag.webp') }}" alt="Kemenag RI" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0">
-                <img src="{{ asset('images/partners/himpuh.webp') }}" alt="HIMPUH" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0">
-                <img src="{{ asset('images/partners/siskopatuh.png') }}" alt="Siskopatuh" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0">
-                <img src="{{ asset('images/partners/5pasti.png') }}" alt="5 Pasti" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0">
-                <img src="{{ asset('images/partners/garuda.png') }}" alt="Garuda Indonesia" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0">
-                <img src="{{ asset('images/partners/lionair.png') }}" alt="Lion Air" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0">
-                <img src="{{ asset('images/partners/batikair.png') }}" alt="Batik Air" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0">
-                <img src="{{ asset('images/partners/saudia.png') }}" alt="Saudia Airlines" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0">
+                <img src="{{ asset('images/partners/kemenag.webp') }}" alt="Kemenag RI" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0 pointer-events-none" draggable="false">
+                <img src="{{ asset('images/partners/himpuh.webp') }}" alt="HIMPUH" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0 pointer-events-none" draggable="false">
+                <img src="{{ asset('images/partners/siskopatuh.png') }}" alt="Siskopatuh" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0 pointer-events-none" draggable="false">
+                <img src="{{ asset('images/partners/5pasti.png') }}" alt="5 Pasti" class="h-[50px] sm:h-[60px] lg:h-[70px] w-auto shrink-0 pointer-events-none" draggable="false">
+                <img src="{{ asset('images/partners/garuda.png') }}" alt="Garuda Indonesia" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0 pointer-events-none" draggable="false">
+                <img src="{{ asset('images/partners/lionair.png') }}" alt="Lion Air" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0 pointer-events-none" draggable="false">
+                <img src="{{ asset('images/partners/batikair.png') }}" alt="Batik Air" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0 pointer-events-none" draggable="false">
+                <img src="{{ asset('images/partners/saudia.png') }}" alt="Saudia Airlines" class="h-[45px] sm:h-[55px] lg:h-[65px] w-auto shrink-0 pointer-events-none" draggable="false">
             </div>
         </div>
     </div>
