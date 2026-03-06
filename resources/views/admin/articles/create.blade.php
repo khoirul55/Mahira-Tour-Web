@@ -71,7 +71,7 @@
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Konten Artikel <span class="text-danger">*</span></label>
                     <div id="editor-container" style="background-color: white;">{!! old('body') !!}</div>
-                    <textarea name="body" id="article-body" class="d-none" required>{{ old('body') }}</textarea>
+                    <textarea name="body" id="article-body" class="d-none">{{ old('body') }}</textarea>
                 </div>
             </div>
         </div>

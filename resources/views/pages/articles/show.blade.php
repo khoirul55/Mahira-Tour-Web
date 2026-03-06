@@ -11,14 +11,14 @@
 <section class="pt-28 sm:pt-32 pb-8 bg-white">
     <div class="container-main max-w-4xl mx-auto px-4 sm:px-6">
         {{-- Breadcrumb --}}
-        <nav class="flex items-center gap-2 text-sm text-taupe mb-6 flex-wrap">
-            <a href="{{ route('home') }}" class="hover:text-primary transition-colors no-underline text-taupe">Beranda</a>
+        <nav class="flex items-center gap-2 text-[13px] sm:text-sm text-gray-500 mb-6 flex-wrap">
+            <a href="{{ route('home') }}" class="hover:text-primary transition-colors no-underline">Beranda</a>
             <span class="text-gray-300">/</span>
-            <a href="{{ route('articles.index') }}" class="hover:text-primary transition-colors no-underline text-taupe">Artikel</a>
+            <a href="{{ route('articles.index') }}" class="hover:text-primary transition-colors no-underline">Artikel</a>
             <span class="text-gray-300">/</span>
-            <a href="{{ route('articles.category', $article->category->slug) }}" class="hover:text-primary transition-colors no-underline text-taupe">{{ $article->category->name }}</a>
+            <a href="{{ route('articles.category', $article->category->slug) }}" class="hover:text-primary transition-colors no-underline">{{ $article->category->name }}</a>
             <span class="text-gray-300">/</span>
-            <span class="text-gray-400 line-clamp-1">{{ Str::limit($article->title, 40) }}</span>
+            <span class="text-gray-400 truncate max-w-[150px] sm:max-w-xs">{{ $article->title }}</span>
         </nav>
 
         {{-- Category Badge --}}
@@ -72,14 +72,16 @@
 @if($article->featured_image)
 <section class="pb-8 bg-white">
     <div class="container-main max-w-4xl mx-auto px-4 sm:px-6">
-        <div class="rounded-2xl overflow-hidden shadow-lg">
-            <img src="{{ Storage::url($article->featured_image) }}" 
-                 alt="{{ $article->image_caption ?? $article->title }}"
-                 class="w-full h-auto object-cover max-h-[500px]">
+        <div class="w-full max-w-sm sm:max-w-md mx-auto">
+            <div class="rounded-xl overflow-hidden shadow-sm bg-gray-50 flex justify-center border border-gray-100">
+                <img src="{{ Storage::url($article->featured_image) }}" 
+                     alt="{{ $article->image_caption ?? $article->title }}"
+                     class="w-full h-auto object-contain max-h-[350px] sm:max-h-[450px]">
+            </div>
+            @if($article->image_caption)
+            <p class="text-[13px] text-gray-400 italic mt-3 text-center">{{ $article->image_caption }}</p>
+            @endif
         </div>
-        @if($article->image_caption)
-        <p class="text-xs text-taupe italic mt-3 text-center">{{ $article->image_caption }}</p>
-        @endif
     </div>
 </section>
 @endif
@@ -88,16 +90,19 @@
 <section class="pb-12 bg-white">
     <div class="container-main max-w-4xl mx-auto px-4 sm:px-6">
         {{-- Prose Content --}}
-        <div class="prose prose-lg max-w-none
+        <style>
+            .article-content { color: #4B5563; line-height: 1.8; }
+            .article-content p { margin-bottom: 1.25rem; }
+            .article-content br { display: block; content: ""; margin-top: 1.25rem; }
+            .article-content strong { color: #1F2937; font-weight: 600; }
+        </style>
+        <div class="prose prose-lg max-w-none article-content
                     prose-headings:font-serif prose-headings:text-primary prose-headings:font-bold
                     prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
                     prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
-                    prose-p:text-gray-600 prose-p:leading-[1.8] prose-p:mb-5
                     prose-a:text-gold prose-a:no-underline hover:prose-a:underline
-                    prose-strong:text-gray-800
-                    prose-blockquote:border-l-4 prose-blockquote:border-gold prose-blockquote:bg-gold/5 prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:italic prose-blockquote:text-gray-600
+                    prose-blockquote:border-l-4 prose-blockquote:border-gold prose-blockquote:bg-gold/5 prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:italic
                     prose-img:rounded-xl prose-img:shadow-md
-                    prose-ul:text-gray-600 prose-ol:text-gray-600
                     prose-li:mb-2">
             {!! $article->body !!}
         </div>
