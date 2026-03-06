@@ -12,6 +12,7 @@ use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\ArticleController;
 
 // Sitemap XML Route
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
@@ -86,6 +87,17 @@ Route::get('/visi-misi', function () { return redirect()->route('about'); })->na
 
 Route::get('/galeri', [GalleryController::class, 'index'])->name('gallery');
 Route::get('/testimoni', [TestimonialController::class, 'index'])->name('testimonials');
+
+
+// ============================================
+// INFORMASI / BERITA
+// ============================================
+
+Route::prefix('informasi')->name('articles.')->group(function() {
+    Route::get('/', [ArticleController::class, 'index'])->name('index');
+    Route::get('/kategori/{slug}', [ArticleController::class, 'category'])->name('category');
+    Route::get('/{slug}', [ArticleController::class, 'show'])->name('show');
+});
 
 
 // ============================================
@@ -179,6 +191,18 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function() {
         Route::delete('/{id}', [App\Http\Controllers\Admin\ScheduleController::class, 'destroy'])->name('destroy');
         Route::post('/{id}/toggle', [App\Http\Controllers\Admin\ScheduleController::class, 'toggleStatus'])->name('toggle');
         Route::post('/{id}/quota', [App\Http\Controllers\Admin\ScheduleController::class, 'updateQuota'])->name('quota');
+    });
+
+    // Content Management: Articles (Berita/Informasi)
+    Route::prefix('articles')->name('admin.articles.')->group(function() {
+        Route::get('/', [App\Http\Controllers\Admin\ArticleController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\Admin\ArticleController::class, 'create'])->name('create');
+        Route::post('/', [App\Http\Controllers\Admin\ArticleController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [App\Http\Controllers\Admin\ArticleController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'update'])->name('update');
+        Route::delete('/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/toggle', [App\Http\Controllers\Admin\ArticleController::class, 'toggleStatus'])->name('toggle');
+        Route::post('/upload-image', [App\Http\Controllers\Admin\ArticleController::class, 'uploadImage'])->name('upload-image');
     });
     
     // Secure File Access

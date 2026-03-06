@@ -129,8 +129,32 @@
                                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
                                 {{ $schedule['departure_route'] }}
                             </span>
+                            @php
+                                $airlineLogos = [
+                                    'lion air' => 'lionair.png',
+                                    'garuda' => 'garuda.png',
+                                    'garuda indonesia' => 'garuda.png',
+                                    'batik air' => 'batikair.png',
+                                    'saudia' => 'saudia.png',
+                                    'saudi airlines' => 'saudia.png',
+                                    'saudia airlines' => 'saudia.png',
+                                    'saudi arabian airlines' => 'saudia.png',
+                                ];
+                                $alLower = strtolower(trim($schedule['airline'] ?? ''));
+                                $alLogo = null;
+                                foreach ($airlineLogos as $alKey => $alFile) {
+                                    if (str_contains($alLower, $alKey)) {
+                                        $alLogo = $alFile;
+                                        break;
+                                    }
+                                }
+                            @endphp
                             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-[#E8EBF3] text-primary">
-                                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M22 16.21v-1.895l-1.5-1.5v-7.396c0-.854-.552-1.609-1.368-1.873L12.66 1.356c-.427-.139-.89-.139-1.317 0L4.868 3.546c-.816.264-1.368 1.02-1.368 1.873v7.396l-1.5 1.5v1.895h2v1.79h16v-1.79h2zm-10-14l5.664 1.837L12 5.892 6.336 4.047 12 2.21z"/></svg>
+                                @if($alLogo)
+                                    <img src="{{ asset('images/partners/' . $alLogo) }}" alt="{{ $schedule['airline'] }}" class="h-3.5 w-auto object-contain" loading="lazy">
+                                @else
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                                @endif
                                 {{ $schedule['airline'] }}
                             </span>
                             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold text-white bg-gold">

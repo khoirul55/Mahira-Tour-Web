@@ -337,15 +337,35 @@
             @endphp
             @foreach($testimonials as $testi)
             <div class="rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl bg-white border border-gray-200">
-                <div class="aspect-video">
-                    <iframe src="https://www.youtube.com/embed/{{ $testi['id'] }}?rel=0&modestbranding=1&playsinline=1&origin={{ request()->getSchemeAndHttpHost() }}" 
-                            title="Testimoni Jamaah Mahira Tour"
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                            allowfullscreen loading="lazy"
-                            referrerpolicy="strict-origin-when-cross-origin"
-                            class="w-full h-full">
-                    </iframe>
+                {{-- YouTube Facade: Thumbnail + Play Button (loads iframe on click) --}}
+                <div class="aspect-video relative cursor-pointer group" 
+                     x-data="{ playing: false }"
+                     @click="if(!playing) { playing = true; }">
+                    {{-- Thumbnail (shown before click) --}}
+                    <template x-if="!playing">
+                        <div class="w-full h-full relative">
+                            <img src="https://img.youtube.com/vi/{{ $testi['id'] }}/hqdefault.jpg" 
+                                 alt="{{ $testi['title'] }}" 
+                                 loading="lazy"
+                                 class="w-full h-full object-cover">
+                            {{-- Play Button Overlay --}}
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors duration-300">
+                                <div class="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                    <svg class="w-7 h-7 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    {{-- Iframe (loaded only after click) --}}
+                    <template x-if="playing">
+                        <iframe :src="'https://www.youtube.com/embed/{{ $testi['id'] }}?rel=0&modestbranding=1&playsinline=1&autoplay=1&origin={{ request()->getSchemeAndHttpHost() }}'" 
+                                title="Testimoni Jamaah Mahira Tour"
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen
+                                class="w-full h-full">
+                        </iframe>
+                    </template>
                 </div>
                 <div class="p-5">
                     <h4 class="text-sm font-bold mb-1 text-primary">{{ $testi['title'] }}</h4>

@@ -147,12 +147,46 @@
                 {{-- FLIGHT --}}
                 <div class="mb-12 text-center">
                     <h3 class="text-center text-2xl font-extrabold mb-6 text-primary">Flight</h3>
-                    <div>
-                        <h2 class="font-bold font-serif text-primary">{{ $schedule->airline }}</h2>
-                        <div class="my-2.5">
-                            <svg class="w-16 h-16 mx-auto text-[#C5A036]" fill="currentColor" viewBox="0 0 24 24"><path d="M22 16.21v-1.895l-1.5-1.5v-7.396c0-.854-.552-1.609-1.368-1.873L12.66 1.356c-.427-.139-.89-.139-1.317 0L4.868 3.546c-.816.264-1.368 1.02-1.368 1.873v7.396l-1.5 1.5v1.895h2v1.79h16v-1.79h2zm-10-14l5.664 1.837L12 5.892 6.336 4.047 12 2.21z"/></svg>
+                    <div class="flex flex-col items-center gap-4">
+                        @php
+                            $airlineLogos = [
+                                'lion air' => 'lionair.png',
+                                'garuda' => 'garuda.png',
+                                'garuda indonesia' => 'garuda.png',
+                                'batik air' => 'batikair.png',
+                                'saudia' => 'saudia.png',
+                                'saudi airlines' => 'saudia.png',
+                                'saudia airlines' => 'saudia.png',
+                                'saudi arabian airlines' => 'saudia.png',
+                            ];
+                            $airlineLower = strtolower(trim($schedule->airline ?? ''));
+                            $airlineLogo = null;
+                            foreach ($airlineLogos as $key => $logo) {
+                                if (str_contains($airlineLower, $key)) {
+                                    $airlineLogo = $logo;
+                                    break;
+                                }
+                            }
+                        @endphp
+
+                        {{-- Airline Logo --}}
+                        <div style="max-width: 120px; height: 48px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                            @if($airlineLogo)
+                                <img src="{{ asset('images/partners/' . $airlineLogo) }}" 
+                                     alt="{{ $schedule->airline }}" 
+                                     style="max-width: 120px; max-height: 48px; object-fit: contain;"
+                                     loading="lazy">
+                            @else
+                                <svg style="width: 32px; height: 32px; color: #ccc;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                            @endif
                         </div>
-                        <p class="text-gray-500">Direct Flight / Transit sesuai program</p>
+
+                        <h4 class="text-lg font-bold font-serif text-primary">{{ $schedule->airline }}</h4>
+
+                        <div class="flex items-center gap-2 text-sm text-gray-500">
+                            <svg class="w-4 h-4 text-gold shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            Direct Flight / Transit sesuai program
+                        </div>
                     </div>
                 </div>
 
