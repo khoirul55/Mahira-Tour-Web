@@ -118,7 +118,7 @@
                 $navLinks = [
                     ['route' => 'home', 'label' => 'Beranda'],
                     ['route' => 'schedule', 'label' => 'Paket & Jadwal'],
-                    ['route' => 'articles.index', 'label' => 'Informasi'],
+                    ['route' => 'articles.index', 'label' => 'Artikel'],
                     ['route' => 'testimonials', 'label' => 'Testimoni'],
                     ['route' => 'gallery', 'label' => 'Galeri'],
                     ['route' => 'about', 'label' => 'Tentang Kami'],

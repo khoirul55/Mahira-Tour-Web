@@ -1,8 +1,8 @@
 {{-- resources/views/pages/articles/index.blade.php --}}
 @extends('layouts.app')
 
-@section('title', isset($category) ? $category->name . ' - Informasi Umrah | Mahira Tour' : 'Informasi Umrah | Mahira Tour')
-@section('meta_description', isset($category) ? $category->description : 'Baca informasi terbaru seputar umrah, tips ibadah, berita Mahira Tour, promo paket, dan kisah jamaah. Semua yang perlu Anda ketahui sebelum berangkat umrah.')
+@section('title', isset($category) ? $category->name . ' - Artikel Umrah | Mahira Tour' : 'Artikel & Panduan Umrah | Mahira Tour')
+@section('meta_description', isset($category) ? $category->description : 'Baca artikel terbaru seputar umrah, tips ibadah, kabar Mahira Tour, promo & penawaran, dan kisah jamaah. Panduan lengkap sebelum berangkat umrah.')
 
 @section('content')
 
@@ -20,18 +20,18 @@
             </a>
             <span class="text-white/70">/</span>
             @if(isset($category))
-                <a href="{{ route('articles.index') }}" class="text-white/70 no-underline hover:text-white transition-colors">Informasi</a>
+                <a href="{{ route('articles.index') }}" class="text-white/70 no-underline hover:text-white transition-colors">Artikel</a>
                 <span class="text-white/70">/</span>
                 <span class="text-white/70">{{ $category->name }}</span>
             @else
-                <span class="text-white/70">Informasi</span>
+                <span class="text-white/70">Artikel</span>
             @endif
         </div>
         <h1 class="text-2xl sm:text-4xl md:text-5xl font-bold font-serif text-white mb-3 leading-tight">
-            {{ isset($category) ? $category->name : 'Informasi Umrah' }}
+            {{ isset($category) ? $category->name : 'Artikel & Panduan Umrah' }}
         </h1>
         <p class="text-sm md:text-base max-w-[600px] mx-auto leading-relaxed text-white/80">
-            {{ isset($category) ? $category->description : 'Tips, berita, dan panduan seputar perjalanan umrah bersama Mahira Tour' }}
+            {{ isset($category) ? $category->description : 'Pelajari tips, baca kisah jamaah, dan temukan info terbaru sebelum berangkat umrah' }}
         </p>
     </div>
 </section>

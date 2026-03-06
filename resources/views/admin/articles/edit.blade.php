@@ -2,10 +2,17 @@
 @section('title', 'Edit Berita')
 
 @push('styles')
+{{-- Quill CSS --}}
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 <style>
     .slug-preview { font-size: 0.8rem; color: #6B7280; font-family: monospace; background: #F3F4F6; padding: 4px 10px; border-radius: 6px; display: inline-block; margin-top: 4px; }
     .image-preview { max-height: 200px; border-radius: 12px; object-fit: cover; }
     .char-count { font-size: 0.75rem; color: #9CA3AF; text-align: right; }
+    /* Quill Custom Style */
+    .ql-toolbar.ql-snow { border-top-left-radius: 6px; border-top-right-radius: 6px; border-color: #dee2e6; }
+    .ql-container.ql-snow { border-color: #dee2e6; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; font-family: 'Inter', sans-serif; font-size: 15px; }
+    .ql-editor { min-height: 400px; padding: 1.5rem; }
+    .ql-editor p { margin-bottom: 1rem; }
 </style>
 @endpush
 
@@ -73,7 +80,8 @@
                 {{-- Body (WYSIWYG) --}}
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Konten Artikel <span class="text-danger">*</span></label>
-                    <textarea name="body" id="article-body" class="form-control" rows="15" required>{{ old('body', $article->body) }}</textarea>
+                    <div id="editor-container" style="background-color: white;">{!! old('body', $article->body) !!}</div>
+                    <textarea name="body" id="article-body" class="d-none" required>{{ old('body', $article->body) }}</textarea>
                 </div>
             </div>
         </div>
@@ -208,41 +216,78 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+{{-- Quill JS CDN --}}
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 <script>
-    tinymce.init({
-        selector: '#article-body',
-        height: 500,
-        menubar: false,
-        plugins: 'lists link image table code wordcount fullscreen',
-        toolbar: 'undo redo | blocks | bold italic underline | bullist numlist | link image table | alignleft aligncenter alignright | code fullscreen',
-        content_style: 'body { font-family: Inter, sans-serif; font-size: 15px; line-height: 1.8; color: #374151; }',
-        branding: false,
-        images_upload_url: '{{ route("admin.articles.upload-image") }}',
-        images_upload_credentials: true,
-        automatic_uploads: true,
-        setup: function(editor) {
-            editor.on('init', function() {
-                var csrfToken = document.querySelector('meta[name="csrf-token"]');
-                if (csrfToken) {
-                    editor.settings.images_upload_handler = function(blobInfo, progress) {
-                        return new Promise(function(resolve, reject) {
-                            var formData = new FormData();
-                            formData.append('image', blobInfo.blob(), blobInfo.filename());
+    var toolbarOptions = [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        ['blockquote', 'code-block'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'script': 'sub'}, { 'script': 'super' }],
+        [{ 'indent': '-1'}, { 'indent': '+1' }],
+        [{ 'align': [] }],
+        [{ 'color': [] }, { 'background': [] }],
+        ['link', 'image', 'video'],
+        ['clean']
+    ];
 
-                            fetch('{{ route("admin.articles.upload-image") }}', {
-                                method: 'POST',
-                                headers: { 'X-CSRF-TOKEN': csrfToken.content },
-                                body: formData
-                            })
-                            .then(response => response.json())
-                            .then(result => resolve(result.location))
-                            .catch(error => reject('Upload gagal: ' + error));
-                        });
-                    };
+    var quill = new Quill('#editor-container', {
+        modules: {
+            toolbar: {
+                container: toolbarOptions,
+                handlers: {
+                    image: imageHandler
                 }
-            });
-        }
+            }
+        },
+        placeholder: 'Tulis isi artikel di sini...',
+        theme: 'snow'
     });
+
+    // Sycn with hidden textarea on submit
+    var form = document.querySelector('form');
+    form.addEventListener('submit', function() {
+        var html = quill.root.innerHTML;
+        document.getElementById('article-body').value = html === '<p><br></p>' ? '' : html;
+    });
+
+    // Custom Image handler for Quill
+    function imageHandler() {
+        var range = this.quill.getSelection();
+        var input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+        input.click();
+
+        input.onchange = () => {
+            var file = input.files[0];
+            if (file) {
+                var formData = new FormData();
+                formData.append('image', file);
+
+                var csrfToken = document.querySelector('meta[name="csrf-token"]');
+                var token = csrfToken ? csrfToken.content : '';
+
+                fetch('{{ route("admin.articles.upload-image") }}', {
+                    method: 'POST',
+                    headers: { 'X-CSRF-TOKEN': token },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.location) {
+                        this.quill.insertEmbed(range.index, 'image', result.location);
+                    } else {
+                        alert('Upload gagal');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Upload gagal: ' + error);
+                });
+            }
+        };
+    }
 </script>
 @endpush

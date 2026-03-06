@@ -58,7 +58,7 @@
                                 ['route' => 'home', 'label' => 'Beranda'],
                                 ['route' => 'about', 'label' => 'Tentang Kami'],
                                 ['route' => 'schedule', 'label' => 'Paket & Jadwal'],
-                                ['route' => 'articles.index', 'label' => 'Informasi'],
+                                ['route' => 'articles.index', 'label' => 'Artikel'],
                                 ['route' => 'gallery', 'label' => 'Galeri'],
                                 ['route' => 'testimonials', 'label' => 'Testimoni'],
                                 ['route' => 'contact', 'label' => 'Kontak'],

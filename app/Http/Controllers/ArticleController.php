@@ -81,8 +81,12 @@ class ArticleController extends Controller
             ->with(['category', 'author'])
             ->firstOrFail();
 
-        // Increment views count
-        $article->increment('views_count');
+        // Increment views count (once per session per article)
+        $sessionKey = 'article_viewed_' . $article->id;
+        if (!session()->has($sessionKey)) {
+            $article->increment('views_count');
+            session()->put($sessionKey, true);
+        }
 
         // Related articles (same category, exclude current)
         $relatedArticles = Article::published()

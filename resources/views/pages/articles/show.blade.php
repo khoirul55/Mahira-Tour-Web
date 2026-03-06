@@ -14,7 +14,7 @@
         <nav class="flex items-center gap-2 text-sm text-taupe mb-6 flex-wrap">
             <a href="{{ route('home') }}" class="hover:text-primary transition-colors no-underline text-taupe">Beranda</a>
             <span class="text-gray-300">/</span>
-            <a href="{{ route('articles.index') }}" class="hover:text-primary transition-colors no-underline text-taupe">Informasi</a>
+            <a href="{{ route('articles.index') }}" class="hover:text-primary transition-colors no-underline text-taupe">Artikel</a>
             <span class="text-gray-300">/</span>
             <a href="{{ route('articles.category', $article->category->slug) }}" class="hover:text-primary transition-colors no-underline text-taupe">{{ $article->category->name }}</a>
             <span class="text-gray-300">/</span>
@@ -171,6 +171,27 @@
     </div>
 </section>
 @endif
+
+{{-- Article CTA Banner --}}
+<section class="py-10 bg-white">
+    <div class="container-main max-w-4xl mx-auto px-4 sm:px-6">
+        <div class="rounded-2xl bg-gradient-to-br from-primary to-primary-light p-8 sm:p-10 text-center">
+            <h3 class="text-xl sm:text-2xl font-bold font-serif text-white mb-3">Siap Berangkat Umrah?</h3>
+            <p class="text-sm text-white/80 mb-6 max-w-md mx-auto">Konsultasi GRATIS dengan tim Mahira Tour. Kami bantu wujudkan perjalanan ibadah Anda ke Tanah Suci.</p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <a href="https://wa.me/6282184515310?text=Assalamualaikum,%20saya%20ingin%20konsultasi%20paket%20umrah" 
+                   target="_blank" rel="noopener"
+                   class="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#25D366] text-white font-semibold text-sm no-underline hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+                    <i class="bi bi-whatsapp"></i> Chat WhatsApp Sekarang
+                </a>
+                <a href="{{ route('schedule') }}" 
+                   class="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white/15 text-white font-semibold text-sm no-underline hover:bg-white/25 transition-all duration-300 border border-white/30">
+                    Lihat Paket Umrah
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
 
 {{-- CTA Section --}}
 @include('partials.cta-section')

@@ -167,7 +167,7 @@ class ArticleSeeder extends Seeder
 
 <p>Hubungi kami sekarang untuk informasi lebih lanjut dan reservasi tempat. Kuota terbatas!</p>
 ',
-                'category_slug' => 'promo-paket',
+                'category_slug' => 'promo-penawaran',
                 'tags' => ['promo', 'ramadhan', 'diskon', 'paket-umrah'],
                 'is_featured' => false,
                 'status' => 'published',
