@@ -87,7 +87,8 @@
         mobileOpen: false, 
         scrolled: false,
         init() {
-            const update = () => this.scrolled = window.scrollY > 50;
+            const forceSolid = document.body.classList.contains('navbar-solid');
+            const update = () => this.scrolled = forceSolid || window.scrollY > 50;
             window.addEventListener('scroll', update, { passive: true });
             update();
         }

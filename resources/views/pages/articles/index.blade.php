@@ -73,34 +73,38 @@
 
 {{-- ==================== FEATURED ARTICLE ==================== --}}
 @if($featuredArticle && !$categorySlug && !$search)
-<section class="py-10 lg:py-14 bg-gray-50">
+<section class="py-6 sm:py-10 lg:py-14 bg-gray-50">
     <div class="container-main">
+        {{-- Section Label (helps mobile users understand context) --}}
+        <div class="flex items-center gap-3 mb-4 sm:mb-6">
+            <span class="inline-block text-xs font-bold uppercase tracking-widest text-gold-accessible border-b-2 border-gold pb-1">⭐ Artikel Unggulan</span>
+        </div>
+        
         <a href="{{ route('articles.show', $featuredArticle->slug) }}" 
            class="group block rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 bg-white no-underline">
             <div class="grid grid-cols-1 lg:grid-cols-2">
-                <div class="aspect-[16/10] lg:aspect-auto overflow-hidden">
+                <div class="aspect-[16/9] sm:aspect-[16/10] lg:aspect-auto overflow-hidden">
                     @if($featuredArticle->featured_image)
                         <img src="{{ Storage::url($featuredArticle->featured_image) }}" 
                              alt="{{ $featuredArticle->title }}"
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     @else
-                        <div class="w-full h-full min-h-[250px] bg-gradient-to-br from-primary to-gold/30 flex items-center justify-center">
+                        <div class="w-full h-full min-h-[200px] sm:min-h-[250px] bg-gradient-to-br from-primary to-gold/30 flex items-center justify-center">
                             <svg class="w-16 h-16 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
                         </div>
                     @endif
                 </div>
-                <div class="p-8 lg:p-12 flex flex-col justify-center">
-                    <div class="flex items-center gap-3 mb-4">
+                <div class="p-5 sm:p-8 lg:p-12 flex flex-col justify-center">
+                    <div class="flex items-center gap-3 mb-3 sm:mb-4">
                         <span class="px-3 py-1 rounded-full text-xs font-semibold text-white" 
                               style="background: {{ $featuredArticle->category->color }};">
                             {{ $featuredArticle->category->name }}
                         </span>
-                        <span class="text-xs text-gold-accessible font-semibold uppercase tracking-wider">Artikel Unggulan</span>
                     </div>
-                    <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold font-serif text-primary mb-4 leading-snug group-hover:text-gold transition-colors duration-300">
+                    <h2 class="text-lg sm:text-xl lg:text-3xl font-bold font-serif text-primary mb-3 sm:mb-4 leading-snug group-hover:text-gold transition-colors duration-300">
                         {{ $featuredArticle->title }}
                     </h2>
-                    <p class="text-sm text-gray-500 leading-relaxed mb-6 line-clamp-3">
+                    <p class="text-sm text-gray-500 leading-relaxed mb-4 sm:mb-6 line-clamp-2 sm:line-clamp-3">
                         {{ $featuredArticle->excerpt ?? Str::limit(strip_tags($featuredArticle->body), 200) }}
                     </p>
                     <div class="flex items-center gap-4 text-xs text-taupe">
@@ -116,10 +120,17 @@
 @endif
 
 {{-- ==================== ARTICLE GRID ==================== --}}
-<section class="py-12 lg:py-16 {{ ($featuredArticle && !$categorySlug && !$search) ? 'bg-white' : 'bg-gray-50' }}">
+<section class="py-8 sm:py-12 lg:py-16 {{ ($featuredArticle && !$categorySlug && !$search) ? 'bg-white' : 'bg-gray-50' }}">
     <div class="container-main">
         @if($articles->count() > 0)
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {{-- Section header for clarity on mobile --}}
+            @if($featuredArticle && !$categorySlug && !$search)
+            <div class="flex items-center gap-3 mb-6 sm:mb-8">
+                <span class="inline-block text-xs font-bold uppercase tracking-widest text-gold-accessible border-b-2 border-gold pb-1">📰 Semua Artikel</span>
+            </div>
+            @endif
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                 @foreach($articles as $article)
                 <a href="{{ route('articles.show', $article->slug) }}" 
                    class="group block rounded-2xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white no-underline">
@@ -136,7 +147,7 @@
                         @endif
                     </div>
                     {{-- Content --}}
-                    <div class="p-6">
+                    <div class="p-5 sm:p-6">
                         <div class="flex items-center gap-3 mb-3">
                             <span class="px-2.5 py-1 rounded-full text-[10px] font-semibold text-white" 
                                   style="background: {{ $article->category->color }};">
@@ -150,11 +161,11 @@
                         <p class="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-4">
                             {{ $article->excerpt ?? Str::limit(strip_tags($article->body), 120) }}
                         </p>
-                        <div class="flex items-center justify-between text-xs text-taupe">
-                            <span>{{ $article->formatted_date }}</span>
-                            <span class="flex items-center gap-1">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                                {{ number_format($article->views_count) }}
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-taupe">{{ $article->formatted_date }}</span>
+                            <span class="inline-flex items-center gap-1 text-xs font-semibold text-gold-accessible group-hover:text-gold transition-colors">
+                                Baca Selengkapnya
+                                <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                             </span>
                         </div>
                     </div>
@@ -164,8 +175,8 @@
 
             {{-- Pagination --}}
             @if($articles->hasPages())
-            <div class="mt-12 flex justify-center">
-                {{ $articles->links() }}
+            <div class="mt-10 sm:mt-12 flex justify-center">
+                {{ $articles->links('vendor.pagination.tailwind') }}
             </div>
             @endif
         @else

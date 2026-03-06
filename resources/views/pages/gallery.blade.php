@@ -45,11 +45,13 @@
 </section>
 
 {{-- ==================== GALLERY SECTION ==================== --}}
-<section class="py-12 bg-gray-50" x-data="{
+<section class="py-12 bg-gray-50" id="gallery-grid" x-data="{
     activeFilter: 'all',
     galleries: {{ json_encode($galleries) }},
     currentIndex: 0,
     modalOpen: false,
+    currentPage: 1,
+    perPage: 12,
     
     get filteredGalleries() {
         return this.activeFilter === 'all' 
@@ -57,8 +59,33 @@
             : this.galleries.filter(g => g.category === this.activeFilter);
     },
     
-    openModal(index) {
-        const gallery = this.filteredGalleries[index];
+    get totalPages() {
+        return Math.ceil(this.filteredGalleries.length / this.perPage);
+    },
+    
+    get paginatedGalleries() {
+        const start = (this.currentPage - 1) * this.perPage;
+        return this.filteredGalleries.slice(start, start + this.perPage);
+    },
+    
+    get pageNumbers() {
+        const pages = [];
+        for (let i = 1; i <= this.totalPages; i++) { pages.push(i); }
+        return pages;
+    },
+    
+    goToPage(page) {
+        this.currentPage = page;
+        document.getElementById('gallery-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    },
+    
+    setFilter(filter) {
+        this.activeFilter = filter;
+        this.currentPage = 1;
+    },
+    
+    openModal(pageIndex) {
+        const gallery = this.paginatedGalleries[pageIndex];
         this.currentIndex = this.galleries.findIndex(g => g === gallery);
         this.modalOpen = true;
         document.body.style.overflow = 'hidden';
@@ -80,13 +107,13 @@
     <div class="container-main">
         
         {{-- Filter Buttons --}}
-        <div class="sticky top-[76px] z-30 py-6 mb-12 bg-gray-50 border-b border-[#B89230]/10 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+        <div class="sticky top-[76px] z-30 py-4 sm:py-6 mb-8 sm:mb-12 bg-gray-50 border-b border-[#B89230]/10 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
             <div class="container-main">
-                <div class="flex flex-wrap justify-center gap-3">
+                <div class="flex sm:flex-wrap sm:justify-center gap-2 sm:gap-3 overflow-x-auto pb-1 scrollbar-hide">
                     <button 
-                        @click="activeFilter = 'all'"
+                        @click="setFilter('all')"
                         :class="activeFilter === 'all' ? 'bg-[#B89230] text-white border-[#B89230] shadow-[0_4px_15px_rgba(184,146,48,0.25)]' : 'bg-white text-gray-500 border-gray-200 hover:border-[#B89230] hover:text-[#B89230] hover:bg-[#FEFCE8]'"
-                        class="inline-flex items-center gap-2 px-6 py-3 rounded font-semibold text-sm uppercase tracking-wider cursor-pointer transition-all duration-300 border whitespace-nowrap">
+                        class="inline-flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded font-semibold text-xs sm:text-sm uppercase tracking-wider cursor-pointer transition-all duration-300 border whitespace-nowrap shrink-0">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
                         Semua
                     </button>
@@ -94,9 +121,9 @@
                     @foreach($categories as $key => $category)
                     @if($key !== 'all')
                     <button 
-                        @click="activeFilter = '{{ $key }}'"
+                        @click="setFilter('{{ $key }}')"
                         :class="activeFilter === '{{ $key }}' ? 'bg-[#B89230] text-white border-[#B89230] shadow-[0_4px_15px_rgba(184,146,48,0.25)]' : 'bg-white text-gray-500 border-gray-200 hover:border-[#B89230] hover:text-[#B89230] hover:bg-[#FEFCE8]'"
-                        class="inline-flex items-center gap-2 px-6 py-3 rounded font-semibold text-sm uppercase tracking-wider cursor-pointer transition-all duration-300 border whitespace-nowrap">
+                        class="inline-flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded font-semibold text-xs sm:text-sm uppercase tracking-wider cursor-pointer transition-all duration-300 border whitespace-nowrap shrink-0">
                         {{ $category }}
                     </button>
                     @endif
@@ -106,8 +133,8 @@
         </div>
 
         {{-- Masonry Gallery Grid --}}
-        <div class="columns-1 md:columns-2 lg:columns-3 gap-6 mb-12">
-            <template x-for="(gallery, index) in filteredGalleries" :key="index">
+        <div class="columns-1 md:columns-2 lg:columns-3 gap-6 mb-8">
+            <template x-for="(gallery, index) in paginatedGalleries" :key="gallery.image + index">
                 <div class="break-inside-avoid mb-6 rounded-xl overflow-hidden cursor-pointer relative group transition-all duration-400 hover:-translate-y-1 hover:shadow-xl"
                      @click="openModal(index)">
                     <div class="relative overflow-hidden">
@@ -127,6 +154,39 @@
                     </div>
                 </div>
             </template>
+        </div>
+
+        {{-- Pagination --}}
+        <div x-show="totalPages > 1" class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+            <div class="flex items-center gap-1">
+                {{-- Previous --}}
+                <button @click="goToPage(currentPage - 1)" 
+                        :disabled="currentPage === 1"
+                        :class="currentPage === 1 ? 'text-gray-400 bg-gray-100 cursor-not-allowed' : 'text-gray-600 bg-white border border-gray-200 hover:bg-primary hover:text-white hover:border-primary cursor-pointer'"
+                        class="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 border-0">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                
+                {{-- Page Numbers --}}
+                <template x-for="page in pageNumbers" :key="page">
+                    <button @click="goToPage(page)"
+                            :class="page === currentPage ? 'bg-primary text-white shadow-md' : 'text-gray-600 bg-white border border-gray-200 hover:bg-primary hover:text-white hover:border-primary cursor-pointer'"
+                            class="w-10 h-10 flex items-center justify-center rounded-lg text-sm font-semibold transition-all duration-200 border-0"
+                            x-text="page">
+                    </button>
+                </template>
+                
+                {{-- Next --}}
+                <button @click="goToPage(currentPage + 1)" 
+                        :disabled="currentPage === totalPages"
+                        :class="currentPage === totalPages ? 'text-gray-400 bg-gray-100 cursor-not-allowed' : 'text-gray-600 bg-white border border-gray-200 hover:bg-primary hover:text-white hover:border-primary cursor-pointer'"
+                        class="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 border-0">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+            </div>
+            <p class="text-sm text-gray-500 m-0">
+                Menampilkan <strong class="text-primary" x-text="((currentPage-1)*perPage)+1"></strong> - <strong class="text-primary" x-text="Math.min(currentPage*perPage, filteredGalleries.length)"></strong> dari <strong class="text-primary" x-text="filteredGalleries.length"></strong> foto
+            </p>
         </div>
 
         {{-- No Results --}}

@@ -39,6 +39,7 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
     <!-- Preload LCP image (hero poster) -->
     @hasSection('preload')
@@ -57,7 +58,12 @@
     
     <!-- Alpine.js x-cloak style handled in animations.css -->
 </head>
-<body>
+<body class="@yield('body-class')">
+    {{-- Page Transition Loading Bar --}}
+    <div id="page-loader" class="fixed top-0 left-0 w-full h-[3px] z-[99999] pointer-events-none opacity-0 transition-opacity duration-200">
+        <div id="page-loader-bar" class="h-full bg-gradient-to-r from-gold via-[#f0c040] to-gold rounded-r-full shadow-[0_0_10px_rgba(212,175,55,0.5)]" style="width: 0%"></div>
+    </div>
+
     @include('partials.navbar')
     
     <main>

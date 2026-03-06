@@ -30,7 +30,7 @@ class ArticleController extends Controller
             $query->whereHas('category', fn($q) => $q->where('slug', $categorySlug));
         }
 
-        $articles = $query->paginate(12)->withQueryString();
+        $articles = $query->paginate(9)->withQueryString();
 
         $categories = ArticleCategory::active()
             ->withCount(['articles' => fn($q) => $q->published()])
@@ -57,7 +57,8 @@ class ArticleController extends Controller
             ->where('category_id', $category->id)
             ->with(['category', 'author'])
             ->orderByDesc('published_at')
-            ->paginate(12);
+            ->paginate(9)
+            ->withQueryString();
 
         $categories = ArticleCategory::active()
             ->withCount(['articles' => fn($q) => $q->published()])
