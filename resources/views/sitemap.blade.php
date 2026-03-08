@@ -18,4 +18,24 @@
         <priority>1.0</priority>
     </url>
     @endforeach
+
+    {{-- Dynamic Articles --}}
+    @foreach($articles as $article)
+    <url>
+        <loc>{{ route('articles.show', $article->slug) }}</loc>
+        <lastmod>{{ $article->updated_at ? $article->updated_at->toAtomString() : now()->toAtomString() }}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    @endforeach
+
+    {{-- Article Categories --}}
+    @foreach($articleCategories as $category)
+    <url>
+        <loc>{{ route('articles.category', $category->slug) }}</loc>
+        <lastmod>{{ $category->updated_at ? $category->updated_at->toAtomString() : now()->toAtomString() }}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    @endforeach
 </urlset>
