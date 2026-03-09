@@ -12,11 +12,13 @@ class Gallery extends Model
         'category',
         'image_path',
         'display_order',
-        'is_active'
+        'is_active',
+        'show_on_home'
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'show_on_home' => 'boolean',
     ];
 
     // Helper: Get image URL
@@ -44,6 +46,12 @@ class Gallery extends Model
     public function scopeByCategory($query, $category)
     {
         return $query->where('category', $category);
+    }
+
+    // Scope: Show on Home
+    public function scopeShowOnHome($query)
+    {
+        return $query->where('show_on_home', true);
     }
 
     // Scope: Ordered

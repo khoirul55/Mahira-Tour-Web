@@ -21,6 +21,10 @@ class GalleryController extends Controller
             $query->where('is_active', $request->status === 'active');
         }
         
+        if ($request->has('home') && $request->home !== '') {
+            $query->where('show_on_home', $request->home === 'yes');
+        }
+        
         $galleries = $query->paginate(20);
         
         $categories = [
@@ -68,7 +72,8 @@ class GalleryController extends Controller
                 'category' => $validated['category'],
                 'image_path' => $imagePath,
                 'display_order' => $validated['display_order'] ?? 0,
-                'is_active' => $request->has('is_active')
+                'is_active' => $request->has('is_active'),
+                'show_on_home' => $request->has('show_on_home')
             ]);
             
             return redirect()->route('admin.galleries.index')
@@ -122,6 +127,7 @@ class GalleryController extends Controller
             }
             
             $validated['is_active'] = $request->has('is_active');
+            $validated['show_on_home'] = $request->has('show_on_home');
             $gallery->update($validated);
             
             return redirect()->route('admin.galleries.index')
@@ -164,6 +170,21 @@ class GalleryController extends Controller
             
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Gagal update status']);
+        }
+    }
+    
+    public function toggleHome($id)
+    {
+        try {
+            $gallery = Gallery::findOrFail($id);
+            $gallery->update(['show_on_home' => !$gallery->show_on_home]);
+            
+            $status = $gallery->show_on_home ? 'ditampilkan di Home' : 'dihapus dari Home';
+            
+            return back()->with('success', "Foto berhasil {$status}");
+            
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Gagal update status Home']);
         }
     }
 }

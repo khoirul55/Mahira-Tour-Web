@@ -73,6 +73,19 @@
                                 </label>
                             </div>
 
+                            <div class="form-check mb-3">
+                                <input type="checkbox" 
+                                       name="show_on_home" 
+                                       class="form-check-input" 
+                                       id="show_on_home" 
+                                       value="1" 
+                                       {{ old('show_on_home', $gallery->show_on_home) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="show_on_home">
+                                    <i class="bi bi-house-fill text-primary"></i> Tampilkan di Halaman Home
+                                </label>
+                                <small class="text-muted d-block">Foto ini akan muncul di gallery section halaman utama</small>
+                            </div>
+
                             <button type="submit" class="btn btn-primary w-100">
                                 <i class="bi bi-save"></i> Simpan Perubahan
                             </button>

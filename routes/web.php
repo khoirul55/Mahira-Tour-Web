@@ -179,6 +179,7 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function() {
         Route::put('/{id}', [App\Http\Controllers\Admin\GalleryController::class, 'update'])->name('update');
         Route::delete('/{id}', [App\Http\Controllers\Admin\GalleryController::class, 'destroy'])->name('destroy');
         Route::post('/{id}/toggle', [App\Http\Controllers\Admin\GalleryController::class, 'toggleStatus'])->name('toggle');
+        Route::post('/{id}/toggle-home', [App\Http\Controllers\Admin\GalleryController::class, 'toggleHome'])->name('toggle-home');
     });
     
     // Content Management: Schedules

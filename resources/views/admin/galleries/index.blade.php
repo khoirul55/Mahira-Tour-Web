@@ -34,8 +34,8 @@
         </div>
         <div class="col-md-3">
             <div class="stat-mini">
-                <h4>{{ $galleries->where('is_active', false)->count() }}</h4>
-                <small>Nonaktif</small>
+                <h4>{{ $galleries->where('show_on_home', true)->count() }}</h4>
+                <small><i class="bi bi-house-fill"></i> Tampil di Home</small>
             </div>
         </div>
         <div class="col-md-3">
@@ -50,7 +50,7 @@
     <div class="card mb-4">
         <div class="card-body">
             <form method="GET" class="row g-3">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label class="form-label fw-bold">Kategori</label>
                     <select name="category" class="form-select" onchange="this.form.submit()">
                         <option value="all" {{ request('category') == 'all' ? 'selected' : '' }}>Semua Kategori</option>
@@ -67,6 +67,14 @@
                         <option value="">Semua Status</option>
                         <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Aktif</option>
                         <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Nonaktif</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Tampil di Home</label>
+                    <select name="home" class="form-select" onchange="this.form.submit()">
+                        <option value="">Semua</option>
+                        <option value="yes" {{ request('home') == 'yes' ? 'selected' : '' }}>🏠 Ya, di Home</option>
+                        <option value="no" {{ request('home') == 'no' ? 'selected' : '' }}>Tidak di Home</option>
                     </select>
                 </div>
                 <div class="col-md-3 d-flex align-items-end">
@@ -107,21 +115,35 @@
                             <span class="badge {{ $gallery->is_active ? 'bg-success' : 'bg-secondary' }}">
                                 {{ $gallery->is_active ? '✓ Aktif' : '○ Nonaktif' }}
                             </span>
+                            @if($gallery->show_on_home)
+                            <span class="badge bg-info"><i class="bi bi-house-fill"></i> Home</span>
+                            @endif
                         </div>
                         <small class="text-muted d-block mb-3">
                             <i class="bi bi-sort-numeric-down"></i> Urutan: {{ $gallery->display_order }}
                         </small>
                         
-                        <div class="btn-group w-100">
+                        <div class="d-flex gap-1 flex-wrap">
                             <a href="{{ route('admin.galleries.edit', $gallery->id) }}" 
                                class="btn btn-sm btn-outline-primary" title="Edit">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <button @click="toggleStatus({{ $gallery->id }})" 
-                                    class="btn btn-sm btn-outline-warning" 
-                                    title="Toggle Status">
-                                <i class="bi bi-eye{{ $gallery->is_active ? '-slash' : '' }}"></i>
-                            </button>
+                            <form action="{{ route('admin.galleries.toggle-home', $gallery->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit"
+                                        class="btn btn-sm {{ $gallery->show_on_home ? 'btn-info' : 'btn-outline-info' }}" 
+                                        title="{{ $gallery->show_on_home ? 'Hapus dari Home' : 'Tampilkan di Home' }}">
+                                    <i class="bi bi-house-fill"></i>
+                                </button>
+                            </form>
+                            <form action="{{ route('admin.galleries.toggle', $gallery->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit"
+                                        class="btn btn-sm btn-outline-warning" 
+                                        title="Toggle Status">
+                                    <i class="bi bi-eye{{ $gallery->is_active ? '-slash' : '' }}"></i>
+                                </button>
+                            </form>
                             <button @click="confirmDelete({{ $gallery->id }})" 
                                     class="btn btn-sm btn-outline-danger" 
                                     title="Hapus">
@@ -167,6 +189,10 @@
 
     <!-- Hidden Forms -->
     <form id="toggleForm" method="POST" class="admin-hidden-form">
+        @csrf
+    </form>
+
+    <form id="toggleHomeForm" method="POST" class="admin-hidden-form">
         @csrf
     </form>
 
@@ -302,6 +328,12 @@
             toggleStatus(id) {
                 const form = document.getElementById('toggleForm');
                 form.action = `/admin/galleries/${id}/toggle`;
+                form.submit();
+            },
+            
+            toggleHome(id) {
+                const form = document.getElementById('toggleHomeForm');
+                form.action = `/admin/galleries/${id}/toggle-home`;
                 form.submit();
             },
             

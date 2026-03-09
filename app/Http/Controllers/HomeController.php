@@ -13,8 +13,8 @@ class HomeController extends Controller
     {
         // 1. Data Gallery (Ambil dari database)
         $galleries = Gallery::active()
+            ->showOnHome()
             ->ordered()
-            ->limit(10) // Tampilkan 10 foto terbaru di home
             ->get()
             ->map(function($item) {
                 return [

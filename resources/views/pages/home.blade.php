@@ -419,8 +419,16 @@
         {{-- Gallery Slider --}}
         <div class="relative group" x-data="{
             scrollLeft() { $refs.slider.scrollBy({ left: -320, behavior: 'smooth' }); },
-            scrollRight() { $refs.slider.scrollBy({ left: 320, behavior: 'smooth' }); }
-        }">
+            scrollRight() { $refs.slider.scrollBy({ left: 320, behavior: 'smooth' }); },
+            hintVisible: true,
+            initSwipeHint() {
+                const slider = $refs.slider;
+                const hideHint = () => { this.hintVisible = false; };
+                slider.addEventListener('scroll', hideHint, { once: true });
+                slider.addEventListener('touchstart', hideHint, { once: true });
+                setTimeout(() => { this.hintVisible = false; }, 5000);
+            }
+        }" x-init="initSwipeHint()">
             {{-- Nav Buttons --}}
             <button @click="scrollLeft()" 
                     aria-label="Geser galeri ke kiri"
@@ -448,6 +456,29 @@
                         </div>
                     </div>
                 </template>
+            </div>
+
+            {{-- Swipe Hint Animation --}}
+            <div x-show="hintVisible && galleries.length > 3" 
+                 x-transition:leave="transition ease-in duration-500" 
+                 x-transition:leave-start="opacity-100" 
+                 x-transition:leave-end="opacity-0"
+                 class="flex items-center justify-center gap-2 mt-2 text-taupe/70">
+                
+                {{-- Mobile: Swipe Hand Icon --}}
+                <div class="flex md:hidden items-center gap-2 text-sm">
+                    <svg class="w-5 h-5 animate-[swipeHand_1.5s_ease-in-out_infinite]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.05 4.575a1.575 1.575 0 10-3.15 0v3m3.15-3v-1.5a1.575 1.575 0 013.15 0v1.5m-3.15 0l.075 5.925m3.075-4.425a1.575 1.575 0 013.15 0v1.5m-3.15-1.5v4.65m3.15-3.15a1.575 1.575 0 013.15 0v5.1a6.3 6.3 0 01-6.3 6.3H9.75a4.5 4.5 0 01-3.6-1.8l-3.024-4.032A1.575 1.575 0 014.35 13.2l1.4 1.867"/>
+                    </svg>
+                    <span>Geser untuk lihat lebih banyak</span>
+                    <svg class="w-4 h-4 animate-[bounceRight_1s_ease-in-out_infinite]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </div>
+
+                {{-- Desktop: Scroll hint --}}
+                <div class="hidden md:flex items-center gap-2 text-sm">
+                    <span>Geser atau gunakan tombol navigasi</span>
+                    <svg class="w-4 h-4 animate-[bounceRight_1s_ease-in-out_infinite]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </div>
             </div>
         </div>
         
