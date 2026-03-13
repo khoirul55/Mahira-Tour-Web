@@ -101,15 +101,17 @@
     <div class="container-main flex items-center justify-between h-[76px] md:h-[80px]">
         {{-- Logo with fade transition --}}
         <a href="{{ url('/') }}" class="flex items-center gap-2 shrink-0" style="text-decoration: none;">
-            <div class="relative h-10 md:h-12">
-                <img :style="scrolled ? 'opacity:0; position:absolute;' : 'opacity:1;'" 
+            <div class="relative h-10 md:h-12" style="min-width: 120px;">
+                <img :style="scrolled ? 'opacity:0;' : 'opacity:1;'" 
                      src="{{ asset('images/mahira-logo-white.webp') }}" 
                      alt="Mahira Tour" 
-                     class="h-10 md:h-12 w-auto transition-opacity duration-300">
-                <img :style="scrolled ? 'opacity:1;' : 'opacity:0; position:absolute;'" 
+                     class="absolute top-0 left-0 h-10 md:h-12 w-auto transition-opacity duration-300"
+                     style="opacity:1;">
+                <img :style="scrolled ? 'opacity:1;' : 'opacity:0;'" 
                      src="{{ asset('images/mahira-logo-transparent.webp') }}" 
                      alt="Mahira Tour" 
-                     class="h-10 md:h-12 w-auto transition-opacity duration-300">
+                     class="absolute top-0 left-0 h-10 md:h-12 w-auto transition-opacity duration-300"
+                     style="opacity:0;">
             </div>
         </a>
 
