@@ -7,11 +7,14 @@
 @section('content')
 
 {{-- ==================== HERO BANNER ==================== --}}
+@php
+    $heroColor = isset($category) ? $category->color : '#001D5F';
+@endphp
 <section class="relative h-[250px] sm:h-[280px] overflow-hidden flex items-center justify-center">
     <div class="absolute inset-0 z-[1]">
-        <div class="w-full h-full bg-gradient-to-br from-[#001D5F] via-[#1a3a6e] to-[#2d5a8a]"></div>
+        <div class="w-full h-full" style="background: linear-gradient(135deg, {{ $heroColor }} 0%, {{ $heroColor }}dd 50%, {{ $heroColor }}99 100%);"></div>
     </div>
-    <div class="absolute inset-0 z-[2] bg-primary/60"></div>
+    <div class="absolute inset-0 z-[2]" style="background: {{ $heroColor }}99;"></div>
     <div class="relative z-[3] text-center max-w-[900px] px-5 pt-8">
         <div class="inline-flex items-center gap-2 px-4 sm:px-6 py-2 rounded-full mb-4 text-xs sm:text-sm bg-white/15 backdrop-blur-sm">
             <a href="{{ route('home') }}" class="text-white no-underline font-medium hover:opacity-80 transition-opacity">

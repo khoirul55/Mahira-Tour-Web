@@ -302,3 +302,94 @@ a[class*="hover:text-"] {
     font-style: italic;
     margin: 1.5rem 0;
 }
+
+/* ===== Social Media Embed Styles ===== */
+
+/* Base embed wrapper */
+.article-content .embed-wrapper {
+    margin: 2rem 0;
+    border-radius: 12px;
+    overflow: hidden;
+    animation: embedFadeIn 0.5s ease-out;
+}
+
+/* YouTube 16:9 responsive embed */
+.article-content .embed-wrapper.youtube {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+.article-content .embed-wrapper.youtube iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 12px;
+}
+
+/* YouTube Shorts / Reels 9:16 embed (centered, narrow) */
+.article-content .embed-wrapper.shorts {
+    position: relative;
+    padding-bottom: 177.78%; /* 9:16 */
+    height: 0;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #000;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+}
+@media (min-width: 640px) {
+    .article-content .embed-wrapper.shorts {
+        max-width: 320px;
+    }
+}
+@media (min-width: 1024px) {
+    .article-content .embed-wrapper.shorts {
+        max-width: 360px;
+    }
+}
+.article-content .embed-wrapper.shorts iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 16px;
+}
+
+/* Instagram embed (centered, auto-height) */
+.article-content .embed-wrapper.instagram {
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 0;
+    border-radius: 12px;
+    overflow: visible;
+}
+.article-content .embed-wrapper.instagram .instagram-media {
+    margin: 0 auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+/* Fade-in animation for embeds */
+@keyframes embedFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Quill-generated video iframes (fallback for already-embedded videos) */
+.article-content iframe[src*="youtube.com"],
+.article-content iframe[src*="youtu.be"] {
+    max-width: 100%;
+    border-radius: 12px;
+}

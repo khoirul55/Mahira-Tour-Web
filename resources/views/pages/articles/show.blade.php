@@ -1,4 +1,5 @@
 {{-- resources/views/pages/articles/show.blade.php --}}
+@use('App\Helpers\ArticleHelper')
 @extends('layouts.app')
 
 @section('title', ($article->meta_title ?? $article->title) . ' | Mahira Tour')
@@ -98,8 +99,8 @@
                     prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
                     prose-a:text-gold prose-a:no-underline hover:prose-a:underline
                     prose-img:rounded-xl prose-img:shadow-md
-                    prose-li:mb-2">
-            {!! $article->body !!}
+                     prose-li:mb-2">
+            {!! ArticleHelper::processEmbeds($article->body) !!}
         </div>
 
         {{-- Tags --}}
@@ -229,5 +230,52 @@
 
 {{-- CTA Section --}}
 @include('partials.cta-section')
+
+@push('scripts')
+{{-- Instagram Embed JS — lazy loaded via IntersectionObserver --}}
+<script>
+(function() {
+    // Only load Instagram embed.js if there are Instagram embeds on the page
+    var igEmbeds = document.querySelectorAll('.embed-wrapper.instagram');
+    if (igEmbeds.length === 0) return;
+
+    var igLoaded = false;
+
+    function loadInstagramEmbed() {
+        if (igLoaded) {
+            // If already loaded, just reprocess
+            if (window.instgrm) window.instgrm.Embeds.process();
+            return;
+        }
+        igLoaded = true;
+        var script = document.createElement('script');
+        script.src = 'https://www.instagram.com/embed.js';
+        script.async = true;
+        script.defer = true;
+        script.onload = function() {
+            if (window.instgrm) window.instgrm.Embeds.process();
+        };
+        document.body.appendChild(script);
+    }
+
+    // Use IntersectionObserver to lazy-load Instagram when embed enters viewport
+    if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    loadInstagramEmbed();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { rootMargin: '200px' });
+
+        igEmbeds.forEach(function(el) { observer.observe(el); });
+    } else {
+        // Fallback: load immediately
+        loadInstagramEmbed();
+    }
+})();
+</script>
+@endpush
 
 @endsection
