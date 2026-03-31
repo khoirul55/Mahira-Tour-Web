@@ -13,6 +13,8 @@
     .article-content ul { list-style-type: disc !important; padding-left: 1.5rem !important; margin-bottom: 1.25rem !important; }
     .article-content ol { list-style-type: decimal !important; padding-left: 1.5rem !important; margin-bottom: 1.25rem !important; }
     .article-content li { display: list-item !important; margin-bottom: 0.4rem !important; }
+    .article-content a { color: #1a6dd4 !important; text-decoration: underline !important; text-underline-offset: 3px; text-decoration-color: rgba(26,109,212,0.4) !important; transition: all 0.2s; }
+    .article-content a:hover { color: #1250a0 !important; text-decoration-color: #1250a0 !important; }
 </style>
 @endpush
 
@@ -113,7 +115,7 @@
                     prose-headings:font-serif prose-headings:text-primary prose-headings:font-bold
                     prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
                     prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
-                    prose-a:text-gold prose-a:no-underline hover:prose-a:underline
+                    prose-a:text-[#1a6dd4] prose-a:underline prose-a:underline-offset-2 prose-a:decoration-[#1a6dd4]/40 hover:prose-a:text-[#1250a0] hover:prose-a:decoration-[#1250a0]
                     prose-img:rounded-xl prose-img:shadow-md
                      prose-li:mb-2">
             {!! ArticleHelper::processEmbeds($article->body) !!}
