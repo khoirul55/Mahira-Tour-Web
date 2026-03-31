@@ -7,6 +7,15 @@
 @section('og_image', $article->featured_image ? Storage::url($article->featured_image) : asset('images/hero/video-poster.webp'))
 @section('body-class', 'navbar-solid')
 
+@push('styles')
+<style>
+    /* Bypass Tailwind Preflight: Memunculkan list bullet tanpa perlu rebuild Vite */
+    .article-content ul { list-style-type: disc !important; padding-left: 1.5rem !important; margin-bottom: 1.25rem !important; }
+    .article-content ol { list-style-type: decimal !important; padding-left: 1.5rem !important; margin-bottom: 1.25rem !important; }
+    .article-content li { display: list-item !important; margin-bottom: 0.4rem !important; }
+</style>
+@endpush
+
 @section('content')
 
 {{-- ==================== ARTICLE HEADER ==================== --}}
@@ -85,7 +94,7 @@
             <div class="rounded-xl overflow-hidden shadow-sm">
                 <img src="{{ Storage::url($article->featured_image) }}" 
                      alt="{{ $article->image_caption ?? $article->title }}"
-                     class="w-full h-auto object-cover max-h-[350px] sm:max-h-[420px] md:max-h-[480px]">
+                     class="w-full h-auto">
             </div>
             @if($article->image_caption)
             <p class="text-[13px] text-gray-400 italic mt-3 text-center">{{ $article->image_caption }}</p>

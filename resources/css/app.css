@@ -272,6 +272,12 @@ a[class*="hover:text-"] {
     color: #1F2937;
     font-weight: 600;
 }
+.article-content ul {
+    list-style-type: disc;
+}
+.article-content ol {
+    list-style-type: decimal;
+}
 .article-content ul,
 .article-content ol {
     padding-left: 1.5rem;
