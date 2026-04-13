@@ -19,14 +19,21 @@
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="@yield('title', 'Mahira Tour - Travel Haji & Umrah Terpercaya')">
     <meta property="og:description" content="@yield('meta_description', 'Mahira Tour adalah travel Haji & Umrah terpercaya di Indonesia. Melayani ribuan jamaah sejak 2016.')">
-    <meta property="og:image" content="@yield('og_image', asset('images/hero/hero-video-poster.webp'))">
+    @php
+        $ogDefaultImage = 'images/hero/hero-video-poster.webp';
+        $ogImageVersion = file_exists(public_path($ogDefaultImage)) ? filemtime(public_path($ogDefaultImage)) : time();
+    @endphp
+    <meta property="og:image" content="@yield('og_image', asset($ogDefaultImage . '?v=' . $ogImageVersion))">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/webp">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ url()->current() }}">
     <meta property="twitter:title" content="@yield('title', 'Mahira Tour - Travel Haji & Umrah Terpercaya')">
     <meta property="twitter:description" content="@yield('meta_description', 'Mahira Tour adalah travel Haji & Umrah terpercaya di Indonesia. Melayani ribuan jamaah sejak 2016.')">
-    <meta property="twitter:image" content="@yield('og_image', asset('images/hero/hero-video-poster.webp'))">
+    <meta property="twitter:image" content="@yield('og_image', asset($ogDefaultImage . '?v=' . $ogImageVersion))">
     
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/favicon/apple-touch-icon.png?v=2') }}">
